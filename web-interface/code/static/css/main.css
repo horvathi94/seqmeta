@@ -1,0 +1,29 @@
+body{
+	margin: 1em 2em 1em 2em;
+}
+
+nav{
+	border-bottom: 2px solid grey;
+	margin-bottom: 2em;
+}
+
+nav a{
+	text-decoration: none;
+	color: green;
+	font-size: 20pt;
+	font-weight: bold;
+	margin-right: 2em;
+}
+
+h1, h2{
+	color: red;
+}
+
+table {
+	border: 2px solid black;
+}
+
+td, th{
+	border: 1px solid black;
+	padding: 0.5em;
+}
