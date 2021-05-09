@@ -8,7 +8,8 @@ services:
 
   interface:
 
-    image: horvathi94/seq-test
+    #    image: horvathi94/seq-test
+    build: ./web-interface
 
     depends_on:
       - database
@@ -19,7 +20,10 @@ services:
     environment:
       MYSQL_DATABASE: sequencing_data
       MYSQL_USER: admin
-      MYSQL_USER_PASSWORD: 12345
+      MYSQL_PASSWORD: 12345
+
+    volumes:
+      - ./web-interface/code:/app/code
 
     networks:
       - app-network
@@ -33,7 +37,7 @@ services:
       MYSQL_ROOT_PASSWORD: 12345
       MYSQL_DATABASE: sequencing_data
       MYSQL_USER: admin
-      MYSQL_USER_PASSWORD: 12345
+      MYSQL_PASSWORD: 12345
 
     volumes:
       - ./database/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d

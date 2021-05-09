@@ -1,3 +1,3 @@
-mysql --user=root \
-	-p$MYSQL_ROOT_PASSWORD \
-	--database=$MYSQL_DATABASE < "/initdb/initdb.sql";
+mysql --user=${MYSQL_USER} \
+	-p${MYSQL_PASSWORD} \
+	--database=${MYSQL_DATABASE} < "/initdb/initdb.sql";

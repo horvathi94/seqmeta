@@ -12,4 +12,10 @@ EXPOSE 5000
 
 #COPY ./code /app
 
+RUN groupadd --gid 5000 pyman \
+	&& useradd --uid 5000 --gid 5000 --shell /bin/bash pyman
 
+USER pyman
+
+CMD ["python3", "./code/main.py"]
+#CMD ["tail", "-f", "/etc/hosts"]
