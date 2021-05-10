@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, json
+from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
 
 from cursor import Cursor
 import viewdb
 import upload
 import authors
+import funcs
 
 app = Flask(__name__)
 
@@ -67,11 +68,12 @@ def authors_page():
     return html;
 
 
-@app.route("/authors/edit")
+@app.route("/authors/edit", methods=["GET", "POST"])
 def authors_edit():
 
     html = render_template("head.html");
     html+= authors.edit_authors();
+#    html+= render_template("footer.html", scripts=["authors_submit.js"]);
     html+= render_template("footer.html");
     return html;
 
@@ -79,15 +81,14 @@ def authors_edit():
 @app.route("/authors/submit", methods=["POST"])
 def authors_submit():
 
-    html = json.dumps(request.form.getlist("authors[1]"))
-    #html = authors.save_authors(request.form.getlist["authors"]);
-    return html;
+    authors.save_authors(request.form);
+    return redirect(url_for('authors_page'));
 
 
 @app.route("/test")
 def test():
 
-    html = render_template("head.html");
+    html = render_template("head.html", styles=["test.css"]);
     html+= "<h2> This page is for running tests </h2>";
 
     cursor = Cursor();

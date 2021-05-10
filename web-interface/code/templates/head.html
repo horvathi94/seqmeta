@@ -3,6 +3,14 @@
 	<head>
 		<title> Manage sequencing data </title>
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">	
+
+		{% for style in styles %}
+			
+			{% set css_url = 'css/' + style %}
+			<link rel="stylesheet" href="{{ url_for('static', filename=css_url) }}">
+
+		{% endfor %}
+
 	</head>
 
 	<nav>

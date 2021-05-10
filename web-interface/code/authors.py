@@ -1,5 +1,6 @@
 from flask import render_template
 from cursor import Cursor
+import funcs
 
 def fetch_authors():
     cursor = Cursor();
@@ -26,16 +27,15 @@ def edit_authors():
     html = render_template("authors_edit.html", authors=authors);
     return html;
 
-def save_authors(form):
+def save_authors(raw_form):
 
-    authors = fetch_authors();
+    submitted = funcs.form_to_dict_list(raw_form, "authors");
 
     html = "";
-    html+= str(form);
-#        html+= str(item["first-name"]) + " : " + str(form[item]) +  "<br>";
+    cursor = Cursor();
+    html += cursor.list_and_save("author", submitted);
+    cursor.close();
 
-#    if form[0] in authors:
-#        html += "Is in\n";
 
     return html;
 
