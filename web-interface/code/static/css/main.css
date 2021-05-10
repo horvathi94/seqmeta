@@ -27,3 +27,7 @@ td, th{
 	border: 1px solid black;
 	padding: 0.5em;
 }
+
+form div.form-section div.form-input {
+	margin-bottom: 0.5em;
+}

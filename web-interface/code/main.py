@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, json
 from datetime import datetime
 
 from cursor import Cursor
 import viewdb
+import upload
+import authors
 
 app = Flask(__name__)
 
@@ -19,7 +21,7 @@ def home():
 def upload_sample():
 
     html = render_template("head.html");
-    html+= render_template("table.html");
+    html+= render_template("upload_form.html");
     html+= render_template("footer.html");
     return html;
 
@@ -33,10 +35,11 @@ def submitted():
     sample_name = request.form["sample-name"]
     submission_date = datetime.today().strftime("%Y-%m-%d");
 
-
-    html+= "<h1> Submitted data </h1>";
-    html+= "<p> Sample name: {:s} </p>".format(sample_name);
-    html+= "<p> Submission date: {:s} </p>".format(submission_date)
+    html+= render_template("registered.html",
+                           sample_name=request.form["sample-name"],
+                           sample_collection_date=request.form["sample-collection-date"],
+                           patient_name=request.form["patient-name"],
+                           patient_gender=request.form["patient-gender"]);
 
     html+= render_template("footer.html");
     return html;
@@ -55,6 +58,32 @@ def search_database():
     return html;
 
 
+@app.route("/authors")
+def authors_page():
+
+    html = render_template("head.html");
+    html+= authors.list_authors();
+    html+= render_template("footer.html");
+    return html;
+
+
+@app.route("/authors/edit")
+def authors_edit():
+
+    html = render_template("head.html");
+    html+= authors.edit_authors();
+    html+= render_template("footer.html");
+    return html;
+
+
+@app.route("/authors/submit", methods=["POST"])
+def authors_submit():
+
+    html = json.dumps(request.form.getlist("authors[1]"))
+    #html = authors.save_authors(request.form.getlist["authors"]);
+    return html;
+
+
 @app.route("/test")
 def test():
 
@@ -67,7 +96,7 @@ def test():
 
     html+= str(raw);
 
-    html+= render_template("footer.html");
+    html+= render_template("footer.html", scripts=["authors_submit.js"]);
 
     return html;
 

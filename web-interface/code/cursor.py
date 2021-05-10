@@ -56,3 +56,7 @@ class Cursor:
 
         return res;
 
+
+    def list_and_save(self, table_name, items):
+        pass;
+

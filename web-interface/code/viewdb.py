@@ -1,3 +1,4 @@
+from flask import render_template
 from cursor import Cursor
 import quick_html
 
@@ -6,6 +7,9 @@ def database_view():
     cursor = Cursor();
     samples = cursor.select_all("sample_data");
     cursor.close();
+
+    if len(samples) == 0:
+        return render_template("database_empty.html");
 
     column_names = [col for col in samples[0]];
 
