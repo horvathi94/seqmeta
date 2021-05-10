@@ -1,0 +1,37 @@
+<form action="{{ url_for('authors_submit') }}" method="POST">
+
+	<table>
+
+		<tr>
+			<th>ID</th>
+			<th>First name</th>
+			<th>Middle name</th>
+			<th>Last name</th>
+		</tr>
+
+	
+		{% for author in authors %}
+		<tr>
+			<td>{{author.id}}</td>
+
+			<td><input type="text" 
+				name="authors[{{author.id}}][first-name]" 
+				value="{{author.first_name}}"/></td>
+
+			<td><input type="text" 
+				name="authors[{{author.id}}][middle-name]" 
+				value="{{author.middle_name}}"/></td>
+
+			<td><input type="text" 
+				name="authors[{{author.id}}][last-name]" 
+				value="{{author.last_name}}"/></td>
+
+		</tr>
+		{% endfor %}
+
+
+	</table>
+
+	<input type="submit" value="Save">
+
+</form>
