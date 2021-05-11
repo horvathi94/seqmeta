@@ -4,6 +4,7 @@
 		<th>First name</th>
 		<th>Middle name</th>
 		<th>Last name</th>
+		<th></th>
 	</tr>
 
 	{% for author in authors %}
@@ -12,11 +13,16 @@
 		<td>{{author.first_name}}</td>
 		<td>{{author.middle_name}}</td>
 		<td>{{author.last_name}}</td>
+		<td>
+			<input type="button"
+						 onclick="location.href='{{ url_for('authors_edit') }}?id={{author.id}}'"
+						 value="Edit"/>
+		</td>
 	</tr>
 	{% endfor %}
 
 </table>
 
-<p> 
-	<a href="{{ url_for('authors_edit') }}">Edit authors</a>
-</p>
+<input type="button"
+	onclick="location.href='{{ url_for('authors_edit') }}'"
+	value="Add"/>

@@ -31,3 +31,8 @@ td, th{
 form div.form-section div.form-input {
 	margin-bottom: 0.5em;
 }
+
+footer {
+	border-top: 2px solid grey;
+}
+

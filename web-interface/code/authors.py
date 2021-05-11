@@ -1,41 +1,40 @@
-from flask import render_template
 from cursor import Cursor
-import funcs
+
+def clean_author_od(author_od):
+
+    if author_od["middle_name"] == None:
+        author_od["middle_name"] = "";
+
+
+def fetch_author(id=0):
+
+    cursor = Cursor();
+    author = cursor.select_by_id("authors", id);
+    clean_author_od(author);
+    cursor.close();
+    return author;
+
 
 def fetch_authors():
+
     cursor = Cursor();
-    authors = cursor.select_all("author");
+    authors = cursor.select_all("authors");
     cursor.close();
 
     for author in authors:
-        if author["middle_name"] == None:
-            author["middle_name"] = "";
+        clean_author_od(author);
 
     return authors;
 
 
-def list_authors():
+def save_authors(submitted):
 
-    authors = fetch_authors();
-    html = render_template("authors.html", authors=authors);
-    return html;
-
-
-def edit_authors():
-
-    authors = fetch_authors();
-    html = render_template("authors_edit.html", authors=authors);
-    return html;
-
-def save_authors(raw_form):
-
-    submitted = funcs.form_to_dict_list(raw_form, "authors");
-
-    html = "";
+    submitted["id"] = int(submitted["id"]);
     cursor = Cursor();
-    html += cursor.list_and_save("author", submitted);
+
+    if submitted["id"] == 0:
+        cursor.insert_item("authors", submitted);
+    else:
+        cursor.update_row("authors", submitted["id"], submitted);
+
     cursor.close();
-
-
-    return html;
-

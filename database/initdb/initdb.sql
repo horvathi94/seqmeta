@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `sample_data` (
 	PRIMARY KEY(`id`)
 );
 
-CREATE TABLE IF NOT EXISTS `institute` (
+CREATE TABLE IF NOT EXISTS `institutions` (
 	id						INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	address				TEXT(200) NOT NULL,
 	postal_code		MEDIUMINT UNSIGNED,
@@ -15,10 +15,10 @@ CREATE TABLE IF NOT EXISTS `institute` (
 );
 
 
-CREATE TABLE IF NOT EXISTS `author` (
+CREATE TABLE IF NOT EXISTS `authors` (
 	id 						INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	first_name		CHAR(100) NOT NULL,
 	middle_name		CHAR(100),
-	last_name			CHAR(100),
+	last_name			CHAR(100) NOT NULL,
 	PRIMARY KEY(`id`)
 );

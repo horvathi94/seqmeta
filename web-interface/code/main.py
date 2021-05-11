@@ -5,7 +5,6 @@ from cursor import Cursor
 import viewdb
 import upload
 import authors
-import funcs
 
 app = Flask(__name__)
 
@@ -59,21 +58,28 @@ def search_database():
     return html;
 
 
+# Authors section
+###############################################################################
 @app.route("/authors")
 def authors_page():
 
+    authors_list = authors.fetch_authors();
     html = render_template("head.html");
-    html+= authors.list_authors();
+    html+= render_template("authors.html", authors=authors_list);
     html+= render_template("footer.html");
     return html;
 
 
-@app.route("/authors/edit", methods=["GET", "POST"])
+@app.route("/authors/edit")
 def authors_edit():
 
+    author_id = 0;
+    if "id" in request.args:
+        author_id = int(request.args["id"]);
+
+    author = authors.fetch_author(id=author_id);
     html = render_template("head.html");
-    html+= authors.edit_authors();
-#    html+= render_template("footer.html", scripts=["authors_submit.js"]);
+    html+= render_template("authors_edit.html", author=author);
     html+= render_template("footer.html");
     return html;
 
@@ -81,8 +87,11 @@ def authors_edit():
 @app.route("/authors/submit", methods=["POST"])
 def authors_submit():
 
-    authors.save_authors(request.form);
+    data = request.form.to_dict();
+    authors.save_authors(data);
     return redirect(url_for('authors_page'));
+
+
 
 
 @app.route("/test")

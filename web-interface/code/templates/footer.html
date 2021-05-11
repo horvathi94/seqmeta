@@ -1,17 +1,20 @@
+	{% for script in scripts %}
+		
+		{% set js_url = 'js/' + script %}
+
+		<script src="{{ url_for('static', filename=js_url) }}">
+		</script>
+
+	{% endfor %}
+
+
+
+	<footer>
+
+	</footer>
+
+
 </body>
 
-{% for script in scripts %}
-	
-	{% set js_url = 'js/' + script %}
 
-	<script src="{{ url_for('static', filename=js_url) }}">
-	</script>
-
-{% endfor %}
-
-
-
-<footer>
-
-</footer>
 </html>
