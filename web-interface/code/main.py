@@ -2,9 +2,10 @@ from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
 
 from src.cursor import Cursor
-from src import authors
+from src.samples import Samples
 from src.authors import Authors
 from src.institutions import Institutions
+from src.author_groups import AuthorGroups
 import viewdb
 import upload
 
@@ -60,8 +61,24 @@ def search_database():
     return html;
 
 
+# Samples
+###############################################################################
+
+@app.route("/samples")
+def samples_list():
+
+    samples = Samples();
+    samples_list = samples.fetch_list();
+    html = render_template("head.html");
+    if len(samples_list) == 0:
+        html+= render_template("samples/empty.html");
+    html+= render_template("footer.html");
+    return html;
+
+
 # Authors section
 ###############################################################################
+
 @app.route("/authors")
 def authors_page():
 
@@ -99,6 +116,22 @@ def authors_submit():
     return redirect(url_for('authors_page'));
 
 
+@app.route("/authors/groups")
+def author_groups_list():
+
+    groups = AuthorGroups();
+    groups_list = groups.fetch_display_list();
+
+    html = render_template("head.html");
+    if len(groups_list) == 0:
+        html+= render_template("author_groups/empty.html");
+    else:
+        html+= render_template("author_groups/list.html", groups=groups_list);
+
+    html+= render_template("footer.html");
+    return html;
+
+
 
 # Institutions
 ###############################################################################
@@ -111,7 +144,9 @@ def institutions_list():
     html = render_template("head.html");
     if len(institutions_list) == 0:
         html+= render_template("institutions/empty.html");
-    html+= str(institutions_list);
+    else:
+        html+= render_template("institutions/list.html",
+                               institutions=institutions_list);
     html+= render_template("footer.html");
     return html;
 
@@ -122,10 +157,25 @@ def institutions_edit():
     institution_id = 0;
     if "id" in request.args:
         institution_id = int(request.args["id"]);
+    institutions = Institutions();
+    institution = institutions.fetch_entry(id=institution_id);
 
     html = render_template("head.html");
+    html+= render_template("institutions/edit.html", institution=institution);
     html+= render_template("footer.html");
     return html;
+
+
+@app.route("/institutions/submit", methods=["POST"])
+def institutions_submit():
+
+    data = request.form.to_dict();
+    institutions = Institutions();
+    institutions.save_entry(data);
+    return redirect(url_for('institutions_list'));
+
+
+
 
 
 @app.route("/test")

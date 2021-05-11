@@ -1,0 +1,18 @@
+<table>
+
+	<tr>
+		<th> Group ID </th>
+		<th> Group name </th>
+		<th> Members count </th>
+	</tr>
+
+	{% for group in groups %}
+	<tr>
+		<td> {{group.id}} </td>
+		<td> {{group.name}} </td>
+		<td> {{group.members_count}} </td>
+	</tr>
+	{% endfor %}
+
+
+</table>

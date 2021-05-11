@@ -76,6 +76,31 @@ class Cursor:
 
         return res;
 
+
+    def select(self, table_name, fields=[], where_clause=""):
+        sql = "SELECT ";
+        if len(fields) == 0:
+            sql+= "* ";
+        else:
+            for field in fields:
+               sql+= "`{:s}`,".format(field);
+            sql = sql[:-1] + " ";
+
+        sql+= "FROM {:s} ".format(table_name);
+        sql+= where_clause;
+
+        self.execute(sql);
+        records = self.cursor.fetchall();
+        column_names = self.cursor.column_names;
+
+        res = [];
+        for record in records:
+            res.append(self.record_to_ordereddict(record, column_names));
+
+        return res;
+
+
+
     def create_empty_ordereddict(self, table_name):
 
         describe = self.describe(table_name);
@@ -183,3 +208,22 @@ class Cursor:
                 return "Insert new value";
 
         return "Finished";
+
+
+    def count_entries(self, table_name, where_clause="", count_col="id"):
+
+        sql = """
+            SELECT COUNT(`{:s}`)
+            FROM `{:s}`
+            """.format(count_col, table_name);
+        sql+= " ";
+        sql+= where_clause;
+        self.execute(sql);
+        res = self.cursor.fetchone();
+        res = int(res[0]);
+        return res;
+
+#    def select_fields(self, table_name, where_clase=""):
+#
+#        sql = """
+#            SELECT 
