@@ -1,6 +1,5 @@
 from flask import render_template
-from cursor import Cursor
-import quick_html
+from src.cursor import Cursor
 
 def database_view():
 
@@ -14,11 +13,11 @@ def database_view():
     column_names = [col for col in samples[0]];
 
     html = "<table>";
-    html+= quick_html.table_header(column_names);
+#    html+= quick_html.table_header(column_names);
 
     for sample in samples:
         sample_data = [sample[col] for col in column_names];
-        html+= quick_html.table_row(sample_data);
+#        html+= quick_html.table_row(sample_data);
 
     html+= "</table>";
 

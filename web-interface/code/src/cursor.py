@@ -1,7 +1,15 @@
 import os
 import mysql.connector
 from collections import OrderedDict
-import funcs
+
+
+def compare_ordereddicts(od1, od2):
+
+    for item1, item2 in zip(od1.items(), od2.items()):
+        if item1 != item2:
+            return False;
+    return True;
+
 
 class Cursor:
 
@@ -166,7 +174,7 @@ class Cursor:
                     continue;
 
                 is_matched = True;
-                if funcs.compare_ordereddicts(reg_od, new_od):
+                if compare_ordereddicts(reg_od, new_od):
                     break;
 
                 self.update_row(table_name, new_od["id"], new_od);
