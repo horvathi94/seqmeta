@@ -223,7 +223,22 @@ class Cursor:
         res = int(res[0]);
         return res;
 
-#    def select_fields(self, table_name, where_clase=""):
-#
-#        sql = """
-#            SELECT 
+
+    def stored_procedure(self, procedure):
+
+        self.open();
+        self.cursor.callproc(procedure);
+
+        stored_results = self.cursor.stored_results();
+
+        all_results = [];
+        for result in stored_results:
+
+            column_names = result.description;
+            records = result.fetchall();
+            res = [];
+            for record in records:
+                res.append(self.record_to_ordereddict(record, column_names));
+
+            all_results.append(res);
+        return all_results;

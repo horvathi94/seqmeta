@@ -17,9 +17,8 @@ class AuthorGroups(Base):
             count = cursor.count_entries("authors_in_group",
                                          where_clause=where_clause);
 
-            sql = "SELECT ";
-            members = cursor.select();
-            group["members_count"] = count;
+            res = cursor.stored_procedure("ConcatAuthorsAndGroups");
+            group["members_count"] = str(res);
 
         cursor.close();
 
