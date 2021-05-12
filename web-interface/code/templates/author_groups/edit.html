@@ -2,6 +2,20 @@
 
 <div id="editor-shell">
 
+	{% set group_id = 0 %}
+	{% set group_name = '' %}
+	{% if group|length > 0 %}
+		{% set group_id = group[0].group_id %}
+		{% set group_name = group[0].group_name %}
+	{% endif %}
+
+	<input type="hidden" name="group+{{ group_id }}+id" value="{{ group_id }}"/>
+
+	<div class="name-edit">
+		<label for="group_name"> Group name: </label>
+		<input type="text" name="group+{{ group_id }}+name" value="{{ group_name }}"/>
+	</div>
+
 	<div id="editor">
 
 		<div class="editor-head">

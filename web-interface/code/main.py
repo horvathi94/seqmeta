@@ -154,18 +154,23 @@ def author_groups_edit():
 
     html = render_template("head.html");
     html+= render_template("author_groups/edit.html",
+                           group_id = group_id,
                            group=group,
                            authors_list=authors_list);
     html+= render_template("footer.html", scripts=["author_groups.js"]);
     return html;
+
 
 @app.route("/authors/groups/submit", methods=["POST"])
 def author_groups_submit():
 
     form_data = request.form.to_dict();
 
-    html = str(funcs.parse_form_list(form_data, "author"));
-    #html = str(form_data);
+    #group = {"id": int(form_data["group_id"]),
+    #         "name": str(form_data["group_name"])};
+    authors = funcs.parse_form_list(form_data, "author");
+    group = funcs.parse_form_list(form_data, "group");
+    html= str(group);
 
     return html;
 

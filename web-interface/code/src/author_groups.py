@@ -40,6 +40,7 @@ class AuthorGroups(Base):
         group["authors_list"] = group["authors_list"][:-2]
         groups.append(group);
 
+
         cursor.close();
         return groups;
 
