@@ -132,6 +132,21 @@ def author_groups_list():
     return html;
 
 
+@app.route("/authors/groups/edit")
+def author_groups_edit():
+
+    group_id = 0;
+    if "id" in request.args:
+        group_id = int(request.args["id"]);
+
+    author_group = AuthorGroups();
+    group = author_group.fetch_entry(group_id=group_id);
+
+    html = render_template("head.html");
+    html+= render_template("author_groups/edit.html", group=group);
+    html+= render_template("footer.html", scripts=["author_groups.js"]);
+    return html;
+
 
 # Institutions
 ###############################################################################

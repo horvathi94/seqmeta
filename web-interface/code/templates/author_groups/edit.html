@@ -1,0 +1,40 @@
+<div id="editor-shell">
+
+	<div id="editor">
+
+		<div class="editor-head">
+			<span> Order </span>
+			<span> Name </span>
+		</div>
+
+		<input type="button" 
+					 onclick="addAuthorToGroup()"
+					 value="Add"/>
+
+		{% for author in group %}
+
+			<div class="editor-entry">
+
+				<input type="number" 
+					class="order"
+					name="order[{{ loop.index }}]"
+					value="{{ author.order_index }}">
+				<span> {{ author.name_tag }} </span>
+
+			</div>
+
+		{% endfor %}
+
+
+
+		<div id="editor-empty" style="display: none;">
+			<input type="number" 
+				class="order empty"
+				value="0"/>
+			<span> Empty name </span>
+		</div>
+
+	</div>
+
+
+</div>

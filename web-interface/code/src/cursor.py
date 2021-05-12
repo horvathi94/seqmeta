@@ -224,17 +224,20 @@ class Cursor:
         return res;
 
 
-    def stored_procedure(self, procedure):
+    def stored_procedure(self, procedure, args=[]):
 
         self.open();
-        self.cursor.callproc(procedure);
+        if len(args) == 0:
+            self.cursor.callproc(procedure);
+        else:
+            self.cursor.callproc(procedure, args);
 
         stored_results = self.cursor.stored_results();
 
         all_results = [];
         for result in stored_results:
 
-            column_names = result.description;
+            column_names = [res[0] for res in result.description];
             records = result.fetchall();
             res = [];
             for record in records:
