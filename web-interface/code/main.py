@@ -3,9 +3,11 @@ from datetime import datetime
 
 from src.cursor import Cursor
 from src.samples import Samples
-from src.authors import Authors
+from src.authors import Authors, AuthorNameTag
 from src.institutions import Institutions
 from src.author_groups import AuthorGroups
+from src import funcs
+
 import viewdb
 import upload
 
@@ -142,11 +144,30 @@ def author_groups_edit():
     author_group = AuthorGroups();
     group = author_group.fetch_entry(group_id=group_id);
 
+    authors = Authors();
+    authors_list = authors.fetch_list();
+    authors_list = sorted(authors_list, key=lambda k: k["last_name"]);
+    for a in authors_list:
+        tag = AuthorNameTag(a);
+        a["name_tag"] = tag.abreviated_middle_name();
+
+
     html = render_template("head.html");
-    html+= render_template("author_groups/edit.html", group=group);
+    html+= render_template("author_groups/edit.html",
+                           group=group,
+                           authors_list=authors_list);
     html+= render_template("footer.html", scripts=["author_groups.js"]);
     return html;
 
+@app.route("/authors/groups/submit", methods=["POST"])
+def author_groups_submit():
+
+    form_data = request.form.to_dict();
+
+    html = str(funcs.parse_form_list(form_data, "author"));
+    #html = str(form_data);
+
+    return html;
 
 # Institutions
 ###############################################################################

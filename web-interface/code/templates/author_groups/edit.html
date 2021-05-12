@@ -1,3 +1,5 @@
+<form action="{{ url_for('author_groups_submit') }}" method="POST">
+
 <div id="editor-shell">
 
 	<div id="editor">
@@ -17,8 +19,14 @@
 
 				<input type="number" 
 					class="order"
-					name="order[{{ loop.index }}]"
-					value="{{ author.order_index }}">
+					name="author+{{ loop.index }}+order_index"
+					value="{{ author.order_index }}"/>
+
+				<input type="hidden" 
+					class="authorid"
+					name="author+{{ loop.index }}+author_id"
+					value="{{ author.author_id }}"/> 
+
 				<span> {{ author.name_tag }} </span>
 
 			</div>
@@ -31,10 +39,24 @@
 			<input type="number" 
 				class="order empty"
 				value="0"/>
-			<span> Empty name </span>
+
+
+			<select class="authorid empty" name="name_tag">
+
+				{% for a in authors_list %}
+
+					<option value="{{ a.id }}"> {{ a.name_tag }} </option>
+
+				{% endfor %}
+
+			</select>
+
 		</div>
 
 	</div>
 
+	<input type="submit" value="Save"/>
 
 </div>
+
+

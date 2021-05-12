@@ -26,8 +26,34 @@ function addAuthorToGroup(){
 	
 	newOrder = newAuthor.getElementsByClassName("order")[0];
 	newOrder.value = maxOrder + 1;
+	newOrder.classList.remove("empty");
 
+	newName = newAuthor.getElementsByClassName("authorid")[0];
+	newName.classList.remove("empty");
+	elementName = "author+" + String(entries.length+1) + "+author_id";
+	newName.setAttribute("name", elementName);
 
 	editor.appendChild(newAuthor);
 
 };
+
+
+function sendData(){
+
+	let xhr = new XMLHttpRequest();
+	let url = "/authors/groups/submit";
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-Type", "apliccation/json");
+	xhr.onreadystatechange = function() {
+		if ( xhr.readyState == 4  && xhr.status == 200 ){
+			console.log("State ok");
+		}
+	}
+
+	let data = JSON.stringify({"test": "value"});
+	xhr.send(data);
+
+};
+
+
+
