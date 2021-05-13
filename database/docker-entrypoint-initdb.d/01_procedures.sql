@@ -93,4 +93,39 @@ BEGIN
 END $$
 
 
+
+DELIMITER ;
+
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE UpsertGroupNames(
+	IN gid INT UNSIGNED,
+	IN gname CHAR(100),
+	OUT groupInsertedID INT UNSIGNED
+)
+
+
+BEGIN 
+
+	IF ( gid = 0 ) THEN
+
+		INSERT INTO `author_groups` (name)
+			VALUES (gname);
+		SELECT LAST_INSERT_ID() INTO groupInsertedID;
+
+	ELSE
+
+		UPDATE `author_groups`
+			SET `name` = gname
+		WHERE `id` = gid;
+
+		SELECT gid INTO groupInsertedID;
+
+	END IF;
+
+END $$
+
 DELIMITER ;

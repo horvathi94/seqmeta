@@ -224,7 +224,7 @@ class Cursor:
         return res;
 
 
-    def stored_procedure(self, procedure, args=[]):
+    def call_procedure(self, procedure, args=[]):
 
         self.open();
         if len(args) == 0:
@@ -245,3 +245,16 @@ class Cursor:
 
             all_results.append(res);
         return all_results;
+
+
+    def commit_procedure(self, procedure, args=()):
+
+        self.open();
+        if len(args) == 0:
+            res = self.cursor.callproc(procedure);
+        else:
+            res = self.cursor.callproc(procedure, args);
+        self.conn.commit();
+
+        return res;
+

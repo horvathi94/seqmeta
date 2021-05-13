@@ -11,7 +11,7 @@ class AuthorGroups(Base):
 
         cursor = Cursor();
         groups_description = \
-            cursor.stored_procedure("ConcatAuthorsAndGroups")[0];
+            cursor.call_procedure("ConcatAuthorsAndGroups")[0];
 
 
         reg_group_ids = [];
@@ -48,9 +48,26 @@ class AuthorGroups(Base):
     def fetch_entry(self, group_id=0):
 
         cursor = Cursor();
-        group = cursor.stored_procedure("SelectGroup", [group_id])[0];
+        group = cursor.call_procedure("SelectGroup", args=[group_id])[0];
         for author in group:
             name_tag = AuthorNameTag(author);
             author["name_tag"] = name_tag.abreviated_middle_name();
         cursor.close();
         return group;
+
+
+    def save(self, group_info, authors_list):
+
+        cursor = Cursor();
+        args = [group_info["id"], group_info["name"], 0];
+        res = cursor.commit_procedure("UpsertGroupNames",
+                                           args=args);
+
+        group_id = int(res[2]);
+        for author in authors_list:
+            update_data = [group_id,
+                           author["author_id"],
+                           author["order_index"]];
+            cursor.commit_procedure("UpdateGroup", update_data);
+        cursor.close();
+        return group_id;

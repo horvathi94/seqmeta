@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from datetime import datetime
 
 from src.cursor import Cursor
@@ -12,6 +12,7 @@ import viewdb
 import upload
 
 app = Flask(__name__)
+app.config["JSON_SORT_KEYS"] = False;
 
 @app.route("/")
 def home():
@@ -71,11 +72,32 @@ def samples_list():
 
     samples = Samples();
     samples_list = samples.fetch_list();
-    html = render_template("head.html");
+    html = render_template("head.html", styles=["prompt.css", "samples.css"]);
     if len(samples_list) == 0:
         html+= render_template("samples/empty.html");
-    html+= render_template("footer.html");
+    else:
+        html+= render_template("samples/list.html", samples=samples_list);
+
+    scripts = ["sample_details.js"];
+    html+= render_template("footer.html", scripts=scripts);
+
+    test_data = samples.fetch_entry(sample_id=1);
+    html+= str(test_data);
     return html;
+
+
+@app.route("/sample/details")
+def sample_details():
+
+    sample_id = 0;
+    if "id" in request.args:
+        sample_id = request.args["id"];
+
+    samples = Samples();
+    test_data = samples.fetch_entry(sample_id=sample_id);
+
+
+    return jsonify(test_data);
 
 
 # Authors section
@@ -166,13 +188,13 @@ def author_groups_submit():
 
     form_data = request.form.to_dict();
 
-    #group = {"id": int(form_data["group_id"]),
-    #         "name": str(form_data["group_name"])};
-    authors = funcs.parse_form_list(form_data, "author");
-    group = funcs.parse_form_list(form_data, "group");
-    html= str(group);
+    authors_list = funcs.parse_form_list(form_data, "author");
+    group = funcs.parse_form_simple(form_data, "group");
 
-    return html;
+    author_groups = AuthorGroups();
+    author_groups.save(group, authors_list);
+
+    return redirect(url_for('author_groups_list'));
 
 # Institutions
 ###############################################################################

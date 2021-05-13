@@ -1,4 +1,41 @@
 <table>
-	
+
+	<tr>
+		<th> Name </th>
+		<th> Collection date </th>
+
+		<th> Details </th>
+	</tr>
+
+	{% for sample in samples %}
+
+		<tr>
+			<td> {{ sample.name }} </td>
+			<td> {{ sample.collection_date }} </td>
+
+			<td> 
+				<input type="button" value="Details" onclick="displayDetails({{ sample.id }})"/>
+			</td>
+
+		</tr>
+
+	{% endfor %}
+
 
 </table>
+
+
+<div class="prompt wrap" style="display: none;"> 
+
+	<div id="sample-details" class="prompt data">
+
+		<h4> Sample details </h4>	
+	
+		<table id="sample-details-table"> 
+		</table>
+		
+		<input type="button" value="Hide" class="prompt hide" onclick="hideDetails()"/> 
+
+	</div>
+
+</div>

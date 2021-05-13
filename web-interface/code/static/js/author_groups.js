@@ -1,5 +1,3 @@
-console.log("Hello Fucker!");
-
 function addAuthorToGroup(){
 	
 	const empty = document.getElementById("editor-empty");
@@ -17,8 +15,6 @@ function addAuthorToGroup(){
 		}
 	});
 
-	console.log("Max. order: " + maxOrder);
-
 	newAuthor.style.display = "block";
 	newAuthor.style.color = "red";
 	newAuthor.classList.add("editor-entry");
@@ -27,6 +23,8 @@ function addAuthorToGroup(){
 	newOrder = newAuthor.getElementsByClassName("order")[0];
 	newOrder.value = maxOrder + 1;
 	newOrder.classList.remove("empty");
+	newOrderName = "author+" + String(entries.length+1) + "+order_index";
+	newOrder.setAttribute("name", newOrderName);
 
 	newName = newAuthor.getElementsByClassName("authorid")[0];
 	newName.classList.remove("empty");
@@ -36,24 +34,4 @@ function addAuthorToGroup(){
 	editor.appendChild(newAuthor);
 
 };
-
-
-function sendData(){
-
-	let xhr = new XMLHttpRequest();
-	let url = "/authors/groups/submit";
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-Type", "apliccation/json");
-	xhr.onreadystatechange = function() {
-		if ( xhr.readyState == 4  && xhr.status == 200 ){
-			console.log("State ok");
-		}
-	}
-
-	let data = JSON.stringify({"test": "value"});
-	xhr.send(data);
-
-};
-
-
 

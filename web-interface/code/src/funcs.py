@@ -31,3 +31,22 @@ def parse_form_list(form_data, main_key):
 
     return res;
 
+
+def parse_form_simple(form_data, main_key):
+
+    res = OrderedDict();
+
+    for key in form_data:
+
+        splits = key.split("+");
+
+        if splits[0] != main_key:
+            continue;
+
+        prop = splits[1];
+        is_registered = False;
+
+        res[prop] = form_data[key];
+
+    return res;
+
