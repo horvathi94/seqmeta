@@ -5,14 +5,18 @@ from collections import OrderedDict
 
 class AuthorGroups(Base):
 
-    table_name = "author_groups";
+    table_name = "view_authors_in_groups";
+
 
     def fetch_display_list(self):
 
         cursor = Cursor();
-        groups_description = \
-            cursor.call_procedure("ConcatAuthorsAndGroups")[0];
 
+        groups_count = cursor.count_entries("author_groups");
+        if groups_count == 0:
+            return [];
+
+        groups_description = cursor.select_all(self.table_name);
 
         reg_group_ids = [];
         groups = [];
@@ -32,9 +36,11 @@ class AuthorGroups(Base):
                 group["members_count"] = 0;
                 reg_group_ids.append(group_id);
 
+
             name_tag = AuthorNameTag(entry);
-            group["authors_list"] += name_tag.abreviated_middle_name() + ", ";
-            group["members_count"] += 1;
+            if name_tag.check_if_exists():
+                group["authors_list"] += name_tag.abreviated_middle_name() + ", ";
+                group["members_count"] += 1;
 
 
         group["authors_list"] = group["authors_list"][:-2]
@@ -45,13 +51,34 @@ class AuthorGroups(Base):
         return groups;
 
 
+    def create_empty_group(self):
+
+        group = OrderedDict();
+        group["group_id"] = 0;
+        group["group_name"] = "";
+        group["authors"] = [];
+        return group;
+
+
     def fetch_entry(self, group_id=0):
 
         cursor = Cursor();
-        group = cursor.call_procedure("SelectGroup", args=[group_id])[0];
-        for author in group:
+        where_clause = "WHERE `group_id` = {:d}".format(group_id);
+        raw_group = cursor.select_all(self.table_name, extra=where_clause);
+
+        group = self.create_empty_group();
+        if len(raw_group) == 0:
+            return group;
+
+        group["group_id"] = raw_group[0]["group_id"];
+        group["group_name"] = raw_group[0]["group_name"];
+
+        for author in raw_group:
             name_tag = AuthorNameTag(author);
-            author["name_tag"] = name_tag.abreviated_middle_name();
+            if name_tag.check_if_exists():
+                author["name_tag"] = name_tag.abreviated_middle_name();
+                group["authors"].append(author);
+
         cursor.close();
         return group;
 
@@ -60,14 +87,15 @@ class AuthorGroups(Base):
 
         cursor = Cursor();
         args = [group_info["id"], group_info["name"], 0];
-        res = cursor.commit_procedure("UpsertGroupNames",
-                                           args=args);
-
+        res = cursor.call_procedure("UpsertGroup", args=args, commit=True);
         group_id = int(res[2]);
+
         for author in authors_list:
             update_data = [group_id,
                            author["author_id"],
                            author["order_index"]];
-            cursor.commit_procedure("UpdateGroup", update_data);
+            cursor.call_procedure("UpsertAuthorsInGroup",
+                                  update_data,
+                                  commit=True);
         cursor.close();
         return group_id;

@@ -23,6 +23,14 @@ class AuthorNameTag:
         self.last_name = od["last_name"];
 
 
+    def check_if_exists(self):
+
+        if self.first_name == None and \
+                self.last_name == None:
+                    return False;
+        return True;
+
+
     def abreviate(self, name):
 
         if not name:

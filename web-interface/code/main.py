@@ -91,11 +91,10 @@ def sample_details():
 
     sample_id = 0;
     if "id" in request.args:
-        sample_id = request.args["id"];
+        sample_id = int(request.args["id"]);
 
     samples = Samples();
     test_data = samples.fetch_entry(sample_id=sample_id);
-
 
     return jsonify(test_data);
 
@@ -147,6 +146,7 @@ def author_groups_list():
     groups_list = groups.fetch_display_list();
 
     html = render_template("head.html");
+
     if len(groups_list) == 0:
         html+= render_template("author_groups/empty.html");
     else:

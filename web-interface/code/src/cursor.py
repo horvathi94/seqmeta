@@ -3,14 +3,6 @@ import mysql.connector
 from collections import OrderedDict
 
 
-def compare_ordereddicts(od1, od2):
-
-    for item1, item2 in zip(od1.items(), od2.items()):
-        if item1 != item2:
-            return False;
-    return True;
-
-
 class Cursor:
 
     user = os.environ["MYSQL_USER"];
@@ -19,11 +11,14 @@ class Cursor:
     host = "database";
 
     def __init__(self):
+
         self.conn = None;
         self.cursor = None;
         self.open();
 
+
     def open(self):
+
         if self.cursor == None:
 
             if self.conn == None:
@@ -35,19 +30,22 @@ class Cursor:
 
             self.cursor = self.conn.cursor();
 
+
     def close(self):
+
         self.cursor.close();
         self.conn.close();
 
 
-    def execute(self, sql):
-        self.open();
-        self.cursor.execute(sql);
+    def execute(self, sql, values=[], commit=False):
 
-    def execute_commit(self, sql, values):
         self.open();
-        self.cursor.execute(sql, values);
-        self.conn.commit();
+        if len(values) == 0:
+            self.cursor.execute(sql);
+        else:
+            self.cursor.execute(sql, values);
+        if commit:
+            self.conn.commit();
 
 
     def describe(self, table_name):
@@ -64,16 +62,21 @@ class Cursor:
         return row_data;
 
 
-    def select_all(self, table_name):
-        sql = "SELECT * FROM `{:s}`".format(table_name);
-        self.execute(sql);
-        records = self.cursor.fetchall();
-        column_names = self.cursor.column_names;
-
+    def parse_records(self, records, column_names):
         res = [];
         for record in records:
             res.append(self.record_to_ordereddict(record, column_names));
+        return res;
 
+
+    def select_all(self, table_name, extra=""):
+        sql = "SELECT * FROM `{:s}`".format(table_name);
+        if extra:
+            sql+= " " + extra;
+        self.execute(sql);
+        records = self.cursor.fetchall();
+        column_names = self.cursor.column_names;
+        res = self.parse_records(records, column_names);
         return res;
 
 
@@ -98,7 +101,6 @@ class Cursor:
             res.append(self.record_to_ordereddict(record, column_names));
 
         return res;
-
 
 
     def create_empty_ordereddict(self, table_name):
@@ -147,6 +149,7 @@ class Cursor:
 
         return self.create_empty_ordereddict(table_name);
 
+
     def update_row(self, table_name, where_id, values_dict):
         sql = "UPDATE `{:s}` SET".format(table_name);
 
@@ -161,7 +164,7 @@ class Cursor:
         sql = sql[:-1];
         sql+= " WHERE id = {:d}".format(where_id);
         values = tuple(values);
-        self.execute_commit(sql, values);
+        self.execute(sql, values, commit=True);
 
 
     def insert_item(self, table_name, data_dict):
@@ -183,31 +186,7 @@ class Cursor:
         values_sql+= ")";
 
         sql+= values_sql;
-        self.execute_commit(sql, values);
-
-
-    def list_and_save(self, table_name, submitted):
-        existent = self.select_all(table_name);
-
-        for new_od in submitted:
-
-            is_matched = False;
-
-            for reg_od in existent:
-
-                if reg_od["id"] != new_od["id"]:
-                    continue;
-
-                is_matched = True;
-                if compare_ordereddicts(reg_od, new_od):
-                    break;
-
-                self.update_row(table_name, new_od["id"], new_od);
-
-            if not is_matched:
-                return "Insert new value";
-
-        return "Finished";
+        self.execute(sql, values, commit=True);
 
 
     def count_entries(self, table_name, where_clause="", count_col="id"):
@@ -224,37 +203,16 @@ class Cursor:
         return res;
 
 
-    def call_procedure(self, procedure, args=[]):
-
-        self.open();
-        if len(args) == 0:
-            self.cursor.callproc(procedure);
-        else:
-            self.cursor.callproc(procedure, args);
-
-        stored_results = self.cursor.stored_results();
-
-        all_results = [];
-        for result in stored_results:
-
-            column_names = [res[0] for res in result.description];
-            records = result.fetchall();
-            res = [];
-            for record in records:
-                res.append(self.record_to_ordereddict(record, column_names));
-
-            all_results.append(res);
-        return all_results;
-
-
-    def commit_procedure(self, procedure, args=()):
+    def call_procedure(self, procedure, args=(), commit=False):
 
         self.open();
         if len(args) == 0:
             res = self.cursor.callproc(procedure);
         else:
             res = self.cursor.callproc(procedure, args);
-        self.conn.commit();
+
+        if commit:
+            self.conn.commit();
 
         return res;
 

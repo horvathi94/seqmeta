@@ -29,8 +29,8 @@ class Base:
 
         cursor = Cursor();
         entry = cursor.select_by_id(self.table_name, id);
-        self.clean_entry(entry);
         cursor.close();
+        self.clean_entry(entry);
         return entry;
 
 

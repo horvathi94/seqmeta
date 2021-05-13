@@ -2,18 +2,11 @@
 
 <div id="editor-shell">
 
-	{% set group_id = 0 %}
-	{% set group_name = '' %}
-	{% if group|length > 0 %}
-		{% set group_id = group[0].group_id %}
-		{% set group_name = group[0].group_name %}
-	{% endif %}
-
-	<input type="hidden" name="group+id" value="{{ group_id }}"/>
+	<input type="hidden" name="group+id" value="{{ group.group_id }}"/>
 
 	<div class="name-edit">
 		<label for="group_name"> Group name: </label>
-		<input type="text" name="group+name" value="{{ group_name }}"/>
+		<input type="text" name="group+name" value="{{ group.group_name }}"/>
 	</div>
 
 	<div id="editor">
@@ -27,7 +20,7 @@
 					 onclick="addAuthorToGroup()"
 					 value="Add"/>
 
-		{% for author in group %}
+		{% for author in group.authors %}
 
 			<div class="editor-entry">
 

@@ -10,11 +10,11 @@
 	{% for sample in samples %}
 
 		<tr>
-			<td> {{ sample.name }} </td>
+			<td> {{ sample.sample_name }} </td>
 			<td> {{ sample.collection_date }} </td>
 
 			<td> 
-				<input type="button" value="Details" onclick="displayDetails({{ sample.id }})"/>
+				<input type="button" value="Details" onclick="displayDetails({{ sample.sample_id }})"/>
 			</td>
 
 		</tr>
