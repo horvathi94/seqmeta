@@ -8,6 +8,7 @@ from src.authors import Authors, AuthorNameTag
 from src.institutions import Institutions
 from src.author_groups import AuthorGroups
 from src.fast_files import Fasta
+from src.excel_generator import excel_test
 from src import funcs
 
 
@@ -124,6 +125,18 @@ def samples_fasta():
     response.mimetype = "text/fasta";
     return response;
 
+
+@app.route("/samples/generate", methods=["POST"])
+def samples_generate():
+
+    selected = request.form.getlist("selected-samples");
+    selected = [int(s) for s in selected];
+
+    samples = Samples();
+    sample_list = samples.fetch_entries(sample_ids=[1,2]);
+
+    excel_test(sample_list);
+    return jsonify(sample_list);
 
 
 # Authors section

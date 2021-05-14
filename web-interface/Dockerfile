@@ -13,7 +13,9 @@ EXPOSE 5000
 #COPY ./code /app
 
 RUN groupadd --gid 5000 pyman \
-	&& useradd --uid 5000 --gid 5000 --shell /bin/bash pyman
+	&& useradd --uid 5000 --gid 5000 --shell /bin/bash pyman \
+	&& mkdir /app/temp \
+	&& chown -R pyman:pyman /app/temp
 
 USER pyman
 

@@ -25,6 +25,7 @@ services:
     volumes:
       - ./web-interface/code:/app/code
       - ./web-interface/samples:/samples
+      - ./web-interface/temp:/app/temp
 
     networks:
       - app-network
