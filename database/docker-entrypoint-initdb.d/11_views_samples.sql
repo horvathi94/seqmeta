@@ -4,7 +4,13 @@ CREATE VIEW `view_samples` AS
 		`sample`.`id` AS sample_id,
 		`sample`.`name` AS sample_name,
 		`sample`.`collection_date` AS collection_date,
-		
+
+		`sample`.`patient_age` AS patient_age,
+		IF (`sample`.`patient_gender` IS NULL, NULL, 
+			IF (`sample`.`patient_gender` = 1, "Male", "Female") ) AS patient_gender,
+/*		IF (`sample`.`patient_gender` = 1, "M", "F" ) AS patient_gender,*/
+/*		`sample`.`patient_gender` AS patient_gender, */
+
 		`agroup`.`id` AS author_group_id,
 		`agroup`.`name` AS author_group_name,
 

@@ -3,7 +3,8 @@ from .base import Base
 
 class Institutions(Base):
 
-    table_name = "institutions";
+    view_table_name = "institutions";
+    submit_table_name = "institutions";
 
     def clean_entry(self, entry):
         pass;

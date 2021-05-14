@@ -5,6 +5,7 @@
 		<th> Collection date </th>
 
 		<th> Details </th>
+		<th> Edit </th>
 	</tr>
 
 	{% for sample in samples %}
@@ -17,6 +18,12 @@
 				<input type="button" value="Details" onclick="displayDetails({{ sample.sample_id }})"/>
 			</td>
 
+			<td> 
+				<input type="button" 
+							 onclick="location.href='{{ url_for('samples_edit') }}?id={{sample.sample_id}}'"
+							 value="Edit"/>
+			</td>
+
 		</tr>
 
 	{% endfor %}
@@ -24,6 +31,9 @@
 
 </table>
 
+<input type="button"
+			 onclick="location.href='{{ url_for('samples_edit') }}'"
+			 value="Add"/>
 
 <div class="prompt wrap" style="display: none;"> 
 

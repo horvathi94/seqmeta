@@ -1,6 +1,6 @@
-<form action="" method="POST">
+<form action="{{ url_for('samples_submit') }}" method="POST">
 
-	<input type="hidden" name="id" value="{{ sample.id }}"/>
+	<input type="hidden" name="id" value="{{ sample.sample_id }}"/>
 
 	<h4> Sample data </h4>
 
@@ -13,7 +13,143 @@
 
 		<tr>
 
+
+		<tr> 
+			<td> Name </td>
+			<td> 
+				<input type="text" name="sample_name" value="{{ sample.sample_name }}"/>
+			</td>
+			<td> Name of the sample (this needs to be the same as the `fasta` and `fastq` file names) </td>
+		</tr>
+
+
+		<tr> 
+			<td> Collection date </td>
+			<td> 
+				<input type="date" name="collection_date" value="{{ sample.collection_date }}"/>
+			</td>
+			<td> Date when the sample was collected. </td>
+		</tr>
+
+
+		<tr> 
+			<td> Author group </td>
+			<td> 
+			
+				<select name="author_group_id"> 
+
+					{% for group in author_groups %}
+
+					{% if group.group_id == sample.author_group_id %}
+							<option value="{{group.group_id}}" selected="selected"> {{group.group_name}} </option>
+						{% else %}
+							<option value="{{group.group_id}}"> {{group.group_name}} </option>
+						{% endif %}
+
+					{% endfor %}
+
+				</select>
+	
+			</td>
+			<td> The group of people who worked on the sequencing </td>
+		</tr>
+
+
+		<tr> 
+			<td> Originating lab </td>
+			<td> 
+
+				<select name="originating_lab_id"> 
+
+					{% for institution in institutions %}
+
+					{% if institution.id == sample.originating_lab_id %}
+							<option value="{{institution.id}}" selected="selected"> {{institution.name}} </option>
+						{% else %}
+							<option value="{{institution.id}}"> {{institution.name}} </option>
+						{% endif %}
+
+					{% endfor %}
+
+				</select>
+
+
+			</td>
+			<td> The laboratory where the sample was sequenced. </td>
+		</tr>
+
+
+		<tr> 
+			<td> Submitting lab </td>
+			<td> 
+
+
+				<select name="submitting_lab_id"> 
+
+					{% for institution in institutions %}
+
+					{% if institution.id == sample.submitting_lab_id %}
+							<option value="{{institution.id}}" selected="selected"> {{institution.name}} </option>
+						{% else %}
+							<option value="{{institution.id}}"> {{institution.name}} </option>
+						{% endif %}
+
+					{% endfor %}
+
+				</select>
+
+			</td>
+			<td> The laboratory which submits the sequencing result. </td>
+		</tr>
+
+
+		<tr>
+				
+			<td> Patient age </td>
+			<td> 
+				<input type="number" name="patient_age" value="{{ sample.patient_age }}"
+						min="0" max="100"/>
+			</td>
+			<td> The age of the patient </td>
+
+		</tr>
+
+		<tr>
+
+			<td> Patient gender </td>
+			<td>
+
+				{% if sample.patient_gender == 'Male' %}
+					<input type="radio" name="patient_gender" value="Male" checked="checked"/>
+				{% else %}
+					<input type="radio" name="patient_gender" value="Male"/>
+				{% endif %}
+					<label for name="patient_gender"> Male </label>
+
+
+				{% if sample.patient_gender == 'Female' %}
+					<input type="radio" name="patient_gender" value="Female" checked="checked"/>
+				{% else %}
+					<input type="radio" name="patient_gender" value="Female"/>
+				{% endif %}
+					<label for name="patient_gender"> Female </label>
+
+
+				{% if sample.patient_gender == None %}
+					<input type="radio" name="patient_gender" value="" checked="checked"/>
+				{% else %}
+					<input type="radio" name="patient_gender" value=""/>
+				{% endif %}
+					<label for name="patient_gender"> N/A </label>
+
+
+			</td>
+			<td> The gender of the patient </td>
+		</tr>
+
+
 	</table>
 
+	<input type="submit" value="Save"/>
 
 </form>

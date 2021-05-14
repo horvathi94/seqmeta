@@ -2,10 +2,12 @@ from collections import OrderedDict
 from .cursor import Cursor
 from .base import Base
 from .author_groups import AuthorGroups
+from datetime import datetime
 
 class Samples(Base):
 
-    table_name = "view_samples";
+    view_table_name = "view_samples";
+    submit_table_name = "sample_data";
     date_format = "%Y-%m-%d";
 
 
@@ -13,11 +15,14 @@ class Samples(Base):
 
         cursor = Cursor()
         where_clause = "WHERE `sample_id` = {:d}".format(sample_id);
-        raw_data = cursor.select_all(self.table_name, where_clause);
-        cursor.close();
+        raw_data = cursor.select_all(self.view_table_name, where_clause);
 
         if len(raw_data) == 0:
-            return [];
+            data = cursor.create_empty_ordereddict(self.view_table_name);
+            cursor.close();
+            return data;
+
+        cursor.close();
 
         data = raw_data[0];
         data["collection_date"] = \
@@ -34,3 +39,20 @@ class Samples(Base):
         del data["author_group_id"];
 
         return data;
+
+
+    def clean_submit(self, submitted):
+
+        submitted["name"] = submitted["sample_name"];
+        del submitted["sample_name"];
+
+        if submitted["patient_gender"] == "Male":
+            submitted["patient_gender"] = True;
+        elif submitted["patient_gender"] == "Female":
+            submitted["patient_gender"] = False;
+        else:
+            submitted["patient_gender"] = None;
+
+        submitted["submission_date"] = datetime.today();
+
+

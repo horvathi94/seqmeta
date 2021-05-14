@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, \
+    jsonify, make_response
 from datetime import datetime
 
 from src.cursor import Cursor
@@ -6,13 +7,14 @@ from src.samples import Samples
 from src.authors import Authors, AuthorNameTag
 from src.institutions import Institutions
 from src.author_groups import AuthorGroups
+from src.fast_files import Fasta
 from src import funcs
 
-import viewdb
-import upload
 
 app = Flask(__name__)
 app.config["JSON_SORT_KEYS"] = False;
+
+
 
 @app.route("/")
 def home():
@@ -23,45 +25,6 @@ def home():
     return html;
 
 
-@app.route("/upload")
-def upload_sample():
-
-    html = render_template("head.html");
-    html+= render_template("upload_form.html");
-    html+= render_template("footer.html");
-    return html;
-
-
-@app.route("/submit", methods=["POST"])
-def submitted():
-
-
-    html = render_template("head.html");
-
-    sample_name = request.form["sample-name"]
-    submission_date = datetime.today().strftime("%Y-%m-%d");
-
-    html+= render_template("registered.html",
-                           sample_name=request.form["sample-name"],
-                           sample_collection_date=request.form["sample-collection-date"],
-                           patient_name=request.form["patient-name"],
-                           patient_gender=request.form["patient-gender"]);
-
-    html+= render_template("footer.html");
-    return html;
-
-
-@app.route("/search")
-def search_database():
-
-    html = render_template("head.html");
-    html+= "<h2> Search the database </h2>";
-
-    html+= viewdb.database_view();
-
-    html+= render_template("footer.html");
-
-    return html;
 
 
 # Samples
@@ -94,9 +57,73 @@ def sample_details():
         sample_id = int(request.args["id"]);
 
     samples = Samples();
-    test_data = samples.fetch_entry(sample_id=sample_id);
+    sample_details = samples.fetch_entry(sample_id=sample_id);
 
-    return jsonify(test_data);
+    return jsonify(sample_details);
+
+
+@app.route("/samples/edit")
+def samples_edit():
+
+    sample_id = 0;
+    if "id" in request.args:
+        sample_id = int(request.args["id"]);
+
+
+    html = render_template("head.html");
+
+    samples = Samples();
+    sample = samples.fetch_entry(sample_id=sample_id);
+
+    author_groups = AuthorGroups();
+    author_groups = author_groups.fetch_display_list();
+
+    institutions = Institutions();
+    institutions = institutions.fetch_list();
+
+    html+= render_template("samples/edit.html",
+                           sample=sample,
+                           author_groups=author_groups,
+                           institutions=institutions);
+
+    html+= render_template("footer.html");
+
+    return html;
+
+
+@app.route("/samples/submit", methods=["POST"])
+def samples_submit():
+
+    form_data = request.form.to_dict();
+
+    samples = Samples();
+    samples.save_entry(form_data);
+    return redirect(url_for('samples_list'));
+
+
+@app.route("/samples/fasta")
+def samples_fasta():
+
+    sample_id = 0;
+    if "id" in request.args:
+        sample_id = int(request.args["id"]);
+
+    samples = Samples();
+    sample = samples.fetch_entry(sample_id=sample_id);
+
+    fasta = Fasta(sample["sample_name"]);
+    sequences = fasta.read_fasta();
+
+    if not fasta.has_fasta:
+        resp_string = "fasta file was not found.";
+    else:
+        seq = sequences[0].seq;
+        resp_string = str(seq);
+
+    response = make_response(resp_string, 200);
+    response.mimetype = "text/fasta";
+    return response;
+
 
 
 # Authors section

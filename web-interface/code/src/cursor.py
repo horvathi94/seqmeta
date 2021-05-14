@@ -159,7 +159,11 @@ class Cursor:
                 continue;
             sql += " {:s}=".format(key);
             sql += "%s,";
-            values.append(values_dict[key].strip());
+
+            value = values_dict[key];
+            if isinstance(value, str):
+                value = value.strip();
+            values.append(value);
 
         sql = sql[:-1];
         sql+= " WHERE id = {:d}".format(where_id);
@@ -178,7 +182,11 @@ class Cursor:
                 continue;
             sql += "{:s},".format(str(key));
             values_sql+= "%s,";
-            values.append(data_dict[key]);
+
+            value = data_dict[key];
+            if isinstance(value, str):
+                value = value.strip();
+            values.append(value);
 
         sql = sql[:-1];
         values_sql = values_sql[:-1];

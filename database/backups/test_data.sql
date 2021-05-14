@@ -26,7 +26,7 @@ CREATE TABLE `author_groups` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` char(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,6 +35,7 @@ CREATE TABLE `author_groups` (
 
 LOCK TABLES `author_groups` WRITE;
 /*!40000 ALTER TABLE `author_groups` DISABLE KEYS */;
+INSERT INTO `author_groups` VALUES (1,'Group1'),(2,'Group2');
 /*!40000 ALTER TABLE `author_groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -77,7 +78,7 @@ CREATE TABLE `authors_in_group` (
   `author_group_id` int unsigned DEFAULT NULL,
   `order_index` tinyint unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -86,6 +87,7 @@ CREATE TABLE `authors_in_group` (
 
 LOCK TABLES `authors_in_group` WRITE;
 /*!40000 ALTER TABLE `authors_in_group` DISABLE KEYS */;
+INSERT INTO `authors_in_group` VALUES (1,1,1,1),(2,3,1,2),(3,4,1,3),(4,5,2,1),(5,4,2,2);
 /*!40000 ALTER TABLE `authors_in_group` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -105,7 +107,7 @@ CREATE TABLE `institutions` (
   `country` char(100) DEFAULT NULL,
   `city` char(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -114,6 +116,7 @@ CREATE TABLE `institutions` (
 
 LOCK TABLES `institutions` WRITE;
 /*!40000 ALTER TABLE `institutions` DISABLE KEYS */;
+INSERT INTO `institutions` VALUES (1,'Pro-Vitam','Muncitorilor 16',500123,'Covasna','Romania','Sfantu Gheorghe'),(2,'Pro Medical Center','Caisului 11',500321,'Cluj','Romania','Cluj-Napoca');
 /*!40000 ALTER TABLE `institutions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,7 +139,7 @@ CREATE TABLE `sample_data` (
   `author_group_id` int unsigned NOT NULL,
   `assembly_method` char(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,6 +148,7 @@ CREATE TABLE `sample_data` (
 
 LOCK TABLES `sample_data` WRITE;
 /*!40000 ALTER TABLE `sample_data` DISABLE KEYS */;
+INSERT INTO `sample_data` VALUES (1,'SAMPLE001','2021-05-14','2021-05-14',25,_binary '',2,1,1,NULL),(2,'412332','2021-05-14','2021-04-28',49,_binary '',1,1,1,NULL);
 /*!40000 ALTER TABLE `sample_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,6 +182,8 @@ SET @saved_cs_client     = @@character_set_client;
  1 AS `sample_id`,
  1 AS `sample_name`,
  1 AS `collection_date`,
+ 1 AS `patient_age`,
+ 1 AS `patient_gender`,
  1 AS `author_group_id`,
  1 AS `author_group_name`,
  1 AS `originating_lab_id`,
@@ -217,7 +223,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = latin1_swedish_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `view_samples` AS select `sample`.`id` AS `sample_id`,`sample`.`name` AS `sample_name`,`sample`.`collection_date` AS `collection_date`,`agroup`.`id` AS `author_group_id`,`agroup`.`name` AS `author_group_name`,`originating_lab`.`id` AS `originating_lab_id`,`originating_lab`.`name` AS `originating_lab_name`,`submitting_lab`.`id` AS `submitting_lab_id`,`submitting_lab`.`name` AS `submitting_lab_name` from (((`sample_data` `sample` left join `author_groups` `agroup` on((`sample`.`author_group_id` = `agroup`.`id`))) left join `institutions` `originating_lab` on((`sample`.`originating_lab_id` = `originating_lab`.`id`))) left join `institutions` `submitting_lab` on((`sample`.`submitting_lab_id` = `submitting_lab`.`id`))) */;
+/*!50001 VIEW `view_samples` AS select `sample`.`id` AS `sample_id`,`sample`.`name` AS `sample_name`,`sample`.`collection_date` AS `collection_date`,`sample`.`patient_age` AS `patient_age`,if((`sample`.`patient_gender` is null),NULL,if((`sample`.`patient_gender` = 1),'Male','Female')) AS `patient_gender`,`agroup`.`id` AS `author_group_id`,`agroup`.`name` AS `author_group_name`,`originating_lab`.`id` AS `originating_lab_id`,`originating_lab`.`name` AS `originating_lab_name`,`submitting_lab`.`id` AS `submitting_lab_id`,`submitting_lab`.`name` AS `submitting_lab_name` from (((`sample_data` `sample` left join `author_groups` `agroup` on((`sample`.`author_group_id` = `agroup`.`id`))) left join `institutions` `originating_lab` on((`sample`.`originating_lab_id` = `originating_lab`.`id`))) left join `institutions` `submitting_lab` on((`sample`.`submitting_lab_id` = `submitting_lab`.`id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -231,4 +237,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-14  7:47:50
+-- Dump completed on 2021-05-14 14:08:39

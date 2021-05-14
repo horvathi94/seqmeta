@@ -4,7 +4,8 @@ DOUBLE_CHARACTERS = ["sz", "zs"];
 
 class Authors(Base):
 
-    table_name = "authors";
+    view_table_name = "authors";
+    submit_table_name = "authors";
 
     def clean_entry(self, entry):
 

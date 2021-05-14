@@ -23,7 +23,53 @@ async function fetchDetails(sampleID){
 }
 
 
-function updateTable(data){
+function addRow(){
+	const row = detailsTable.insertRow();
+	const propCell = row.insertCell(0);
+	propCell.classList.add("prop");
+	const valCell = row.insertCell(1);
+	return [propCell, valCell];
+}
+
+function updateTable(sample){
+
+	let cells = [];
+
+	cells = addRow();
+	cells[0].innerHTML = "Sample ID:";
+	cells[1].innerHTML = sample.sample_id;
+
+	cells = addRow();
+	cells[0].innerHTML = "Sample name:";
+	cells[1].innerHTML = sample.sample_name;
+
+	cells = addRow();
+	cells[0].innerHTML = "Collection date:";
+	cells[1].innerHTML = sample.collection_date;
+
+	cells = addRow();
+	cells[0].innerHTML = "Originating laboratory:";
+	cells[1].innerHTML = sample.originating_lab_name;
+
+	cells = addRow();
+	cells[0].innerHTML = "Submitting laboratory:";
+	cells[1].innerHTML = sample.submitting_lab_name;
+
+	cells = addRow();
+	cells[0].innerHTML = "Author group:";
+	cells[1].innerHTML = sample.author_group_name + " ("+sample.authors+")";
+
+	cells = addRow();
+	cells[0].innerHTML = "Patient age:";
+	cells[1].innerHTML = sample.patient_age;
+
+	cells = addRow();
+	cells[0].innerHTML = "Patient gender:";
+	cells[1].innerHTML = sample.patient_gender;
+}
+
+
+function updateTableOld(data){
 	
 	Object.entries(data).forEach(([key, value]) => {
 		

@@ -5,8 +5,8 @@ from collections import OrderedDict
 
 class AuthorGroups(Base):
 
-    table_name = "view_authors_in_groups";
-
+    view_table_name = "view_authors_in_groups";
+    submit_table_name = "author_groups";
 
     def fetch_display_list(self):
 
@@ -16,7 +16,7 @@ class AuthorGroups(Base):
         if groups_count == 0:
             return [];
 
-        groups_description = cursor.select_all(self.table_name);
+        groups_description = cursor.select_all(self.view_table_name);
 
         reg_group_ids = [];
         groups = [];
@@ -64,7 +64,7 @@ class AuthorGroups(Base):
 
         cursor = Cursor();
         where_clause = "WHERE `group_id` = {:d}".format(group_id);
-        raw_group = cursor.select_all(self.table_name, extra=where_clause);
+        raw_group = cursor.select_all(self.view_table_name, extra=where_clause);
 
         group = self.create_empty_group();
         if len(raw_group) == 0:
