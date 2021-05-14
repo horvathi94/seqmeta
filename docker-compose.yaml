@@ -42,6 +42,7 @@ services:
     volumes:
       - ./database/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - ./database/initdb:/initdb
+      - ./database/backups/:/backups
 
     networks:
       - app-network
