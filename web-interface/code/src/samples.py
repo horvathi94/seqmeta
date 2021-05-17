@@ -77,21 +77,6 @@ class Samples(Base):
 
         return raw_data;
 
-#        data = raw_data;
-#        data["collection_date"] = \
-#            data["collection_date"].strftime(self.date_format);
-#
-#        author_group = AuthorGroups();
-#        author_group = \
-#            author_group.fetch_entry(group_id=data["author_group_id"]);
-#
-#        data["authors"] = "";
-#        for author in author_group["authors"]:
-#            data["authors"] += author["name_tag"] + ", ";
-#        data["authors"] = data["authors"][:-2];
-#        del data["author_group_id"];
-#
-#        return data;
 
 
     def clean_submit(self, submitted):

@@ -80,3 +80,39 @@
 
 
 <h3> Passage details </h3>
+
+
+
+<form action="{{ url_for('passage_details_submit') }}" method="POST">
+
+	<table>
+		
+		<tr> 
+			<th> Passage details </th>
+		</tr>
+
+		{% for pd in passage_details %}
+			
+				<tr>
+					<td>
+						<input type="text" name="passage_details+{{ pd.id }}+label"
+															 value="{{ pd.label }}"
+															maxlength="100"/>
+					</td>
+				</tr>
+
+		{% endfor %}
+
+		<tr>
+			<td>
+				<input type="text" name="passage_details+0+label"
+													 value=""
+													maxlength="100"/>
+			</td>
+		</tr>
+
+	</table>
+
+	<input type="submit" value="Save"/>
+
+</form>

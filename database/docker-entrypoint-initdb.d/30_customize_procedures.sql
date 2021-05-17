@@ -85,4 +85,46 @@ CREATE PROCEDURE UpsertSamplingStrategies(
 	END $$
 
 
+
+CREATE PROCEDURE UpsertPassageDetails(
+	IN passage_details_id 			MEDIUMINT UNSIGNED,
+	IN passage_details_label 	CHAR(100)
+)
+
+	BEGIN
+
+		IF ( passage_details_id = 0 ) THEN
+
+			IF ( passage_details_label <> '' ) THEN
+
+				INSERT INTO `passage_details` (label) 
+					VALUES (passage_details_label);
+
+			END IF;
+
+
+		ELSE 
+
+			IF ( passage_details_label = '' ) THEN
+
+				DELETE 
+					FROM `passage_details` 
+					WHERE id = passage_details_id;
+
+			ELSE
+
+				UPDATE `passage_details` 
+					SET `label` = passage_details_label
+					WHERE id = passage_details_id;
+			
+
+			END IF;
+
+
+		END IF;
+
+
+	END $$
+
+
 DELIMITER ;

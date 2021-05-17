@@ -56,6 +56,30 @@ function updateTable(sample){
 	cells[1].innerHTML = sample.submitting_lab_name;
 
 	cells = addRow();
+	cells[0].innerHTML = "Host:";
+	cells[1].innerHTML = sample.host_display_label;
+
+	cells = addRow();
+	cells[0].innerHTML = "Additional host information";
+	cells[1].innerHTML = sample.additional_host_info;
+
+	cells = addRow();
+	cells[0].innerHTML = "Passage details:";
+	cells[1].innerHTML = sample.passage_details;
+
+	cells = addRow();
+	cells[0].innerHTML = "Sampling strategy:";
+	cells[1].innerHTML = sample.sampling_strategy;
+
+	cells = addRow();
+	cells[0].innerHTML = "Location:";
+	cells[1].innerHTML = sample.location;
+
+	cells = addRow();
+	cells[0].innerHTML = "Additional location information:";
+	cells[1].innerHTML = sample.additional_location_info;
+
+	cells = addRow();
 	cells[0].innerHTML = "Author group:";
 	cells[1].innerHTML = sample.author_group_name + " ("+sample.authors+")";
 
@@ -66,6 +90,10 @@ function updateTable(sample){
 	cells = addRow();
 	cells[0].innerHTML = "Patient gender:";
 	cells[1].innerHTML = sample.patient_gender;
+
+	cells = addRow();
+	cells[0].innerHTML = "Patient status:";
+	cells[1].innerHTML = sample.patient_status;
 }
 
 

@@ -4,8 +4,7 @@ div.prompt.wrap {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: grey;
-	opacity: 0.6;
+	background-color: rgba(0, 0, 0, 0.4);
 }
 
 div.prompt.wrap h4 {
@@ -13,6 +12,7 @@ div.prompt.wrap h4 {
 }
 
 div.prompt.data {
+	opacity: 1;
 	position: absolute;
 	top: 50%;
 	left: 50%;

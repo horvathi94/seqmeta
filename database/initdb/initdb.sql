@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS `sample_data` (
 	originating_lab_id	INT UNSIGNED NOT NULL,
 	submitting_lab_id		INT UNSIGNED NOT NULL,
 	author_group_id			INT UNSIGNED NOT NULL,
-	assembly_method			CHAR(100),
 
 	host_id								MEDIUMINT UNSIGNED NOT NULL,
 	sampling_strategy_id	MEDIUMINT UNSIGNED,
@@ -17,7 +16,11 @@ CREATE TABLE IF NOT EXISTS `sample_data` (
 	location 							TEXT,
 	additional_location_info 	TEXT,
 	additional_host_info			TEXT,
-	
+
+	coverage									SMALLINT UNSIGNED,
+	sequencing_technology_id 	MEDIUMINT UNSIGNED,
+	assembly_method_id				MEDIUMINT UNSIGNED,
+
 	PRIMARY KEY(`id`)
 );
 
@@ -77,6 +80,17 @@ CREATE TABLE IF NOT EXISTS `sampling_strategies` (
 	id			MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	label		TEXT
 );
+
+CREATE TABLE IF NOT EXISTS `sequencing_technologies` (
+	id			MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	label		TEXT
+);
+
+CREATE TABLE IF NOT EXISTS `assembly_methods` (
+	id			MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	label		TEXT
+);
+
 
 
 

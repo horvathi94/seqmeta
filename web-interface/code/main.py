@@ -7,7 +7,7 @@ from src.samples import Samples
 from src.authors import Authors, AuthorNameTag
 from src.institutions import Institutions
 from src.author_groups import AuthorGroups
-from src.custom_options import Hosts, SamplingStrategies
+from src.custom_options import Hosts, SamplingStrategies, PassageDetails
 
 from src.fast_files import Fasta
 from src.excel_generator import excel_test, gisaid_sample_sheet
@@ -90,12 +90,16 @@ def samples_edit():
     samp_strats = SamplingStrategies();
     samp_strats = samp_strats.fetch_list();
 
+    pass_dets = PassageDetails();
+    pass_dets = pass_dets.fetch_list();
+
     html+= render_template("samples/edit.html",
                            sample=sample,
                            author_groups=author_groups,
                            institutions=institutions,
                            hosts=hosts,
-                           samp_strats=samp_strats);
+                           samp_strats=samp_strats,
+                           pass_dets=pass_dets);
 
     html+= render_template("footer.html");
 
@@ -301,10 +305,14 @@ def set_options_list():
     sampling_strategies = SamplingStrategies();
     sampling_strategies_list = sampling_strategies.fetch_list();
 
+    passage_details = PassageDetails();
+    passage_details_list = passage_details.fetch_list();
+
     html = render_template("head.html");
     html+= render_template("options/customize.html",
                            hosts=hosts_list,
-                           samp_strats=sampling_strategies_list);
+                           samp_strats=sampling_strategies_list,
+                           passage_details=passage_details_list);
     html+= render_template("footer.html");
 
     return html;
@@ -325,6 +333,14 @@ def samp_strats_submit():
     samp_strats_list = funcs.parse_form_list(request.form, "samp_strats");
     samp_strats = SamplingStrategies();
     samp_strats.save_entries(samp_strats_list);
+    return redirect(url_for("set_options_list"));
+
+@app.route("/set-options/passage-details", methods=["POST"])
+def passage_details_submit():
+
+    pass_dets_list = funcs.parse_form_list(request.form, "passage_details");
+    pass_dets = PassageDetails();
+    pass_dets.save_entries(pass_dets_list);
     return redirect(url_for("set_options_list"));
 
 

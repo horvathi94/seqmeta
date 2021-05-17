@@ -33,3 +33,21 @@ class SamplingStrategies(Base):
                                   args=args, commit=True);
 
         cursor.close();
+
+
+class PassageDetails(Base):
+
+    view_table_name = "passage_details";
+    submit_table_name = "passage_details";
+
+
+    def save_entries(self, pass_dets_list):
+
+        cursor = Cursor();
+
+        for pd in pass_dets_list:
+            args = (int(pd["id"]), str(pd["label"]));
+            cursor.call_procedure("UpsertPassageDetails",
+                                  args=args, commit=True);
+
+        cursor.close();
