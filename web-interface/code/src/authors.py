@@ -46,13 +46,15 @@ class AuthorNameTag:
 
     def full_name(self):
         tag = self.first_name + " ";
-        tag+= self.middle_name + " ";
+        if self.middle_name != "":
+            tag+= self.middle_name + " ";
         tag+= self.last_name;
         return tag;
 
 
     def abreviated_middle_name(self):
         tag = self.first_name + " ";
-        tag+= self.abreviate(self.middle_name) + " ";
-        tag+= self.last_name + " ";
+        if self.middle_name != "":
+            tag+= self.abreviate(self.middle_name) + " ";
+        tag+= self.last_name;
         return tag;

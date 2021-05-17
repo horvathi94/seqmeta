@@ -26,7 +26,7 @@ class Cursor:
                     user = self.user,
                     password = self.password,
                     host = self.host,
-                    database = self.database );
+                    database = self.database )
 
             self.cursor = self.conn.cursor();
 

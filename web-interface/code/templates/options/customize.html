@@ -1,0 +1,45 @@
+<h3> Hosts </h3>
+
+<form action="{{ url_for('hosts_submit') }}" method="POST">
+
+
+	<table>
+
+		<tr>
+			<th> Host name </th>
+			<th> Host scientific name </td>
+		</tr>
+
+		{% for host in hosts %}
+
+			<tr>
+				<td>
+					<input type="text" name="hosts+{{host.id}}+label" maxlength="100" value="{{ host.label }}"/>
+				</td>
+				<td>
+					<input type="text" name="hosts+{{host.id}}+latin" maxlength="100" value="{{ host.latin }}"/>
+				</td>
+			</tr>
+
+		{% endfor %}
+
+		<tr>
+			<td>
+				<input type="text" name="hosts+0+label" maxlength="100" value=""/>
+			</td>
+			<td>
+				<input type="text" name="hosts+0+latin" maxlength="100" value=""/>
+			</td>
+		</tr>
+
+	</table>
+
+	<input type="submit" value="Save"/>
+
+</form>
+
+
+<h3> Sampling strategies </h3>
+
+
+<h3> Passage details </h3>

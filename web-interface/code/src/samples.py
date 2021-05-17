@@ -16,6 +16,16 @@ class Samples(Base):
         sample["collection_date"] = \
             sample["collection_date"].strftime(self.date_format);
 
+        author_group = AuthorGroups();
+        author_group = \
+            author_group.fetch_entry(group_id=sample["author_group_id"]);
+
+        sample["authors"] = "";
+        for author in author_group["authors"]:
+            sample["authors"] += author["name_tag"] + ", ";
+        sample["authors"] = sample["authors"][:-2];
+
+
 
     def fetch_entry(self, sample_id=0):
 

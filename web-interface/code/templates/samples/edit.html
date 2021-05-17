@@ -102,6 +102,41 @@
 			<td> The laboratory which submits the sequencing result. </td>
 		</tr>
 
+		<tr>
+				
+			<td> Host </td>
+			<td> 
+				<input type="number" name="patient_age" value="{{ sample.patient_age }}"
+						min="0" max="100"/>
+			</td>
+			<td> The host of the virus </td>
+
+		</tr>
+
+
+		<tr> 
+			<td> Additional host information </td>
+			<td> <input type="text" name="host" value="{{ sample.additional_host_info }}"/>
+			<td> Additional host information </td>
+		</tr>
+
+
+
+
+		<tr> 
+			<td> Location </td>
+			<td> <input type="text" name="location" value="{{ sample.location }}"/>
+			<td> Location </td>
+		</tr>
+
+
+		<tr> 
+			<td> Additional location information </td>
+			<td> <input type="text" name="location" value="{{ sample.additional_location_info }}"/>
+			<td> Additional location information </td>
+		</tr>
+
+
 
 		<tr>
 				
@@ -135,18 +170,17 @@
 					<label for name="patient_gender"> Female </label>
 
 
-				{% if sample.patient_gender == None %}
-					<input type="radio" name="patient_gender" value="" checked="checked"/>
-				{% else %}
-					<input type="radio" name="patient_gender" value=""/>
-				{% endif %}
-					<label for name="patient_gender"> N/A </label>
-
-
 			</td>
 			<td> The gender of the patient </td>
 		</tr>
 
+
+		<tr>
+			<td> Patient status </td>
+			<td> <input type="text" name="patient_status" value="{{ sample.patient_status }}"
+															maxlength=100 />
+			<td> The status of the patient </td>
+		</tr>
 
 	</table>
 

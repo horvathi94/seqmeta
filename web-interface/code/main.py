@@ -7,8 +7,10 @@ from src.samples import Samples
 from src.authors import Authors, AuthorNameTag
 from src.institutions import Institutions
 from src.author_groups import AuthorGroups
+from src.hosts import Hosts
+
 from src.fast_files import Fasta
-from src.excel_generator import excel_test
+from src.excel_generator import excel_test, gisaid_sample_sheet
 from src import funcs
 
 
@@ -135,7 +137,8 @@ def samples_generate():
     samples = Samples();
     sample_list = samples.fetch_entries(sample_ids=[1,2]);
 
-    excel_test(sample_list);
+#    excel_test(sample_list);
+    gisaid_sample_sheet(sample_list);
     return jsonify(sample_list);
 
 
@@ -279,23 +282,27 @@ def institutions_submit():
 
 
 
+@app.route("/set-options")
+def set_options_list():
 
+    hosts = Hosts();
+    hosts_list = hosts.fetch_list();
 
-@app.route("/test")
-def test():
-
-    html = render_template("head.html", styles=["test.css"]);
-    html+= "<h2> This page is for running tests </h2>";
-
-    cursor = Cursor();
-    raw = cursor.select_all("sample_data");
-    cursor.close();
-
-    html+= str(raw);
-
-    html+= render_template("footer.html", scripts=["authors_submit.js"]);
+    html = render_template("head.html");
+    html+= render_template("options/customize.html",
+                           hosts=hosts_list);
+    html+= render_template("footer.html");
 
     return html;
+
+
+@app.route("/set-options/hosts", methods=["POST"])
+def hosts_submit():
+
+    hosts_list = funcs.parse_form_list(request.form, "hosts");
+    hosts = Hosts();
+    hosts.save_entries(hosts_list);
+    return redirect(url_for("set_options_list"));
 
 
 if __name__ == "__main__":

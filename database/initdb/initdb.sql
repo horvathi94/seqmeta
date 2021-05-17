@@ -4,11 +4,20 @@ CREATE TABLE IF NOT EXISTS `sample_data` (
 	submission_date			DATE NOT NULL,
 	collection_date			DATE NOT NULL,
 	patient_age					TINYINT,
-	patient_gender			BIT(1),
+	patient_gender			BIT(1) NOT NULL,
+	patient_status			CHAR(100),
 	originating_lab_id	INT UNSIGNED NOT NULL,
 	submitting_lab_id		INT UNSIGNED NOT NULL,
 	author_group_id			INT UNSIGNED NOT NULL,
 	assembly_method			CHAR(100),
+
+	host_id								MEDIUMINT UNSIGNED NOT NULL,
+	sampling_strategy_id	MEDIUMINT UNSIGNED,
+	passage_details_id		MEDIUMINT UNSIGNED NOT NULL,
+	location 							TEXT,
+	additional_location_info 	TEXT,
+	additional_host_info			TEXT,
+	
 	PRIMARY KEY(`id`)
 );
 
@@ -47,6 +56,26 @@ CREATE TABLE IF NOT EXISTS `authors_in_group` (
 	author_group_id	INT UNSIGNED,
 	order_index			TINYINT UNSIGNED,
 	PRIMARY KEY(`id`)
+);
+
+
+
+/* --- Sample extra data tables --- */
+
+CREATE TABLE IF NOT EXISTS `hosts` (
+	id			MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	label		CHAR(100),
+	latin		CHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS `passage_details` (
+	id			MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	label		CHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS `sampling_strategies` (
+	id			MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	label		TEXT
 );
 
 
