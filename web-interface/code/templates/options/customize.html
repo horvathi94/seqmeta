@@ -39,7 +39,44 @@
 </form>
 
 
+
 <h3> Sampling strategies </h3>
+
+
+<form action="{{ url_for('samp_strats_submit') }}" method="POST">
+
+	<table>
+		
+		<tr> 
+			<th> Strategies </th>
+		</tr>
+
+		{% for ss in samp_strats %}
+			
+				<tr>
+					<td>
+						<input type="text" name="samp_strats+{{ ss.id }}+label"
+															 value="{{ ss.label }}"
+															maxlength="100"/>
+					</td>
+				</tr>
+
+		{% endfor %}
+
+		<tr>
+			<td>
+				<input type="text" name="samp_strats+0+label"
+													 value=""
+													maxlength="100"/>
+			</td>
+		</tr>
+
+	</table>
+
+	<input type="submit" value="Save"/>
+
+</form>
+
 
 
 <h3> Passage details </h3>

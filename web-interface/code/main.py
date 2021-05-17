@@ -7,7 +7,7 @@ from src.samples import Samples
 from src.authors import Authors, AuthorNameTag
 from src.institutions import Institutions
 from src.author_groups import AuthorGroups
-from src.hosts import Hosts
+from src.custom_options import Hosts, SamplingStrategies
 
 from src.fast_files import Fasta
 from src.excel_generator import excel_test, gisaid_sample_sheet
@@ -87,11 +87,15 @@ def samples_edit():
     hosts = Hosts();
     hosts = hosts.fetch_list();
 
+    samp_strats = SamplingStrategies();
+    samp_strats = samp_strats.fetch_list();
+
     html+= render_template("samples/edit.html",
                            sample=sample,
                            author_groups=author_groups,
                            institutions=institutions,
-                           hosts=hosts);
+                           hosts=hosts,
+                           samp_strats=samp_strats);
 
     html+= render_template("footer.html");
 
@@ -294,9 +298,13 @@ def set_options_list():
     hosts = Hosts();
     hosts_list = hosts.fetch_list();
 
+    sampling_strategies = SamplingStrategies();
+    sampling_strategies_list = sampling_strategies.fetch_list();
+
     html = render_template("head.html");
     html+= render_template("options/customize.html",
-                           hosts=hosts_list);
+                           hosts=hosts_list,
+                           samp_strats=sampling_strategies_list);
     html+= render_template("footer.html");
 
     return html;
@@ -308,6 +316,15 @@ def hosts_submit():
     hosts_list = funcs.parse_form_list(request.form, "hosts");
     hosts = Hosts();
     hosts.save_entries(hosts_list);
+    return redirect(url_for("set_options_list"));
+
+
+@app.route("/set-options/sampling-strategies", methods=["POST"])
+def samp_strats_submit():
+
+    samp_strats_list = funcs.parse_form_list(request.form, "samp_strats");
+    samp_strats = SamplingStrategies();
+    samp_strats.save_entries(samp_strats_list);
     return redirect(url_for("set_options_list"));
 
 

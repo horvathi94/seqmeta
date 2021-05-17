@@ -44,4 +44,45 @@ CREATE PROCEDURE UpsertHosts(
 
 
 
+CREATE PROCEDURE UpsertSamplingStrategies(
+	IN sampling_strategy_id 			MEDIUMINT UNSIGNED,
+	IN sampling_strategy_label 	CHAR(100)
+)
+
+	BEGIN
+
+		IF ( sampling_strategy_id = 0 ) THEN
+
+			IF ( sampling_strategy_label <> '' ) THEN
+
+				INSERT INTO `sampling_strategies` (label) 
+					VALUES (sampling_strategy_label);
+
+			END IF;
+
+
+		ELSE 
+
+			IF ( sampling_strategy_label = '' ) THEN
+
+				DELETE 
+					FROM `sampling_strategies` 
+					WHERE id = sampling_strategy_id;
+
+			ELSE
+
+				UPDATE `sampling_strategies` 
+					SET `label` = sampling_strategy_label
+					WHERE id = sampling_strategy_id;
+			
+
+			END IF;
+
+
+		END IF;
+
+
+	END $$
+
+
 DELIMITER ;

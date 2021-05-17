@@ -102,6 +102,34 @@
 			<td> The laboratory which submits the sequencing result. </td>
 		</tr>
 
+
+
+		<tr>
+				
+			<td> Sampling strategy </td>
+
+			<td> 
+
+				<select name = "sampling_strategy_id">
+					{% for samp_strat in samp_strats %}
+						{% if sample.sampling_strategy_id == samp_strat.id %}
+							<option value="{{ samp_strat.id }}" selected="selected"> {{samp_strat.label}} </option>
+						{% else %}
+							<option value="{{ samp_strat.id }}"> {{samp_strat.label}} </option>
+						{% endif %}
+					{% endfor %}
+				</select>
+
+			</td>
+
+			<td> The host of the virus </td>
+
+		</tr>
+
+
+
+
+
 		<tr>
 				
 			<td> Host </td>
