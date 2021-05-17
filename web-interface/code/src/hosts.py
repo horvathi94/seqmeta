@@ -3,7 +3,7 @@ from .cursor import Cursor
 
 class Hosts(Base):
 
-    view_table_name = "hosts";
+    view_table_name = "view_hosts";
     submit_table_name = "hosts";
 
     def save_entries(self, hosts_list):

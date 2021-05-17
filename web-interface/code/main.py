@@ -84,10 +84,14 @@ def samples_edit():
     institutions = Institutions();
     institutions = institutions.fetch_list();
 
+    hosts = Hosts();
+    hosts = hosts.fetch_list();
+
     html+= render_template("samples/edit.html",
                            sample=sample,
                            author_groups=author_groups,
-                           institutions=institutions);
+                           institutions=institutions,
+                           hosts=hosts);
 
     html+= render_template("footer.html");
 
@@ -281,6 +285,8 @@ def institutions_submit():
     return redirect(url_for('institutions_list'));
 
 
+# Other options
+###############################################################################
 
 @app.route("/set-options")
 def set_options_list():

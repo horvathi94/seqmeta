@@ -6,9 +6,12 @@ CREATE VIEW `view_samples` AS
 		`sample`.`collection_date` AS collection_date,
 
 		`sample`.`patient_age` AS patient_age,
-		IF (`sample`.`patient_gender` = 1, "Male", "Female") ) AS patient_gender,
+		IF (`sample`.`patient_gender` = 1, "Male", "Female") AS patient_gender,
 		`sample`.`patient_status` AS patient_status,
-		CONCAT(`hosts`.`label`, "-", `hosts`.`latin`) AS host,
+		`sample`.`host_id` AS host_id,
+		`hosts`.`label` AS host_label,
+		`hosts`.`latin` AS host_latin,
+		`hosts`.`display_label` AS host_display_label,
 
 		`agroup`.`id` AS author_group_id,
 		`agroup`.`name` AS author_group_name,
@@ -20,7 +23,7 @@ CREATE VIEW `view_samples` AS
 		`submitting_lab`.`name` AS submitting_lab_name,
 
 		`passage_details`.`label` AS passage_details,
-		`sampling_startegies`.`label` AS sampling_strategy
+		`sampling_strategies`.`label` AS sampling_strategy
 
 	FROM `sample_data` AS `sample`
 
@@ -33,11 +36,11 @@ CREATE VIEW `view_samples` AS
 	LEFT JOIN `institutions` AS `submitting_lab`
 		ON `sample`.`submitting_lab_id` = `submitting_lab`.`id`
 
-	LEFT JOIN `hosts`
+	LEFT JOIN `view_hosts` AS `hosts`
 		ON `sample`.`host_id` = `hosts`.`id`
 
 	LEFT JOIN `passage_details` 
 		ON `sample`.`passage_details_id` = `passage_details`.`id`
 
 	LEFT JOIN `sampling_strategies`
-		ON `sample`.`sampling_strategy_id` = `samplig_startegies`.`id`
+		ON `sample`.`sampling_strategy_id` = `sampling_strategies`.`id`

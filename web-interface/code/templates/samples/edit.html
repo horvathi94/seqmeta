@@ -105,10 +105,21 @@
 		<tr>
 				
 			<td> Host </td>
+
 			<td> 
-				<input type="number" name="patient_age" value="{{ sample.patient_age }}"
-						min="0" max="100"/>
+
+				<select name = "host_id">
+					{% for host in hosts %}
+						{% if sample.host_id == host.id %}
+							<option value="{{ host.id }}" selected="selected"> {{host.display_label}} </option>
+						{% else %}
+							<option value="{{ host.id }}"> {{host.display_label}} </option>
+						{% endif %}
+					{% endfor %}
+				</select>
+
 			</td>
+
 			<td> The host of the virus </td>
 
 		</tr>

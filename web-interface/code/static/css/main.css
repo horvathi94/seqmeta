@@ -42,3 +42,12 @@ footer {
 	border-top: 2px solid grey;
 }
 
+
+
+td input, td select{
+	width: 100%;
+}
+
+td input[type="radio"]{
+	width: auto;
+}
