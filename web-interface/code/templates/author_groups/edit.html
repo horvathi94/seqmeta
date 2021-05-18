@@ -34,7 +34,7 @@
 					name="author+{{ loop.index }}+author_id"
 					value="{{ author.author_id }}"/> 
 
-				<span> {{ author.name_tag }} </span>
+				<span> {{ author.abbreviated_middle_name }} </span>
 
 			</div>
 
@@ -52,7 +52,7 @@
 
 				{% for a in authors_list %}
 
-					<option value="{{ a.id }}"> {{ a.name_tag }} </option>
+					<option value="{{ a.id }}"> {{ a.abbreviated_middle_name }} </option>
 
 				{% endfor %}
 

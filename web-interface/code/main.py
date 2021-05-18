@@ -46,6 +46,8 @@ def samples_list():
 
     samples = Samples();
     samples_list = samples.fetch_list();
+    return jsonif(samples_list);
+
     html = render_template("head.html", styles=["prompt.css", "samples.css"]);
     if len(samples_list) == 0:
         html+= render_template("samples/empty.html");
@@ -213,8 +215,7 @@ def authors_submit():
 def author_groups_list():
 
     groups = AuthorGroups();
-    groups_list = groups.fetch_display_list();
-
+    groups_list = groups.fetch_list();
     html = render_template("head.html");
 
     if len(groups_list) == 0:
@@ -238,11 +239,6 @@ def author_groups_edit():
 
     authors = Authors();
     authors_list = authors.fetch_list();
-    authors_list = sorted(authors_list, key=lambda k: k["last_name"]);
-    for a in authors_list:
-        tag = AuthorNameTag(a);
-        a["name_tag"] = tag.abreviated_middle_name();
-
 
     html = render_template("head.html");
     html+= render_template("author_groups/edit.html",

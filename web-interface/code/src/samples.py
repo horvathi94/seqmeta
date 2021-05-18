@@ -31,7 +31,9 @@ class Samples(Base):
 
         cursor = Cursor();
         where_clause = "WHERE `sample_id` = {:d}".format(sample_id);
-        raw_data = cursor.select_all(self.view_table_name, where_clause);
+        raw_data = cursor.select(self.view_table_name, where_clause);
+
+        return raw_data;
 
         if len(raw_data) == 0:
             data = cursor.create_empty_ordereddict(self.view_table_name);
@@ -60,6 +62,7 @@ class Samples(Base):
 
         if len(sample_ids) == 0:
             return [];
+
 
         cursor = Cursor()
         list_sql = "";

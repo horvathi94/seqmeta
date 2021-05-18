@@ -1,10 +1,9 @@
 from .base import Base
 
-DOUBLE_CHARACTERS = ["sz", "zs"];
 
 class Authors(Base):
 
-    view_table_name = "authors";
+    view_table_name = "view_authors";
     submit_table_name = "authors";
 
     def clean_entry(self, entry):
