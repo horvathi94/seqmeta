@@ -1,0 +1,53 @@
+<div class="options wrap">
+
+	<div class="options form">
+
+		<h3> Sequencing tehcnologies </h3>
+
+		<form action="{{ url_for('sequencing_technologies_submit') }}" method="POST">
+
+			<table>
+				
+				<tr> 
+					<th> Sequencing technologies </th>
+				</tr>
+
+				{% for item in sequencing_technologies %}
+					
+						<tr>
+							<td>
+								<input type="text" name="sequencing_technologies+{{ item.id }}+label"
+																	 value="{{ item.label }}"
+																	maxlength="100"/>
+							</td>
+						</tr>
+
+				{% endfor %}
+
+				<tr>
+					<td>
+						<input type="text" name="sequencing_technologies+0+label"
+															 value=""
+															maxlength="100"/>
+					</td>
+				</tr>
+
+
+			</table>
+
+			<input type="submit" value="Save"/>
+
+		</form>
+
+
+	</div>
+
+
+	<div class="options description">
+		<p>
+			Williamsburg irony umami, leggings man bun freegan taxidermy chambray art party wolf sriracha. Tousled bicycle rights letterpress, artisan XOXO semiotics lumbersexual neutra yr jianbing. Thundercats hell of bicycle rights cornhole pok pok lyft aesthetic pabst etsy fixie fashion axe leggings.
+		</p>
+	</div>
+
+
+</div>

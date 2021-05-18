@@ -1,0 +1,13 @@
+DELIMITER $$
+
+CREATE PROCEDURE SelectAuthors(
+
+)
+
+	BEGIN
+
+
+	END $$
+
+
+DELIMITER ;

@@ -1,0 +1,31 @@
+body{
+	background-color: var(--dark-green);
+}
+
+.options.wrap {
+	padding: 2%;
+	border-radius: 5px;
+	background-color: var(--yellow);
+
+	margin: 0px auto 20px auto;
+	max-width: 1200px;
+	display: grid;
+	grid-template-columns: 40% 60%;
+}
+
+h3 {
+	color: var(--light-green);
+}
+
+.options.form {
+	padding: 0.5em;
+}
+
+.options.description {
+	padding: 1em;
+	border: 2px solid var(--dark-green);
+	border-radius: 5px;
+}
+
+.options.form input[type="submit"] {
+}
