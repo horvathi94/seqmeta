@@ -12,48 +12,53 @@ class Base:
         pass;
 
 
-    def clean_entry(self, entry):
-        pass;
-
-
-    def fetch_list(self):
-
-        cursor = Cursor();
-        entries = cursor.select_all(self.view_table_name);
-        cursor.close();
-
-        for entry in entries:
-            self.clean_entry(entry);
-
-        return entries;
-
-
-    def fetch_entry(self, id=0):
-
-        cursor = Cursor();
-        entry = cursor.select_by_id(self.view_table_name, id);
-        cursor.close();
-        self.clean_entry(entry);
+    @staticmethod
+    def clean_entry(entry):
         return entry;
 
 
-    def save_entry(self, submitted):
+    @classmethod
+    def fetch_list(cls):
 
-        self.clean_submit(submitted);
+        cursor = Cursor();
+        entries = cursor.select_all(cls.view_table_name);
+        cursor.close();
 
-        submitted_id = int(submitted["id"]);
+        for entry in entries:
+            entry = cls.clean_entry(entry);
+        return entries;
+
+
+    @classmethod
+    def fetch_entry(cls, id=0):
+
+        cursor = Cursor();
+        entry = cursor.select_by_id(cls.view_table_name, id);
+        cursor.close();
+        cls.clean_entry(entry);
+        return entry;
+
+
+    @classmethod
+    def save_entry(cls, submitted):
+
+        submitted = cls.clean_submit(submitted);
+
         cursor = Cursor();
 
-        if submitted_id == 0:
-            cursor.insert_item(self.submit_table_name, submitted);
+        if submitted["id"] == 0:
+            cursor.insert_item(cls.submit_table_name, submitted);
         else:
-            cursor.update_row(self.submit_table_name, submitted_id, submitted);
+            cursor.update_row(cls.submit_table_name,
+                              submitted["id"], submitted);
 
         cursor.close();
 
 
-    def clean_submit(self, submitted):
-        pass;
+    @staticmethod
+    def clean_submit(submitted):
+        submitted["id"] = int(submitted["id"]);
+        return submitted;
 
 
     def save_by_procedure(self, items):

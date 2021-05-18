@@ -1,6 +1,5 @@
 from .cursor import Cursor
 from .base import Base
-from .authors import AuthorNameTag
 from collections import OrderedDict
 
 class AuthorGroups(Base):
@@ -9,7 +8,8 @@ class AuthorGroups(Base):
     submit_table_name = "author_groups";
 
 
-    def create_empty_group(self):
+    @staticmethod
+    def create_empty_od():
 
         group = OrderedDict();
         group["group_id"] = 0;
@@ -18,14 +18,15 @@ class AuthorGroups(Base):
         return group;
 
 
-    def fetch_entry(self, group_id=0):
+    @classmethod
+    def fetch_entry(cls, group_id=0):
 
         cursor = Cursor();
         where_clause = "WHERE `id` = {:d}".format(group_id);
         group_name = cursor.select("author_groups", fields=["name"],
                                       where_clause=where_clause);
 
-        group = self.create_empty_group();
+        group = cls.create_empty_od();
         group["group_id"] = group_id;
         if len(group_name) != 1:
             cursor.close();
@@ -34,8 +35,9 @@ class AuthorGroups(Base):
         group["group_name"] = group_name[0]["name"];
 
         where_clause = "WHERE `group_id` = {:d}".format(group_id);
+        fields = ["abbreviated_middle_name", "order_index"];
         authors = cursor.select("view_authors_in_groups",
-                                fields=["abbreviated_middle_name"],
+                                fields=fields,
                                 where_clause=where_clause);
 
         cursor.close();

@@ -2,6 +2,15 @@ import os
 import mysql.connector
 from collections import OrderedDict
 
+from .cursor_base.cursor import CursorBase
+
+class CursorNew(CursorBase):
+
+    user = os.environ["MYSQL_USER"];
+    password = os.environ["MYSQL_PASSWORD"];
+    database = os.environ["MYSQL_DATABASE"];
+    host = "database";
+
 
 class Cursor:
 

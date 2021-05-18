@@ -5,7 +5,7 @@ from datetime import datetime
 
 from src.cursor import Cursor
 from src.samples import Samples
-from src.authors import Authors, AuthorNameTag
+from src.authors import Authors
 from src.institutions import Institutions
 from src.author_groups import AuthorGroups
 from src.custom_options import Hosts, SamplingStrategies, PassageDetails, \
@@ -46,7 +46,7 @@ def samples_list():
 
     samples = Samples();
     samples_list = samples.fetch_list();
-    return jsonif(samples_list);
+#    return jsonify(samples_list);
 
     html = render_template("head.html", styles=["prompt.css", "samples.css"]);
     if len(samples_list) == 0:
@@ -88,7 +88,7 @@ def samples_edit():
     sample = samples.fetch_entry(sample_id=sample_id);
 
     author_groups = AuthorGroups();
-    author_groups = author_groups.fetch_display_list();
+    author_groups = author_groups.fetch_list();
 
     institutions = Institutions();
     institutions = institutions.fetch_list();
@@ -177,8 +177,7 @@ def samples_generate():
 @app.route("/authors")
 def authors_page():
 
-    authors = Authors();
-    authors_list = authors.fetch_list();
+    authors_list = Authors.fetch_list();
     html = render_template("head.html");
     if len(authors_list) == 0:
         html+= render_template("authors/empty.html");
@@ -194,8 +193,8 @@ def authors_edit():
     author_id = 0;
     if "id" in request.args:
         author_id = int(request.args["id"]);
-    authors = Authors();
-    author = authors.fetch_entry(id=author_id);
+
+    author = Authors.fetch_entry(id=author_id);
     html = render_template("head.html");
     html+= render_template("authors/edit.html", author=author);
     html+= render_template("footer.html");
@@ -206,16 +205,14 @@ def authors_edit():
 def authors_submit():
 
     data = request.form.to_dict();
-    authors = Authors();
-    authors.save_entry(data);
+    Authors.save_entry(data);
     return redirect(url_for('authors_page'));
 
 
 @app.route("/authors/groups")
 def author_groups_list():
 
-    groups = AuthorGroups();
-    groups_list = groups.fetch_list();
+    groups_list = AuthorGroups.fetch_list();
     html = render_template("head.html");
 
     if len(groups_list) == 0:
@@ -234,15 +231,11 @@ def author_groups_edit():
     if "id" in request.args:
         group_id = int(request.args["id"]);
 
-    author_group = AuthorGroups();
-    group = author_group.fetch_entry(group_id=group_id);
-
-    authors = Authors();
-    authors_list = authors.fetch_list();
+    group = AuthorGroups.fetch_entry(group_id=group_id);
+    authors_list = Authors.fetch_list();
 
     html = render_template("head.html");
     html+= render_template("author_groups/edit.html",
-                           group_id = group_id,
                            group=group,
                            authors_list=authors_list);
     html+= render_template("footer.html", scripts=["author_groups.js"]);
@@ -348,7 +341,7 @@ def hosts_submit():
 
     items_list = funcs.parse_form_list(request.form, "hosts");
     items_class = Hosts();
-    items_class.save_by_procedure(ite,s_list);
+    items_class.save_by_procedure(items_list);
     return redirect(url_for("set_options_list"));
 
 
@@ -389,7 +382,24 @@ def sequencing_technologies_submit():
     return redirect(url_for("set_options_list"));
 
 
+@app.route("/test")
+def tests():
 
+    from src.cursor import CursorNew as c
+
+#    test = c.describe("authors");                                          #ok
+#    test = c.select_all("authors");                                        #ok
+#    test = c.select_all("authors", clauses="where last_name = 'Korodi'");  #ok
+#    test = c.select("authors",
+#                    fields=["first_name", "last_name", "id"],
+#                    clauses="where last_name = 'Korodi'");                 #ok
+#    test = c.empty_ordereddict("authors");                                 #ok
+#    test = c.select("authors", clauses="where `id` = 0");                  #ok
+#    test = c.update_row("authors", "WHERE id=2", {"middle_name": "",
+#                                                  "first_name": "Istvan"});#ok
+
+#    return str(test);
+    return jsonify(test);
 
 if __name__ == "__main__":
    app.run("0.0.0.0", debug=True);
