@@ -5,14 +5,15 @@ class Hosts(Base):
 
     view_table_name = "view_hosts";
     submit_table_name = "hosts";
+    save_procedure = "UpsertHosts";
 
-    def save_entries(self, hosts_list):
+    def save_by_procedure(self, items):
 
         cursor = Cursor();
 
-        for host in hosts_list:
-            args = (int(host["id"]), str(host["label"]), str(host["latin"]));
-            cursor.call_procedure("UpsertHosts", args=args, commit=True);
+        for item in items:
+            args = (int(item["id"]), str(item["label"]), str(item["latin"]));
+            cursor.call_procedure(self.save_procedure, args=args, commit=True);
 
         cursor.close();
 
@@ -22,32 +23,28 @@ class SamplingStrategies(Base):
 
     view_table_name = "sampling_strategies";
     submit_table_name = "smapling_strategies";
+    save_procedure = "UpsertSamplingStrategies";
 
-    def save_entries(self, samp_strats_list):
-
-        cursor = Cursor();
-
-        for ss in samp_strats_list:
-            args = (int(ss["id"]), str(ss["label"]));
-            cursor.call_procedure("UpsertSamplingStrategies",
-                                  args=args, commit=True);
-
-        cursor.close();
 
 
 class PassageDetails(Base):
 
     view_table_name = "passage_details";
     submit_table_name = "passage_details";
+    save_procedure = "UpsertPassageDetails";
 
 
-    def save_entries(self, pass_dets_list):
 
-        cursor = Cursor();
+class SequencingTechs(Base):
 
-        for pd in pass_dets_list:
-            args = (int(pd["id"]), str(pd["label"]));
-            cursor.call_procedure("UpsertPassageDetails",
-                                  args=args, commit=True);
+    view_table_name = "sequencing_technologies";
+    submit_table_name = "sequencing_technologies";
+    save_procedure = "UpsertSequencingTechnologies";
 
-        cursor.close();
+
+
+class AssemblyMethods(Base):
+
+    view_table_name = "assembly_methods";
+    submit_table_name = "assembly_methods";
+    save_procedure = "UpsertAssemblyMethods";

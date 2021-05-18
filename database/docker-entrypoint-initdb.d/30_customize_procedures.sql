@@ -127,4 +127,91 @@ CREATE PROCEDURE UpsertPassageDetails(
 	END $$
 
 
+
+CREATE PROCEDURE UpsertAssemblyMethods(
+	IN assembly_methods_id 			MEDIUMINT UNSIGNED,
+	IN assembly_methods_label 	CHAR(100)
+)
+
+	BEGIN
+
+		IF ( assembly_methods_id = 0 ) THEN
+
+			IF ( assembly_methods_label <> '' ) THEN
+
+				INSERT INTO `assembly_methods` (label) 
+					VALUES (assembly_methods_label);
+
+			END IF;
+
+
+		ELSE 
+
+			IF ( assembly_methods_label = '' ) THEN
+
+				DELETE 
+					FROM `assembly_methods` 
+					WHERE id = assembly_methods_id;
+
+			ELSE
+
+				UPDATE `assembly_methods` 
+					SET `label` = assembly_methods_label
+					WHERE id = assembly_methods_id;
+			
+
+			END IF;
+
+
+		END IF;
+
+
+	END $$
+
+
+
+
+
+CREATE PROCEDURE UpsertSequencingTechnologies(
+	IN sequencing_technologies_id 			MEDIUMINT UNSIGNED,
+	IN sequencing_technologies_label 	CHAR(100)
+)
+
+	BEGIN
+
+		IF ( sequencing_technologies_id = 0 ) THEN
+
+			IF ( sequencing_technologies_label <> '' ) THEN
+
+				INSERT INTO `sequencing_technologies` (label) 
+					VALUES (sequencing_technologies_label);
+
+			END IF;
+
+
+		ELSE 
+
+			IF ( sequencing_technologies_label = '' ) THEN
+
+				DELETE 
+					FROM `sequencing_technologies` 
+					WHERE id = sequencing_technologies_id;
+
+			ELSE
+
+				UPDATE `sequencing_technologies` 
+					SET `label` = sequencing_technologies_label
+					WHERE id = sequencing_technologies_id;
+			
+
+			END IF;
+
+
+		END IF;
+
+
+	END $$
+
+
+
 DELIMITER ;

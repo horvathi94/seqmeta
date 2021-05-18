@@ -1,3 +1,8 @@
+<input type="button"
+			 onclick="location.href='{{ url_for('samples_edit') }}'"
+			 value="Add"/>
+
+
 <form action="{{ url_for('samples_generate') }}" method="POST">
 
 <table>
@@ -37,14 +42,32 @@
 
 </table>
 
-<input type="submit" value="Generate"/>
+	<div class="filegen wrap">
+
+		<label for name="submission_types"> GISAID </label>
+		<input type="checkbox" name="submission_types" 
+													 value="gisaid"/>
+		<input type="text" name="submission_filename_gisaid"
+						value="" 
+						placeholder="gisaid_file_name"/>
+
+
+		<label for name="submission_types"> NCBI </label>
+		<input type="checkbox" name="submission_types"
+												 value="ncbi"/>
+		<input type="text" name="submission_filename_ncbi"
+					value="" 
+					placeholder="ncbi_file_name"/>
+
+
+		<input type="submit" value="Generate"/>
+
+	</div>
+
 
 </form>
 
 
-<input type="button"
-			 onclick="location.href='{{ url_for('samples_edit') }}'"
-			 value="Add"/>
 
 <div class="prompt wrap" style="display: none;"> 
 

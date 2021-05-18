@@ -17,3 +17,17 @@
 	margin-right: 1em;
 	margin-left: auto;
 }
+
+
+.filegen.wrap {
+	
+	max-width: 40%;
+
+	background-color: var(--orange);
+	border: 2px solid black;
+	padding: 0.7em;
+	display: grid;
+	grid-template-columns: 20% 5% 75%;
+	row-gap: 10px;
+}
+

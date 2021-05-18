@@ -6,6 +6,8 @@ class Base:
     view_table_name = "";
     submit_table_name = "";
 
+    save_procedure = "";
+
     def __init__(self):
         pass;
 
@@ -52,3 +54,20 @@ class Base:
 
     def clean_submit(self, submitted):
         pass;
+
+
+    def save_by_procedure(self, items):
+        """
+            Good for basic tables with columns: | id | label |
+        """
+        if self.save_procedure == "":
+            return;
+
+        cursor = Cursor();
+
+        for item in items:
+            args = (int(item["id"]), str(item["label"]));
+            cursor.call_procedure(self.save_procedure, args=args, commit=True);
+
+        cursor.close();
+

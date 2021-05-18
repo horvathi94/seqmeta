@@ -1,5 +1,6 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, \
-    jsonify, make_response
+    jsonify, make_response, send_from_directory
 from datetime import datetime
 
 from src.cursor import Cursor
@@ -7,7 +8,8 @@ from src.samples import Samples
 from src.authors import Authors, AuthorNameTag
 from src.institutions import Institutions
 from src.author_groups import AuthorGroups
-from src.custom_options import Hosts, SamplingStrategies, PassageDetails
+from src.custom_options import Hosts, SamplingStrategies, PassageDetails, \
+    SequencingTechs, AssemblyMethods
 
 from src.fast_files import Fasta
 from src.excel_generator import excel_test, gisaid_sample_sheet
@@ -18,7 +20,6 @@ app = Flask(__name__)
 app.config["JSON_SORT_KEYS"] = False;
 
 
-
 @app.route("/")
 def home():
 
@@ -27,6 +28,13 @@ def home():
     html+= render_template("footer.html");
     return html;
 
+
+
+@app.route("/favicon.ico")
+def favicon():
+    path = os.path.join(app.root_path, 'static', 'assets');
+    return send_from_directory(path, 'favicon.ico',
+                               mimetype='image/x-icon');
 
 
 
@@ -48,7 +56,6 @@ def samples_list():
     html+= render_template("footer.html", scripts=scripts);
 
     test_data = samples.fetch_entry(sample_id=1);
-    html+= str(test_data);
     return html;
 
 
@@ -93,13 +100,21 @@ def samples_edit():
     pass_dets = PassageDetails();
     pass_dets = pass_dets.fetch_list();
 
+    ass_methods = AssemblyMethods();
+    ass_methods = ass_methods.fetch_list();
+
+    seq_techs = SequencingTechs();
+    seq_techs = seq_techs.fetch_list();
+
     html+= render_template("samples/edit.html",
                            sample=sample,
                            author_groups=author_groups,
                            institutions=institutions,
                            hosts=hosts,
                            samp_strats=samp_strats,
-                           pass_dets=pass_dets);
+                           pass_dets=pass_dets,
+                           assembly_methods=ass_methods,
+                           sequencing_technologies=seq_techs);
 
     html+= render_template("footer.html");
 
@@ -308,11 +323,25 @@ def set_options_list():
     passage_details = PassageDetails();
     passage_details_list = passage_details.fetch_list();
 
-    html = render_template("head.html");
-    html+= render_template("options/customize.html",
-                           hosts=hosts_list,
-                           samp_strats=sampling_strategies_list,
+    sequencing_techs = SequencingTechs();
+    sequencing_techs_list = sequencing_techs.fetch_list();
+
+    assembly_methods = AssemblyMethods();
+    assembly_methods_list = assembly_methods.fetch_list();
+
+    html = render_template("head.html", styles=["options.css"]);
+
+    html+= render_template("options/hosts.html",
+                           hosts=hosts_list);
+    html+= render_template("options/assembly_methods.html",
+                           assembly_methods=assembly_methods_list);
+    html+= render_template("options/passage_details.html",
                            passage_details=passage_details_list);
+    html+= render_template("options/sequencing_technologies.html",
+                           sequencing_technologies=sequencing_techs_list);
+    html+= render_template("options/sampling_strategies.html",
+                           samp_strats=sampling_strategies_list);
+
     html+= render_template("footer.html");
 
     return html;
@@ -321,27 +350,49 @@ def set_options_list():
 @app.route("/set-options/hosts", methods=["POST"])
 def hosts_submit():
 
-    hosts_list = funcs.parse_form_list(request.form, "hosts");
-    hosts = Hosts();
-    hosts.save_entries(hosts_list);
+    items_list = funcs.parse_form_list(request.form, "hosts");
+    items_class = Hosts();
+    items_class.save_by_procedure(ite,s_list);
     return redirect(url_for("set_options_list"));
 
 
 @app.route("/set-options/sampling-strategies", methods=["POST"])
 def samp_strats_submit():
 
-    samp_strats_list = funcs.parse_form_list(request.form, "samp_strats");
-    samp_strats = SamplingStrategies();
-    samp_strats.save_entries(samp_strats_list);
+    items_list = funcs.parse_form_list(request.form, "samp_strats");
+    items_class = SamplingStrategies();
+    items_class.save_by_procedure(items_list);
     return redirect(url_for("set_options_list"));
+
 
 @app.route("/set-options/passage-details", methods=["POST"])
 def passage_details_submit():
 
-    pass_dets_list = funcs.parse_form_list(request.form, "passage_details");
-    pass_dets = PassageDetails();
-    pass_dets.save_entries(pass_dets_list);
+    items_list = funcs.parse_form_list(request.form, "passage_details");
+    items_class = PassageDetails();
+    items_class.save_by_procedure(items_list);
     return redirect(url_for("set_options_list"));
+
+
+@app.route("/set-options/assembly-methods", methods=["POST"])
+def assembly_methods_submit():
+
+    items_list = funcs.parse_form_list(request.form, "assembly_methods");
+    items_class = AssemblyMethods();
+    items_class.save_by_procedure(items_list);
+    return redirect(url_for("set_options_list"));
+
+
+@app.route("/set-options/sequencing-technologies", methods=["POST"])
+def sequencing_technologies_submit():
+
+    items_list = funcs.parse_form_list(request.form,
+                                       "sequencing_technologies");
+    items_class = SequencingTechs();
+    items_class.save_by_procedure(items_list);
+    return redirect(url_for("set_options_list"));
+
+
 
 
 if __name__ == "__main__":

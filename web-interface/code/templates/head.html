@@ -2,6 +2,17 @@
 <html>
 	<head>
 		<title> Manage sequencing data </title>
+
+		<style>
+
+			@font-face {
+				font-family: "Archivo";
+				src: url("{{ url_for('static', filename='assets/Archivo_Condensed-ExtraLight.ttf') }}") format("truetype");
+			}
+
+		</style>
+
+
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">	
 
 		{% for style in styles %}
@@ -10,6 +21,9 @@
 			<link rel="stylesheet" href="{{ url_for('static', filename=css_url) }}">
 
 		{% endfor %}
+
+		<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/>
+
 
 	</head>
 

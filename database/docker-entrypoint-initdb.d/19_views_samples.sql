@@ -29,12 +29,13 @@ CREATE VIEW `view_samples` AS
 		`passage_details`.`label` AS passage_details,
 		`sampling_strategies`.`label` AS sampling_strategy,
 
-		`sample`.`coverage` AS coverage,
+		CONCAT(`sample`.`coverage`, 'x') AS coverage,
 		`sample`.`sequencing_technology_id` AS sequencing_technology_id,
 		`sequencing_technologies`.`label` AS sequencing_technology,
 
 		`sample`.`assembly_method_id` AS assembly_method_id,
 		`assembly_methods`.`label` AS assembly_method
+
 
 	FROM `sample_data` AS `sample`
 
@@ -61,3 +62,5 @@ CREATE VIEW `view_samples` AS
 
 	LEFT JOIN `assembly_methods`
 		ON `sample`.`assembly_method_id` = `assembly_methods`.`id`
+
+

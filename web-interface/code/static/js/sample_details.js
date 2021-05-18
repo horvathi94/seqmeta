@@ -56,14 +56,6 @@ function updateTable(sample){
 	cells[1].innerHTML = sample.submitting_lab_name;
 
 	cells = addRow();
-	cells[0].innerHTML = "Host:";
-	cells[1].innerHTML = sample.host_display_label;
-
-	cells = addRow();
-	cells[0].innerHTML = "Additional host information";
-	cells[1].innerHTML = sample.additional_host_info;
-
-	cells = addRow();
 	cells[0].innerHTML = "Passage details:";
 	cells[1].innerHTML = sample.passage_details;
 
@@ -84,6 +76,14 @@ function updateTable(sample){
 	cells[1].innerHTML = sample.author_group_name + " ("+sample.authors+")";
 
 	cells = addRow();
+	cells[0].innerHTML = "Host:";
+	cells[1].innerHTML = sample.host_display_label;
+
+	cells = addRow();
+	cells[0].innerHTML = "Additional host information";
+	cells[1].innerHTML = sample.additional_host_info;
+
+	cells = addRow();
 	cells[0].innerHTML = "Patient age:";
 	cells[1].innerHTML = sample.patient_age;
 
@@ -94,6 +94,20 @@ function updateTable(sample){
 	cells = addRow();
 	cells[0].innerHTML = "Patient status:";
 	cells[1].innerHTML = sample.patient_status;
+
+
+	cells = addRow();
+	cells[0].innerHTML = "Sequencing technology:";
+	cells[1].innerHTML = sample.sequencing_technology;
+
+	cells = addRow();
+	cells[0].innerHTML = "Assembly method:";
+	cells[1].innerHTML = sample.assembly_method;
+	
+	cells = addRow();
+	cells[0].innerHTML = "Coverage:";
+	cells[1].innerHTML = sample.coverage;
+
 }
 
 
