@@ -133,7 +133,7 @@ class CursorBase:
 
         result = cls.parse_records(records, column_names);
         if len(result) == 0:
-            result = cls.empty_ordereddict(table_name, cursor=cursor);
+            result = [cls.empty_ordereddict(table_name, cursor=cursor)];
 
         cls.close(conn, cursor);
         return result;
@@ -144,10 +144,17 @@ class CursorBase:
         return cls.select(table_name, clauses=clauses);
 
 
+    @staticmethod
+    def values_dict_to_tuple(values_dict):
+        return tuple([CursorBase.clean_value(values_dict[key])
+                      for key in values_dict
+                      if key != "id"]);
+
+
     @classmethod
     def update_row(cls, table_name, where_clause, values_dict):
         sql = "UPDATE `{:s}` SET ".format(table_name);
-        values = [cls.clean_value(values_dict[key]) for key in values_dict];
+        values = cls.values_dict_to_tuple(values_dict);
         for key in values_dict:
             if key == "id":
                 continue;
@@ -162,7 +169,7 @@ class CursorBase:
     @classmethod
     def insert_row(cls, table_name, values_dict):
         sql = "INSERT INTO {:s} (".format(table_name);
-        values = [cls.clean_value(values_dict[key]) for key in values_dict];
+        values = cls.values_dict_to_tuple(values_dict);
         values_sql = "(";
         for key in values_dict:
             if key == "id":

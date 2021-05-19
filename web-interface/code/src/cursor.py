@@ -4,7 +4,7 @@ from collections import OrderedDict
 
 from .cursor_base.cursor import CursorBase
 
-class CursorNew(CursorBase):
+class Cursor(CursorBase):
 
     user = os.environ["MYSQL_USER"];
     password = os.environ["MYSQL_PASSWORD"];
@@ -12,7 +12,7 @@ class CursorNew(CursorBase):
     host = "database";
 
 
-class Cursor:
+class CursorOld:
 
     user = os.environ["MYSQL_USER"];
     password = os.environ["MYSQL_PASSWORD"];

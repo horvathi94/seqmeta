@@ -1,12 +1,12 @@
 from .cursor import Cursor
 
-
 class Base:
 
     view_table_name = "";
     submit_table_name = "";
 
     save_procedure = "";
+
 
     def __init__(self):
         pass;
@@ -19,11 +19,7 @@ class Base:
 
     @classmethod
     def fetch_list(cls):
-
-        cursor = Cursor();
-        entries = cursor.select_all(cls.view_table_name);
-        cursor.close();
-
+        entries = Cursor.select_all(cls.view_table_name);
         for entry in entries:
             entry = cls.clean_entry(entry);
         return entries;
@@ -31,28 +27,21 @@ class Base:
 
     @classmethod
     def fetch_entry(cls, id=0):
-
-        cursor = Cursor();
-        entry = cursor.select_by_id(cls.view_table_name, id);
-        cursor.close();
-        cls.clean_entry(entry);
+        entry = Cursor.select(cls.view_table_name,
+                              clauses="WHERE `id` = {:d}".format(id));
+        entry = cls.clean_entry(entry[0]);
         return entry;
 
 
     @classmethod
     def save_entry(cls, submitted):
-
         submitted = cls.clean_submit(submitted);
-
-        cursor = Cursor();
-
         if submitted["id"] == 0:
-            cursor.insert_item(cls.submit_table_name, submitted);
+            Cursor.insert_row(cls.submit_table_name, submitted);
         else:
-            cursor.update_row(cls.submit_table_name,
-                              submitted["id"], submitted);
+            where = "WHERE `id` = {:d}".format(submitted["id"]);
+            Cursor.update_row(cls.submit_table_name, where, submitted);
 
-        cursor.close();
 
 
     @staticmethod
