@@ -171,12 +171,11 @@ def samples_generate():
     return jsonify(sample_list);
 
 
-# Authors section
+### Authors and author groups
 ###############################################################################
 
 @app.route("/authors")
 def authors_page():
-
     authors_list = Authors.fetch_list();
     html = render_template("head.html");
     if len(authors_list) == 0:
@@ -189,7 +188,6 @@ def authors_page():
 
 @app.route("/authors/edit")
 def authors_edit():
-
     author_id = 0;
     if "id" in request.args:
         author_id = int(request.args["id"]);
@@ -203,7 +201,6 @@ def authors_edit():
 
 @app.route("/authors/submit", methods=["POST"])
 def authors_submit():
-
     data = request.form.to_dict();
     Authors.save_entry(data);
     return redirect(url_for('authors_page'));
@@ -211,29 +208,24 @@ def authors_submit():
 
 @app.route("/authors/groups")
 def author_groups_list():
-
     groups_list = AuthorGroups.fetch_list();
     html = render_template("head.html");
-
     if len(groups_list) == 0:
         html+= render_template("author_groups/empty.html");
     else:
         html+= render_template("author_groups/list.html", groups=groups_list);
-
     html+= render_template("footer.html");
     return html;
 
 
 @app.route("/authors/groups/edit")
 def author_groups_edit():
-
     group_id = 0;
     if "id" in request.args:
         group_id = int(request.args["id"]);
 
     group = AuthorGroups.fetch_entry(group_id=group_id);
     authors_list = Authors.fetch_list();
-
     html = render_template("head.html");
     html+= render_template("author_groups/edit.html",
                            group=group,
@@ -244,23 +236,20 @@ def author_groups_edit():
 
 @app.route("/authors/groups/submit", methods=["POST"])
 def author_groups_submit():
-
     form_data = request.form.to_dict();
-
     authors_list = funcs.parse_form_list(form_data, "author");
     group = funcs.parse_form_simple(form_data, "group");
-
     author_groups = AuthorGroups.save(group, authors_list);
     return redirect(url_for('author_groups_list'));
 
-# Institutions
+
+### Institutions
 ###############################################################################
 
 @app.route("/institutions")
 def institutions_list():
 
-    institutions = Institutions();
-    institutions_list = institutions.fetch_list();
+    institutions_list = Institutions.fetch_list();
     html = render_template("head.html");
     if len(institutions_list) == 0:
         html+= render_template("institutions/empty.html");

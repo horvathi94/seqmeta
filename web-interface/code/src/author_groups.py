@@ -43,10 +43,6 @@ class AuthorGroups(Base):
         group_id = int(res[2]);
 
         for author in authors_list:
-            update_data = [group_id,
-                           author["author_id"],
-                           author["order_index"]];
-            Cursor.call_procedure("UpsertAuthorsInGroup",
-                                  update_data,
-                                  commit=True);
+            vals = [group_id, author["author_id"], author["order_index"]];
+            Cursor.call_procedure("UpsertAuthorsInGroup", vals, commit=True);
         return group_id;

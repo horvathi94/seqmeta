@@ -34,10 +34,12 @@
 		<tr>
 			<td> Postal code </td>
 			<td>
-				<input type="number" name="postal_code" value="{{ institution.postal_code }}"/>
+				<input type="text" name="postal_code"
+						value="{{ institution.postal_code }}"
+						pattern="[0-9]{6}"/>
 			</td>
 			<td>
-				<p> The postal code of the address. </p>
+				<p> The postal code of the address. Must contain exactly 6 digits. </p>
 			</td>
 		</tr>
 
