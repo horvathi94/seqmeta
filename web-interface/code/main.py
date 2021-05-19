@@ -250,9 +250,7 @@ def author_groups_submit():
     authors_list = funcs.parse_form_list(form_data, "author");
     group = funcs.parse_form_simple(form_data, "group");
 
-    author_groups = AuthorGroups();
-    author_groups.save(group, authors_list);
-
+    author_groups = AuthorGroups.save(group, authors_list);
     return redirect(url_for('author_groups_list'));
 
 # Institutions
@@ -385,7 +383,7 @@ def sequencing_technologies_submit():
 @app.route("/test")
 def tests():
 
-    from src.cursor import CursorNew as c
+#    from src.cursor import Cursor as c
 
 #    test = c.describe("authors");                                          #ok
 #    test = c.select_all("authors");                                        #ok
@@ -398,6 +396,7 @@ def tests():
 #    test = c.update_row("authors", "WHERE id=2", {"middle_name": "",
 #                                                  "first_name": "Istvan"});#ok
 
+    test = AuthorGroups.fetch_entry(group_id=1);
 #    return str(test);
     return jsonify(test);
 

@@ -10,7 +10,6 @@ class AuthorGroups(Base):
 
     @staticmethod
     def create_empty_od():
-
         group = OrderedDict();
         group["group_id"] = 0;
         group["group_name"] = "";
@@ -20,45 +19,34 @@ class AuthorGroups(Base):
 
     @classmethod
     def fetch_entry(cls, group_id=0):
-
-        cursor = Cursor();
-        where_clause = "WHERE `id` = {:d}".format(group_id);
-        group_name = cursor.select("author_groups", fields=["name"],
-                                      where_clause=where_clause);
-
+        where = "WHERE `id` = {:d}".format(group_id);
+        group_name = Cursor.select("author_groups", fields=["name"],
+                                   clauses=where);
         group = cls.create_empty_od();
         group["group_id"] = group_id;
         if len(group_name) != 1:
-            cursor.close();
             return group;
 
         group["group_name"] = group_name[0]["name"];
-
-        where_clause = "WHERE `group_id` = {:d}".format(group_id);
-        fields = ["abbreviated_middle_name", "order_index"];
-        authors = cursor.select("view_authors_in_groups",
+        where = "WHERE `group_id` = {:d}".format(group_id);
+        fields = ["author_id", "abbreviated_middle_name", "order_index"];
+        group["authors"] = Cursor.select("view_authors_in_groups",
                                 fields=fields,
-                                where_clause=where_clause);
-
-        cursor.close();
-        group["authors"] = authors;
+                                clauses=where);
         return group;
 
 
-
-    def save(self, group_info, authors_list):
-
-        cursor = Cursor();
+    @classmethod
+    def save(cls, group_info, authors_list):
         args = [group_info["id"], group_info["name"], 0];
-        res = cursor.call_procedure("UpsertGroup", args=args, commit=True);
+        res = Cursor.call_procedure("UpsertGroup", args=args, commit=True);
         group_id = int(res[2]);
 
         for author in authors_list:
             update_data = [group_id,
                            author["author_id"],
                            author["order_index"]];
-            cursor.call_procedure("UpsertAuthorsInGroup",
+            Cursor.call_procedure("UpsertAuthorsInGroup",
                                   update_data,
                                   commit=True);
-        cursor.close();
         return group_id;

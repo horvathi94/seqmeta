@@ -3,6 +3,7 @@ CREATE VIEW view_authors_in_groups AS
 		SELECT 
 			`groups`.id AS `group_id`,
 			`groups`.name AS group_name,
+			authors.id AS author_id,
 			first_name,
 			middle_name,
 			last_name,
@@ -15,6 +16,7 @@ CREATE VIEW view_authors_in_groups AS
 			ON aig.author_group_id = `groups`.id
 		LEFT JOIN view_authors AS authors
 			ON aig.author_id = authors.id
+		WHERE order_index > 0
 		ORDER BY `group_id` ASC, order_index ASC;
 
 
