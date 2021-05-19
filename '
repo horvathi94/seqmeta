@@ -50,8 +50,7 @@ class CursorBase:
     def parse_records(records, column_names):
         parsed = [];
         for record in records:
-            parsed.append(CursorBase.record_to_ordereddict(record,
-                                                           column_names));
+            parsed.append(record_to_ordereddict(record, column_names));
         return parsed;
 
 
@@ -112,7 +111,7 @@ class CursorBase:
     @classmethod
     def empty_ordereddict(cls, table_name, cursor=None):
         describe = cls.describe(table_name, cursor=cursor);
-        return cls.create_empty_ordereddict(describe);
+        return create_empty_ordereddict(describe);
 
 
     @classmethod
@@ -147,7 +146,7 @@ class CursorBase:
     @classmethod
     def update_row(cls, table_name, where_clause, values_dict):
         sql = "UPDATE `{:s}` SET ".format(table_name);
-        values = [cls.clean_value(values_dict[key]) for key in values_dict];
+        values = [clean_value(values_dict[key]) for key in values_dict];
         for key in values_dict:
             if key == "id":
                 continue;
@@ -162,7 +161,7 @@ class CursorBase:
     @classmethod
     def insert_row(cls, table_name, values_dict):
         sql = "INSERT INTO {:s} (".format(table_name);
-        values = [cls.clean_value(values_dict[key]) for key in values_dict];
+        values = [clean_value(values_dict[key]) for key in values_dict];
         values_sql = "(";
         for key in values_dict:
             if key == "id":
