@@ -36,27 +36,19 @@ class Samples(Base):
         return sample;
 
 
-    def fetch_entries(self, sample_ids=[]):
+    @classmethod
+    def fetch_entries(cls, sample_ids=[]):
 
         if len(sample_ids) == 0:
             return [];
 
-
-        cursor = Cursor()
-        list_sql = "";
-        for sample_id in sample_ids:
-            list_sql+= "{:d}, ".format(sample_id);
-        list_sql = list_sql[:-2];
-
+        list_sql = ", ".join(str(sid) for sid in sample_ids);
         where_clause = "WHERE `sample_id` IN ({:s})".format(list_sql);
-        raw_data = cursor.select_all(self.view_table_name, where_clause);
+        entries = Cursor.select_all(cls.view_table_name, where_clause);
 
-        cursor.close();
-
-        for rd in raw_data:
-            self.clean_entry(rd);
-
-        return raw_data;
+        for entry in entries:
+            entry = cls.clean_entry(entry);
+        return entries;
 
 
     @classmethod

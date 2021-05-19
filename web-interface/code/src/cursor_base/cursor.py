@@ -121,9 +121,7 @@ class CursorBase:
         if len(fields) == 0:
             sql+= "*";
         else:
-            for field in fields:
-                sql += "`{:s}`, ".format(field);
-            sql = sql[:-2];
+            sql+= ", ".join("`{:s}`".format(field) for field in fields);
         sql+= " FROM `{:s}` ".format(table_name) + clauses;
 
         conn, cursor = cls.create_cursor();

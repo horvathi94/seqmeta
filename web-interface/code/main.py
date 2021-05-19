@@ -122,11 +122,10 @@ def samples_generate():
     selected = request.form.getlist("selected-samples");
     selected = [int(s) for s in selected];
 
-    samples = Samples();
-    sample_list = samples.fetch_entries(sample_ids=[1,2]);
+    sample_list = Samples.fetch_entries(sample_ids=[1,2]);
 
 #    excel_test(sample_list);
-    gisaid_sample_sheet(sample_list);
+#    gisaid_sample_sheet(sample_list);
     return jsonify(sample_list);
 
 
