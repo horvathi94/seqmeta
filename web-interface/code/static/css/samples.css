@@ -25,9 +25,7 @@
 
 
 .filegen.wrap {
-	
 	max-width: 40%;
-
 	background-color: var(--orange);
 	border: 2px solid black;
 	padding: 0.7em;

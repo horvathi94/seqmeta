@@ -41,7 +41,6 @@ def favicon():
 @app.route("/samples")
 def samples_list():
     samples_list = Samples.fetch_list();
-
     html = render_template("head.html", styles=["prompt.css", "samples.css"]);
     if len(samples_list) == 0:
         html+= render_template("samples/empty.html");
@@ -63,33 +62,16 @@ def sample_details():
 @app.route("/samples/edit")
 def samples_edit():
     sample_id = int(request.args["id"]) if "id" in request.args else 0;
+    sample = Samples.fetch_entry(sample_id=sample_id);
+    author_groups = AuthorGroups.fetch_list();
+    institutions = Institutions.fetch_list();
+    hosts = Hosts.fetch_list();
+    samp_strats = SamplingStrategies.fetch_list();
+    pass_dets = PassageDetails.fetch_list();
+    ass_methods = AssemblyMethods.fetch_list();
+    seq_techs = SequencingTechs.fetch_list();
 
     html = render_template("head.html");
-
-    samples = Samples();
-    sample = samples.fetch_entry(sample_id=sample_id);
-
-    author_groups = AuthorGroups();
-    author_groups = author_groups.fetch_list();
-
-    institutions = Institutions();
-    institutions = institutions.fetch_list();
-
-    hosts = Hosts();
-    hosts = hosts.fetch_list();
-
-    samp_strats = SamplingStrategies();
-    samp_strats = samp_strats.fetch_list();
-
-    pass_dets = PassageDetails();
-    pass_dets = pass_dets.fetch_list();
-
-    ass_methods = AssemblyMethods();
-    ass_methods = ass_methods.fetch_list();
-
-    seq_techs = SequencingTechs();
-    seq_techs = seq_techs.fetch_list();
-
     html+= render_template("samples/edit.html",
                            sample=sample,
                            author_groups=author_groups,
@@ -99,19 +81,14 @@ def samples_edit():
                            pass_dets=pass_dets,
                            assembly_methods=ass_methods,
                            sequencing_technologies=seq_techs);
-
     html+= render_template("footer.html");
-
     return html;
 
 
 @app.route("/samples/submit", methods=["POST"])
 def samples_submit():
-
     form_data = request.form.to_dict();
-
-    samples = Samples();
-    samples.save_entry(form_data);
+    Samples.save_entry(form_data);
     return redirect(url_for('samples_list'));
 
 

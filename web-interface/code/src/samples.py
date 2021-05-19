@@ -12,10 +12,10 @@ class Samples(Base):
 
 
     @classmethod
-    def clean_entry(cls, sample):
-        sample["collection_date"] = \
-            sample["collection_date"].strftime(cls.date_format);
-
+    def clean_entry(cls, entry):
+        entry["collection_date"] = \
+            entry["collection_date"].strftime(cls.date_format);
+        return entry;
 
     @classmethod
     def fetch_details(cls, sample_id):
@@ -28,32 +28,12 @@ class Samples(Base):
 
     @classmethod
     def fetch_entry(cls, sample_id=0):
-
         where = "WHERE `sample_id` = {:d}".format(sample_id);
-        raw_data = cursor.select(cls.view_table_name,
-                                 clauses=where);
-
-        if len(raw_data) == 0:
-            data = cursor.create_empty_ordereddict(self.view_table_name);
-            cursor.close();
-            return data;
-
-        cursor.close();
-
-        data = raw_data[0];
-        self.clean_entry(data);
-
-        author_group = AuthorGroups();
-        author_group = \
-            author_group.fetch_entry(group_id=data["author_group_id"]);
-
-        data["authors"] = "";
-        for author in author_group["authors"]:
-            data["authors"] += author["name_tag"] + ", ";
-        data["authors"] = data["authors"][:-2];
-        del data["author_group_id"];
-
-        return data;
+        sample = Cursor.select("view_samples_for_edit", clauses=where);
+        if len(sample) != 1:
+            return Cursor.create_empty_ordereddict("view_samples_for_edit")[0];
+        sample = cls.clean_entry(sample[0]);
+        return sample;
 
 
     def fetch_entries(self, sample_ids=[]):
@@ -79,19 +59,17 @@ class Samples(Base):
         return raw_data;
 
 
-
-    def clean_submit(self, submitted):
-
+    @classmethod
+    def clean_submit(cls, submitted):
+        submitted["id"] = int(submitted["id"]);
         submitted["name"] = submitted["sample_name"];
         del submitted["sample_name"];
-
         if submitted["patient_gender"] == "Male":
             submitted["patient_gender"] = True;
         elif submitted["patient_gender"] == "Female":
             submitted["patient_gender"] = False;
         else:
             submitted["patient_gender"] = None;
-
         submitted["submission_date"] = datetime.today();
-
+        return submitted;
 

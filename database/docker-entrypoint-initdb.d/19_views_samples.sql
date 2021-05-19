@@ -1,4 +1,4 @@
-CREATE VIEW `view_samples` AS
+CREATE VIEW `view_samples_for_edit` AS
 
 	SELECT 
 		`sample`.`id` AS sample_id,
@@ -29,7 +29,7 @@ CREATE VIEW `view_samples` AS
 		`passage_details`.`label` AS passage_details,
 		`sampling_strategies`.`label` AS sampling_strategy,
 
-		CONCAT(`sample`.`coverage`, 'x') AS coverage,
+		`sample`.`coverage` AS coverage,
 		`sample`.`sequencing_technology_id` AS sequencing_technology_id,
 		`sequencing_technologies`.`label` AS sequencing_technology,
 
