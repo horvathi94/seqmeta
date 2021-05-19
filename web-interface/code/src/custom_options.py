@@ -7,15 +7,11 @@ class Hosts(Base):
     submit_table_name = "hosts";
     save_procedure = "UpsertHosts";
 
-    def save_by_procedure(self, items):
-
-        cursor = Cursor();
-
+    @classmethod
+    def save_by_procedure(cls, items):
         for item in items:
             args = (int(item["id"]), str(item["label"]), str(item["latin"]));
-            cursor.call_procedure(self.save_procedure, args=args, commit=True);
-
-        cursor.close();
+            Cursor.call_procedure(cls.save_procedure, args=args, commit=True);
 
 
 
