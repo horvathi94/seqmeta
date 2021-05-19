@@ -4,11 +4,16 @@
 
 #sample-details-table th, #sample-details-table td {
 	border: 0px;
+	padding: 0.6em 0.3em;
 }
 
 #sample-details-table td.prop{
 	text-align: right;
 	font-weight: bold;
+}
+
+#sample-details-table td.value{
+	text-align: left;
 }
 
 .prompt.hide {

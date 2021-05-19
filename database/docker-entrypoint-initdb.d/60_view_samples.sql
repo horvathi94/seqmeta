@@ -1,3 +1,20 @@
+CREATE VIEW view_samples_list_display AS
+
+	SELECT
+			sample.id AS sample_id,
+			sample.name AS sample_name,
+			sample.collection_date AS collection_date,
+		
+			`groups`.group_name AS group_name,
+			`groups`.full_names AS full_names,
+			`groups`.abbreviated_middle_names AS abbreviated_middle_names
+
+		FROM `sample_data` AS sample
+		LEFT JOIN `view_authors_in_groups_condensed` AS `groups`
+			ON sample.author_group_id = `groups`.`group_id`;
+
+
+CREATE VIEW view_samples_details AS 
 
 	SELECT 
 		sample.id AS sample_id,
@@ -39,6 +56,6 @@
 		LEFT JOIN sequencing_technologies
 			ON sample.sequencing_technology_id = sequencing_technologies.id
 		LEFT JOIN assembly_methods
-			ON sample.assembly_method_id = assembly_methods.id
+			ON sample.assembly_method_id = assembly_methods.id;
 
 

@@ -22,12 +22,10 @@ app.config["JSON_SORT_KEYS"] = False;
 
 @app.route("/")
 def home():
-
     html = render_template("head.html");
     html+= render_template("index.html");
     html+= render_template("footer.html");
     return html;
-
 
 
 @app.route("/favicon.ico")
@@ -37,16 +35,12 @@ def favicon():
                                mimetype='image/x-icon');
 
 
-
-# Samples
+### Samples
 ###############################################################################
 
 @app.route("/samples")
 def samples_list():
-
-    samples = Samples();
-    samples_list = samples.fetch_list();
-#    return jsonify(samples_list);
+    samples_list = Samples.fetch_list();
 
     html = render_template("head.html", styles=["prompt.css", "samples.css"]);
     if len(samples_list) == 0:
@@ -56,31 +50,19 @@ def samples_list():
 
     scripts = ["sample_details.js"];
     html+= render_template("footer.html", scripts=scripts);
-
-    test_data = samples.fetch_entry(sample_id=1);
     return html;
 
 
 @app.route("/sample/details")
 def sample_details():
-
-    sample_id = 0;
-    if "id" in request.args:
-        sample_id = int(request.args["id"]);
-
-    samples = Samples();
-    sample_details = samples.fetch_entry(sample_id=sample_id);
-
+    sample_id = int(request.args["id"]) if "id" in request.args else 0;
+    sample_details = Samples.fetch_details(sample_id=sample_id);
     return jsonify(sample_details);
 
 
 @app.route("/samples/edit")
 def samples_edit():
-
-    sample_id = 0;
-    if "id" in request.args:
-        sample_id = int(request.args["id"]);
-
+    sample_id = int(request.args["id"]) if "id" in request.args else 0;
 
     html = render_template("head.html");
 
@@ -188,10 +170,7 @@ def authors_page():
 
 @app.route("/authors/edit")
 def authors_edit():
-    author_id = 0;
-    if "id" in request.args:
-        author_id = int(request.args["id"]);
-
+    author_id = int(request.args["id"]) if "id" in request.args else 0;
     author = Authors.fetch_entry(id=author_id);
     html = render_template("head.html");
     html+= render_template("authors/edit.html", author=author);
@@ -220,10 +199,7 @@ def author_groups_list():
 
 @app.route("/authors/groups/edit")
 def author_groups_edit():
-    group_id = 0;
-    if "id" in request.args:
-        group_id = int(request.args["id"]);
-
+    group_id = int(request.args["id"]) if "id" in request.args else 0;
     group = AuthorGroups.fetch_entry(group_id=group_id);
     authors_list = Authors.fetch_list();
     html = render_template("head.html");
@@ -248,7 +224,6 @@ def author_groups_submit():
 
 @app.route("/institutions")
 def institutions_list():
-
     institutions_list = Institutions.fetch_list();
     html = render_template("head.html");
     if len(institutions_list) == 0:
@@ -262,13 +237,8 @@ def institutions_list():
 
 @app.route("/institutions/edit")
 def institutions_edit():
-
-    institution_id = 0;
-    if "id" in request.args:
-        institution_id = int(request.args["id"]);
-    institutions = Institutions();
-    institution = institutions.fetch_entry(id=institution_id);
-
+    institution_id = int(request.args["id"]) if "id" in request.args else 0;
+    institution = Institutions.fetch_entry(id=institution_id);
     html = render_template("head.html");
     html+= render_template("institutions/edit.html", institution=institution);
     html+= render_template("footer.html");
@@ -277,95 +247,70 @@ def institutions_edit():
 
 @app.route("/institutions/submit", methods=["POST"])
 def institutions_submit():
-
     data = request.form.to_dict();
-    institutions = Institutions();
-    institutions.save_entry(data);
+    Institutions.save_entry(data);
     return redirect(url_for('institutions_list'));
 
 
-# Other options
+### Other options
 ###############################################################################
 
 @app.route("/set-options")
 def set_options_list():
-
-    hosts = Hosts();
-    hosts_list = hosts.fetch_list();
-
-    sampling_strategies = SamplingStrategies();
-    sampling_strategies_list = sampling_strategies.fetch_list();
-
-    passage_details = PassageDetails();
-    passage_details_list = passage_details.fetch_list();
-
-    sequencing_techs = SequencingTechs();
-    sequencing_techs_list = sequencing_techs.fetch_list();
-
-    assembly_methods = AssemblyMethods();
-    assembly_methods_list = assembly_methods.fetch_list();
+    hosts = Hosts.fetch_list();
+    sampling_strategies = SamplingStrategies.fetch_list();
+    passage_details = PassageDetails.fetch_list();
+    sequencing_techs = SequencingTechs.fetch_list();
+    assembly_methods = AssemblyMethods.fetch_list();
 
     html = render_template("head.html", styles=["options.css"]);
-
     html+= render_template("options/hosts.html",
-                           hosts=hosts_list);
+                           hosts=hosts);
     html+= render_template("options/assembly_methods.html",
-                           assembly_methods=assembly_methods_list);
+                           assembly_methods=assembly_methods);
     html+= render_template("options/passage_details.html",
-                           passage_details=passage_details_list);
+                           passage_details=passage_details);
     html+= render_template("options/sequencing_technologies.html",
-                           sequencing_technologies=sequencing_techs_list);
+                           sequencing_technologies=sequencing_techs);
     html+= render_template("options/sampling_strategies.html",
-                           samp_strats=sampling_strategies_list);
-
+                           samp_strats=sampling_strategies);
     html+= render_template("footer.html");
-
     return html;
 
 
 @app.route("/set-options/hosts", methods=["POST"])
 def hosts_submit():
-
     items_list = funcs.parse_form_list(request.form, "hosts");
-    items_class = Hosts();
-    items_class.save_by_procedure(items_list);
+    Hosts.save_by_procedure(items_list);
     return redirect(url_for("set_options_list"));
 
 
 @app.route("/set-options/sampling-strategies", methods=["POST"])
 def samp_strats_submit():
-
     items_list = funcs.parse_form_list(request.form, "samp_strats");
-    items_class = SamplingStrategies();
-    items_class.save_by_procedure(items_list);
+    SamplingStrategies.save_by_procedure(items_list);
     return redirect(url_for("set_options_list"));
 
 
 @app.route("/set-options/passage-details", methods=["POST"])
 def passage_details_submit():
-
     items_list = funcs.parse_form_list(request.form, "passage_details");
-    items_class = PassageDetails();
-    items_class.save_by_procedure(items_list);
+    PassageDetails.save_by_procedure(items_list);
     return redirect(url_for("set_options_list"));
 
 
 @app.route("/set-options/assembly-methods", methods=["POST"])
 def assembly_methods_submit():
-
     items_list = funcs.parse_form_list(request.form, "assembly_methods");
-    items_class = AssemblyMethods();
-    items_class.save_by_procedure(items_list);
+    AssemblyMethods.save_by_procedure(items_list);
     return redirect(url_for("set_options_list"));
 
 
 @app.route("/set-options/sequencing-technologies", methods=["POST"])
 def sequencing_technologies_submit():
-
     items_list = funcs.parse_form_list(request.form,
                                        "sequencing_technologies");
-    items_class = SequencingTechs();
-    items_class.save_by_procedure(items_list);
+    Sequencingtehcnologies.save_by_procedure(items_list);
     return redirect(url_for("set_options_list"));
 
 

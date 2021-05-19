@@ -28,6 +28,7 @@ function addRow(){
 	const propCell = row.insertCell(0);
 	propCell.classList.add("prop");
 	const valCell = row.insertCell(1);
+	valCell.classList.add("value");
 	return [propCell, valCell];
 }
 
@@ -73,11 +74,11 @@ function updateTable(sample){
 
 	cells = addRow();
 	cells[0].innerHTML = "Author group:";
-	cells[1].innerHTML = sample.author_group_name + " ("+sample.authors+")";
+	cells[1].innerHTML = sample.author_group_name + " ("+sample.authors_list+")";
 
 	cells = addRow();
 	cells[0].innerHTML = "Host:";
-	cells[1].innerHTML = sample.host_display_label;
+	cells[1].innerHTML = sample.host;
 
 	cells = addRow();
 	cells[0].innerHTML = "Additional host information";
@@ -94,7 +95,6 @@ function updateTable(sample){
 	cells = addRow();
 	cells[0].innerHTML = "Patient status:";
 	cells[1].innerHTML = sample.patient_status;
-
 
 	cells = addRow();
 	cells[0].innerHTML = "Sequencing technology:";
@@ -122,6 +122,7 @@ function updateTableOld(data){
 		propCell.innerHTML = key + ":";
 
 		let valueCell = row.insertCell(1);
+		valueCell.classList.add("value");
 		valueCell.innerHTML = value;
 
 	});

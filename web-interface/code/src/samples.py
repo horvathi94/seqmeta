@@ -6,33 +6,32 @@ from datetime import datetime
 
 class Samples(Base):
 
-    view_table_name = "view_samples";
+    view_table_name = "view_samples_list_display";
     submit_table_name = "sample_data";
     date_format = "%Y-%m-%d";
 
 
-    def clean_entry(self, sample):
-
+    @classmethod
+    def clean_entry(cls, sample):
         sample["collection_date"] = \
-            sample["collection_date"].strftime(self.date_format);
-
-        author_group = AuthorGroups();
-        author_group = \
-            author_group.fetch_entry(group_id=sample["author_group_id"]);
-
-        sample["authors"] = "";
-        for author in author_group["authors"]:
-            sample["authors"] += author["name_tag"] + ", ";
-        sample["authors"] = sample["authors"][:-2];
+            sample["collection_date"].strftime(cls.date_format);
 
 
+    @classmethod
+    def fetch_details(cls, sample_id):
+        where = "WHERE `sample_id` = {:d}".format(sample_id);
+        details = Cursor.select("view_samples_details", clauses=where);
+        if len(details) != 1:
+            return;
+        return details[0];
 
-    def fetch_entry(self, sample_id=0):
 
-        cursor = Cursor();
-        where_clause = "WHERE `sample_id` = {:d}".format(sample_id);
-        raw_data = cursor.select(self.view_table_name,
-                                 where_clause=where_clause);
+    @classmethod
+    def fetch_entry(cls, sample_id=0):
+
+        where = "WHERE `sample_id` = {:d}".format(sample_id);
+        raw_data = cursor.select(cls.view_table_name,
+                                 clauses=where);
 
         if len(raw_data) == 0:
             data = cursor.create_empty_ordereddict(self.view_table_name);
