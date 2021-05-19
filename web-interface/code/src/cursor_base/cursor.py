@@ -42,7 +42,7 @@ class CursorBase:
     def record_to_ordereddict(record, column_names):
         od = OrderedDict();
         for i, col in enumerate(column_names):
-            od[col] = record[i];
+            od[col] = record[i] if record[i] != None else "";
         return od;
 
 
@@ -57,14 +57,12 @@ class CursorBase:
 
     @staticmethod
     def create_empty_ordereddict(describe):
-
         empty_od = OrderedDict();
         empty_od["id"] = 0;
 
         for col in describe:
             if str(col[0]) == "id":
                 continue;
-
             dtype = "text";
             val = "";
             if "int" in str(col[1]):
@@ -73,7 +71,6 @@ class CursorBase:
             elif "decimal" in str(col[1]):
                 dtype = "float"
                 val = 0;
-
             if col[4] != None:
                 if dtype == "int":
                     val = int(col[4]);

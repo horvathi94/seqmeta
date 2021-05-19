@@ -6,7 +6,8 @@ CREATE VIEW `view_samples_for_edit` AS
 		`sample`.`collection_date` AS collection_date,
 
 		`sample`.`patient_age` AS patient_age,
-		IF (`sample`.`patient_gender` = 1, "Male", "Female") AS patient_gender,
+		IF (sample.patient_gender = "" OR sample.patient_gender IS NULL, "unknown",
+			IF (sample.patient_gender = 1, "Male", "Female")) AS patient_gender,
 		`sample`.`patient_status` AS patient_status,
 		`sample`.`host_id` AS host_id,
 		`hosts`.`label` AS host_label,
@@ -34,7 +35,12 @@ CREATE VIEW `view_samples_for_edit` AS
 		`sequencing_technologies`.`label` AS sequencing_technology,
 
 		`sample`.`assembly_method_id` AS assembly_method_id,
-		`assembly_methods`.`label` AS assembly_method
+		`assembly_methods`.`label` AS assembly_method,
+
+		sample.specimen_source AS specimen_source,
+		sample.outbreak AS outbreak,
+		sample.last_vaccinated AS last_vaccinated,
+		sample.treatment AS treatment
 
 
 	FROM `sample_data` AS `sample`

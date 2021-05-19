@@ -1,21 +1,16 @@
 from collections import OrderedDict
+from datetime import datetime
 from .cursor import Cursor
 from .base import Base
-from .author_groups import AuthorGroups
-from datetime import datetime
+
 
 class Samples(Base):
 
     view_table_name = "view_samples_list_display";
+    view_id_key = "sample_id";
     submit_table_name = "sample_data";
     date_format = "%Y-%m-%d";
 
-
-    @classmethod
-    def clean_entry(cls, entry):
-        entry["collection_date"] = \
-            entry["collection_date"].strftime(cls.date_format);
-        return entry;
 
     @classmethod
     def fetch_details(cls, sample_id):
@@ -37,15 +32,13 @@ class Samples(Base):
 
 
     @classmethod
-    def fetch_entries(cls, sample_ids=[]):
-
+    def fetch_entries(cls, table_name, sample_ids=[]):
         if len(sample_ids) == 0:
             return [];
 
         list_sql = ", ".join(str(sid) for sid in sample_ids);
         where_clause = "WHERE `sample_id` IN ({:s})".format(list_sql);
-        entries = Cursor.select_all(cls.view_table_name, where_clause);
-
+        entries = Cursor.select(table_name, clauses=where_clause);
         for entry in entries:
             entry = cls.clean_entry(entry);
         return entries;

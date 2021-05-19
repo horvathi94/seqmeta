@@ -4,10 +4,6 @@
 		<th>ID</th>
 		<th>Name</th>
 		<th>Address</th>
-		<th>Postal code</th>
-		<th>City</th>
-		<th>County</th>
-		<th>Country</th>
 		<th></th>
 	</tr>
 
@@ -16,10 +12,6 @@
 		<td>{{institution.id}}</td>
 		<td>{{institution.name}}</td>
 		<td>{{institution.address}}</td>
-		<td>{{institution.postal_code}}</td>
-		<td>{{institution.city}}</td>
-		<td>{{institution.county}}</td>
-		<td>{{institution.country}}</td>
 		<td>
 			<input type="button"
 						 onclick="location.href='{{ url_for('institutions_edit') }}?id={{institution.id}}'"

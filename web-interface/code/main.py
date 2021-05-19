@@ -11,8 +11,8 @@ from src.author_groups import AuthorGroups
 from src.custom_options import Hosts, SamplingStrategies, PassageDetails, \
     SequencingTechs, AssemblyMethods
 
+from src.excel_generator import ExcelGenerator
 from src.fast_files import Fasta
-from src.excel_generator import excel_test, gisaid_sample_sheet
 from src import funcs
 
 
@@ -70,7 +70,6 @@ def samples_edit():
     pass_dets = PassageDetails.fetch_list();
     ass_methods = AssemblyMethods.fetch_list();
     seq_techs = SequencingTechs.fetch_list();
-
     html = render_template("head.html");
     html+= render_template("samples/edit.html",
                            sample=sample,
@@ -118,15 +117,21 @@ def samples_fasta():
 
 @app.route("/samples/generate", methods=["POST"])
 def samples_generate():
+    sub_types = request.form.getlist("submission_types");
+    if len(sub_types) == 0:
+        return "No files selected";
 
     selected = request.form.getlist("selected-samples");
     selected = [int(s) for s in selected];
+    if len(selected) == 0:
+        return "No files selected;"
 
-    sample_list = Samples.fetch_entries(sample_ids=[1,2]);
-
-#    excel_test(sample_list);
-#    gisaid_sample_sheet(sample_list);
-    return jsonify(sample_list);
+    if "gisaid" in sub_types:
+        filename = request.form["submission_filename_gisaid"];
+        samples = Samples.fetch_entries("view_samples_for_gisaid",
+                                        sample_ids=selected);
+        ExcelGenerator.write_gisaid(samples, filename=filename);
+    return "Finished";
 
 
 ### Authors and author groups

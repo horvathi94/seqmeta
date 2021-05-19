@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `sample_data` (
 	submission_date			DATE NOT NULL,
 	collection_date			DATE NOT NULL,
 	patient_age					TINYINT,
-	patient_gender			BIT(1) NOT NULL,
+	patient_gender			BIT(1),
 	patient_status			CHAR(100),
 	originating_lab_id	INT UNSIGNED NOT NULL,
 	submitting_lab_id		INT UNSIGNED NOT NULL,
@@ -21,17 +21,22 @@ CREATE TABLE IF NOT EXISTS `sample_data` (
 	sequencing_technology_id 	MEDIUMINT UNSIGNED,
 	assembly_method_id				MEDIUMINT UNSIGNED,
 
+	specimen_source						TEXT,
+	outbreak									TEXT,
+	last_vaccinated						TEXT,
+	treatment									TEXT,
+	
 	PRIMARY KEY(`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `institutions` (
-	id						INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	name					CHAR(100),
-	address				TEXT(200) NOT NULL,
-	postal_code		MEDIUMINT UNSIGNED,
-	county				CHAR(100),
-	country				CHAR(100),
-	city					CHAR(100),
+	id							INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	name						CHAR(100),
+	street_address	TEXT(200) NOT NULL,
+	postal_code			MEDIUMINT UNSIGNED,
+	county					CHAR(100),
+	country					CHAR(100),
+	city						CHAR(100),
 	PRIMARY KEY(`id`)
 );
 

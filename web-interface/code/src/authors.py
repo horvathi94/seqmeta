@@ -4,6 +4,7 @@ from .base import Base
 class Authors(Base):
 
     view_table_name = "view_authors";
+    edit_table_name = "view_authors";
     submit_table_name = "authors";
 
 

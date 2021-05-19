@@ -3,6 +3,8 @@ from .cursor import Cursor
 class Base:
 
     view_table_name = "";
+    view_id_key = "id";
+    edit_table_name = "";
     submit_table_name = "";
 
     save_procedure = "";
@@ -22,12 +24,14 @@ class Base:
         entries = Cursor.select_all(cls.view_table_name);
         for entry in entries:
             entry = cls.clean_entry(entry);
+        if len(entries) == 1 and entries[0][cls.view_id_key] == 0:
+            return [];
         return entries;
 
 
     @classmethod
     def fetch_entry(cls, id=0):
-        entry = Cursor.select(cls.view_table_name,
+        entry = Cursor.select(cls.edit_table_name,
                               clauses="WHERE `id` = {:d}".format(id));
         entry = cls.clean_entry(entry[0]);
         return entry;

@@ -214,6 +214,13 @@
 				{% endif %}
 					<label for name="patient_gender"> Female </label>
 
+				{% if sample.patient_gender == 'unknown' %}
+					<input type="radio" name="patient_gender" value="unknown" checked="checked"/>
+				{% else %}
+					<input type="radio" name="patient_gender" value="unknown"/>
+				{% endif %}
+					<label for name="patient_gender"> unknown </label>
+
 			</td>
 			<td> The gender of the patient </td>
 		</tr>
@@ -238,6 +245,44 @@
 			<td> The status of the patient </td>
 		</tr>
 
+
+		<tr>
+			<td> Specimen source </td>
+			<td>
+				<input type="text" name="specimen_source"
+													 value="{{ sample.specimen_source }}"/>
+			</td>
+			<td>	Specimen source </td>
+		</tr>
+
+
+		<tr>
+			<td> Outbreak </td>
+			<td>
+				<input type="text" name="outbreak"
+													 value="{{ sample.outbreak }}"/>
+			</td>
+			<td>	Outbreak </td>
+		</tr>
+
+
+		<tr>
+			<td> Last vaccinated </td>
+			<td>
+				<input type="text" name="last_vaccinated"
+													 value="{{ sample.last_vaccinated }}"/>
+			</td>
+			<td>	Specimen source </td>
+		</tr>
+
+		<tr>
+			<td> Treatment </td>
+			<td>
+				<input type="text" name="treatment"
+													 value="{{ sample.treatment }}"/>
+			</td>
+			<td>	Specimen source </td>
+		</tr>
 
 
 

@@ -97,6 +97,22 @@ function updateTable(sample){
 	cells[1].innerHTML = sample.patient_status;
 
 	cells = addRow();
+	cells[0].innerHTML = "Specimen source:";
+	cells[1].innerHTML = sample.specimen_source;
+
+	cells = addRow();
+	cells[0].innerHTML = "Outbreak:";
+	cells[1].innerHTML = sample.outbreak;
+
+	cells = addRow();
+	cells[0].innerHTML = "Last vaccinated:";
+	cells[1].innerHTML = sample.last_vaccinated;
+
+	cells = addRow();
+	cells[0].innerHTML = "Treatment:";
+	cells[1].innerHTML = sample.treatment;
+
+	cells = addRow();
 	cells[0].innerHTML = "Sequencing technology:";
 	cells[1].innerHTML = sample.sequencing_technology;
 
