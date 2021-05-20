@@ -1,8 +1,6 @@
 import mysql.connector
 from collections import OrderedDict
-#from .parse_functions import parse_records, \
-#    create_empty_ordereddict, \
-#    clean_value
+
 
 class CursorBase:
 

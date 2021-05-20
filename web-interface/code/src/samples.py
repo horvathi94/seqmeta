@@ -1,10 +1,10 @@
 from collections import OrderedDict
 from datetime import datetime
 from .cursor import Cursor
-from .base import Base
+from .db_interface import DBInterface
 
 
-class Samples(Base):
+class Samples(DBInterface):
 
     view_table_name = "view_samples_list_display";
     view_id_key = "sample_id";

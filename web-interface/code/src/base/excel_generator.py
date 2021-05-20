@@ -6,6 +6,9 @@ from openpyxl import Workbook
 class ExcelGenerator:
 
     save_dir = "/app/temp";
+    temp_filenames = {
+        "gisaid": "last_generated_gisaid.xls",
+    }
 
     def __init__(self):
         pass;
@@ -24,6 +27,10 @@ class ExcelGenerator:
         excel_file = os.path.join(cls.save_dir, filename);
         wb.save(filename=excel_file);
 
+
+    @classmethod
+    def get_temp_filename(cls, tp):
+        return os.path.join(cls.save_dir, cls.temp_filenames[tp]);
 
     @classmethod
     def populate_gisaid(cls, ws, samples):
@@ -60,11 +67,9 @@ class ExcelGenerator:
 
 
     @classmethod
-    def write_gisaid(cls, samples, filename=""):
-        if filename == "":
-            filename = str(datetime.now()) + "_gisaid";
+    def write_gisaid(cls, samples):
         wb, ws = cls.create_worksheet("Submissions");
         cls.populate_gisaid(ws, samples);
-        cls.save_excel(wb, filename+".xls");
-
+        cls.save_excel(wb, cls.get_temp_filename("gisaid"));
+        wb.close();
 

@@ -1,6 +1,9 @@
 from .cursor import Cursor
 
-class Base:
+class DBInterface:
+
+    display_table_name = "";
+    edit_table_name = "";
 
     view_table_name = "";
     view_id_key = "id";
@@ -21,12 +24,20 @@ class Base:
 
     @classmethod
     def fetch_list(cls):
-        entries = Cursor.select_all(cls.view_table_name);
+        entries = Cursor.select_all(cls.display_table_name);
         for entry in entries:
             entry = cls.clean_entry(entry);
         if len(entries) == 1 and entries[0][cls.view_id_key] == 0:
             return [];
         return entries;
+
+
+    @classmethod
+    def fetch_entry_edit(cls, id=0):
+        entry = Cursor.select(cls.edit_table_name,
+                              clauses="WHERE `id` = {:d}".format(id));
+        entry = cls.clean_entry(entry[0]);
+        return entry;
 
 
     @classmethod

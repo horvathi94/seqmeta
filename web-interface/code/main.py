@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, \
-    jsonify, make_response, send_from_directory
+    jsonify, make_response, send_from_directory, send_file
 from datetime import datetime
 
 from src.cursor import Cursor
@@ -11,7 +11,7 @@ from src.author_groups import AuthorGroups
 from src.custom_options import Hosts, SamplingStrategies, PassageDetails, \
     SequencingTechs, AssemblyMethods
 
-from src.excel_generator import ExcelGenerator
+from src.base.excel_generator import ExcelGenerator
 from src.fast_files import Fasta
 from src import funcs
 
@@ -130,7 +130,13 @@ def samples_generate():
         filename = request.form["submission_filename_gisaid"];
         samples = Samples.fetch_entries("view_samples_for_gisaid",
                                         sample_ids=selected);
-        ExcelGenerator.write_gisaid(samples, filename=filename);
+
+        if filename == "": filename = str(datetime.now()) + "_gisaid";
+        ExcelGenerator.write_gisaid(samples);
+        excel_file = os.path.join(ExcelGenerator.get_temp_filename("gisaid"));
+        return send_file(excel_file, attachment_filename=filename+".xls")
+
+
     return "Finished";
 
 
@@ -152,7 +158,7 @@ def authors_page():
 @app.route("/authors/edit")
 def authors_edit():
     author_id = int(request.args["id"]) if "id" in request.args else 0;
-    author = Authors.fetch_entry(id=author_id);
+    author = Authors.fetch_entry_edit(id=author_id);
     html = render_template("head.html");
     html+= render_template("authors/edit.html", author=author);
     html+= render_template("footer.html");
@@ -181,7 +187,7 @@ def author_groups_list():
 @app.route("/authors/groups/edit")
 def author_groups_edit():
     group_id = int(request.args["id"]) if "id" in request.args else 0;
-    group = AuthorGroups.fetch_entry(group_id=group_id);
+    group = AuthorGroups.fetch_entry_edit(group_id=group_id);
     authors_list = Authors.fetch_list();
     html = render_template("head.html");
     html+= render_template("author_groups/edit.html",
@@ -196,7 +202,7 @@ def author_groups_submit():
     form_data = request.form.to_dict();
     authors_list = funcs.parse_form_list(form_data, "author");
     group = funcs.parse_form_simple(form_data, "group");
-    author_groups = AuthorGroups.save(group, authors_list);
+    AuthorGroups.save(group, authors_list);
     return redirect(url_for('author_groups_list'));
 
 

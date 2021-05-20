@@ -1,9 +1,9 @@
 from .cursor import Cursor
-from .base import Base
+from .db_interface import DBInterface
 
-class Institutions(Base):
+class Institutions(DBInterface):
 
-    view_table_name = "view_institutions";
+    display_table_name = "view_institutions";
     edit_table_name = "institutions";
     submit_table_name = "institutions";
 

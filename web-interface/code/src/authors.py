@@ -1,9 +1,8 @@
-from .base import Base
+from .db_interface import DBInterface
 
+class Authors(DBInterface):
 
-class Authors(Base):
-
-    view_table_name = "view_authors";
+    display_table_name = "view_authors";
     edit_table_name = "view_authors";
     submit_table_name = "authors";
 

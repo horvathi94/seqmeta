@@ -1,10 +1,10 @@
 from .cursor import Cursor
-from .base import Base
+from .db_interface import DBInterface
 from collections import OrderedDict
 
-class AuthorGroups(Base):
+class AuthorGroups(DBInterface):
 
-    view_table_name = "view_authors_in_groups_condensed";
+    display_table_name = "view_authors_in_groups_condensed";
     submit_table_name = "author_groups";
 
 
@@ -18,7 +18,7 @@ class AuthorGroups(Base):
 
 
     @classmethod
-    def fetch_entry(cls, group_id=0):
+    def fetch_entry_edit(cls, group_id=0):
         where = "WHERE `id` = {:d}".format(group_id);
         group_name = Cursor.select("author_groups", fields=["name"],
                                    clauses=where);
@@ -30,19 +30,23 @@ class AuthorGroups(Base):
         group["group_name"] = group_name[0]["name"];
         where = "WHERE `group_id` = {:d}".format(group_id);
         fields = ["author_id", "abbreviated_middle_name", "order_index"];
-        group["authors"] = Cursor.select("view_authors_in_groups",
+        authors_list = Cursor.select("view_authors_in_groups",
                                 fields=fields,
                                 clauses=where);
+        if len(authors_list) == 1 and authors_list[0]["id"] == 0:
+            authors_list = [];
+        group["authors"] = authors_list;
         return group;
 
 
     @classmethod
     def save(cls, group_info, authors_list):
         args = [group_info["id"], group_info["name"], 0];
-        res = Cursor.call_procedure("UpsertGroup", args=args, commit=True);
+        res = Cursor.call_procedure("upsert_group", args=args, commit=True);
         group_id = int(res[2]);
 
         for author in authors_list:
             vals = [group_id, author["author_id"], author["order_index"]];
-            Cursor.call_procedure("UpsertAuthorsInGroup", vals, commit=True);
+            Cursor.call_procedure("upsert_authors_in_group",
+                                  vals, commit=True);
         return group_id;
