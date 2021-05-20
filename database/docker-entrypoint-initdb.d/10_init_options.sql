@@ -28,6 +28,12 @@ SET @view_name = "view_patient_statuses";
 CALL create_basic_table(@table_name);
 CALL create_basic_view(@view_name, @table_name);
 
+/* specimen_sources */
+SET @table_name = "specimen_sources";
+SET @view_name = "view_specimen_sources";
+CALL create_basic_table(@table_name);
+CALL create_basic_view(@view_name, @table_name);
+
 
 CREATE TABLE IF NOT EXISTS `hosts` (
 	id			INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -53,7 +59,6 @@ CREATE VIEW `view_hosts` AS
 DELIMITER $$
 
 CREATE PROCEDURE upsert_hosts(
-	IN id 		INT UNSIGNED,
 	IN label 	CHAR(200),
 	IN latin	CHAR(200),
 	IN indx		INT UNSIGNED
@@ -61,23 +66,14 @@ CREATE PROCEDURE upsert_hosts(
 
 	BEGIN
 
-		IF ( id <> "" AND id IS NOT NULL ) THEN
+		IF ( label <> "" AND label IS NOT NULL ) THEN
 
-			SET @select_id = 0;
+			SET @id = 0;
+			SELECT @id := id
+				FROM hosts
+				WHERE label = label;
 
-			IF ( id = "" OR id = 0 OR id IS NULL ) THEN
-
-				SELECT @select_id = id
-					FROM hosts
-					WHERE label = label;
-
-			ELSE
-
-				SET @select_id = id;
-
-			END IF;
-
-			IF ( @select_id = 0 ) THEN
+			IF ( @id = 0 ) THEN
 
 				INSERT INTO `hosts` (label, latin, indx)
 					VALUES (label, latin, indx);
