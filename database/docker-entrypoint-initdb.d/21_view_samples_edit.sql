@@ -29,7 +29,7 @@ CREATE VIEW view_samples_edit AS
 		samples.assembly_method_id AS assembly_method_id,	
 		samples.coverage AS coverage,
 
-		samples.specimen_source AS specimen_source,								
+		samples.specimen_source_id AS specimen_source_id,
 		samples.outbreak AS outbreak,
 		samples.last_vaccinated AS last_vaccinated,					
 		samples.treatment AS treatment

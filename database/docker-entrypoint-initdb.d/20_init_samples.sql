@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS samples (
 	assembly_method_id						INT UNSIGNED,
 	coverage											MEDIUMINT UNSIGNED,
 
-	specimen_source								TEXT,
+	specimen_source_id						INT UNSIGNED,
 	outbreak											TEXT,
 	last_vaccinated								TEXT,
 	treatment											TEXT

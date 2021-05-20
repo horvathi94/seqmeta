@@ -29,7 +29,7 @@ CREATE VIEW view_samples_gisaid AS
 		assembly_methods.label AS assembly_method,
 		CONCAT(samples.coverage, "x") AS coverage,
 
-		samples.specimen_source AS specimen_source,
+		specimen_sources.label AS specimen_source,
 		samples.outbreak AS outbreak,
 		samples.last_vaccinated AS last_vaccinated,
 		samples.treatment AS treatment
@@ -54,3 +54,6 @@ CREATE VIEW view_samples_gisaid AS
 		ON samples.sequencing_technology_id = sequencing_technologies.id
 	LEFT JOIN assembly_methods
 		ON samples.assembly_method_id = assembly_methods.id
+	LEFT JOIN specimen_sources
+		ON samples.specimen_source_id = specimen_sources.id
+
