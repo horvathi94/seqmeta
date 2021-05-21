@@ -11,6 +11,7 @@ from src.institutions import Institutions
 from src.author_groups import AuthorGroups
 from src.custom_options import Hosts, SamplingStrategies, PassageDetails, \
     SequencingTechs, AssemblyMethods, PatientStatuses, SpecimenSources
+from src.virusname import VirusnameGisaid
 
 from src.base.excel_generator import ExcelGenerator
 from src.fast_files import Fasta
@@ -319,8 +320,10 @@ def tests():
     samples = Samples.fetch_entries("view_samples_gisaid", sample_ids=[1]);
     sample = samples[0];
 
+    test = VirusnameGisaid.create_name(sample);
 
-    test = sample;
+
+#    test = sample;
     return jsonify(test);
 
 
