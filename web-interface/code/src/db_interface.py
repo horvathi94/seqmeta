@@ -80,3 +80,12 @@ class DBInterface:
             args = (int(item["id"]), str(item["label"]));
             Cursor.call_procedure(cls.save_procedure, args=args, commit=True);
 
+
+    @classmethod
+    def fetch_list_labeled(cls, replace_key="name", replace_id="id"):
+        items = cls.fetch_list();
+        for item in items:
+            item["id"] = item.pop(replace_id);
+            item["label"] = item.pop(replace_key);
+        return items;
+

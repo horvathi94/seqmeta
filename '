@@ -1,11 +1,9 @@
 {% from 'macros/select.j2' import select %}
 {% from 'macros/radio.j2' import radio %}
 
-<form action="{{ url_for('samples_submit') }}" method="POST">
+<form action="" method="POST">
 
 <table>
-
-	<input type="hidden" name="sample_id" value="{{ sample.sample_id }}" />
 
 	<tr>
 		<th> Property </th>
@@ -16,8 +14,7 @@
 	
 	<tr>
 		<td> Sample name </td>
-		<td> <input type="text" name="sample_name" value="{{ sample.sample_name }}"
-			maxlength="200" onchange="changeSampleNames(this);"/> </td>
+		<td> <input type="text" name="sample_name" value="{{ sample.sample_name }}" maxlength="200"/> </td>
 		<td> Name of the sequenced files. </td>
 	</tr>
 
@@ -151,8 +148,7 @@
 
 	<tr>
 		<td> Sample ID given by originating lab </td>
-		<td> <input type="text" id="originating_lab_sample_name"
-			name="originating_lab_sample_name" value="{{ sample.originating_lab_sample_name }}"/> </td>
+		<td> <input type="text" name="originating_lab_sample_name" value="{{ sample.originating_lab_sample_name }}"/> </td>
 		<td>  </td>
 	</tr>
 
@@ -166,8 +162,7 @@
 
 	<tr>
 		<td> Sample ID given by originating lab </td>
-		<td> <input type="text" id="submitting_lab_sample_name" 
-			name="submitting_lab_sample_name" value="{{ sample.submitting_lab_sample_name }}"/> </td>
+		<td> <input type="text" name="submitting_lab_sample_name" value="{{ sample.submitting_lab_sample_name }}"/> </td>
 		<td>  </td>
 	</tr>
 
@@ -181,7 +176,16 @@
 
 </table>
 
-<input type="submit" value="Save"/>
+<input type="submit" value="Save"/
+
 
 </form>
+
+
+	
+	<tr>
+		<td>  </td>
+		<td>  </td>
+		<td>  </td>
+	</tr>
 

@@ -9,7 +9,7 @@ class Samples(DBInterface):
     display_table_name = "view_samples_display";
     edit_table_name = "view_samples_edit";
     view_id_key = "sample_id";
-    submit_table_name = "sample_data";
+    submit_table_name = "samples";
     date_format = "%Y-%m-%d";
 
 
@@ -20,16 +20,6 @@ class Samples(DBInterface):
         if len(details) != 1:
             return;
         return details[0];
-
-
-    @classmethod
-    def fetch_entry(cls, sample_id=0):
-        where = "WHERE `sample_id` = {:d}".format(sample_id);
-        sample = Cursor.select("view_samples_for_edit", clauses=where);
-        if len(sample) != 1:
-            return Cursor.create_empty_ordereddict("view_samples_for_edit")[0];
-        sample = cls.clean_entry(sample[0]);
-        return sample;
 
 
     @classmethod
@@ -47,7 +37,8 @@ class Samples(DBInterface):
 
     @classmethod
     def clean_submit(cls, submitted):
-        submitted["id"] = int(submitted["id"]);
+        submitted["id"] = int(submitted["sample_id"]);
+        del submitted["sample_id"];
         submitted["name"] = submitted["sample_name"];
         del submitted["sample_name"];
         if submitted["patient_gender"] == "Male":
@@ -56,6 +47,6 @@ class Samples(DBInterface):
             submitted["patient_gender"] = False;
         else:
             submitted["patient_gender"] = None;
-        submitted["submission_date"] = datetime.today();
+#        submitted["submission_date"] = datetime.today();
         return submitted;
 

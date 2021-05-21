@@ -75,8 +75,10 @@ def samples_edit():
     html+= render_template(
         "samples_edit.html",
         sample=Samples.fetch_entry_edit(id=sample_id, id_key="sample_id"),
-        author_groups=AuthorGroups.fetch_list(),
-        institutions=Institutions.fetch_list(),
+        author_groups=AuthorGroups.fetch_list_labeled(
+            replace_key="group_name",
+            replace_id="group_id"),
+        institutions=Institutions.fetch_list_labeled(),
         hosts=Hosts.fetch_list(),
         sampling_strategies=SamplingStrategies.fetch_list(),
         passage_details=PassageDetails.fetch_list(),
@@ -84,7 +86,7 @@ def samples_edit():
         sequencing_technologies=SequencingTechs.fetch_list(),
         patient_statuses=PatientStatuses.fetch_list(),
         specimen_sources=SpecimenSources.fetch_list());
-    html+= render_template("footer.html");
+    html+= render_template("footer.html", scripts=["sample_edit.js"]);
     return html;
 
 
@@ -132,7 +134,7 @@ def samples_generate():
 
     if "gisaid" in sub_types:
         filename = request.form["submission_filename_gisaid"];
-        samples = Samples.fetch_entries("view_samples_for_gisaid",
+        samples = Samples.fetch_entries("view_samples_gisaid",
                                         sample_ids=selected);
 
         if filename == "": filename = str(datetime.now()) + "_gisaid";
@@ -314,21 +316,7 @@ def sequencing_technologies_submit():
 @app.route("/test")
 def tests():
 
-#    from src.cursor import Cursor as c
-
-#    test = c.describe("authors");                                          #ok
-#    test = c.select_all("authors");                                        #ok
-#    test = c.select_all("authors", clauses="where last_name = 'Korodi'");  #ok
-#    test = c.select("authors",
-#                    fields=["first_name", "last_name", "id"],
-#                    clauses="where last_name = 'Korodi'");                 #ok
-#    test = c.empty_ordereddict("authors");                                 #ok
-#    test = c.select("authors", clauses="where `id` = 0");                  #ok
-#    test = c.update_row("authors", "WHERE id=2", {"middle_name": "",
-#                                                  "first_name": "Istvan"});#ok
-
-    test = AuthorGroups.fetch_entry(group_id=1);
-#    return str(test);
+    sample = Samples.fetch_entry(sample_id=1);
     return jsonify(test);
 
 if __name__ == "__main__":

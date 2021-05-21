@@ -5,6 +5,7 @@ from collections import OrderedDict
 class AuthorGroups(DBInterface):
 
     display_table_name = "view_authors_in_groups_condensed";
+    view_id_key = "group_id";
     submit_table_name = "author_groups";
 
 

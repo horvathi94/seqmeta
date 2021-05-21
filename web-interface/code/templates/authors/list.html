@@ -1,18 +1,14 @@
 <table>
 	<tr>
 		<th>ID</th>
-		<th>First name</th>
-		<th>Middle name</th>
-		<th>Last name</th>
+		<th>Authors</th>
 		<th></th>
 	</tr>
 
 	{% for author in authors %}
 	<tr>
 		<td>{{author.id}}</td>
-		<td>{{author.first_name}}</td>
-		<td>{{author.middle_name}}</td>
-		<td>{{author.last_name}}</td>
+		<td>{{author.abbreviated_middle_name}}</td>
 		<td>
 			<input type="button"
 						 onclick="location.href='{{ url_for('authors_edit') }}?id={{author.id}}'"

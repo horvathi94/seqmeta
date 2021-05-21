@@ -54,12 +54,14 @@ class AssemblyMethods(DBInterface):
     save_procedure = "upsert_basic_table";
 
 
+
 class PatientStatuses(DBInterface):
 
     display_table_name = "view_patient_statuses";
     edit_table_name = "view_patient_statuses";
     submit_table_name = "patient_statuses";
     save_procedure = "upsert_basic_table";
+
 
 
 class SpecimenSources(DBInterface):
