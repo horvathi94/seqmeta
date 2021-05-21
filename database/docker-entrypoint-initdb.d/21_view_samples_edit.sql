@@ -4,8 +4,10 @@ CREATE VIEW view_samples_edit AS
 
 		samples.id AS sample_id,
 		samples.name AS sample_name,
-		samples.collection_date AS collection_date,
-		
+		samples.collection_year AS collection_year,
+		samples.collection_month AS collection_month,
+		samples.collection_day AS collection_day,
+
 		samples.host_id AS host_id,
 		samples.additional_host_info AS additional_host_info,
 		IF (samples.patient_gender = "" OR samples.patient_gender IS NULL, "unknown", 

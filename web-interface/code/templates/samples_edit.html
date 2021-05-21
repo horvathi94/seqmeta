@@ -31,8 +31,18 @@
 
 	<tr>
 		<td> Collection date </td>
-		<td> <input type="date" name="collection_date" value="{{ sample.collection_date }}" min="2019-12-00"/> </td>
-		<td> The date when the sample was collected from the patient. </td>
+		<td> 
+			<input type="number" min="2019" name="collection_year" 
+				style="width: 45%;"
+				value="{{ sample.collection_year }}" />
+			<input type="number" min="0" max="12" name="collection_month" 
+				style="width: 20%;"
+				value="{{ sample.collection_month }}" />
+			<input type="number" min="0" max="31" name="collection_day" 
+				style="width: 20%;"
+				value="{{ sample.collection_day }}"/>
+		</td>	
+		<td> The date when the sample was collected from the patient. Format: year month day</td>
 	</tr>
 
 
@@ -73,8 +83,8 @@
 
 	<tr>
 		<td> Gender </td>
-		{% set genders=[{"label": "Male", "value":"Male"}, {"label": "Female", "value": "Female"}, {"label": "unknown", "vale":"unknown"}] %}
-		<td> {{ radio("patient_gender", genders) }} </td>
+		{% set genders=[{"label": "Male", "value":"Male"}, {"label": "Female", "value": "Female"}, {"label": "unknown", "value":"unknown"}] %}
+		<td> {{ radio("patient_gender", genders, selected_value=sample.patient_gender) }} </td>
 		<td> The gender of the patient </td>
 	</tr>
 

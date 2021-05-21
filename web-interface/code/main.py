@@ -316,8 +316,15 @@ def sequencing_technologies_submit():
 @app.route("/test")
 def tests():
 
-    sample = Samples.fetch_entry(sample_id=1);
+    samples = Samples.fetch_entries("view_samples_gisaid", sample_ids=[1]);
+    sample = samples[0];
+
+
+    test = sample;
     return jsonify(test);
+
+
+
 
 if __name__ == "__main__":
 

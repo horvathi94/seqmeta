@@ -2,7 +2,10 @@ CREATE TABLE IF NOT EXISTS samples (
 
 	id														INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name													CHAR(200) UNIQUE NOT NULL,
-	collection_date								DATE NOT NULL,
+
+	collection_year								SMALLINT UNSIGNED NOT NULL,
+	collection_month							TINYINT UNSIGNED,
+	collection_day								TINYINT UNSIGNED,
 
 	host_id												INT UNSIGNED,
 	additional_host_info					TEXT,
