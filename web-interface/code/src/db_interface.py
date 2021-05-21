@@ -33,9 +33,12 @@ class DBInterface:
 
 
     @classmethod
-    def fetch_entry_edit(cls, id=0):
+    def fetch_entry_edit(cls, id=0, id_key="id"):
         entry = Cursor.select(cls.edit_table_name,
-                              clauses="WHERE `id` = {:d}".format(id));
+                              clauses="WHERE `{:s}` = {:d}"
+                                .format(id_key, id));
+        if len(entry) != 1:
+            return [];
         entry = cls.clean_entry(entry[0]);
         return entry;
 

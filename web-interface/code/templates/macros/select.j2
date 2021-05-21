@@ -1,10 +1,14 @@
-{% macro select(name, options) %}
+{% macro select(name, options, selected_id=0) %}
 
 	<select name="{{ name }}">
 
 		{% for option in options %}
 
+		{% if selected_id == option.id %}
+			<option value="{{ option.id }}" selected="selected"> {{ option.label }}	</option>
+		{% else %}
 			<option value="{{ option.id }}"> {{ option.label }}	</option>
+		{% endif %}
 
 		{% endfor %}
 

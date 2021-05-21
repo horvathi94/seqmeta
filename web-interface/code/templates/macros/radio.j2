@@ -1,0 +1,10 @@
+{% macro radio(name, options, selected_indx=0) %}
+
+	{% for option in options %}
+
+		<input type="radio" name="{{ name }}" value="{{ option.value }}"/>
+		<label for name="{{ name }}"/> {{ option.label }} </label>
+
+	{% endfor %}
+
+{% endmacro %}

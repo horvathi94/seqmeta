@@ -1,0 +1,153 @@
+{% from 'macros/select.j2' import select %}
+{% from 'macros/radio.j2' import radio %}
+
+<form action="" method="POST">
+
+<table>
+
+	<tr>
+		<th> Property </th>
+		<th> Value </th>
+		<th> Description </th>
+	</tr>
+
+	
+	<tr>
+		<td> Sample name </td>
+		<td> <input type="text" name="sample_name" value="{{ sample.sample_name }}" maxlength="200"/> </td>
+		<td> Name of the sequenced files. </td>
+	</tr>
+
+
+	<tr>
+		<td> Passage details </td>
+		<td> {{ select("passage_details_id", passage_details, selected_id=sample.passage_details_id) }} </td>
+		<td> Passage details/history </td>
+	</tr>
+
+
+	<tr>
+		<td> Collection date </td>
+		<td> <input type="date" name="collection_date" value="{{ sample.collection_date }}" min="2019-12-00"/> </td>
+		<td> The date when the sample was collected from the patient. </td>
+	</tr>
+
+
+	<tr>
+		<td> Location </td>
+		<td> <input type="text" name="location" value="{{ sample.location }}"/> </td>
+		<td> <em> e.g. Europe / Germany / Bavaria / Munich </em> </td>
+	</tr>
+
+
+	<tr>
+		<td> Additional location information </td>
+		<td> <input type="text" name="additional_location_info" value="{{ sample.additional_location_info }}"/> </td>
+		<td> <em> e.g. Cruise ship, Convention, Live animal market </em> </td>
+	</tr>
+
+
+	<tr>
+		<td> Host </td>
+		<td> {{ select("host_id", hosts, selected_id=sample.host_id) }} </td>
+		<td> You can add more options in the <a href="{{ url_for('set_options_list') }}">manage options tab</a> </td>
+	</tr>
+
+	
+	<tr>
+		<td> Additional host information </td>
+		<td> <input type="text" name="additional_host_info" value="{{ sample.additional_host_info }}"/> </td>
+		<td> <em> e.g. Patient infected while traveling in... </em> </td>
+	</tr>
+
+
+	<tr>
+		<td> Sampling strategy </td>
+		<td> {{ select("sampling_strategy_id", sampling_strategies, selected_id=sample.sampling_strategy_id) }} </td>
+		<td> The sampling strategy used to select the sample. </td>
+	</tr>
+
+
+	<tr>
+		<td> Gender </td>
+		{% set genders=[{"label": "Male", "value":"Male"}, {"label": "Female", "value": "Female"}, {"label": "unknown", "vale":"unknown"}] %}
+		<td> {{ radio("patient_gender", genders) }} </td>
+		<td> The gender of the patient </td>
+	</tr>
+
+
+	<tr>
+		<td> Patient age </td>
+		<td> <input type="number" name="patient_age" min="0" max="150" value="{{ sample.patient_age }}"/> </td>
+		<td> Age of the patient in years. </td>
+	</tr>
+	
+
+	<tr>
+		<td> Patient status </td>
+		<td> {{ select("patient_status_id", patient_statuses, selected_id=sample.patient_status_id) }} </td>
+		<td> The status of the patient when the sample was collected. </td>
+	</tr>
+
+	
+	<tr>
+		<td> Specimen source </td>
+		<td> {{ select("specimen_source_id", specimen_sources, selected_id=sample.specimem_source_id) }} </td>
+		<td> Source of the specimen </td>
+	</tr>
+
+	
+	<tr>
+		<td> Outbreak </td>
+		<td> <input type="text" name="outbreak" value="{{ sample.outbreak }}"/> </td>
+		<td> Date, location <em> e.g. type of gathering, family cluster etc. </em> </td>
+	</tr>
+
+	
+	<tr>
+		<td> Last vaccinated </td>
+		<td> <input type="text" name="last_vaccinated" value="{{ sample.last_vaccinated }}"/> </td>
+		<td> Provide details if applicable </td>
+	</tr>
+
+	
+	<tr>
+		<td> Treatment </td>
+		<td> <input type="text" name="treatment" value="{{ sample.treatment }}"/> </td>
+		<td> Include drug name, dosage. </td>
+	</tr>
+
+	
+	<tr>
+		<td> Sequencing tehcnology </td>
+		<td> {{ select("sequencing_technology_id", sequencing_technologies, selected_id=sample.sequencing_technology_id) }} </td>
+		<td> Apparatus with which the sequencing was done. </td>
+	</tr>
+
+	
+	<tr>
+		<td> Assembly method </td>
+		<td> {{ select("assembly_method_id", assembly_methods, selected_id=sample.assembly_method_id) }} </td>
+		<td> Program name and version with which the assembly of the sequence was performed. </td>
+	</tr>
+
+	
+	<tr>
+		<td> Coverage </td>
+		<td> <input type="number" name="coverage" min=0 style="width:92%;" value="{{ sample.coverage }}"/><span>x</span> </td>
+		<td> The average coverage of the sample. </td>
+	</tr>
+
+
+</table>
+
+</form>
+
+
+	
+	<tr>
+		<td>  </td>
+		<td>  </td>
+		<td>  </td>
+	</tr>
+

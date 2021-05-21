@@ -6,7 +6,8 @@ from .db_interface import DBInterface
 
 class Samples(DBInterface):
 
-    view_table_name = "view_samples_list_display";
+    display_table_name = "view_samples_display";
+    edit_table_name = "view_samples_edit";
     view_id_key = "sample_id";
     submit_table_name = "sample_data";
     date_format = "%Y-%m-%d";

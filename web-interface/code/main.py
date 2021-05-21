@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, \
     jsonify, make_response, send_from_directory, send_file
+from flask_caching import Cache
 from datetime import datetime
 
 from src.cursor import Cursor
@@ -9,15 +10,21 @@ from src.authors import Authors
 from src.institutions import Institutions
 from src.author_groups import AuthorGroups
 from src.custom_options import Hosts, SamplingStrategies, PassageDetails, \
-    SequencingTechs, AssemblyMethods
+    SequencingTechs, AssemblyMethods, PatientStatuses, SpecimenSources
 
 from src.base.excel_generator import ExcelGenerator
 from src.fast_files import Fasta
 from src import funcs
 
 
+config = {
+    "DEBUG" : True,
+    "CACHE_TYPE": "SimpleCache",
+    "CACHE_DEFAULT_TIMEOUT": 200,
+    "JSON_SORT_KEYS": False,};
+
 app = Flask(__name__)
-app.config["JSON_SORT_KEYS"] = False;
+app.config.from_mapping(config);
 
 
 @app.route("/")
@@ -64,24 +71,19 @@ def sample_details():
 @app.route("/samples/edit")
 def samples_edit():
     sample_id = int(request.args["id"]) if "id" in request.args else 0;
-    sample = Samples.fetch_entry(sample_id=sample_id);
-    author_groups = AuthorGroups.fetch_list();
-    institutions = Institutions.fetch_list();
-    hosts = Hosts.fetch_list();
-    samp_strats = SamplingStrategies.fetch_list();
-    pass_dets = PassageDetails.fetch_list();
-    ass_methods = AssemblyMethods.fetch_list();
-    seq_techs = SequencingTechs.fetch_list();
     html = render_template("head.html");
-    html+= render_template("samples/edit.html",
-                           sample=sample,
-                           author_groups=author_groups,
-                           institutions=institutions,
-                           hosts=hosts,
-                           samp_strats=samp_strats,
-                           pass_dets=pass_dets,
-                           assembly_methods=ass_methods,
-                           sequencing_technologies=seq_techs);
+    html+= render_template(
+        "samples_edit.html",
+        sample=Samples.fetch_entry_edit(id=sample_id, id_key="sample_id"),
+        author_groups=AuthorGroups.fetch_list(),
+        institutions=Institutions.fetch_list(),
+        hosts=Hosts.fetch_list(),
+        sampling_strategies=SamplingStrategies.fetch_list(),
+        passage_details=PassageDetails.fetch_list(),
+        assembly_methods=AssemblyMethods.fetch_list(),
+        sequencing_technologies=SequencingTechs.fetch_list(),
+        patient_statuses=PatientStatuses.fetch_list(),
+        specimen_sources=SpecimenSources.fetch_list());
     html+= render_template("footer.html");
     return html;
 
@@ -330,4 +332,6 @@ def tests():
     return jsonify(test);
 
 if __name__ == "__main__":
-   app.run("0.0.0.0", debug=True);
+
+    app.jinja_env.cache = {}
+    app.run("0.0.0.0", debug=True);
