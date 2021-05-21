@@ -43,7 +43,9 @@ def samples_list():
     samples_list = Samples.fetch_list();
     html = render_template("head.html", styles=["prompt.css", "samples.css"]);
     if len(samples_list) == 0:
-        html+= render_template("samples/empty.html");
+        html+= render_template("list_is_empty.html",
+                               name_plural="samples",
+                               link="samples_edit");
     else:
         html+= render_template("samples/list.html", samples=samples_list);
 
@@ -148,7 +150,9 @@ def authors_page():
     authors_list = Authors.fetch_list();
     html = render_template("head.html");
     if len(authors_list) == 0:
-        html+= render_template("authors/empty.html");
+        html+= render_template("list_is_empty.html",
+                               name_plural="authors",
+                               link="authors_edit");
     else:
         html+= render_template("authors/list.html", authors=authors_list);
     html+= render_template("footer.html");
@@ -177,7 +181,9 @@ def author_groups_list():
     groups_list = AuthorGroups.fetch_list();
     html = render_template("head.html");
     if len(groups_list) == 0:
-        html+= render_template("author_groups/empty.html");
+        html+= render_template("list_is_empty.html",
+                               name_plural="author groups",
+                               link="author_groups_edit");
     else:
         html+= render_template("author_groups/list.html", groups=groups_list);
     html+= render_template("footer.html");
@@ -214,7 +220,9 @@ def institutions_list():
     institutions_list = Institutions.fetch_list();
     html = render_template("head.html");
     if len(institutions_list) == 0:
-        html+= render_template("institutions/empty.html");
+        html+= render_template("list_is_empty.html",
+                               name_plural="institutions",
+                               link="institutions_edit");
     else:
         html+= render_template("institutions/list.html",
                                institutions=institutions_list);

@@ -1,0 +1,17 @@
+{% macro select(name, options) %}
+
+	<select name="{{ name }}">
+
+		{% for option in options %}
+
+			<option value="{{ option.id }}"> {{ option.label }}	</option>
+
+		{% endfor %}
+
+	</select>
+
+{% endmacro %}
+
+
+
+
