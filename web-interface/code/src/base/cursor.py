@@ -105,6 +105,15 @@ class CursorBase:
 
 
     @classmethod
+    def column_names(cls, table_name):
+        conn, c = cls.create_cursor();
+        describe = cls.describe(table_name, cursor=c);
+        column_names = [str(col[0]).strip() for col in describe];
+        cls.close(conn, c);
+        return column_names;
+
+
+    @classmethod
     def empty_ordereddict(cls, table_name, cursor=None):
         describe = cls.describe(table_name, cursor=cursor);
         return cls.create_empty_ordereddict(describe);

@@ -1,0 +1,74 @@
+{% macro virusname_editor(virusname_piece)  %}
+
+		{% set id = virusname_piece.id %}
+		{% set key_options = ['key', 'string'] %}
+
+		<input type="hidden" class="indx"
+					name="virusname+{{ id }}+indx"
+					value="{{ virusname_piece.indx }}"/>
+
+		<select class="key" name="virusname+{{ id }}+item_key">
+			{% for option in key_options %}
+
+				{% if option == virusname_piece.item_key %}
+					<option value="{{ option }}" selected="selected"> {{ option }} </option>
+				{% else %}
+					<option value="{{ option }}"> {{ option }} </option>
+				{% endif %}
+
+			{% endfor %}
+		</select>
+
+		
+		<input type="text" class="value"
+			name="virusname+{{ id }}+item_value"
+			value="{{ virusname_piece.item_value }}"/>
+
+		<input type="button" onclick="removeItem(this)" value="X"/>
+
+
+{% endmacro %}
+
+
+
+
+<div class="options-wrap">
+
+	<div class="option edit">
+
+		<form action="{{ url_for('tests_submit') }}" method="POST">
+		
+			<input type="button" value="Add" onclick="addVirusnamePiece();"/>
+
+		<ul id="virusname">
+		<li class="ui-state-default piece hidden">
+			{% set empty = {'id':0, 'item_key':'', 'item_value':'', 'indx':0}%}
+			<div class="wrap"> {{ virusname_editor(empty) }} </div>
+		</li>
+
+		{% for piece in virusname %}
+
+			<li class="ui-state-default piece">
+				<div class="wrap"> {{ virusname_editor(piece) }} </div>
+			</li>
+
+		{% endfor %}
+		</ul>
+
+		<input type="submit" value="Save"/>
+	</div>
+
+	</div>
+
+
+	<div class="option description">
+	
+		Available db. entries:
+		<ul>
+			{% for item in available_db_items %}
+			<li> {{ item }} </li>
+			{% endfor %}
+		</ul>
+	</div>
+
+</div>

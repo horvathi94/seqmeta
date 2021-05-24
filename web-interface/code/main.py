@@ -314,18 +314,32 @@ def sequencing_technologies_submit():
     return redirect(url_for("set_options_list"));
 
 
+
+
 @app.route("/test")
 def tests():
 
     samples = Samples.fetch_entries("view_samples_gisaid", sample_ids=[1]);
     sample = samples[0];
 
-    test = VirusnameGisaid.create_name(sample);
+    available = VirusnameGisaid.available_db_keys();
+
+    html = render_template("head.html", styles=["virusname.css"]);
+    html+= render_template("virusname_edit.html",
+                virusname_format=VirusnameGisaid.fetch_format_string(),
+                available_db_keys=available);
+    html+= render_template("footer.html");
+
+    html+= VirusnameGisaid.create_name(sample);
+    return html;
 
 
-#    test = sample;
-    return jsonify(test);
+@app.route("/test/submit", methods=["POST"])
+def tests_submit():
 
+    virusname = request.form.to_dict()["virusname"];
+    VirusnameGisaid.call_save_procedure(virusname);
+    return jsonify(virusname);
 
 
 

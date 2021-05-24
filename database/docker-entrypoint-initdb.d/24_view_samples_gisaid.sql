@@ -10,6 +10,10 @@ CREATE VIEW view_samples_gisaid AS
 						CONCAT("-", LPAD(samples.collection_day, 2, 0) ), "" ) ), 
 					"") ) AS collection_date,
 
+		samples.collection_year AS collection_year,
+		LPAD(samples.collection_month, 2, 0) AS collection_month,
+		LPAD(samples.collection_day, 2, 0) AS collection_day,
+
 		hosts.label AS host,
 		samples.additional_host_info AS additional_host_info,
 		samples.patient_age AS patient_age,

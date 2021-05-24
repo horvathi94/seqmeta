@@ -1,0 +1,25 @@
+#virusname {
+	list-style-type: none;
+}
+
+#virusname .piece.hidden{
+	display: none;
+}
+
+#virusname .piece .wrap {
+	border: 2px solid black;
+	padding: 4px;
+	padding-left: 20px;
+	margin: 2px;
+	max-width: 25em;
+	background-color: var(--light-green);
+}
+
+
+#virusname .piece .wrap .indx {
+	width: 10%;
+}
+
+#virusname .piece .wrap .key {
+	width: 25%;
+}
