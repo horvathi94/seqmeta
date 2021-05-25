@@ -34,6 +34,19 @@ SET @view_name = "view_specimen_sources";
 CALL create_basic_table(@table_name);
 CALL create_basic_view(@view_name, @table_name);
 
+/* continents */
+SET @table_name = "continents";
+SET @view_name = "view_continents";
+CALL create_basic_table(@table_name);
+CALL create_basic_view(@view_name, @table_name);
+
+/* countries */
+SET @table_name = "countries";
+SET @view_name = "view_countries";
+CALL create_basic_table(@table_name);
+CALL create_basic_view(@view_name, @table_name);
+
+
 
 CREATE TABLE IF NOT EXISTS `hosts` (
 	id			INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,

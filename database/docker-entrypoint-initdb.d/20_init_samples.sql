@@ -13,7 +13,10 @@ CREATE TABLE IF NOT EXISTS samples (
 	patient_age										TINYINT UNSIGNED,
 	patient_status_id							INT UNSIGNED,
 
-	location											TEXT,
+	continent_id									TINYINT UNSIGNED,
+	country_id										SMALLINT UNSIGNED,
+	county												CHAR(200),
+	city													CHAR(200),
 	additional_location_info			TEXT,
 
 	originating_lab_id						INT UNSIGNED,

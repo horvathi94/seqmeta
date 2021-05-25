@@ -22,7 +22,10 @@ CREATE VIEW view_samples_gisaid AS
 		) AS patient_gender,
 		patient_statuses.label AS patient_status,
 
-		samples.location AS location,
+		CONCAT(continents.label, " / ", countries.label, 
+			IF(samples.county IS NOT NULL, CONCAT(" / ", samples.county), ""),
+			IF(samples.city IS NOT NULL, CONCAT(" / ", samples.city), "")
+			) AS location,
 		samples.additional_location_info AS additional_location_info,
 		originating_lab.name AS originating_lab_name,
 		originating_lab.address AS originating_lab_address,
@@ -65,4 +68,8 @@ CREATE VIEW view_samples_gisaid AS
 		ON samples.assembly_method_id = assembly_methods.id
 	LEFT JOIN specimen_sources
 		ON samples.specimen_source_id = specimen_sources.id
+	LEFT JOIN continents
+		ON samples.continent_id = continents.id
+	LEFT JOIN countries
+		ON samples.country_id = countries.id
 

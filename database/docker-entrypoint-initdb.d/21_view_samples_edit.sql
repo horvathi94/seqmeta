@@ -16,7 +16,10 @@ CREATE VIEW view_samples_edit AS
 		samples.patient_age AS patient_age,
 		samples.patient_status_id AS patient_status_id,
 
-		samples.location AS location,
+		samples.continent_id AS continent_id,
+		samples.country_id AS country_id,
+		samples.county AS county,
+		samples.city AS city,
 		samples.additional_location_info AS additional_location_info,
 
 		samples.originating_lab_id AS originating_lab_id,

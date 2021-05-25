@@ -36,4 +36,3 @@ CALL upsert_basic_table("assembly_methods", "UGENE v. 33", 4);
 
 CALL upsert_basic_table("sequencing_technologies", "Illumina Miseq", 1);
  
- 

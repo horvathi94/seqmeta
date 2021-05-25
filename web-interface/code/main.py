@@ -2,17 +2,15 @@ import os
 from flask import Flask, render_template, request, redirect, url_for, \
     jsonify, make_response, send_from_directory, send_file
 from flask_caching import Cache
-from datetime import datetime
 
-from src.cursor import Cursor
 from src.samples import Samples
-from src.authors import Authors
 from src.institutions import Institutions
 from src.author_groups import AuthorGroups
 from src.custom_options import Hosts, SamplingStrategies, PassageDetails, \
     SequencingTechs, AssemblyMethods, PatientStatuses, SpecimenSources
 from src.virusname import VirusnameGisaid
 from src import ena
+from src.locations import Countries, Continents
 
 from src.base.excel_generator import ExcelGenerator
 from src.fast_files import Fasta
@@ -27,6 +25,12 @@ config = {
 
 app = Flask(__name__)
 app.config.from_mapping(config);
+
+
+import pages_authors
+import pages_author_groups
+import pages_institutions
+import pages_ena
 
 
 @app.route("/")
@@ -87,7 +91,9 @@ def samples_edit():
         assembly_methods=AssemblyMethods.fetch_list(),
         sequencing_technologies=SequencingTechs.fetch_list(),
         patient_statuses=PatientStatuses.fetch_list(),
-        specimen_sources=SpecimenSources.fetch_list());
+        specimen_sources=SpecimenSources.fetch_list(),
+        countries=Countries.fetch_list(),
+        continents=Continents.fetch_list());
     html+= render_template("footer.html", scripts=["sample_edit.js"]);
     return html;
 
@@ -149,134 +155,6 @@ def samples_generate():
 
 
 
-### ENA Studies
-###############################################################################
-
-@app.route("/ena/studies")
-def ena_studies_list():
-    studies = ena.Studies.fetch_list();
-
-    html = render_template("head.html");
-    if len(studies) == 0:
-        html+= render_template("list_is_empty.html",
-                               name_plural="studies",
-                               );
-    html+= render_template("footer.html");
-    return html;
-
-
-@app.route("/ena/studies/edit")
-def ena_studies_edit():
-
-    html = render_template("head.html");
-
-    html+= render_template("footer.html");
-    return html;
-
-
-### Authors and author groups
-###############################################################################
-
-@app.route("/authors")
-def authors_page():
-    authors_list = Authors.fetch_list();
-    html = render_template("head.html");
-    if len(authors_list) == 0:
-        html+= render_template("list_is_empty.html",
-                               name_plural="authors",
-                               link="authors_edit");
-    else:
-        html+= render_template("authors/list.html", authors=authors_list);
-    html+= render_template("footer.html");
-    return html;
-
-
-@app.route("/authors/edit")
-def authors_edit():
-    author_id = int(request.args["id"]) if "id" in request.args else 0;
-    author = Authors.fetch_entry_edit(id=author_id);
-    html = render_template("head.html");
-    html+= render_template("authors/edit.html", author=author);
-    html+= render_template("footer.html");
-    return html;
-
-
-@app.route("/authors/submit", methods=["POST"])
-def authors_submit():
-    data = request.form.to_dict();
-    Authors.save_entry(data);
-    return redirect(url_for('authors_page'));
-
-
-@app.route("/authors/groups")
-def author_groups_list():
-    groups_list = AuthorGroups.fetch_list();
-    html = render_template("head.html");
-    if len(groups_list) == 0:
-        html+= render_template("list_is_empty.html",
-                               name_plural="author groups",
-                               link="author_groups_edit");
-    else:
-        html+= render_template("author_groups/list.html", groups=groups_list);
-    html+= render_template("footer.html");
-    return html;
-
-
-@app.route("/authors/groups/edit")
-def author_groups_edit():
-    group_id = int(request.args["id"]) if "id" in request.args else 0;
-    group = AuthorGroups.fetch_entry_edit(group_id=group_id);
-    authors_list = Authors.fetch_list();
-    html = render_template("head.html");
-    html+= render_template("author_groups/edit.html",
-                           group=group,
-                           authors_list=authors_list);
-    html+= render_template("footer.html", scripts=["author_groups.js"]);
-    return html;
-
-
-@app.route("/authors/groups/submit", methods=["POST"])
-def author_groups_submit():
-    form_data = request.form.to_dict();
-    authors_list = funcs.parse_form_list(form_data, "author");
-    group = funcs.parse_form_simple(form_data, "group");
-    AuthorGroups.save(group, authors_list);
-    return redirect(url_for('author_groups_list'));
-
-
-### Institutions
-###############################################################################
-
-@app.route("/institutions")
-def institutions_list():
-    institutions_list = Institutions.fetch_list();
-    html = render_template("head.html");
-    if len(institutions_list) == 0:
-        html+= render_template("list_is_empty.html",
-                               name_plural="institutions",
-                               link="institutions_edit");
-    else:
-        html+= render_template("institutions/list.html",
-                               institutions=institutions_list);
-    html+= render_template("footer.html");
-    return html;
-
-
-@app.route("/institutions/edit")
-def institutions_edit():
-    institution_id = int(request.args["id"]) if "id" in request.args else 0;
-    institution = Institutions.fetch_entry(id=institution_id);
-    html = render_template("head.html");
-    html+= render_template("institutions/edit.html", institution=institution);
-    html+= render_template("footer.html");
-    return html;
-
-
-@app.route("/institutions/submit", methods=["POST"])
-def institutions_submit():
-    data = request.form.to_dict();
-    Institutions.save_entry(data);
-    return redirect(url_for('institutions_list'));
 
 
 ### Other options

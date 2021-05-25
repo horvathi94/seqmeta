@@ -49,10 +49,35 @@
 
 
 	<tr>
-		<td> Location {{ gisaid() }}</td>
-		<td> <input type="text" name="location" value="{{ sample.location }}"/> </td>
-		<td> <em> e.g. Europe / Germany / Bavaria / Munich </em> </td>
+		<td> Continent {{ gisaid() }}</td>
+		<td> {{ select("continent_id", continents, selected_id=sample.continent_id) }} </td>
+		<td> Continent </td>
 	</tr>
+
+	<tr>
+		<td> Country {{ gisaid() }}</td>
+		<td> {{ select("country_id", countries, selected_id=sample.country_id) }} </td>
+		<td> Country </td>
+	</tr>
+
+	<tr>
+		<td> County </td>
+		<td>
+			<input type="text" name="county" maxlength="200" 
+				value="{{ sample.county }}"/>	
+		</td>
+		<td> County </td>
+	</tr>
+
+	<tr>
+		<td> City </td>
+		<td>
+			<input type="text" name="city" maxlength="200" 
+				value="{{ sample.city }}"/>	
+		</td>
+		<td> City </td>
+	</tr>
+
 
 
 	<tr>
@@ -187,7 +212,7 @@
 	<tr>
 		<td> Authors group {{ gisaid() }}</td>
 		<td> {{ select("author_group_id", author_groups, selected_id=sample.author_group_id) }} </td>
-		<td> Create and edit author groups <a href="{{ url_for('author_groups_list') }}">here</a> </td>
+		<td> Create and edit author groups <a href="{{ url_for('view_author_groups') }}">here</a> </td>
 	</tr>
 
 

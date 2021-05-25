@@ -1,0 +1,77 @@
+<form action="{{ url_for('submit_ena_studies') }}" method="POST">
+
+	<input type="hidden" name="id" value="{{ study.id }}"/>
+	
+	<table>
+
+		<tr>
+			<th> Property </th>
+			<th> Value </th>
+			<th> Description </th>
+		</tr>
+
+
+		<tr>
+			<td> Project name </td>
+			<td> 
+				<input type="text" name="project_name" 
+					value="{{ study.project_name }}"/>
+			</td>
+			<td> A descriptive name. </td>
+		</tr>
+
+
+		<tr>
+			<td> Project title </td>
+			<td> 
+				<input type="text" name="project_title" 
+					value="{{ study.project_title }}"/>
+			</td>
+			<td> Title for the project. </td>
+		</tr>
+
+
+		<tr>
+			<td> Project alias </td>
+			<td> 
+				<input type="text" name="project_alias" 
+					value="{{ study.project_alias }}"/>
+			</td>
+			<td> The alias needs to be a unique name. You may need this unique name to refer to your study when adding other objects to it. It can be a short acronym but it should be meaningful and memorable in some way. </td>
+		</tr>
+
+
+		<tr>
+			<td> Project description </td>
+			<td> 
+				<input type="text" name="project_description" 
+					value="{{ study.project_description }}"/>
+			</td>
+			<td> Abstract detailing the project including any information that may be useful for someone to interpret your project correctly. </td>
+		</tr>
+
+
+		<tr>
+			<td> Project link database </td>
+			<td> 
+				<input type="text" name="project_link_db" 
+					value="{{ study.project_link_db }}"/>
+			</td>
+			<td> Example: pubmed. </td>
+		</tr>
+
+
+		<tr>
+			<td> Project link ID </td>
+			<td> 
+				<input type="text" name="project_link_id" 
+					value="{{ study.project_link_id }}"/>
+			</td>
+			<td> ID of the publication. </td>
+		</tr>
+	
+	</table>
+
+<input type="submit" value="Save"/>
+
+</form>
