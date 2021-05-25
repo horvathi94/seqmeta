@@ -12,6 +12,7 @@ from src.author_groups import AuthorGroups
 from src.custom_options import Hosts, SamplingStrategies, PassageDetails, \
     SequencingTechs, AssemblyMethods, PatientStatuses, SpecimenSources
 from src.virusname import VirusnameGisaid
+from src import ena
 
 from src.base.excel_generator import ExcelGenerator
 from src.fast_files import Fasta
@@ -145,6 +146,32 @@ def samples_generate():
 
 
     return "Finished";
+
+
+
+### ENA Studies
+###############################################################################
+
+@app.route("/ena/studies")
+def ena_studies_list():
+    studies = ena.Studies.fetch_list();
+
+    html = render_template("head.html");
+    if len(studies) == 0:
+        html+= render_template("list_is_empty.html",
+                               name_plural="studies",
+                               );
+    html+= render_template("footer.html");
+    return html;
+
+
+@app.route("/ena/studies/edit")
+def ena_studies_edit():
+
+    html = render_template("head.html");
+
+    html+= render_template("footer.html");
+    return html;
 
 
 ### Authors and author groups

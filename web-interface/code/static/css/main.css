@@ -65,3 +65,8 @@ td input, td select{
 td input[type="radio"]{
 	width: auto;
 }
+
+
+span.mark.gisaid {
+	color: green;
+}
