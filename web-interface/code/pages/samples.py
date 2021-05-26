@@ -19,7 +19,10 @@ from .src.custom_options import Hosts, \
     SequencingTechs, \
     AssemblyMethods, \
     PatientStatuses, \
-    SpecimenSources
+    SpecimenSources, \
+    SampleCaptureStatuses, \
+    HostDiseaseOutcomes, \
+    HostHealthStates
 
 
 from .src import funcs
@@ -52,10 +55,13 @@ def sample_details():
 @app.route("/samples/edit")
 def edit_samples():
     sample_id = int(request.args["id"]) if "id" in request.args else 0;
-    html = render_template("head.html", styles=["markers.css"]);
+    styles = ["samples_edit.css", "markers.css"];
+    html = render_template("head.html", styles=styles);
     html+= render_template(
         "samples/edit.html",
         sample=Samples.fetch_entry_edit(id=sample_id, id_key="sample_id"),
+        authors=Authors.fetch_list_labeled(
+            replace_key="abbreviated_middle_name"),
         author_groups=AuthorGroups.fetch_list_labeled(
             replace_key="group_name",
             replace_id="group_id"),
@@ -68,13 +74,17 @@ def edit_samples():
         patient_statuses=PatientStatuses.fetch_list(),
         specimen_sources=SpecimenSources.fetch_list(),
         countries=Countries.fetch_list(),
-        continents=Continents.fetch_list());
+        continents=Continents.fetch_list(),
+        sample_capture_statuses=SampleCaptureStatuses.fetch_list(),
+        host_disease_outcomes=HostDiseaseOutcomes.fetch_list(),
+        host_health_states=HostHealthStates.fetch_list());
     html+= render_template("footer.html", scripts=["sample_edit.js"]);
     return html;
 
 
 @app.route("/samples/submit", methods=["POST"])
 def submit_samples():
+    return jsonify(request.form.to_dict());
     Samples.save_entry(request.form.to_dict());
     return redirect(url_for('view_samples'));
 

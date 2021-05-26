@@ -39,8 +39,40 @@ CREATE VIEW view_samples_edit AS
 		samples.last_vaccinated AS last_vaccinated,					
 		samples.treatment AS treatment,
 
-		ena.subject_exposure AS subject_exposure,
-		ena.subject_duration AS subject_duration
+		samples.subject_exposure AS subject_exposure,
+		samples.subject_exposure_duration AS subject_exposure_duration,
+		samples.type_exposure AS type_exposure,
+		samples.ppe AS ppe,
+	
+		IF (samples.hospitalization = "" OR samples.hospitalization IS NULL, "N/A", 
+			IF (samples.hospitalization = 1, "Yes", "No")
+		) AS hospitalization,
+		samples.ilness_duration AS ilness_duration,
+		samples.ilness_symptoms AS ilness_symptoms,
+	
+		samples.geo_loc_latitude AS geo_loc_latitude,
+		samples.geo_loc_longitude AS geo_loc_longitude,
+		
+		samples.sample_capture_status_id AS sample_capture_status_id,
+		samples.host_disease_outcome_id	AS host_disease_outcome_id,
+		
+		samples.host_subject_id	AS host_subject_id, 
+		samples.host_health_state_id AS host_health_state_id,
+		
+		samples.collector_name_id	AS collector_name_id,
+		samples.receipt_date AS receipt_date,
+		samples.sample_storage_conditions	AS sample_storage_conditions,
+		
+		samples.definition_for_seropositive_sample AS definition_for_seropositive_sample,
+		samples.serotype AS serotype,
+		
+		samples.isolate AS isolate,
+		samples.strain AS strain,
+		
+		samples.isolation_source_host_associated AS isolation_source_host_associated,
+		samples.host_description AS host_description,
+		samples.gravidity AS gravidity,
+		samples.isolation_source_non_host_associated AS isolation_source_non_host_associated
 
 	FROM samples
 

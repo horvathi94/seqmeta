@@ -65,10 +65,12 @@ class CursorBase:
             val = "";
             if "int" in str(col[1]):
                 dtype = "int";
-                val = 0;
+                val = "";
             elif "decimal" in str(col[1]):
                 dtype = "float"
-                val = 0;
+                val = "";
+            else:
+                val = "";
             if col[4] != None:
                 if dtype == "int":
                     val = int(col[4]);
@@ -76,7 +78,8 @@ class CursorBase:
                     val = float(col[4]);
                 elif dtype == "text":
                     val = str(col[4]);
-
+                elif dtype == "bit":
+                    val = "isabit";#col[4];
             empty_od[str(col[0])] = val;
 
         return empty_od;

@@ -1,0 +1,29 @@
+<tr>
+	<td> Sequencing tehcnology {{ marker("gisaid") }}</td>
+	<td> {{ select("sequencing_technology_id", sequencing_technologies, selected_id=sample.sequencing_technology_id) }} </td>
+	<td> Apparatus with which the sequencing was done. </td>
+</tr>
+
+
+<tr>
+	<td> Assembly method {{ marker("gisaid", requirement="recommended") }}</td>
+	<td> {{ select("assembly_method_id", assembly_methods, selected_id=sample.assembly_method_id) }} </td>
+	<td> Program name and version with which the assembly of the sequence was performed. </td>
+</tr>
+
+
+<tr>
+	<td> Coverage {{ marker("gisaid", requirement="optional") }}</td>
+	<td> <input type="number" name="coverage" min=0 style="width:92%;" value="{{ sample.coverage }}"/><span>x</span> </td>
+	<td> The average coverage of the sample. </td>
+</tr>
+
+
+<tr>
+	<td> Sample storage conditions {{ marker("ena", requirement="optional") }}</td>
+	<td> 
+		<input type="text" name="sample_storage_conditions"
+						value="{{ sample.sample_storage_conditions }}"/>
+	</td>
+	<td> Conditions at which sample was stored, usually storage temperature, duration and location. </td>
+</tr>

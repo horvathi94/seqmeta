@@ -14,6 +14,15 @@ class Samples(DBInterface):
 
 
     @classmethod
+    def clean_entry(cls, entry):
+        if entry["patient_gender"] == "b''":
+            entry["patient_gender"] = "unknown";
+        if entry["hospitalization"] == "b''":
+            entry["hospitalization"] = "N/A";
+        return entry;
+
+
+    @classmethod
     def fetch_details(cls, sample_id):
         where = "WHERE `sample_id` = {:d}".format(sample_id);
         details = Cursor.select("view_samples_details", clauses=where);

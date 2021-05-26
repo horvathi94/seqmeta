@@ -5,7 +5,7 @@
 
 .mark.recommended {
 	font-weight: bold;
-	color: green;
+	color: var(--light-green);
 }
 
 .mark.optional {

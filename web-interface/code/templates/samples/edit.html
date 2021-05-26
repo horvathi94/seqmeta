@@ -1,7 +1,7 @@
 {% from 'macros/select.j2' import select %}
 {% from 'macros/radio.j2' import radio %}
 {% from 'macros/markers.j2' import gisaid, ena %}
-
+{% from 'macros/markers.j2' import marker %}
 
 <form action="{{ url_for('submit_samples') }}" method="POST">
 
@@ -24,208 +24,46 @@
 	</tr>
 
 
-	<tr>
-		<td> Passage details {{ gisaid() }}</td>
-		<td> {{ select("passage_details_id", passage_details, selected_id=sample.passage_details_id) }} </td>
-		<td> Passage details/history </td>
-	</tr>
+	{% include('samples/fields/passage_details.html') %}
+	{% include('samples/fields/collection_date.html') %}
 
+	{% include('samples/fields/location.html') %}
 
-	<tr>
-		<td> Collection date {{ gisaid() }} {{ ena() }}</td>
-		<td> 
-			<input type="number" min="2019" name="collection_year" 
-				style="width: 45%;"
-				value="{{ sample.collection_year }}" />
-			<input type="number" min="0" max="12" name="collection_month" 
-				style="width: 20%;"
-				value="{{ sample.collection_month }}" />
-			<input type="number" min="0" max="31" name="collection_day" 
-				style="width: 20%;"
-				value="{{ sample.collection_day }}"/>
-		</td>	
-		<td> The date when the sample was collected from the patient. Format: year month day</td>
-	</tr>
-
-
-	<tr>
-		<td> Continent {{ gisaid() }}</td>
-		<td> {{ select("continent_id", continents, selected_id=sample.continent_id) }} </td>
-		<td> Continent </td>
-	</tr>
-
-	<tr>
-		<td> Country {{ gisaid() }} {{ ena() }}</td>
-		<td> {{ select("country_id", countries, selected_id=sample.country_id) }} </td>
-		<td> Country </td>
-	</tr>
-
-	<tr>
-		<td> County </td>
-		<td>
-			<input type="text" name="county" maxlength="200" value="{{ sample.county }}"/>	
-		</td>
-		<td> County </td>
-	</tr>
-
-	<tr>
-		<td> City </td>
-		<td>
-			<input type="text" name="city" maxlength="200" value="{{ sample.city }}"/>	
-		</td>
-		<td> City </td>
-	</tr>
+	{% include('samples/fields/host.html') %}
 
 
 
-	<tr>
-		<td> Additional location information </td>
-		<td> <input type="text" name="additional_location_info" value="{{ sample.additional_location_info }}"/> </td>
-		<td> <em> e.g. Cruise ship, Convention, Live animal market </em> </td>
-	</tr>
-
-
-	<tr>
-		<td> Host {{ gisaid() }} {{ ena() }}</td>
-		<td> {{ select("host_id", hosts, selected_id=sample.host_id) }} </td>
-		<td> You can add more options in the <a href="{{ url_for('set_options_list') }}">manage options tab</a> </td>
-	</tr>
+	{% include('samples/fields/patient.html') %}
 
 	
+
 	<tr>
-		<td> Additional host information </td>
-		<td> <input type="text" name="additional_host_info" value="{{ sample.additional_host_info }}"/> </td>
-		<td> <em> e.g. Patient infected while traveling in... </em> </td>
+		<td>Sample capture status {{ marker("gisaid", requirement="recommended") }}</td>
+		<td> {{ select("sample_capture_status", 
+										sample_capture_statuses, 
+										selected_id=sample.sample_captured_status_id) }} </td>
+		<td>Reason for the sample collection.</td>
 	</tr>
 
 
 	<tr>
-		<td> Sampling strategy </td>
-		<td> {{ select("sampling_strategy_id", sampling_strategies, selected_id=sample.sampling_strategy_id) }} </td>
-		<td> The sampling strategy used to select the sample. </td>
+		<td> Serology detection {{ marker("ena", requirement="recommended") }}</td>
+		<td>  </td>
+		<td> Serology information complementing surveillance data. </td>
 	</tr>
 
-
 	<tr>
-		<td> Gender {{ gisaid() }}</td>
-		{% set genders=[{"label": "Male", "value":"Male"}, {"label": "Female", "value": "Female"}, {"label": "unknown", "value":"unknown"}] %}
-		<td> {{ radio("patient_gender", genders, selected_value=sample.patient_gender) }} </td>
-		<td> The gender of the patient </td>
-	</tr>
-
-
-	<tr>
-		<td> Patient age {{ gisaid() }}</td>
-		<td> <input type="number" name="patient_age" min="0" max="150" value="{{ sample.patient_age }}"/> </td>
-		<td> Age of the patient in years. </td>
-	</tr>
-	
-
-	<tr>
-		<td> Patient status {{ gisaid() }}</td>
-		<td> {{ select("patient_status_id", patient_statuses, selected_id=sample.patient_status_id) }} </td>
-		<td> The status of the patient when the sample was collected. </td>
-	</tr>
-
-	
-	<tr>
-		<td> Specimen source </td>
-		<td> {{ select("specimen_source_id", specimen_sources, selected_id=sample.specimem_source_id) }} </td>
-		<td> Source of the specimen </td>
-	</tr>
-
-	
-	<tr>
-		<td> Outbreak </td>
+		<td> Outbreak {{ marker("gisaid", requirement="optional") }}</td>
 		<td> <input type="text" name="outbreak" value="{{ sample.outbreak }}"/> </td>
 		<td> Date, location <em> e.g. type of gathering, family cluster etc. </em> </td>
 	</tr>
 
-	
-	<tr>
-		<td> Last vaccinated </td>
-		<td> <input type="text" name="last_vaccinated" value="{{ sample.last_vaccinated }}"/> </td>
-		<td> Provide details if applicable </td>
-	</tr>
+
 
 	
-	<tr>
-		<td> Treatment </td>
-		<td> <input type="text" name="treatment" value="{{ sample.treatment }}"/> </td>
-		<td> Include drug name, dosage. </td>
-	</tr>
+	{% include('samples/fields/methods.html') %}
 
-	
-	<tr>
-		<td> Sequencing tehcnology {{ gisaid() }}</td>
-		<td> {{ select("sequencing_technology_id", sequencing_technologies, selected_id=sample.sequencing_technology_id) }} </td>
-		<td> Apparatus with which the sequencing was done. </td>
-	</tr>
-
-	
-	<tr>
-		<td> Assembly method </td>
-		<td> {{ select("assembly_method_id", assembly_methods, selected_id=sample.assembly_method_id) }} </td>
-		<td> Program name and version with which the assembly of the sequence was performed. </td>
-	</tr>
-
-	
-	<tr>
-		<td> Coverage </td>
-		<td> <input type="number" name="coverage" min=0 style="width:92%;" value="{{ sample.coverage }}"/><span>x</span> </td>
-		<td> The average coverage of the sample. </td>
-	</tr>
-
-
-	<tr>
-		<td> Originating lab {{ gisaid() }}</td>
-		<td> {{ select("originating_lab_id", institutions, selected_id=sample.originating_lab_id) }} </td>
-		<td> Where the clinical specimen or virus isolate was first obtained. </td>
-	</tr>
-
-
-	<tr>
-		<td> Sample ID given by originating lab </td>
-		<td> <input type="text" id="originating_lab_sample_name"
-			name="originating_lab_sample_name" value="{{ sample.originating_lab_sample_name }}"/> </td>
-		<td>  </td>
-	</tr>
-
-
-	<tr>
-		<td> Submitting lab {{ gisaid() }}</td>
-		<td> {{ select("submitting_lab_id", institutions, selected_id=sample.originating_lab_id) }} </td>
-		<td> Where the sequence data have been generated and submitted to GISAID. </td>
-	</tr>
-
-
-	<tr>
-		<td> Sample ID given by originating lab </td>
-		<td> <input type="text" id="submitting_lab_sample_name" 
-			name="submitting_lab_sample_name" value="{{ sample.submitting_lab_sample_name }}"/> </td>
-		<td>  </td>
-	</tr>
-
-	
-	<tr>
-		<td> Authors group {{ gisaid() }}</td>
-		<td> {{ select("author_group_id", author_groups, selected_id=sample.author_group_id) }} </td>
-		<td> Create and edit author groups <a href="{{ url_for('view_author_groups') }}">here</a> </td>
-	</tr>
-
-	
-	<tr>
-		<td> Subject exposure {{ ena(requirement='optional') }}</td>
-		<td> <input type="text" name="subject_exposure"/> </td>
-		<td> Exposure of the subject to infected human or animals, such as poultry, wild bird or swine. If multiple exposures are applicable, please state them separated by semicolon. Example: poultry; wild bird. </td>
-	</tr>
-
-
-	<tr>
-		<td> Subject exposure duration {{ ena(requirement='optional') }}</td>
-		<td> <input type="text" name="subject_exposure_duration"/> </td>
-		<td> Duration of the exposure of the subject to an infected human or animal. If multiple exposures are applicable, please state their duration in the same order in which you reported the exposure in the field 'subject exposure'. Example: 1 day; 0.33 days.</td>
-	</tr>
+	{% include('samples/fields/ilness.html') %}	
 
 
 

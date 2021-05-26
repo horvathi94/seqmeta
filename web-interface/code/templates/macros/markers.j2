@@ -1,3 +1,17 @@
+{% macro marker(db, requirement='mandatory') %}
+
+	{% if db == 'gisaid' %}
+		{% set label = 'GISAID' %}
+	{% elif db == 'ena' %}
+		{% set label = 'ENA' %}
+	{% endif %}
+
+	<span class="mark {{ db }} {{ requirement }}"><sup>{{ label }}</sup></span>
+
+{% endmacro %}
+
+
+
 {% macro gisaid(requirement='mandatory') %}
 
 	<span class="mark gisaid {{ requirement }}"><sup>GISAID</sup></span>

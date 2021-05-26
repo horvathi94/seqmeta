@@ -1,0 +1,75 @@
+<tr>
+	<td> Collection date {{ marker("gisaid") }} {{ marker("ena", requirement="recommended") }}</td>
+	<td> 
+		<input type="number" min="2019" name="collection_year" 
+			style="width: 45%;"
+			value="{{ sample.collection_year }}" />
+		<input type="number" min="0" max="12" name="collection_month" 
+			style="width: 20%;"
+			value="{{ sample.collection_month }}" />
+		<input type="number" min="0" max="31" name="collection_day" 
+			style="width: 20%;"
+			value="{{ sample.collection_day }}"/>
+	</td>	
+	<td> The date when the sample was collected from the patient. Format: year month day</td>
+</tr>
+
+
+<tr>
+	<td>Collector name {{ marker("ena") }}</td>	
+	<td> {{ select("collector_name_id", 
+					authors, 
+					selected_id=sample.collector_name_id) }}</td>	
+	<td></td>	
+</tr>
+
+
+<tr>
+	<td> Specimen source {{ marker("gisaid", requirement="optional") }}</td>
+	<td> {{ select("specimen_source_id", specimen_sources, selected_id=sample.specimem_source_id) }} </td>
+	<td> Source of the specimen </td>
+</tr>
+	
+
+<tr>
+	<td> Sampling strategy {{ marker("gisaid", requirement="optiona") }}</td>
+	<td> {{ select("sampling_strategy_id", sampling_strategies, selected_id=sample.sampling_strategy_id) }} </td>
+	<td> The sampling strategy used to select the sample. </td>
+</tr>
+
+
+<tr>
+	<td> Originating lab {{ marker("gisaid") }}</td>
+	<td> {{ select("originating_lab_id", institutions, selected_id=sample.originating_lab_id) }} </td>
+	<td> Where the clinical specimen or virus isolate was first obtained. </td>
+</tr>
+
+
+<tr>
+	<td> Sample ID given by originating lab {{ marker("gisaid", requirement="optional") }} </td>
+	<td> <input type="text" id="originating_lab_sample_name"
+		name="originating_lab_sample_name" value="{{ sample.originating_lab_sample_name }}"/> </td>
+	<td>  </td>
+</tr>
+
+
+<tr>
+	<td> Submitting lab {{ marker("gisaid") }}</td>
+	<td> {{ select("submitting_lab_id", institutions, selected_id=sample.originating_lab_id) }} </td>
+	<td> Where the sequence data have been generated and submitted to GISAID. </td>
+</tr>
+
+
+<tr>
+	<td> Sample ID given by originating lab {{ marker("gisaid", requirement="optional") }} </td>
+	<td> <input type="text" id="submitting_lab_sample_name" 
+		name="submitting_lab_sample_name" value="{{ sample.submitting_lab_sample_name }}"/> </td>
+	<td>  </td>
+</tr>
+
+
+<tr>
+	<td> Authors group {{ marker("gisaid") }} </td>
+	<td> {{ select("author_group_id", author_groups, selected_id=sample.author_group_id) }} </td>
+	<td> Create and edit author groups <a href="{{ url_for('view_author_groups') }}">here</a> </td>
+</tr>

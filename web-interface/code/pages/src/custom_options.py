@@ -70,3 +70,18 @@ class SpecimenSources(DBInterface):
     edit_table_name = "view_specimen_sources";
     submit_table_name = "specimen_sources";
     save_procedure = "upsert_basic_table";
+
+
+class SampleCaptureStatuses(DBInterface):
+
+    display_table_name = "sample_capture_status";
+
+
+class HostDiseaseOutcomes(DBInterface):
+
+    display_table_name = "host_disease_outcome";
+
+
+class HostHealthStates(DBInterface):
+
+    display_table_name = "host_health_states";

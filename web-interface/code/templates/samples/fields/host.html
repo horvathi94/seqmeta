@@ -1,0 +1,22 @@
+<tr>
+	<td> Host {{ marker('gisaid') }} {{ marker('ena') }}</td>
+	<td> {{ select("host_id", hosts, selected_id=sample.host_id) }} </td>
+	<td> You can add more options in the <a href="{{ url_for('set_options_list') }}">manage options tab</a> </td>
+</tr>
+
+
+<tr>
+	<td> Additional host information {{ marker('gisaid', requirement='optional') }}</td>
+	<td> <input type="text" name="additional_host_info" value="{{ sample.additional_host_info }}"/> </td>
+	<td> <em> e.g. Patient infected while traveling in... </em> </td>
+</tr>
+
+
+<tr>
+	<td> Host subject ID {{ marker("ena") }}</td>
+	<td>
+		<input type="text" name="host_subject_id" value="{{ sample.host_subject_id }}"/>
+	</td>
+	<td>A unique identifier by which each subject can be referred to, de-identified, <em>e.g. #131</em></td>
+</tr>
+
