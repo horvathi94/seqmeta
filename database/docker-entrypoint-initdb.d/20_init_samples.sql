@@ -34,6 +34,38 @@ CREATE TABLE IF NOT EXISTS samples (
 	specimen_source_id						INT UNSIGNED,
 	outbreak											TEXT,
 	last_vaccinated								TEXT,
-	treatment											TEXT
+	treatment											TEXT,
+
+	subject_exposure 					TEXT,
+	subject_exposure_duration	TEXT,
+	type_exposure			TEXT,
+	ppe								TEXT,
+	hospitalization		BIT(1),
+	ilness_duration		TEXT,
+	ilness_symptoms		TEXT,
+
+	geo_loc_latitude	CHAR(200),
+	geo_loc_longitude	CHAR(200),
+
+	sample_capture_status_id 	TINYINT UNSIGNED,
+	host_disease_outcome_id		TINYINT UNSIGNED,
+
+	host_subject_id						CHAR(200),
+	host_health_state_id			TINYINT UNSIGNED,
+		
+	collector_name_id					INT UNSIGNED,
+	receipt_date							DATE,
+	sample_storage_conditions	TEXT,
+
+	definition_for_seropositive_sample	TEXT,
+	serotype														TEXT,
+
+	isolate	TEXT,
+	strain	TEXT,
+
+	isolation_source_host_associated			TEXT,
+	host_description											TEXT,
+	gravidity															TEXT,
+	isolation_source_non_host_associated	TEXT
 
 );

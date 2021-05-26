@@ -1,6 +1,6 @@
 from __main__ import app
 from flask import render_template, redirect, request, url_for, Response
-from src.ena import Studies
+from .src.ena import Studies
 
 
 @app.route("/ena/studies/view")

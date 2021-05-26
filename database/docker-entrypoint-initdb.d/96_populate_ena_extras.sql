@@ -6,9 +6,9 @@ CALL upsert_basic_table("sample_capture_status", "other", 5);
 CALL upsert_basic_table("sample_capture_status", "pet sample", 6);
 CALL upsert_basic_table("sample_capture_status", "zoo sample", 7);
 
-CALL upsert_basic_table("host_disiease_outcome", "dead", 1);
-CALL upsert_basic_table("host_disiease_outcome", "recovered", 2);
-CALL upsert_basic_table("host_disiease_outcome", "recovered with sequelae", 3);
+CALL upsert_basic_table("host_disease_outcome", "dead", 1);
+CALL upsert_basic_table("host_disease_outcome", "recovered", 2);
+CALL upsert_basic_table("host_disease_outcome", "recovered with sequelae", 3);
 
 CALL upsert_basic_table("host_health_states", "diseased", 1);
 CALL upsert_basic_table("host_health_states", "healthy", 2);
@@ -16,3 +16,11 @@ CALL upsert_basic_table("host_health_states", "not applicable", 3);
 CALL upsert_basic_table("host_health_states", "not collected", 4);
 CALL upsert_basic_table("host_health_states", "not provided", 5);
 CALL upsert_basic_table("host_health_states", "restricted access", 6);
+
+CALL upsert_basic_table("host_habitats", "domestic:free-range farm", 1);
+CALL upsert_basic_table("host_habitats", "domestic:indoor farm", 2);
+CALL upsert_basic_table("host_habitats", "domestic:live market", 3);
+CALL upsert_basic_table("host_habitats", "domestic:semi-enclosed housing", 4);
+CALL upsert_basic_table("host_habitats", "other", 5);
+CALL upsert_basic_table("host_habitats", "wild:migratory", 6);
+CALL upsert_basic_table("host_habitats", "wild:resident", 7);

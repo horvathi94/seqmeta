@@ -1,8 +1,8 @@
 from __main__ import app
 from flask import render_template, redirect, request
-from src.authors import Authors
-from src.author_groups import AuthorGroups
-from src import funcs
+from .src.authors import Authors
+from .src.author_groups import AuthorGroups
+from .src import funcs
 
 @app.route("/author-groups/view")
 def view_author_groups():

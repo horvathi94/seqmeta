@@ -1,342 +1,246 @@
-<form action="{{ url_for('samples_submit') }}" method="POST">
+{% from 'macros/select.j2' import select %}
+{% from 'macros/radio.j2' import radio %}
+{% from 'macros/markers.j2' import gisaid, ena %}
 
-	<input type="hidden" name="id" value="{{ sample.sample_id }}"/>
+
+<form action="{{ url_for('submit_samples') }}" method="POST">
+
+<table>
+
+	<input type="hidden" name="sample_id" value="{{ sample.sample_id }}" />
+
+	<tr>
+		<th> Property </th>
+		<th> Value </th>
+		<th> Description </th>
+	</tr>
+
+	
+	<tr>
+		<td> Sample name </td>
+		<td> <input type="text" name="sample_name" value="{{ sample.sample_name }}"
+			maxlength="200" onchange="changeSampleNames(this);"/> </td>
+		<td> Name of the sequenced files. Use this to keep track of your samples in the database. </td>
+	</tr>
+
+
+	<tr>
+		<td> Passage details {{ gisaid() }}</td>
+		<td> {{ select("passage_details_id", passage_details, selected_id=sample.passage_details_id) }} </td>
+		<td> Passage details/history </td>
+	</tr>
+
+
+	<tr>
+		<td> Collection date {{ gisaid() }} {{ ena() }}</td>
+		<td> 
+			<input type="number" min="2019" name="collection_year" 
+				style="width: 45%;"
+				value="{{ sample.collection_year }}" />
+			<input type="number" min="0" max="12" name="collection_month" 
+				style="width: 20%;"
+				value="{{ sample.collection_month }}" />
+			<input type="number" min="0" max="31" name="collection_day" 
+				style="width: 20%;"
+				value="{{ sample.collection_day }}"/>
+		</td>	
+		<td> The date when the sample was collected from the patient. Format: year month day</td>
+	</tr>
+
+
+	<tr>
+		<td> Continent {{ gisaid() }}</td>
+		<td> {{ select("continent_id", continents, selected_id=sample.continent_id) }} </td>
+		<td> Continent </td>
+	</tr>
+
+	<tr>
+		<td> Country {{ gisaid() }} {{ ena() }}</td>
+		<td> {{ select("country_id", countries, selected_id=sample.country_id) }} </td>
+		<td> Country </td>
+	</tr>
+
+	<tr>
+		<td> County </td>
+		<td>
+			<input type="text" name="county" maxlength="200" value="{{ sample.county }}"/>	
+		</td>
+		<td> County </td>
+	</tr>
+
+	<tr>
+		<td> City </td>
+		<td>
+			<input type="text" name="city" maxlength="200" value="{{ sample.city }}"/>	
+		</td>
+		<td> City </td>
+	</tr>
+
+
+
+	<tr>
+		<td> Additional location information </td>
+		<td> <input type="text" name="additional_location_info" value="{{ sample.additional_location_info }}"/> </td>
+		<td> <em> e.g. Cruise ship, Convention, Live animal market </em> </td>
+	</tr>
+
+
+	<tr>
+		<td> Host {{ gisaid() }} {{ ena() }}</td>
+		<td> {{ select("host_id", hosts, selected_id=sample.host_id) }} </td>
+		<td> You can add more options in the <a href="{{ url_for('set_options_list') }}">manage options tab</a> </td>
+	</tr>
+
+	
+	<tr>
+		<td> Additional host information </td>
+		<td> <input type="text" name="additional_host_info" value="{{ sample.additional_host_info }}"/> </td>
+		<td> <em> e.g. Patient infected while traveling in... </em> </td>
+	</tr>
+
+
+	<tr>
+		<td> Sampling strategy </td>
+		<td> {{ select("sampling_strategy_id", sampling_strategies, selected_id=sample.sampling_strategy_id) }} </td>
+		<td> The sampling strategy used to select the sample. </td>
+	</tr>
+
+
+	<tr>
+		<td> Gender {{ gisaid() }}</td>
+		{% set genders=[{"label": "Male", "value":"Male"}, {"label": "Female", "value": "Female"}, {"label": "unknown", "value":"unknown"}] %}
+		<td> {{ radio("patient_gender", genders, selected_value=sample.patient_gender) }} </td>
+		<td> The gender of the patient </td>
+	</tr>
+
+
+	<tr>
+		<td> Patient age {{ gisaid() }}</td>
+		<td> <input type="number" name="patient_age" min="0" max="150" value="{{ sample.patient_age }}"/> </td>
+		<td> Age of the patient in years. </td>
+	</tr>
 	
 
-	<table>
-		<tr>
-			<th> Property </th>
-			<th> Value </th>
-			<th> Description </th>
-		</tr>
+	<tr>
+		<td> Patient status {{ gisaid() }}</td>
+		<td> {{ select("patient_status_id", patient_statuses, selected_id=sample.patient_status_id) }} </td>
+		<td> The status of the patient when the sample was collected. </td>
+	</tr>
 
-		<tr>
-
-
-		<tr> 
-			<td> Name </td>
-			<td> 
-				<input type="text" name="sample_name" value="{{ sample.sample_name }}"/>
-			</td>
-			<td> Name of the sample (this needs to be the same as the `fasta` and `fastq` file names) </td>
-		</tr>
-
-
-		<tr> 
-			<td> Collection date </td>
-			<td> 
-				<input type="date" name="collection_date" value="{{ sample.collection_date }}"/>
-			</td>
-			<td> Date when the sample was collected. </td>
-		</tr>
-
-
-		<tr> 
-			<td> Author group </td>
-			<td> 
-			
-				<select name="author_group_id"> 
-
-					{% for group in author_groups %}
-
-					{% if group.group_id == sample.author_group_id %}
-							<option value="{{group.group_id}}" selected="selected"> {{group.group_name}} </option>
-						{% else %}
-							<option value="{{group.group_id}}"> {{group.group_name}} </option>
-						{% endif %}
-
-					{% endfor %}
-
-				</select>
 	
-			</td>
-			<td> The group of people who worked on the sequencing </td>
-		</tr>
+	<tr>
+		<td> Specimen source </td>
+		<td> {{ select("specimen_source_id", specimen_sources, selected_id=sample.specimem_source_id) }} </td>
+		<td> Source of the specimen </td>
+	</tr>
+
+	
+	<tr>
+		<td> Outbreak </td>
+		<td> <input type="text" name="outbreak" value="{{ sample.outbreak }}"/> </td>
+		<td> Date, location <em> e.g. type of gathering, family cluster etc. </em> </td>
+	</tr>
+
+	
+	<tr>
+		<td> Last vaccinated </td>
+		<td> <input type="text" name="last_vaccinated" value="{{ sample.last_vaccinated }}"/> </td>
+		<td> Provide details if applicable </td>
+	</tr>
+
+	
+	<tr>
+		<td> Treatment </td>
+		<td> <input type="text" name="treatment" value="{{ sample.treatment }}"/> </td>
+		<td> Include drug name, dosage. </td>
+	</tr>
+
+	
+	<tr>
+		<td> Sequencing tehcnology {{ gisaid() }}</td>
+		<td> {{ select("sequencing_technology_id", sequencing_technologies, selected_id=sample.sequencing_technology_id) }} </td>
+		<td> Apparatus with which the sequencing was done. </td>
+	</tr>
+
+	
+	<tr>
+		<td> Assembly method </td>
+		<td> {{ select("assembly_method_id", assembly_methods, selected_id=sample.assembly_method_id) }} </td>
+		<td> Program name and version with which the assembly of the sequence was performed. </td>
+	</tr>
+
+	
+	<tr>
+		<td> Coverage </td>
+		<td> <input type="number" name="coverage" min=0 style="width:92%;" value="{{ sample.coverage }}"/><span>x</span> </td>
+		<td> The average coverage of the sample. </td>
+	</tr>
+
+
+	<tr>
+		<td> Originating lab {{ gisaid() }}</td>
+		<td> {{ select("originating_lab_id", institutions, selected_id=sample.originating_lab_id) }} </td>
+		<td> Where the clinical specimen or virus isolate was first obtained. </td>
+	</tr>
+
+
+	<tr>
+		<td> Sample ID given by originating lab </td>
+		<td> <input type="text" id="originating_lab_sample_name"
+			name="originating_lab_sample_name" value="{{ sample.originating_lab_sample_name }}"/> </td>
+		<td>  </td>
+	</tr>
+
+
+	<tr>
+		<td> Submitting lab {{ gisaid() }}</td>
+		<td> {{ select("submitting_lab_id", institutions, selected_id=sample.originating_lab_id) }} </td>
+		<td> Where the sequence data have been generated and submitted to GISAID. </td>
+	</tr>
+
+
+	<tr>
+		<td> Sample ID given by originating lab </td>
+		<td> <input type="text" id="submitting_lab_sample_name" 
+			name="submitting_lab_sample_name" value="{{ sample.submitting_lab_sample_name }}"/> </td>
+		<td>  </td>
+	</tr>
+
+	
+	<tr>
+		<td> Authors group {{ gisaid() }}</td>
+		<td> {{ select("author_group_id", author_groups, selected_id=sample.author_group_id) }} </td>
+		<td> Create and edit author groups <a href="{{ url_for('view_author_groups') }}">here</a> </td>
+	</tr>
+
+	
+	<tr>
+		<td> Subject exposure {{ ena(requirement='optional') }}</td>
+		<td> <input type="text" name="subject_exposure"/> </td>
+		<td> Exposure of the subject to infected human or animals, such as poultry, wild bird or swine. If multiple exposures are applicable, please state them separated by semicolon. Example: poultry; wild bird. </td>
+	</tr>
+
+
+	<tr>
+		<td> Subject exposure duration {{ ena(requirement='optional') }}</td>
+		<td> <input type="text" name="subject_exposure_duration"/> </td>
+		<td> Duration of the exposure of the subject to an infected human or animal. If multiple exposures are applicable, please state their duration in the same order in which you reported the exposure in the field 'subject exposure'. Example: 1 day; 0.33 days.</td>
+	</tr>
+
+
+
 
+</table>
 
-		<tr> 
-			<td> Originating lab </td>
-			<td> 
-
-				<select name="originating_lab_id"> 
-
-					{% for institution in institutions %}
-
-					{% if institution.id == sample.originating_lab_id %}
-							<option value="{{institution.id}}" selected="selected"> {{institution.name}} </option>
-						{% else %}
-							<option value="{{institution.id}}"> {{institution.name}} </option>
-						{% endif %}
-
-					{% endfor %}
-
-				</select>
-
-
-			</td>
-			<td> The laboratory where the sample was sequenced. </td>
-		</tr>
-
-
-		<tr> 
-			<td> Submitting lab </td>
-			<td> 
-
-
-				<select name="submitting_lab_id"> 
-
-					{% for institution in institutions %}
-
-					{% if institution.id == sample.submitting_lab_id %}
-							<option value="{{institution.id}}" selected="selected"> {{institution.name}} </option>
-						{% else %}
-							<option value="{{institution.id}}"> {{institution.name}} </option>
-						{% endif %}
-
-					{% endfor %}
-
-				</select>
-
-			</td>
-			<td> The laboratory which submits the sequencing result. </td>
-		</tr>
-
-
-
-		<tr>
-				
-			<td> Passage details </td>
-
-			<td> 
-
-				<select name = "passage_details_id">
-					{% for pass_det in pass_dets %}
-						{% if sample.passage_details_id == pass_det.id %}
-							<option value="{{ pass_det.id }}" selected="selected"> {{pass_det.label}} </option>
-						{% else %}
-							<option value="{{ pass_det.id }}"> {{pass_det.label}} </option>
-						{% endif %}
-					{% endfor %}
-				</select>
-
-			</td>
-
-			<td> Passage details </td>
-
-		</tr>
-
-
-
-		<tr>
-				
-			<td> Sampling strategy </td>
-
-			<td> 
-
-				<select name = "sampling_strategy_id">
-					{% for samp_strat in samp_strats %}
-						{% if sample.sampling_strategy_id == samp_strat.id %}
-							<option value="{{ samp_strat.id }}" selected="selected"> {{samp_strat.label}} </option>
-						{% else %}
-							<option value="{{ samp_strat.id }}"> {{samp_strat.label}} </option>
-						{% endif %}
-					{% endfor %}
-				</select>
-
-			</td>
-
-			<td> Sampling details </td>
-
-		</tr>
-
-
-
-		<tr> 
-			<td> Location </td>
-			<td> <input type="text" name="location" value="{{ sample.location }}"/>
-			<td> Location </td>
-		</tr>
-
-		<tr> 
-			<td> Additional location information </td>
-			<td> <input type="text" name="additional_location_info" value="{{ sample.additional_location_info }}"/>
-			<td> Additional location information </td>
-		</tr>
-
-
-
-		<tr>
-			<td> Host </td>
-			<td> 
-				<select name = "host_id">
-					{% for host in hosts %}
-						{% if sample.host_id == host.id %}
-							<option value="{{ host.id }}" selected="selected"> 
-								{{host.display_label}} 
-							</option>
-						{% else %}
-							<option value="{{ host.id }}"> 
-								{{host.display_label}} 
-							</option>
-						{% endif %}
-					{% endfor %}
-				</select>
-			</td>
-			<td> The host of the virus </td>
-		</tr>
-
-
-		<tr> 
-			<td> Additional host information </td>
-			<td> 
-				<input type="text" name="additional_host_info" 
-								value="{{ sample.additional_host_info }}"/>
-			</td>
-			<td> Additional host information </td>
-		</tr>
-
-
-		<tr>
-			<td> Patient gender </td>
-			<td>
-
-				{% if sample.patient_gender == 'Male' %}
-					<input type="radio" name="patient_gender" value="Male" checked="checked"/>
-				{% else %}
-					<input type="radio" name="patient_gender" value="Male"/>
-				{% endif %}
-					<label for name="patient_gender"> Male </label>
-
-				{% if sample.patient_gender == 'Female' %}
-					<input type="radio" name="patient_gender" value="Female" checked="checked"/>
-				{% else %}
-					<input type="radio" name="patient_gender" value="Female"/>
-				{% endif %}
-					<label for name="patient_gender"> Female </label>
-
-				{% if sample.patient_gender == 'unknown' %}
-					<input type="radio" name="patient_gender" value="unknown" checked="checked"/>
-				{% else %}
-					<input type="radio" name="patient_gender" value="unknown"/>
-				{% endif %}
-					<label for name="patient_gender"> unknown </label>
-
-			</td>
-			<td> The gender of the patient </td>
-		</tr>
-
-
-		<tr>
-			<td> Patient age </td>
-			<td> 
-				<input type="number" name="patient_age" 
-														 value="{{ sample.patient_age }}"
-														 min="0" max="100"/>
-			</td>
-			<td> The age of the patient </td>
-		</tr>
-
-
-		<tr>
-			<td> Patient status </td>
-			<td> <input type="text" name="patient_status" 
-															value="{{ sample.patient_status }}"
-															maxlength=100 />
-			<td> The status of the patient </td>
-		</tr>
-
-
-		<tr>
-			<td> Specimen source </td>
-			<td>
-				<input type="text" name="specimen_source"
-													 value="{{ sample.specimen_source }}"/>
-			</td>
-			<td>	Specimen source </td>
-		</tr>
-
-
-		<tr>
-			<td> Outbreak </td>
-			<td>
-				<input type="text" name="outbreak"
-													 value="{{ sample.outbreak }}"/>
-			</td>
-			<td>	Outbreak </td>
-		</tr>
-
-
-		<tr>
-			<td> Last vaccinated </td>
-			<td>
-				<input type="text" name="last_vaccinated"
-													 value="{{ sample.last_vaccinated }}"/>
-			</td>
-			<td>	Specimen source </td>
-		</tr>
-
-		<tr>
-			<td> Treatment </td>
-			<td>
-				<input type="text" name="treatment"
-													 value="{{ sample.treatment }}"/>
-			</td>
-			<td>	Specimen source </td>
-		</tr>
-
-
-
-		<tr>
-			<td> Sequencing technology </td>
-			<td>
-
-				<select name = "sequencing_technology_id">
-					{% for item in sequencing_technologies %}
-						{% if sample.item_id == item.id %}
-							<option value="{{ item.id }}" selected="selected"> {{item.label}} </option>
-						{% else %}
-							<option value="{{ item.id }}"> {{item.label}} </option>
-						{% endif %}
-					{% endfor %}
-				</select>
-
-			</td>
-			<td> Coverage of the sequence </td>
-		</tr>
-
-
-
-
-		<tr>
-			<td> Assembly method </td>
-			<td>
-
-				<select name = "assembly_method_id">
-					{% for item in assembly_methods %}
-						{% if sample.item_id == item.id %}
-							<option value="{{ item.id }}" selected="selected"> {{item.label}} </option>
-						{% else %}
-							<option value="{{ item.id }}"> {{item.label}} </option>
-						{% endif %}
-					{% endfor %}
-				</select>
-
-			</td>
-			<td> Coverage of the sequence </td>
-		</tr>
-
-
-		<tr>
-			<td> Coverage </td>
-			<td>
-				<input type="" name="coverage" value="{{ sample.coverage }}" min="0" max="65000"/>
-			</td>
-			<td> Coverage of the sequence </td>
-		</tr>
-
-
-	</table>
-
-	<input type="submit" value="Save"/>
+<input type="submit" value="Save"/>
 
 </form>
+
+<div class="legend">
+	<p>Field {{ gisaid(requirement='mandatory') }}: the field is mandatory for submission to the GISAID database.</p>
+	<p>Field {{ gisaid(requirement='optional') }}: the field is optional for submission to the GISAID database.</p>
+	<p>Field {{ ena(requirement='mandatory') }}: the field is mandatory for submission to the ENA database.</p>
+	<p>Field {{ ena(requirement='recommended') }}: the field is recommended for submission to the ENA database.</p>
+	<p>Field {{ ena(requirement='optional') }}: the field is optional for submission to the ENA database.</p>
+
+</div>

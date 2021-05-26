@@ -1,5 +1,13 @@
-{% macro gisaid() %}
+{% macro gisaid(requirement='mandatory') %}
 
-	<span class="mark gisaid">*</span>
+	<span class="mark gisaid {{ requirement }}"><sup>GISAID</sup></span>
+
+{% endmacro %}
+
+
+
+{% macro ena(requirement='mandatory') %}
+
+	<span class="mark ena {{ requirement }}"><sup>ENA</sup></span>
 
 {% endmacro %}

@@ -1,6 +1,6 @@
 from __main__ import app
 from flask import render_template, redirect, request
-from src.institutions import Institutions
+from .src.institutions import Institutions
 
 
 @app.route("/institutions/view")

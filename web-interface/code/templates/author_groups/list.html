@@ -16,7 +16,7 @@
 		<td> {{group.members_count}} </td>
 		<td>
 			<input type="button"
-						 onclick="location.href='{{ url_for('author_groups_edit') }}?id={{group.group_id}}'"
+						 onclick="location.href='{{ url_for('edit_author_groups') }}?id={{group.group_id}}'"
 						 value="Edit"/>
 		</td>
 	</tr>
@@ -26,5 +26,5 @@
 
 
 <input type="button"
-			 onclick="location.href='{{ url_for('author_groups_edit') }}'"
+			 onclick="location.href='{{ url_for('edit_author_groups') }}'"
 			 value="Add"/>

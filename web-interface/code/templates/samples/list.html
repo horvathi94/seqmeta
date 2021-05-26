@@ -1,5 +1,5 @@
 <input type="button"
-			 onclick="location.href='{{ url_for('samples_edit') }}'"
+			 onclick="location.href='{{ url_for('edit_samples') }}'"
 			 value="Add"/>
 
 
@@ -35,7 +35,7 @@
 
 			<td> 
 				<input type="button" 
-							 onclick="location.href='{{ url_for('samples_edit') }}?id={{sample.sample_id}}'"
+							 onclick="location.href='{{ url_for('edit_samples') }}?id={{sample.sample_id}}'"
 							 value="Edit"/>
 			</td>
 

@@ -37,7 +37,10 @@ CREATE VIEW view_samples_edit AS
 		samples.specimen_source_id AS specimen_source_id,
 		samples.outbreak AS outbreak,
 		samples.last_vaccinated AS last_vaccinated,					
-		samples.treatment AS treatment
+		samples.treatment AS treatment,
+
+		ena.subject_exposure AS subject_exposure,
+		ena.subject_duration AS subject_duration
 
 	FROM samples
 

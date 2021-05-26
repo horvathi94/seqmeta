@@ -1,6 +1,6 @@
 from __main__ import app
 from flask import render_template, redirect, request
-from src.authors import Authors
+from .src.authors import Authors
 
 @app.route("/authors/view")
 def view_authors():

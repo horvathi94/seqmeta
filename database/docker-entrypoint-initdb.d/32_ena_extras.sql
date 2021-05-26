@@ -9,3 +9,7 @@ CALL create_basic_table(@table_name);
 /* host_health_states */
 SET @table_name = "host_health_states";
 CALL create_basic_table(@table_name);
+
+/* host_habitats */
+SET @table_name = "host_habitats";
+CALL create_basic_table(@table_name);
