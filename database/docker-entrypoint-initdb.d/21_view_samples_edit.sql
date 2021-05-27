@@ -30,7 +30,7 @@ CREATE VIEW view_samples_edit AS
 
 		samples.sampling_strategy_id AS sampling_strategy_id,	
 		samples.passage_details_id AS passage_details_id,
-		samples.sequencing_technology_id AS sequencing_technology_id,
+		samples.sequencing_instrument_id AS sequencing_instrument_id,
 		samples.assembly_method_id AS assembly_method_id,	
 		samples.coverage AS coverage,
 
@@ -72,7 +72,10 @@ CREATE VIEW view_samples_edit AS
 		samples.isolation_source_host_associated AS isolation_source_host_associated,
 		samples.host_description AS host_description,
 		samples.gravidity AS gravidity,
-		samples.isolation_source_non_host_associated AS isolation_source_non_host_associated
+		samples.isolation_source_non_host_associated AS isolation_source_non_host_associated,
+
+		samples.host_habitat_id AS host_habitat_id,
+		samples.host_behaviour_id AS host_behaviour_id
 
 	FROM samples
 

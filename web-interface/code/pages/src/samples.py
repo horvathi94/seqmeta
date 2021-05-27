@@ -15,10 +15,12 @@ class Samples(DBInterface):
 
     @classmethod
     def clean_entry(cls, entry):
-        if entry["patient_gender"] == "b''":
-            entry["patient_gender"] = "unknown";
-        if entry["hospitalization"] == "b''":
-            entry["hospitalization"] = "N/A";
+        if "patient_gender" in entry:
+            if entry["patient_gender"] == "b''":
+                entry["patient_gender"] = "unknown";
+        if "hospitalization" in entry:
+            if entry["hospitalization"] == "b''":
+                entry["hospitalization"] = "N/A";
         return entry;
 
 
@@ -56,6 +58,14 @@ class Samples(DBInterface):
             submitted["patient_gender"] = False;
         else:
             submitted["patient_gender"] = None;
+
+        if submitted["hospitalization"] == "Yes":
+            submitted["hospitalization"] = True;
+        elif submitted["hospitalization"] == "No":
+            submitted["hospitalization"] = False;
+        else:
+            submitted["hospitalization"] = None;
+
 #        submitted["submission_date"] = datetime.today();
         return submitted;
 

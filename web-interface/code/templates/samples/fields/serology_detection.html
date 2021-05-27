@@ -1,0 +1,18 @@
+<tr>
+	<td> Definition for seropositive sample {{ marker("ena", requirement="recommended") }}</td>
+	<td> 
+		<input type="text" name="definition_for_seropositive_sample"
+											 value="{{ sample.definition_for_seropositive_sample }}"/>
+	</td>
+	<td> The cut off value used by an investigatior in determining that a sample was seropositive. </td>
+</tr>
+
+
+<tr>
+	<td> Serotype (<em>required for a seropositive sample</em>) {{ marker("ena", requirement="recommended") }}</td>
+	<td> 
+		<input type="text" name="serotype"
+											 value="{{ sample.serotype }}"/>
+	</td>
+	<td> Serological variety of a species characterised by its antigenic properties. For Influenza, HA subtype should be the letter H followed by a number between 1-16 unless novel subtype is identified and the NA subtype should be the letter N followed by a number between 1-9 unless novel subtype is identified. If only one of the subtypes have been tested then use the format H5Nx or HxN1. <em>Example: H1N1.</em> </td>
+</tr>

@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `hosts` (
 );
 
 
-CREATE VIEW `view_hosts` AS
+CREATE OR REPLACE VIEW `view_hosts` AS
 
 	SELECT 
 		`id`, 

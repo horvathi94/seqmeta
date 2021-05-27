@@ -4,7 +4,8 @@ from flask import request, \
     jsonify, \
     redirect, \
     make_response, \
-    send_file
+    send_file, \
+    url_for
 
 from .src.samples import Samples
 from .src.authors import Authors
@@ -16,13 +17,15 @@ from .src.locations import Continents, Countries
 from .src.custom_options import Hosts, \
     SamplingStrategies, \
     PassageDetails, \
-    SequencingTechs, \
     AssemblyMethods, \
     PatientStatuses, \
     SpecimenSources, \
     SampleCaptureStatuses, \
     HostDiseaseOutcomes, \
-    HostHealthStates
+    HostHealthStates, \
+    HostHabitats, \
+    HostBehaviours, \
+    SequencingInstruments
 
 
 from .src import funcs
@@ -70,21 +73,23 @@ def edit_samples():
         sampling_strategies=SamplingStrategies.fetch_list(),
         passage_details=PassageDetails.fetch_list(),
         assembly_methods=AssemblyMethods.fetch_list(),
-        sequencing_technologies=SequencingTechs.fetch_list(),
+        sequencing_instruments=SequencingInstruments.fetch_list(),
         patient_statuses=PatientStatuses.fetch_list(),
         specimen_sources=SpecimenSources.fetch_list(),
         countries=Countries.fetch_list(),
         continents=Continents.fetch_list(),
         sample_capture_statuses=SampleCaptureStatuses.fetch_list(),
         host_disease_outcomes=HostDiseaseOutcomes.fetch_list(),
-        host_health_states=HostHealthStates.fetch_list());
+        host_health_states=HostHealthStates.fetch_list(),
+        host_habitats=HostHabitats.fetch_list(),
+        host_behaviours=HostBehaviours.fetch_list());
     html+= render_template("footer.html", scripts=["sample_edit.js"]);
     return html;
 
 
 @app.route("/samples/submit", methods=["POST"])
 def submit_samples():
-    return jsonify(request.form.to_dict());
+#    return jsonify(request.form.to_dict());
     Samples.save_entry(request.form.to_dict());
     return redirect(url_for('view_samples'));
 

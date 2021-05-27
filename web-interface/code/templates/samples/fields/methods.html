@@ -1,7 +1,11 @@
 <tr>
-	<td> Sequencing tehcnology {{ marker("gisaid") }}</td>
-	<td> {{ select("sequencing_technology_id", sequencing_technologies, selected_id=sample.sequencing_technology_id) }} </td>
-	<td> Apparatus with which the sequencing was done. </td>
+	<td> Sequencing instrument {{ marker("gisaid") }}</td>
+	<td> {{ select("sequencing_instrument_id", 
+									sequencing_instruments, 
+									selected_id=sample.sequencing_instrument_id) }} </td>
+	<td> Apparatus with which the sequencing was done.
+	{{ sample.sequencing_instrument_id }}
+	</td>
 </tr>
 
 

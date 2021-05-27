@@ -24,3 +24,8 @@ CALL upsert_basic_table("host_habitats", "domestic:semi-enclosed housing", 4);
 CALL upsert_basic_table("host_habitats", "other", 5);
 CALL upsert_basic_table("host_habitats", "wild:migratory", 6);
 CALL upsert_basic_table("host_habitats", "wild:resident", 7);
+
+CALL upsert_basic_table("host_behaviours", "captive-wild (e.g. at zoo)", 1);
+CALL upsert_basic_table("host_behaviours", "domestic", 2);
+CALL upsert_basic_table("host_behaviours", "other", 3);
+CALL upsert_basic_table("host_behaviours", "wild", 4);

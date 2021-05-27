@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, \
-    jsonify, make_response, send_from_directory, send_file
+    jsonify, make_response, send_from_directory, send_file, Response
 from flask_caching import Cache
 
 
@@ -105,9 +105,22 @@ def sequencing_technologies_submit():
 
 
 
-
 @app.route("/test")
-def tests():
+def test():
+
+    from pages.src.ena import Sample
+
+    samp_data = Sample.create_xml(sample_id=1);
+
+    return Response(samp_data, mimetype="text/xml");
+#    html = render_template("head.html", styles=["geocode.css"]);
+#    html+= render_template("geocode.html");
+#    html+= render_template("footer.html", scripts=["geocode.js"]);
+#    return html;
+
+
+@app.route("/testsamp")
+def tests_samples():
 
     samples = Samples.fetch_entries("view_samples_gisaid", sample_ids=[1]);
     sample = samples[0];

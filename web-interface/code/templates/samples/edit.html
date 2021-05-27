@@ -35,22 +35,6 @@
 
 	{% include('samples/fields/patient.html') %}
 
-	
-
-	<tr>
-		<td>Sample capture status {{ marker("gisaid", requirement="recommended") }}</td>
-		<td> {{ select("sample_capture_status", 
-										sample_capture_statuses, 
-										selected_id=sample.sample_captured_status_id) }} </td>
-		<td>Reason for the sample collection.</td>
-	</tr>
-
-
-	<tr>
-		<td> Serology detection {{ marker("ena", requirement="recommended") }}</td>
-		<td>  </td>
-		<td> Serology information complementing surveillance data. </td>
-	</tr>
 
 	<tr>
 		<td> Outbreak {{ marker("gisaid", requirement="optional") }}</td>
@@ -58,13 +42,12 @@
 		<td> Date, location <em> e.g. type of gathering, family cluster etc. </em> </td>
 	</tr>
 
-
-
 	
 	{% include('samples/fields/methods.html') %}
-
 	{% include('samples/fields/ilness.html') %}	
 
+	{% include('samples/fields/serology_detection.html') %}
+	{% include('samples/fields/infraspecies_information.html') %}
 
 
 

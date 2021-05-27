@@ -13,3 +13,7 @@ CALL create_basic_table(@table_name);
 /* host_habitats */
 SET @table_name = "host_habitats";
 CALL create_basic_table(@table_name);
+
+/* host_behaviours */
+SET @table_name = "host_behaviours";
+CALL create_basic_table(@table_name);

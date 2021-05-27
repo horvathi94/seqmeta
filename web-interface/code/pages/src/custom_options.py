@@ -37,15 +37,6 @@ class PassageDetails(DBInterface):
 
 
 
-class SequencingTechs(DBInterface):
-
-    display_table_name = "view_sequencing_technologies";
-    edit_table_name = "view_sequencing_technologies";
-    submit_table_name = "sequencing_technologies";
-    save_procedure = "upsert_basic_table";
-
-
-
 class AssemblyMethods(DBInterface):
 
     display_table_name = "view_assembly_methods";
@@ -85,3 +76,18 @@ class HostDiseaseOutcomes(DBInterface):
 class HostHealthStates(DBInterface):
 
     display_table_name = "host_health_states";
+
+
+class HostHabitats(DBInterface):
+
+    display_table_name = "host_habitats";
+
+
+class HostBehaviours(DBInterface):
+
+    display_table_name = "host_behaviours";
+
+
+class SequencingInstruments(DBInterface):
+
+    display_table_name = "sequencing_instruments";

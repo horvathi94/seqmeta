@@ -20,14 +20,14 @@ CREATE TABLE IF NOT EXISTS samples (
 	additional_location_info			TEXT,
 
 	originating_lab_id						INT UNSIGNED,
-	originating_lab_sample_name		CHAR(200) UNIQUE,
+	originating_lab_sample_name		CHAR(200),
 	submitting_lab_id							INT UNSIGNED,
-	submitting_lab_sample_name		CHAR(200) UNIQUE,
+	submitting_lab_sample_name		CHAR(200),
 	author_group_id								INT UNSIGNED,
 
 	sampling_strategy_id					INT UNSIGNED,
 	passage_details_id						INT UNSIGNED,
-	sequencing_technology_id			INT UNSIGNED,
+	sequencing_instrument_id			INT UNSIGNED,
 	assembly_method_id						INT UNSIGNED,
 	coverage											MEDIUMINT UNSIGNED,
 
@@ -44,8 +44,8 @@ CREATE TABLE IF NOT EXISTS samples (
 	ilness_duration							SMALLINT UNSIGNED,
 	ilness_symptoms							TEXT,
 
-	geo_loc_latitude	CHAR(200),
-	geo_loc_longitude	CHAR(200),
+	geo_loc_latitude	DECIMAL(5,2),
+	geo_loc_longitude DECIMAL(5,2),
 
 	sample_capture_status_id 	TINYINT UNSIGNED,
 	host_disease_outcome_id		TINYINT UNSIGNED,
@@ -63,6 +63,8 @@ CREATE TABLE IF NOT EXISTS samples (
 	isolate	TEXT,
 	strain	TEXT,
 
+	host_habitat_id												TINYINT UNSIGNED,
+	host_behaviour_id											TINYINT UNSIGNED,
 	isolation_source_host_associated			TEXT,
 	host_description											TEXT,
 	gravidity															TEXT,

@@ -33,7 +33,8 @@ CREATE VIEW view_samples_details AS
 
 		passage_details.label AS passage_details,
 		sampling_strategies.label AS sampling_strategy,
-		sequencing_technologies.label AS sequencing_technology,
+		sequencing_instruments.label AS sequencing_instrument,
+		sequencing_platforms.label AS sequencing_platform,
 		assembly_methods.label AS assembly_method,
 		CONCAT(samples.coverage, "x") AS coverage,
 
@@ -58,8 +59,10 @@ CREATE VIEW view_samples_details AS
 		ON samples.passage_details_id = passage_details.id
 	LEFT JOIN sampling_strategies
 		ON samples.sampling_strategy_id = sampling_strategies.id	
-	LEFT JOIN sequencing_technologies
-		ON samples.sequencing_technology_id = sequencing_technologies.id
+	LEFT JOIN sequencing_instruments
+		ON samples.sequencing_instrument_id = sequencing_instruments.id
+	LEFT JOIN sequencing_platforms
+		ON sequencing_instruments.platform_id = sequencing_platforms.id
 	LEFT JOIN assembly_methods
 		ON samples.assembly_method_id = assembly_methods.id
 	LEFT JOIN specimen_sources

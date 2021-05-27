@@ -23,16 +23,27 @@
 	<td></td>	
 </tr>
 
+	
+<tr>
+	<td>Sample capture status {{ marker("gisaid", requirement="recommended") }}</td>
+	<td> {{ select("sample_capture_status_id", 
+									sample_capture_statuses, 
+									selected_id=sample.sample_capture_status_id) }} </td>
+	<td>Reason for the sample collection.</td>
+</tr>
+	
 
 <tr>
 	<td> Specimen source {{ marker("gisaid", requirement="optional") }}</td>
-	<td> {{ select("specimen_source_id", specimen_sources, selected_id=sample.specimem_source_id) }} </td>
+	<td> {{ select("specimen_source_id", 
+									specimen_sources, 
+									selected_id=sample.specimen_source_id) }} </td>
 	<td> Source of the specimen </td>
 </tr>
 	
 
 <tr>
-	<td> Sampling strategy {{ marker("gisaid", requirement="optiona") }}</td>
+	<td> Sampling strategy {{ marker("gisaid", requirement="optional") }}</td>
 	<td> {{ select("sampling_strategy_id", sampling_strategies, selected_id=sample.sampling_strategy_id) }} </td>
 	<td> The sampling strategy used to select the sample. </td>
 </tr>

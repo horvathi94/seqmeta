@@ -113,8 +113,9 @@ function updateTable(sample){
 	cells[1].innerHTML = sample.treatment;
 
 	cells = addRow();
-	cells[0].innerHTML = "Sequencing technology:";
-	cells[1].innerHTML = sample.sequencing_technology;
+	cells[0].innerHTML = "Sequencing instrument:";
+	cells[1].innerHTML = sample.sequencing_instrument + 
+		" (" + sample.sequencing_platform + ")";
 
 	cells = addRow();
 	cells[0].innerHTML = "Assembly method:";

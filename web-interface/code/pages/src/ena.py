@@ -1,5 +1,7 @@
+from .cursor import Cursor
 from .db_interface import DBInterface
 import xml.etree.ElementTree as ET
+
 
 class Studies(DBInterface):
 
@@ -32,3 +34,43 @@ class Studies(DBInterface):
 
         xml_data = ET.tostring(project_set);
         return xml_data;
+
+
+
+class Sample(DBInterface):
+
+    @staticmethod
+    def attr(tag, value, units=""):
+        attr = ET.Element("SAMPLE_ATTRIBUTE");
+        t = ET.SubElement(attr, "TAG");
+        t.text = tag;
+        v = ET.SubElement(attr, "VALUE");
+        v.text = value;
+        if units:
+            u = ET.SubElement(attr, "UNITS");
+            u.text = units;
+        return attr;
+
+    @classmethod
+    def create_xml(cls, sample_id):
+        sample ,= Cursor.select("view_samples_ena",
+                    clauses="WHERE `sample_id` = {:d}".format(sample_id));
+
+        sample_set = ET.Element("SAMPLE_SET");
+        attr = cls.attr("ENA-CHECKLIST", "ERC000033");
+        sample_set.append(attr);
+
+        for key in sample:
+            if key == "sample_id":
+                continue;
+
+            if key == "host age":
+                attr = cls.attr(key, str(sample[key]), units="years");
+            elif sample[key]:
+                attr = cls.attr(key, sample[key]);
+            else:
+                continue;
+
+            sample_set.append(attr);
+
+        return ET.tostring(sample_set);
