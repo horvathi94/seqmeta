@@ -55,10 +55,13 @@ class DBInterface:
     def save_entry(cls, submitted):
         submitted = cls.clean_submit(submitted);
         if submitted["id"] == 0:
-            Cursor.insert_row(cls.submit_table_name, submitted);
+            last_id = Cursor.insert_row(cls.submit_table_name, submitted);
         else:
             where = "WHERE `id` = {:d}".format(submitted["id"]);
             Cursor.update_row(cls.submit_table_name, where, submitted);
+            last_id = 0;
+        return last_id
+
 
 
 

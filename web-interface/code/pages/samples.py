@@ -7,13 +7,18 @@ from flask import request, \
     send_file, \
     url_for
 
-from .src.samples import Samples
+from .src.samples import Samples, \
+    SampleLibrary, \
+    SampleCollection
 from .src.authors import Authors
 from .src.author_groups import AuthorGroups
 from .src.base.excel_generator import ExcelGenerator
 from .src.fast_files import Fasta
 from .src.institutions import Institutions
 from .src.locations import Continents, Countries
+from .src.library import LibraryStrategies, \
+    LibrarySources, \
+    LibrarySelections
 from .src.custom_options import Hosts, \
     SamplingStrategies, \
     PassageDetails, \
@@ -82,14 +87,40 @@ def edit_samples():
         host_disease_outcomes=HostDiseaseOutcomes.fetch_list(),
         host_health_states=HostHealthStates.fetch_list(),
         host_habitats=HostHabitats.fetch_list(),
-        host_behaviours=HostBehaviours.fetch_list());
+        host_behaviours=HostBehaviours.fetch_list(),
+        library_strategies=LibraryStrategies.fetch_list_labeled(
+            replace_key="item_key"),
+        library_sources=LibrarySources.fetch_list_labeled(
+            replace_key="item_key"),
+        library_selections=LibrarySelections.fetch_list_labeled(
+            replace_key="item_key")
+        );
     html+= render_template("footer.html", scripts=["sample_edit.js"]);
     return html;
 
 
 @app.route("/samples/submit", methods=["POST"])
 def submit_samples():
-#    return jsonify(request.form.to_dict());
+
+    sample_data = funcs.parse_form_simple(request.form, "sample");
+
+    library = funcs.parse_form_simple(request.form, "library");
+    library["id"] = int(request.form.to_dict()["link_library_id"]);
+    sample_data["link_library_id"] = SampleLibrary.save_entry(library);
+
+    collection = funcs.parse_form_simple(request.form, "collection");
+    collection["id"] = int(request.form.to_dict()["link_collection_id"]);
+    sample_data["link_collection_id"] = \
+        SampleCollection.save_entry(collection);
+
+
+    sample_id = Samples.save_entry(sample_data);
+    return jsonify(sample_id);
+
+    collection = funcs.parse_form_simple(request.form, "collection");
+    location = funcs.parse_form_simple(request.form, "location");
+    return jsonify(location);
+    return jsonify(request.form.to_dict());
     Samples.save_entry(request.form.to_dict());
     return redirect(url_for('view_samples'));
 

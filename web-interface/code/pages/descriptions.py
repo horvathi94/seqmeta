@@ -6,8 +6,8 @@ from .src.library import LibraryStrategies, \
     LibrarySources
 
 
-@app.route("/descriptions/library/strategies")
-def descript_library_strategy():
+@app.route("/descriptions/library")
+def descriptions_library():
 
     html = render_template("head.html", styles=["descriptions.css"]);
     html+= render_template("descriptions/library.html",

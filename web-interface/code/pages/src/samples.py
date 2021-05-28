@@ -4,10 +4,35 @@ from .cursor import Cursor
 from .db_interface import DBInterface
 
 
+class SampleLibrary(DBInterface):
+
+    submit_table_name = "samples_library";
+
+
+    @classmethod
+    def clean_submit(cls, entry):
+        if entry["layout_paired"] == "":
+            entry["layout_paired"] = None;
+        elif entry["layout_paired"]:
+            entry["layout_paired"] = True;
+        else:
+            entry["layout_paired"] = False;
+        return entry;
+
+
+
+class SampleCollection(DBInterface):
+
+    submit_table_name = "samples_collection";
+
+
+
+
+
 class Samples(DBInterface):
 
     display_table_name = "view_samples_display";
-    edit_table_name = "view_samples_edit";
+    edit_table_name = "view_samples_base";
     view_id_key = "sample_id";
     submit_table_name = "samples";
     date_format = "%Y-%m-%d";
@@ -15,12 +40,27 @@ class Samples(DBInterface):
 
     @classmethod
     def clean_entry(cls, entry):
+        if "link_library_id" in entry:
+            if entry["link_library_id"] == "":
+                entry["link_library_id"] = 0;
+
+        if "link_collection_id" in entry:
+            if entry["link_collection_id"] == "":
+                entry["link_collection_id"] = 0;
+
+
         if "patient_gender" in entry:
             if entry["patient_gender"] == "b''":
                 entry["patient_gender"] = "unknown";
+
         if "hospitalization" in entry:
             if entry["hospitalization"] == "b''":
                 entry["hospitalization"] = "N/A";
+
+        if "library_layout" in entry:
+            if entry["library_layout"] == "b''":
+                entry["library_layout"] = "";
+
         return entry;
 
 
@@ -52,20 +92,25 @@ class Samples(DBInterface):
         del submitted["sample_id"];
         submitted["name"] = submitted["sample_name"];
         del submitted["sample_name"];
-        if submitted["patient_gender"] == "Male":
-            submitted["patient_gender"] = True;
-        elif submitted["patient_gender"] == "Female":
-            submitted["patient_gender"] = False;
-        else:
-            submitted["patient_gender"] = None;
+#        if submitted["patient_gender"] == "Male":
+#            submitted["patient_gender"] = True;
+#        elif submitted["patient_gender"] == "Female":
+#            submitted["patient_gender"] = False;
+#        else:
+#            submitted["patient_gender"] = None;
+#
+#        if submitted["hospitalization"] == "Yes":
+#            submitted["hospitalization"] = True;
+#        elif submitted["hospitalization"] == "No":
+#            submitted["hospitalization"] = False;
+#        else:
+#            submitted["hospitalization"] = None;
 
-        if submitted["hospitalization"] == "Yes":
-            submitted["hospitalization"] = True;
-        elif submitted["hospitalization"] == "No":
-            submitted["hospitalization"] = False;
-        else:
-            submitted["hospitalization"] = None;
-
-#        submitted["submission_date"] = datetime.today();
         return submitted;
+
+
+    @classmethod
+    def save(cls, submitted):
+        pass;
+
 

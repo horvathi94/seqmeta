@@ -78,8 +78,6 @@ class CursorBase:
                     val = float(col[4]);
                 elif dtype == "text":
                     val = str(col[4]);
-                elif dtype == "bit":
-                    val = "isabit";#col[4];
             empty_od[str(col[0])] = val;
 
         return empty_od;
@@ -158,6 +156,10 @@ class CursorBase:
 
     @classmethod
     def update_row(cls, table_name, where_clause, values_dict):
+        conn, cursor = cls.create_cursor();
+        cursor.execut("SELECT id FROM {:s} WHERE {:s}".format(table_name,
+                                                              where_clause));
+        update_id = int(cursor.fetchone()[0]);
         sql = "UPDATE `{:s}` SET ".format(table_name);
         values = cls.values_dict_to_tuple(values_dict);
         for key in values_dict:
@@ -165,10 +167,10 @@ class CursorBase:
                 continue;
             sql += "{:s}=%s, ".format(key);
         sql = sql[:-2] + " " + where_clause;
-        conn, cursor = cls.create_cursor();
         cursor.execute(sql, tuple(values));
         conn.commit();
         cls.close(conn, cursor);
+        return update_id;
 
 
     @classmethod
@@ -186,7 +188,9 @@ class CursorBase:
         conn, cursor = cls.create_cursor();
         cursor.execute(sql, tuple(values));
         conn.commit();
+        last_id = cls.last_insert_id(table_name, cursor=cursor);
         cls.close(conn, cursor);
+        return last_id;
 
 
     @classmethod
@@ -204,7 +208,17 @@ class CursorBase:
         cls.close(conn, cursor);
         return res;
 
-
+    @classmethod
+    def last_insert_id(cls, table_name, cursor=None):
+        no_cursor = False;
+        if cursor == None:
+            no_cursor = True;
+            conn, cursor = cls.create_cursor();
+        cursor.execute("SELECT last_insert_id();");
+        record = cursor.fetchone();
+        if no_cursor:
+            cls.close(conn, cursor);
+        return int(record[0]);
 
 
 

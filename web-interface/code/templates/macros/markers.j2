@@ -4,6 +4,8 @@
 		{% set label = 'GISAID' %}
 	{% elif db == 'ena' %}
 		{% set label = 'ENA' %}
+	{% elif db == 'ncbi' %}
+		{% set label = 'NCBI' %}
 	{% endif %}
 
 	<span class="mark {{ db }} {{ requirement }}"><sup>{{ label }}</sup></span>

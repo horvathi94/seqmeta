@@ -1,0 +1,59 @@
+<tr>
+	<td> Library ID {{ marker("ncbi") }}</td>
+	<td> 
+		<input type="text" name="library+lib_id" 
+			value="{{ sample.library_id }}"/>
+	</td>
+	<td> Short unique identifier for the sequencing library. 
+		Each library ID must be unique </td>
+</tr>
+
+
+<tr>
+	<td> Library strategy {{ marker("ncbi") }} </td>
+	<td> 
+		{{ select("library+strategy_id", library_strategies, 
+							selected_id=sample.library_strategy_id) }}
+	</td>
+	<td> Detailed description can be found  
+		<a href="{{ url_for('descriptions_library')+'#library-strategies' }}" 
+				target="_blank">here</a></td>
+</tr>
+
+
+<tr>
+	<td> Library source {{ marker("ncbi") }} </td>
+	<td> 
+		{{ select("library+source_id", library_sources, 
+							selected_id=sample.library_source_id) }}
+	</td>
+	<td> Detailed description can be found 
+		<a href="{{ url_for('descriptions_library')+'#library-sources' }}" 
+				target="_blank">here</a></td>
+</tr>
+
+
+<tr>
+	<td> Library selection {{ marker("ncbi") }} </td>
+	<td> 
+		{{ select("library+selection_id", library_selections, 
+							selected_id=sample.library_selection_id) }}
+	</td>
+	<td> Detailed description can be found 
+		<a href="{{ url_for('descriptions_library')+'#library-selections' }}" 
+			 	target="_blank">here</a></td>
+</tr>
+
+
+<tr>
+	<td> Library layout {{ marker("ncbi") }} </td>
+	<td> 
+		{% set lib_layout = [ 
+						{"label": "Paired-end", "value": "1"},
+						{"label": "Single", "value": "0" },
+						{"label": "N/A", "value": "" } ] %}
+		{{ radio("library+layout_paired", lib_layout, selected_value=sample.library_layout_paired) }}	
+	</td>
+	<td> Paired-end or Single {{sample.library_layout}} </td>
+</tr>
+

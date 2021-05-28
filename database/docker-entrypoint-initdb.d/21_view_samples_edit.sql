@@ -1,4 +1,5 @@
-CREATE VIEW view_samples_edit AS
+
+/*CREATE VIEW view_samples_edit AS
 
 	SELECT
 
@@ -78,4 +79,4 @@ CREATE VIEW view_samples_edit AS
 		samples.host_behaviour_id AS host_behaviour_id
 
 	FROM samples
-
+*/

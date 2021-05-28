@@ -7,7 +7,7 @@
 
 <table>
 
-	<input type="hidden" name="sample_id" value="{{ sample.sample_id }}" />
+	<input type="hidden" name="sample+sample_id" value="{{ sample.sample_id }}" />
 
 	<tr>
 		<th> Property </th>
@@ -18,17 +18,27 @@
 	
 	<tr>
 		<td> Sample name </td>
-		<td> <input type="text" name="sample_name" value="{{ sample.sample_name }}"
-			maxlength="200" onchange="changeSampleNames(this);"/> </td>
+		<td> <input type="text" name="sample+sample_name" value="{{ sample.sample_name }}"
+									 maxlength="200"
+									onchange="changeSampleNames(this);"/> </td>
 		<td> Name of the sequenced files. Use this to keep track of your samples in the database. </td>
 	</tr>
 
-
+	{#
 	{% include('samples/fields/passage_details.html') %}
-	{% include('samples/fields/collection_date.html') %}
+	#}
 
+	<input type="hidden" name="link_collection_id" 
+					value={{ sample.link_collection_id }} />
+	{% include('samples/fields/collection.html') %}
+
+
+	{#
 	{% include('samples/fields/location.html') %}
+	#}
 
+
+	{#
 	{% include('samples/fields/host.html') %}
 
 
@@ -48,7 +58,11 @@
 
 	{% include('samples/fields/serology_detection.html') %}
 	{% include('samples/fields/infraspecies_information.html') %}
+	#}
 
+	<input type="hidden" name="link_library_id" 
+					value="{{ sample.link_library_id }}"/>
+	{% include('samples/fields/library.html') %}
 
 
 </table>
@@ -58,10 +72,11 @@
 </form>
 
 <div class="legend">
-	<p>Field {{ gisaid(requirement='mandatory') }}: the field is mandatory for submission to the GISAID database.</p>
-	<p>Field {{ gisaid(requirement='optional') }}: the field is optional for submission to the GISAID database.</p>
-	<p>Field {{ ena(requirement='mandatory') }}: the field is mandatory for submission to the ENA database.</p>
-	<p>Field {{ ena(requirement='recommended') }}: the field is recommended for submission to the ENA database.</p>
-	<p>Field {{ ena(requirement='optional') }}: the field is optional for submission to the ENA database.</p>
+	<p>Field {{	marker("gisaid", requirement='mandatory') }}: the field is mandatory for submission to the GISAID database.</p>
+	<p>Field {{ marker("gisaid", requirement='optional') }}: the field is optional for submission to the GISAID database.</p>
+	<p>Field {{ marker("ena", requirement='mandatory') }}: the field is mandatory for submission to the ENA database.</p>
+	<p>Field {{ marker("ena", requirement='recommended') }}: the field is recommended for submission to the ENA database.</p>
+	<p>Field {{ marker("ena", requirement='optional') }}: the field is optional for submission to the ENA database.</p>
+	<p>Field {{ marker("ncbi", requirement='mandatory') }}: the field is mandatory for submission to the ENA database.</p>
 
 </div>
