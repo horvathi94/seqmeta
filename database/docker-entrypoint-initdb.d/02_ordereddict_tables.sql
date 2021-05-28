@@ -10,7 +10,7 @@ CREATE PROCEDURE create_ordereddict_table(
 			"CREATE TABLE IF NOT EXISTS `", table_name, "`(",
 				"id 				INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,",
 				"item_key		CHAR(200) NOT NULL,",
-				"item_value	CHAR(200),",
+				"item_value	VARCHAR(500),",
 				"indx				INT UNSIGNED);"
 		);
 
@@ -50,7 +50,7 @@ CREATE PROCEDURE upsert_ordereddict_table(
 	IN table_name 	CHAR(100),
 	IN id						INT UNSIGNED,
 	IN item_key			CHAR(200),
-	IN item_value		CHAR(200),
+	IN item_value		VARCHAR(500),
 	IN indx					INT UNSIGNED 
 )
 
@@ -62,16 +62,35 @@ CREATE PROCEDURE upsert_ordereddict_table(
 
 		IF ( id = 0 ) THEN
 
-			SET @id_query = CONCAT(
-				"SELECT @working_id := id",
+			SET @reg_id := 0;
+			SET @reg_id_query = CONCAT(
+				"SELECT @reg_id := id",
 				" FROM ", table_name,
-				" WHERE indx = 0",
+				" WHERE item_key = '", item_key, "'",
 				" LIMIT 1;"
 			);
-
-			PREPARE stmt FROM @id_query;
+			
+			PREPARE stmt FROM @reg_id_query;
 			EXECUTE stmt;
 			DEALLOCATE PREPARE stmt;
+			SET @working_id = @reg_id;
+
+			IF ( @reg_id = 0 ) THEN
+
+
+				SET @id_query = CONCAT(
+					"SELECT @working_id := id",
+					" FROM ", table_name,
+					" WHERE indx = 0",
+					" LIMIT 1;"
+				);
+
+				PREPARE stmt FROM @id_query;
+				EXECUTE stmt;
+				DEALLOCATE PREPARE stmt;
+
+			END IF;
+
 
 		ELSE
 

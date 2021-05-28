@@ -10,7 +10,7 @@ CREATE PROCEDURE create_dict_table(
 			"CREATE TABLE IF NOT EXISTS `", table_name, "`(",
 				"id 				INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,",
 				"item_key		CHAR(200) NOT NULL UNIQUE,",
-				"item_value	VARCHAR(500) );"
+				"item_value	VARCHAR(1000) );"
 		);
 
 		PREPARE stmt FROM @create_query;
@@ -24,7 +24,7 @@ CREATE PROCEDURE upsert_dict_table(
 	IN table_name CHAR(100),
 	IN id					INT UNSIGNED,
 	IN item_key		CHAR(200),
-	IN item_value	CHAR(200)
+	IN item_value	VARCHAR(1000)
 )
 
 	BEGIN

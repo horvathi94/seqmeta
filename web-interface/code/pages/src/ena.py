@@ -66,6 +66,9 @@ class Sample(DBInterface):
 
             if key == "host age":
                 attr = cls.attr(key, str(sample[key]), units="years");
+            elif key in ["geographic location (latitude)",
+                         "geographic location (longitude)"]:
+                attr = cls.attr(key, str(sample[key]), units="DD");
             elif sample[key]:
                 attr = cls.attr(key, sample[key]);
             else:

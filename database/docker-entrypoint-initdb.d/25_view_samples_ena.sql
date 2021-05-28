@@ -32,9 +32,32 @@ CREATE OR REPLACE VIEW `view_samples_ena` AS
 		hosts.label AS `host common name`,
 		samples.host_subject_id AS `host subject id`,
 		samples.patient_age AS `host age`,
+		IF (samples.patient_gender = "" OR samples.patient_gender IS NULL, "not provided", 
+			IF (samples.patient_gender = 1, "male", "female")
+		) AS `host sex`,
 		host_health_states.label AS `host health state`,
-		hosts.latin AS `host scientific name`
-		
+		hosts.latin AS `host scientific name`,
+
+		samples.submitting_lab_sample_name AS `virus identifier`,
+
+		collectors.abbreviated_middle_name AS `collector name`,
+		CONCAT(collecting_institution.name, ", ", collecting_institution.address) AS `collecting institution`,
+		samples.sample_storage_conditions AS `sample storage conditions`,
+
+		samples.definition_for_seropositive_sample AS `definition for seropositive sample`,
+		samples.serotype AS `serotype (required for a seropositive sample)`,
+
+		samples.isolate AS `isolate`,
+		samples.strain AS `strain`,
+
+		host_habitats.label AS `host habitat`,
+		samples.isolation_source_host_associated AS `isolation source host associated`,
+		samples.host_description AS `host description`,
+
+		samples.gravidity AS `gravidity`,
+		host_behaviours.label AS `host behaviour`,
+
+		samples.isolation_source_non_host_associated AS `isolation source non-host-associated`
 
 	FROM samples
 	LEFT JOIN countries
@@ -47,4 +70,12 @@ CREATE OR REPLACE VIEW `view_samples_ena` AS
 		ON samples.host_id = hosts.id
 	LEFT JOIN host_health_states
 		ON samples.host_health_state_id = host_health_states.id
-		
+	LEFT JOIN view_authors AS collectors
+		ON samples.collector_name_id = collectors.id
+	LEFT JOIN view_institutions AS collecting_institution
+		ON samples.originating_lab_id = collecting_institution.id
+	LEFT JOIN host_habitats
+		ON samples.host_habitat_id = host_habitats.id
+	LEFT JOIN host_behaviours
+		ON samples.host_behaviour_id = host_behaviours.id
+	

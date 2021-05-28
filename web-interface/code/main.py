@@ -24,7 +24,7 @@ from pages import authors
 from pages import author_groups
 from pages import institutions
 from pages import ena
-
+from pages import descriptions
 
 @app.route("/")
 def home():
