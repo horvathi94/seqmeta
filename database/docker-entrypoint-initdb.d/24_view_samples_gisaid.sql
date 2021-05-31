@@ -1,32 +1,10 @@
-CREATE VIEW view_samples_gisaid AS
+/*CREATE VIEW view_samples_gisaid AS
 
 	SELECT 
 		samples.id AS sample_id,
 		samples.name AS sample_name,
-		CONCAT(samples.collection_year,  
-			IF (samples.collection_month > 0 AND samples.collection_month IS NOT NULL,
-				CONCAT("-", LPAD(samples.collection_month, 2, 0), 
-					IF (samples.collection_day > 0 AND samples.collection_day IS NOT NULL,
-						CONCAT("-", LPAD(samples.collection_day, 2, 0) ), "" ) ), 
-					"") ) AS collection_date,
 
-		samples.collection_year AS collection_year,
-		LPAD(samples.collection_month, 2, 0) AS collection_month,
-		LPAD(samples.collection_day, 2, 0) AS collection_day,
 
-		hosts.label AS host,
-		samples.additional_host_info AS additional_host_info,
-		samples.patient_age AS patient_age,
-		IF (samples.patient_gender = "" OR samples.patient_gender IS NULL, "unknown", 
-			IF (samples.patient_gender = 1, "Male", "Female")
-		) AS patient_gender,
-		patient_statuses.label AS patient_status,
-
-		CONCAT(continents.label, " / ", countries.label, 
-			IF(samples.county IS NOT NULL, CONCAT(" / ", samples.county), ""),
-			IF(samples.city IS NOT NULL, CONCAT(" / ", samples.city), "")
-			) AS location,
-		samples.additional_location_info AS additional_location_info,
 		originating_lab.name AS originating_lab_name,
 		originating_lab.address AS originating_lab_address,
 		samples.originating_lab_sample_name AS originating_lab_sample_name,
@@ -72,4 +50,4 @@ CREATE VIEW view_samples_gisaid AS
 		ON samples.continent_id = continents.id
 	LEFT JOIN countries
 		ON samples.country_id = countries.id
-
+*/

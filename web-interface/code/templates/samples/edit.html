@@ -24,26 +24,20 @@
 		<td> Name of the sequenced files. Use this to keep track of your samples in the database. </td>
 	</tr>
 
+
+	{% include('samples/fields/collection.html') %}
+	{% include('samples/fields/location.html') %}
+
+
+
 	{#
 	{% include('samples/fields/passage_details.html') %}
 	#}
 
-	<input type="hidden" name="link_collection_id" 
-					value={{ sample.link_collection_id }} />
-	{% include('samples/fields/collection.html') %}
 
-
-	{#
-	{% include('samples/fields/location.html') %}
-	#}
-
-
-	{#
 	{% include('samples/fields/host.html') %}
 
-
-
-	{% include('samples/fields/patient.html') %}
+	{#
 
 
 	<tr>
@@ -60,10 +54,8 @@
 	{% include('samples/fields/infraspecies_information.html') %}
 	#}
 
-	<input type="hidden" name="link_library_id" 
-					value="{{ sample.link_library_id }}"/>
+	{% include('samples/fields/sampling.html') %}
 	{% include('samples/fields/library.html') %}
-
 
 </table>
 

@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW `view_samples_ena` AS
+/*CREATE OR REPLACE VIEW `view_samples_ena` AS
 
 	SELECT 
 
@@ -59,7 +59,7 @@ CREATE OR REPLACE VIEW `view_samples_ena` AS
 
 		samples.isolation_source_non_host_associated AS `isolation source non-host-associated`
 
-	FROM samples
+	FROM view_samples_base AS samples
 	LEFT JOIN countries
 		ON samples.country_id = countries.id
 	LEFT JOIN sample_capture_status
@@ -78,4 +78,4 @@ CREATE OR REPLACE VIEW `view_samples_ena` AS
 		ON samples.host_habitat_id = host_habitats.id
 	LEFT JOIN host_behaviours
 		ON samples.host_behaviour_id = host_behaviours.id
-	
+	*/

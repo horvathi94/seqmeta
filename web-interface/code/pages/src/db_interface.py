@@ -58,8 +58,8 @@ class DBInterface:
             last_id = Cursor.insert_row(cls.submit_table_name, submitted);
         else:
             where = "WHERE `id` = {:d}".format(submitted["id"]);
-            Cursor.update_row(cls.submit_table_name, where, submitted);
-            last_id = 0;
+            last_id = Cursor.update_row(cls.submit_table_name,
+                                        where, submitted);
         return last_id
 
 

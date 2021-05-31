@@ -115,8 +115,15 @@ class CursorBase:
 
 
     @classmethod
-    def empty_ordereddict(cls, table_name, cursor=None):
+    def empty_ordereddict(cls, table_name, fields=[], cursor=None):
         describe = cls.describe(table_name, cursor=cursor);
+        if len(fields) > 0:
+            describe_trunc = [];
+            for field in fields:
+                for dfield in describe:
+                    if field == dfield[0]:
+                        describe_trunc.append(dfield);
+            describe = describe_trunc;
         return cls.create_empty_ordereddict(describe);
 
 
@@ -136,7 +143,8 @@ class CursorBase:
 
         result = cls.parse_records(records, column_names);
         if len(result) == 0:
-            result = [cls.empty_ordereddict(table_name, cursor=cursor)];
+            result = [cls.empty_ordereddict(table_name, fields=fields,
+                                            cursor=cursor)];
 
         cls.close(conn, cursor);
         return result;
@@ -155,10 +163,10 @@ class CursorBase:
 
 
     @classmethod
-    def update_row(cls, table_name, where_clause, values_dict):
+    def update_row(cls, table_name, where_clause, values_dict, id_col="id"):
         conn, cursor = cls.create_cursor();
-        cursor.execut("SELECT id FROM {:s} WHERE {:s}".format(table_name,
-                                                              where_clause));
+        cursor.execute("SELECT {:s} FROM {:s} {:s}".format(
+            id_col, table_name, where_clause));
         update_id = int(cursor.fetchone()[0]);
         sql = "UPDATE `{:s}` SET ".format(table_name);
         values = cls.values_dict_to_tuple(values_dict);

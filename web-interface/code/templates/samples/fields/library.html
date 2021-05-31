@@ -49,11 +49,23 @@
 	<td> Library layout {{ marker("ncbi") }} </td>
 	<td> 
 		{% set lib_layout = [ 
-						{"label": "Paired-end", "value": "1"},
+						{"label": "Paired-End", "value": "1"},
 						{"label": "Single", "value": "0" },
 						{"label": "N/A", "value": "" } ] %}
-		{{ radio("library+layout_paired", lib_layout, selected_value=sample.library_layout_paired) }}	
+		{{ radio("library+layout_paired", lib_layout, 
+				selected_value=sample.library_layout_paired) }}	
 	</td>
-	<td> Paired-end or Single {{sample.library_layout}} </td>
+	<td> Paired-end or Single </td>
+</tr>
+
+
+<tr>
+	<td>Library design description {{ marker("ncbi", requirement="optional") }}</td>
+	<td>
+		<input type="text" name="library+design_description" maxlength="1000"
+											 value="{{ sample.library_design_description }}"/>
+	</td>
+	<td>Free-form description of the methods used to create the sequencing library; 
+	a brief 'material and methods' section.</td>
 </tr>
 

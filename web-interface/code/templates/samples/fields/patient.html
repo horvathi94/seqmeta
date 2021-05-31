@@ -1,27 +1,3 @@
-<tr>
-	<td> Gender {{ marker('gisaid') }} {{ marker('ena') }}</td>
-	{% set genders=[{"label": "Male", "value":"Male"}, 
-									{"label": "Female", "value": "Female"}, 
-									{"label": "unknown", "value":"unknown"}] %}
-	<td> {{ radio("patient_gender", genders, selected_value=sample.patient_gender) }} </td>
-	<td> The gender of the patient </td>
-</tr>
-
-
-<tr>
-	<td> Patient age {{ marker("gisaid") }} {{ marker("ena", requirement="recommended") }}</td>
-	<td> 
-		<input type="number" name="patient_age" min="0" max="150" 
-						value="{{ sample.patient_age }}"/> 
-	</td>
-	<td> Age of the patient in years. </td>
-</tr>
-
-<tr>
-	<td> Last vaccinated {{ marker("gisaid", requirement="optional") }}</td>
-	<td> <input type="text" name="last_vaccinated" value="{{ sample.last_vaccinated }}"/> </td>
-	<td> Provide details if applicable </td>
-</tr>
 
 
 <tr>
@@ -51,15 +27,6 @@
 											 value="{{ sample.type_exposure }}"/>
 	</td>
 	<td>Setting within which the subject is exposed to animals, such as farm, slaughterhouse, food preparation. If multiple exposures are applicable, please state their type in the same order in which you reported the exposure in the field 'subject exposure'. Example: backyard flock; confined animal feeding operation</td>
-</tr>
-
-
-<tr>
-	<td> Personal protective equipment {{ marker("ena", requirement="optional") }}</td>
-	<td>
-		<input type="text" name="ppe" value="{{ sample.ppe }}"/>
-	</td>
-	<td>Use of personal protective equipment, such as gloves, gowns, during any type of exposure. Example: mask.</td>
 </tr>
 
 

@@ -4,10 +4,34 @@ from .cursor import Cursor
 from .db_interface import DBInterface
 
 
-class SampleLibrary(DBInterface):
+class SampleExtended(DBInterface):
+
+    @classmethod
+    def save_entry(cls, submitted):
+        submitted = cls.clean_submit(submitted);
+        where_clause = "WHERE sample_id = {:d}".format(
+            int(submitted["sample_id"]));
+        row_id = Cursor.select(cls.submit_table_name, fields=["sample_id"],
+          clauses=where_clause)[0]["sample_id"];
+
+        if row_id == "":
+            Cursor.insert_row(cls.submit_table_name, submitted);
+        else:
+            where = "WHERE `sample_id` = {:d}".format(row_id);
+            Cursor.update_row(cls.submit_table_name,
+                              where, submitted, id_col="sample_id");
+
+
+    @classmethod
+    def clean_submit(cls, entry):
+        entry["sample_id"] = int(entry["sample_id"]);
+        return entry;
+
+
+
+class SampleLibrary(SampleExtended):
 
     submit_table_name = "samples_library";
-
 
     @classmethod
     def clean_submit(cls, entry):
@@ -21,11 +45,64 @@ class SampleLibrary(DBInterface):
 
 
 
-class SampleCollection(DBInterface):
+class SampleCollection(SampleExtended):
 
     submit_table_name = "samples_collection";
 
+    @classmethod
+    def clean_submit(cls, entry):
+        entry["sample_id"] = int(entry["sample_id"]);
+        if entry["month"] == "":
+            entry["month"] = None;
+        if entry["day"] == "":
+            entry["day"] = None;
+        if entry["collector_id"] == "":
+            entry["collector_id"] = None;
+        return entry;
 
+
+class SampleLocation(SampleExtended):
+
+    submit_table_name = "samples_location";
+
+    @classmethod
+    def clean_submit(cls, entry):
+        entry["sample_id"] = int(entry["sample_id"]);
+        if entry["geo_loc_latitude"] == "":
+            entry["geo_loc_latitude"] = None;
+        if entry["geo_loc_longitude"] == "":
+            entry["geo_loc_longitude"] = None;
+        return entry;
+
+
+
+class SampleHost(SampleExtended):
+
+    submit_table_name = "samples_host";
+
+    @classmethod
+    def clean_submit(cls, entry):
+        entry["sample_id"] = int(entry["sample_id"]);
+        if entry["patient_age"] == "":
+            entry["patient_age"] = None;
+        if entry["patient_gender"] == "":
+            entry["patient_gender"] = None;
+        elif int(entry["patient_gender"]) == 1:
+            entry["patient_gender"] = True;
+        elif int(entry["patient_gender"]) == 0:
+            entry["patient_gender"] = False;
+        return entry;
+
+
+
+class SampleSampling(SampleExtended):
+
+    submit_table_name = "samples_sampling";
+
+
+class SampleSequencing(SampleExtended):
+
+    submit_table_name = "sample_sequencing";
 
 
 
@@ -40,14 +117,6 @@ class Samples(DBInterface):
 
     @classmethod
     def clean_entry(cls, entry):
-        if "link_library_id" in entry:
-            if entry["link_library_id"] == "":
-                entry["link_library_id"] = 0;
-
-        if "link_collection_id" in entry:
-            if entry["link_collection_id"] == "":
-                entry["link_collection_id"] = 0;
-
 
         if "patient_gender" in entry:
             if entry["patient_gender"] == "b''":
@@ -92,12 +161,6 @@ class Samples(DBInterface):
         del submitted["sample_id"];
         submitted["name"] = submitted["sample_name"];
         del submitted["sample_name"];
-#        if submitted["patient_gender"] == "Male":
-#            submitted["patient_gender"] = True;
-#        elif submitted["patient_gender"] == "Female":
-#            submitted["patient_gender"] = False;
-#        else:
-#            submitted["patient_gender"] = None;
 #
 #        if submitted["hospitalization"] == "Yes":
 #            submitted["hospitalization"] = True;

@@ -57,7 +57,7 @@ CALL upsert_basic_table("countries", "Comoros", 56);
 CALL upsert_basic_table("countries", "Cook Islands", 57);
 CALL upsert_basic_table("countries", "Coral Sea Islands", 58);
 CALL upsert_basic_table("countries", "Costa Rica", 59);
-CALL upsert_basic_table("countries", "Cote d'Ivoire", 60);
+CALL upsert_basic_table("countries", "Cote d`Ivoire", 60);
 CALL upsert_basic_table("countries", "Croatia", 61);
 CALL upsert_basic_table("countries", "Cuba", 62);
 CALL upsert_basic_table("countries", "Curacao", 63);

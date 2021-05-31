@@ -1,5 +1,5 @@
 from __main__ import app
-from flask import render_template, redirect, request
+from flask import render_template, redirect, request, url_for
 from .src.authors import Authors
 
 @app.route("/authors/view")
@@ -30,5 +30,5 @@ def edit_authors():
 def submit_authors():
     data = request.form.to_dict();
     Authors.save_entry(data);
-    return redirect(url_for('authors_page'));
+    return redirect(url_for('view_authors'));
 

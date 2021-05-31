@@ -8,7 +8,8 @@
 <tr>
 	<td> Country {{ marker('gisaid') }} {{ marker('ena') }}</td>
 	<td> {{ select("location+country_id", countries, selected_id=sample.country_id) }} </td>
-	<td> The geographical origin of the sample as defined by the country or sea. Country or sea names should be chosen from the <a href="http://insdc.org/country.html">INSDC country list</a></td>
+	<td> The geographical origin of the sample as defined by the country or sea. 
+		Country or sea names should be chosen from the <a href="http://insdc.org/country.html">INSDC country list</a></td>
 </tr>
 
 
@@ -35,7 +36,7 @@
 
 
 <tr>
-	<td> Additional location information {{ marker('gisiad', requirement='optional') }} </td>
+	<td> Additional location information {{ marker('gisaid', requirement='optional') }} </td>
 	<td> <input type="text" name="location+additional_info"
 													value="{{ sample.additional_location_info }}"/> </td>
 	<td> <em> e.g. Cruise ship, Convention, Live animal market </em> </td>
@@ -49,7 +50,8 @@
 												 min="-90" max="90" step="0.1"
 												 value="{{ sample.geo_loc_latitude }}"/>	
 	</td>
-	<td>The geographical origin of the sample as defined by latitude. Minimum value: -90 and maximum value: 90.</td>
+	<td>The geographical origin of the sample as defined by latitude. 
+		Minimum value: -90 and maximum value: 90.</td>
 </tr>
 
 
@@ -60,7 +62,8 @@
 											 min="-180" max="180" step="0.1"
 											 value="{{ sample.geo_loc_longitude }}"/>
 	</td>
-	<td>The geographical origin of the sample as defined by longitude. Minimum value: -180 and maximum value: 180.</td>
+	<td>The geographical origin of the sample as defined by longitude. 
+		Minimum value: -180 and maximum value: 180.</td>
 </tr>
 
 

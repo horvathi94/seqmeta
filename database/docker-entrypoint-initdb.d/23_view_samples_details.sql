@@ -1,73 +1,61 @@
-CREATE VIEW view_samples_details AS
+CREATE OR REPLACE VIEW view_samples_details AS
 
 	SELECT 
-		samples.id AS sample_id,
-		samples.name AS sample_name,
-		CONCAT(samples.collection_year,  
-			IF (samples.collection_month > 0 AND samples.collection_month IS NOT NULL,
-				CONCAT("-", LPAD(samples.collection_month, 2, 0), 
-					IF (samples.collection_day > 0 AND samples.collection_day IS NOT NULL,
-						CONCAT("-", LPAD(samples.collection_day, 2, 0) ), "" ) ), 
-					"") ) AS collection_date,
 
-		hosts.display_label AS host,
-		samples.additional_host_info AS additional_host_info,
-		samples.patient_age AS patient_age,
-		IF (samples.patient_gender = "" OR samples.patient_gender IS NULL, "unknown", 
-			IF (samples.patient_gender = 1, "Male", "Female")
-		) AS patient_gender,
-		patient_statuses.label AS patient_status,
+		samples.sample_id AS sample_id,
+		samples.sample_name AS sample_name,
+	
+		location.location AS location,
+		location.additional_location_info AS additional_location_info,
+		IF(location.geo_loc_latitude IS NULL, "",
+				CONCAT(location.geo_loc_latitude, " DD") ) AS geo_loc_latitude,
+		IF(location.geo_loc_longitude IS NULL, "",
+				CONCAT(location.geo_loc_longitude, " DD") ) AS geo_loc_longitude,
+
+		coll.collection_date AS collection_date,
+		coll.collector_abbreviated_middle_name AS collector_name,
+
+		library.library_id AS library_id,
+		library.library_layout AS library_layout,
+		library.library_strategy AS library_strategy,
+		library.library_source AS library_source,
+		library.library_selection AS library_selection,
+		library.library_design_description AS library_design_description,
+
+		host.host_name AS host_name,
+		host.host_subject_id AS host_subject_id,
+		host.additional_host_info AS additional_host_info,
+		IF (host.patient_age IS NULL, "", 
+			CONCAT(host.patient_age, " years")) AS patient_age,
+		host.patient_gender AS patient_gender,
+		host.patient_status AS patient_status,
+		host.last_vaccinated AS last_vaccinated,
+		host.host_habitat AS host_habitat,
+		host.host_behaviour AS host_behaviour,
+		host.host_description AS host_decription,
+		host.host_gravidity AS host_gravidity,
+
+		sampling.originating_lab_name AS originating_lab_name,
+		sampling.submitting_lab_name AS submitting_lab_name,
+		sampling.passage_details AS passage_details,
+		sampling.sampling_strategy AS sampling_strategy,
+		sampling.author_group_name AS author_group_name,
+		sampling.authors_list AS authors_list,
+		sampling.isolate AS isolate,
+		sampling.strain AS strain,
+		sampling.sample_capture_status AS sample_capture_status,
+		sampling.specimen_source AS specimen_source
 
 
-		CONCAT(continents.label, " / ", countries.label, 
-			IF(samples.county IS NOT NULL, CONCAT(" / ", samples.county), ""),
-			IF(samples.city IS NOT NULL, CONCAT(" / ", samples.city), "")
-			) AS location,
-		samples.additional_location_info AS additional_location_info,
-		originating_lab.name AS originating_lab_name,
-		samples.originating_lab_sample_name AS originating_lab_sample_name,
-		submitting_lab.name AS submitting_lab_name,
-		samples.submitting_lab_sample_name AS submitting_lab_sample_name,
-		`groups`.group_name AS author_group_name,
-		`groups`.abbreviated_middle_names AS authors_list,
+	FROM view_samples_base AS samples
+	LEFT JOIN view_samples_location AS location
+		ON samples.sample_id = location.sample_id
+	LEFT JOIN view_samples_collection AS coll
+		ON samples.sample_id = coll.sample_id
+	LEFT JOIN view_samples_library AS library
+		ON samples.sample_id = library.sample_id
+	LEFT JOIN view_samples_host AS host
+		ON samples.sample_id = host.sample_id
+	LEFT JOIN view_samples_sampling AS sampling
+		ON samples.sample_id = sampling.sample_id
 
-		passage_details.label AS passage_details,
-		sampling_strategies.label AS sampling_strategy,
-		sequencing_instruments.label AS sequencing_instrument,
-		sequencing_platforms.label AS sequencing_platform,
-		assembly_methods.label AS assembly_method,
-		CONCAT(samples.coverage, "x") AS coverage,
-
-		specimen_sources.label AS specimen_source,
-		samples.outbreak AS outbreak,
-		samples.last_vaccinated AS last_vaccinated,
-		samples.treatment AS treatment
-
-
-	FROM samples
-	LEFT JOIN view_hosts AS hosts
-		ON samples.host_id = hosts.id
-	LEFT JOIN patient_statuses
-		ON samples.patient_status_id = patient_statuses.id
-	LEFT JOIN view_institutions AS originating_lab
-		ON samples.originating_lab_id = originating_lab.id
-	LEFT JOIN view_institutions AS submitting_lab
-		ON samples.submitting_lab_id = submitting_lab.id
-	LEFT JOIN view_authors_in_groups_condensed AS `groups`
-		ON samples.author_group_id = `groups`.`group_id`
-	LEFT JOIN passage_details
-		ON samples.passage_details_id = passage_details.id
-	LEFT JOIN sampling_strategies
-		ON samples.sampling_strategy_id = sampling_strategies.id	
-	LEFT JOIN sequencing_instruments
-		ON samples.sequencing_instrument_id = sequencing_instruments.id
-	LEFT JOIN sequencing_platforms
-		ON sequencing_instruments.platform_id = sequencing_platforms.id
-	LEFT JOIN assembly_methods
-		ON samples.assembly_method_id = assembly_methods.id
-	LEFT JOIN specimen_sources
-		ON samples.specimen_source_id = specimen_sources.id
-	LEFT JOIN continents
-		ON samples.continent_id = continents.id
-	LEFT JOIN countries
-		ON samples.country_id = countries.id

@@ -49,6 +49,10 @@ function updateTable(sample){
 	cells[1].innerHTML = sample.collection_date;
 
 	cells = addRow();
+	cells[0].innerHTML = "Collector name:";
+	cells[1].innerHTML = sample.collector_name;
+
+	cells = addRow();
 	cells[0].innerHTML = "Originating laboratory:";
 	cells[1].innerHTML = sample.originating_lab_name;
 
@@ -78,7 +82,7 @@ function updateTable(sample){
 
 	cells = addRow();
 	cells[0].innerHTML = "Host:";
-	cells[1].innerHTML = sample.host;
+	cells[1].innerHTML = sample.host_name;
 
 	cells = addRow();
 	cells[0].innerHTML = "Additional host information";
@@ -124,6 +128,34 @@ function updateTable(sample){
 	cells = addRow();
 	cells[0].innerHTML = "Coverage:";
 	cells[1].innerHTML = sample.coverage;
+	
+	cells = addRow();
+	cells[0].innerHTML = "Isolate:";
+	cells[1].innerHTML = sample.isolate;
+	
+	cells = addRow();
+	cells[0].innerHTML = "Strain:";
+	cells[1].innerHTML = sample.strain;
+
+	cells = addRow();
+	cells[0].innerHTML = "Library ID:";
+	cells[1].innerHTML = sample.library_id;
+
+	cells = addRow();
+	cells[0].innerHTML = "Library strategy";
+	cells[1].innerHTML = sample.library_strategy;
+
+	cells = addRow();
+	cells[0].innerHTML = "Library source:";
+	cells[1].innerHTML = sample.library_source;
+
+	cells = addRow();
+	cells[0].innerHTML = "Library selection:";
+	cells[1].innerHTML = sample.library_selection;
+
+	cells = addRow();
+	cells[0].innerHTML = "Library layout:";
+	cells[1].innerHTML = sample.library_layout;
 
 }
 

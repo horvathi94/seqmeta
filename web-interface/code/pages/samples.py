@@ -9,7 +9,11 @@ from flask import request, \
 
 from .src.samples import Samples, \
     SampleLibrary, \
-    SampleCollection
+    SampleCollection,\
+    SampleLocation, \
+    SampleHost, \
+    SampleSampling, \
+    SampleSequencing
 from .src.authors import Authors
 from .src.author_groups import AuthorGroups
 from .src.base.excel_generator import ExcelGenerator
@@ -103,25 +107,28 @@ def edit_samples():
 def submit_samples():
 
     sample_data = funcs.parse_form_simple(request.form, "sample");
+    sample_id = Samples.save_entry(sample_data);
+
+    location = funcs.parse_form_simple(request.form, "location");
+    location["sample_id"] = sample_id;
+    SampleLocation.save_entry(location);
+
+    collection = funcs.parse_form_simple(request.form, "collection");
+    collection["sample_id"] = sample_id;
+    SampleCollection.save_entry(collection);
 
     library = funcs.parse_form_simple(request.form, "library");
-    library["id"] = int(request.form.to_dict()["link_library_id"]);
-    sample_data["link_library_id"] = SampleLibrary.save_entry(library);
+    library["sample_id"] = sample_id;
+    SampleLibrary.save_entry(library);
 
-    collection = funcs.parse_form_simple(request.form, "collection");
-    collection["id"] = int(request.form.to_dict()["link_collection_id"]);
-    sample_data["link_collection_id"] = \
-        SampleCollection.save_entry(collection);
+    host = funcs.parse_form_simple(request.form, "host");
+    host["sample_id"] = sample_id;
+    SampleHost.save_entry(host);
 
+    sampling = funcs.parse_form_simple(request.form, "sampling");
+    sampling["sample_id"] = sample_id;
+    SampleSampling.save_entry(sampling);
 
-    sample_id = Samples.save_entry(sample_data);
-    return jsonify(sample_id);
-
-    collection = funcs.parse_form_simple(request.form, "collection");
-    location = funcs.parse_form_simple(request.form, "location");
-    return jsonify(location);
-    return jsonify(request.form.to_dict());
-    Samples.save_entry(request.form.to_dict());
     return redirect(url_for('view_samples'));
 
 

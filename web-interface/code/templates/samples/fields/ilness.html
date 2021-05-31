@@ -1,10 +1,4 @@
 <tr>
-	<td> Patient status {{ marker("gisaid") }}</td>
-	<td> {{ select("patient_status_id", patient_statuses, selected_id=sample.patient_status_id) }} </td>
-	<td> The status of the patient when the sample was collected. </td>
-</tr>
-
-<tr>
 	<td> Host health state {{ marker("ena") }}</td>
 	<td>
 		{{ select("host_health_state_id",
