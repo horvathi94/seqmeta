@@ -1,4 +1,4 @@
-CALL upsert_basic_table("sequencing_platforms", "_LS454", 1);
+CALL upsert_basic_table("sequencing_platforms", "LS454", 1);
 CALL upsert_basic_table("sequencing_platforms", "ABI_SOLID", 2);
 CALL upsert_basic_table("sequencing_platforms", "BGISEQ", 3);
 CALL upsert_basic_table("sequencing_platforms", "CAPILLARY", 4);

@@ -24,6 +24,7 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		library.source_id AS library_source_id,
 		library.selection_id AS library_selection_id,
 		library.design_description AS library_design_description,
+		library.preparation_date AS library_preparation_date,
 
 		host.host_id AS host_id,
 		host.host_subject_id AS	host_subject_id,

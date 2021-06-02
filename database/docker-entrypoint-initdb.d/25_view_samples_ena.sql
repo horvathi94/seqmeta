@@ -3,6 +3,7 @@ CREATE OR REPLACE VIEW `view_samples_ena` AS
 	SELECT 
 
 		samples.sample_id AS sample_id,
+		samples.sample_name AS sample_name,
 		samples.sample_name AS `virus identifier`,
 
 		health.subject_exposure AS `subject exposure`,
@@ -62,5 +63,8 @@ CREATE OR REPLACE VIEW `view_samples_ena` AS
 	LEFT JOIN view_samples_location AS location
 		ON samples.sample_id = location.sample_id
 	LEFT JOIN view_samples_sampling AS sampling
-		ON samples.sample_id = sampling.sample_id
+		ON samples.sample_id = sampling.sample_id;
+
+
+
 

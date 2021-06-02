@@ -51,12 +51,14 @@ class Sample(DBInterface):
             u.text = units;
         return attr;
 
+
     @classmethod
     def create_sample_xml(cls, sample_id):
         sample ,= Cursor.select("view_samples_ena",
                     clauses="WHERE `sample_id` = {:d}".format(sample_id));
 
         sample_tag = ET.Element("SAMPLE");
+        sample_tag.set("alias", sample["sample_name"]);
         attr = cls.attr("ENA-CHECKLIST", "ERC000033");
         sample_tag.append(attr);
 
@@ -86,3 +88,57 @@ class Sample(DBInterface):
         for sample_id in sample_ids:
             sample_set.append(cls.create_sample_xml(sample_id));
         return ET.tostring(sample_set);
+
+
+
+class ExperimentSet(DBInterface):
+
+    display_table_name = "view_samples_ena_experiment";
+
+
+    @classmethod
+    def create_experiment_xml(cls, sample_id):
+        experiment = ET.Element("EXPERIMENT");
+        sample ,= Cursor.select("view_samples_ena_experiment",
+                    clauses="WHERE `sample_id` = {:d}".format(sample_id));
+        title = ET.SubElement(experiment, "TITLE");
+        study_ref = ET.SubElement(experiment, "STUDY_REF");
+        design = ET.SubElement(experiment, "DESIGN");
+        design_description = ET.SubElement(design, "DESIGN_DESCRIPTION");
+        sample_descriptor = ET.SubElement(design, "SAMPLE_DESCRIPTOR");
+        sample_descriptor.set("refname", sample["sample_name"]);
+        lib_descript  = ET.SubElement(design, "LIBRARY_DESCRIPTOR");
+        lib_name = ET.SubElement(lib_descript, "LIBRARY_NAME");
+        lib_strategy = ET.SubElement(lib_descript, "LIBRARY_STRATEGY");
+        lib_strategy.text = sample["library_strategy"];
+        lib_source = ET.SubElement(lib_descript, "LIBRARY_SOURCE");
+        lib_source.text = sample["library_source"];
+        lib_selection = ET.SubElement(lib_descript, "LIBRARY_SELECTION");
+        lib_selection.text = sample["library_selection"];
+        lib_layout = ET.SubElement(design, "LIBRARY_LAYOUT");
+        if sample["is_paired"]:
+            paired = ET.SubElement(lib_layout, "PAIRED");
+        else:
+            single = ET.SubElement(lib_layout, "SINGLE");
+        lib_construct= ET.SubElement(design, "LIBRARY_CONSTRUCTION_PROTOCOL");
+        lib_construct.text = sample["library_design_description"];
+        platform_wrap = ET.SubElement(experiment, "PLATFORM");
+        platform = ET.SubElement(platform_wrap, sample["sequencing_platform"]);
+        instrument = ET.SubElement(platform, "INSTRUMENT_MODEL");
+        instrument.text = sample["sequencing_instrument"];
+        exp_attrs = ET.SubElement(experiment, "EXPERIMENT_ATTRIBUTES");
+        exp_attr = ET.SubElement(exp_attrs, "EXPERIMENT_ATTRIBUTE");
+        prep_date_tag = ET.SubElement(exp_attr, "TAG");
+        prep_date_tag.text = "library preparation date";
+        prep_date_value = ET.SubElement(exp_attr, "VALUE");
+        prep_date_value.text = sample["library_preparation_date"];
+        return experiment;
+
+
+    @classmethod
+    def create_xml(cls, sample_ids):
+        experiment_set = ET.Element("EXPERIMENT_SET");
+        for sample_id in sample_ids:
+            experiment = cls.create_experiment_xml(sample_id);
+            experiment_set.append(experiment);
+        return ET.tostring(experiment_set);

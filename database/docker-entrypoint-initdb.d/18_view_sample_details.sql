@@ -52,12 +52,15 @@ CREATE OR REPLACE VIEW view_samples_library AS
 
 		library.sample_id AS sample_id,
 		library.lib_id AS library_id,
+		library.layout_paired AS layout_paired,
 		IF( library.layout_paired	IS NULL, "",
 			IF (library.layout_paired IS TRUE, "Paired-End", "Single") ) AS library_layout,
 		strategies.item_key AS library_strategy,
 		sources.item_key AS library_source,
 		selections.item_key AS library_selection,
-		library.design_description AS library_design_description
+		library.design_description AS library_design_description,
+		IF(library.preparation_date IS NULL, "",
+			DATE_FORMAT(library.preparation_date, "%Y-%m-%d")) AS library_preparation_date
 
 	FROM samples_library AS library
 	LEFT JOIN library_strategies AS strategies

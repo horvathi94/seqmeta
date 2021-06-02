@@ -21,7 +21,8 @@ from .src.samples import Samples, \
 from .src.authors import Authors
 from .src.author_groups import AuthorGroups
 from .src.gisaid_submit import GisaidSubmit
-from .src.ena import Sample as EnaSample
+from .src.ena import Sample as EnaSample, \
+        ExperimentSet as EnaExperimentSet
 from .src.fast_files import Fasta
 from .src.institutions import Institutions
 from .src.locations import Continents, Countries
@@ -182,9 +183,10 @@ def samples_generate():
         return send_file(excel_file, attachment_filename=filename+".xls")
 
     if "ena" in sub_types:
-        test = EnaSample.create_xml(selected);
-        return Response(test, mimetype="text/xml");
+#        test = EnaSample.create_xml(selected);
 
+        test = EnaExperimentSet.create_xml(selected);
+        return Response(test, mimetype="text/xml");
 
     return "Finished";
 
