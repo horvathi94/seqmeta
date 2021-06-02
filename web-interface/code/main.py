@@ -12,7 +12,8 @@ config = {
     "DEBUG" : True,
     "CACHE_TYPE": "SimpleCache",
     "CACHE_DEFAULT_TIMEOUT": 200,
-    "JSON_SORT_KEYS": False,};
+    "JSON_SORT_KEYS": False,
+    "UPLOAD_FOLDER": "/samples"};
 
 
 app = Flask(__name__)

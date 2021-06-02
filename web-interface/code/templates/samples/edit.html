@@ -1,9 +1,8 @@
 {% from 'macros/select.j2' import select %}
 {% from 'macros/radio.j2' import radio %}
-{% from 'macros/markers.j2' import gisaid, ena %}
 {% from 'macros/markers.j2' import marker %}
 
-<form action="{{ url_for('submit_samples') }}" method="POST">
+<form action="{{ url_for('submit_samples') }}" method="POST" enctype="multipart/form-data">
 
 <table>
 
@@ -36,6 +35,8 @@
 	{% include('samples/fields/library.html') %}
 
 </table>
+
+{% include('samples/fields/files.html') %}
 
 <input type="submit" value="Save"/>
 

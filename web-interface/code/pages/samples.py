@@ -21,7 +21,7 @@ from .src.samples import Samples, \
 from .src.authors import Authors
 from .src.author_groups import AuthorGroups
 from .src.gisaid_submit import GisaidSubmit
-from .src.ena import Sample as EnaSample, \
+from .src.ena import SampleSet as EnaSampleSet, \
         ExperimentSet as EnaExperimentSet
 from .src.fast_files import Fasta
 from .src.institutions import Institutions
@@ -134,6 +134,11 @@ def submit_samples():
     sequencing = funcs.parse_form_simple(request.form, "sequencing");
     sequencing["sample_id"] = sample_id;
     SampleSequencing.save_entry(sequencing);
+    if "fasta-file" in request.files:
+        fasta = request.files["fasta-file"];
+        return "FASTA found", fasta;
+        fasta.save(os.path.join(
+            app.config["UPLOAD_FOLDER"], "fasta", fasta));
     return redirect(url_for('view_samples'));
 
 
@@ -183,7 +188,7 @@ def samples_generate():
         return send_file(excel_file, attachment_filename=filename+".xls")
 
     if "ena" in sub_types:
-#        test = EnaSample.create_xml(selected);
+#        test = EnaSampleSet.create_xml(selected);
 
         test = EnaExperimentSet.create_xml(selected);
         return Response(test, mimetype="text/xml");

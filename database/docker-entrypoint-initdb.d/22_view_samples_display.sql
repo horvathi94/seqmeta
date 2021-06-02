@@ -1,26 +1,15 @@
 CREATE OR REPLACE VIEW view_samples_display AS 
 
 	SELECT 
+
 		samples.sample_id AS sample_id,
-		samples.sample_name AS sample_name
-	
-/*
-		CONCAT(samples.collection_year,  
-			IF (samples.collection_month > 0 AND samples.collection_month IS NOT NULL,
-				CONCAT("-", LPAD(samples.collection_month, 2, 0), 
-					IF (samples.collection_day > 0 AND samples.collection_day IS NOT NULL,
-						CONCAT("-", LPAD(samples.collection_day, 2, 0) ), "" ) ), 
-					"") ) AS collection_date,
-*/
-
-
-				/*
-		`groups`.group_name AS group_name,
-		`groups`.full_names AS full_names,
-		`groups`.abbreviated_middle_names AS abbreviated_middle_names
-	*/
+		samples.sample_name AS sample_name,
+		collection.collection_date AS collection_date,
+		sampling.author_group_name AS group_name
+		
 
 	FROM view_samples_base AS samples
-/*	LEFT JOIN view_authors_in_groups_condensed AS `groups`
-		ON samples.author_group_id = `groups`.`group_id`;
-	*/
+	LEFT JOIN view_samples_collection AS collection
+		ON samples.sample_id = collection.sample_id
+	LEFT JOIN view_samples_sampling AS sampling
+		ON samples.sample_id = sampling.sample_id

@@ -37,7 +37,7 @@ class Studies(DBInterface):
 
 
 
-class Sample(DBInterface):
+class SampleSet(DBInterface):
 
     @staticmethod
     def attr(tag, value, units=""):
