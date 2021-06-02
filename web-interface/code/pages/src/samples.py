@@ -100,9 +100,33 @@ class SampleSampling(SampleExtended):
     submit_table_name = "samples_sampling";
 
 
+class SampleHealthStatus(SampleExtended):
+
+    submit_table_name = "samples_health_status";
+
+    @classmethod
+    def clean_submit(cls, entry):
+        entry["sample_id"] = int(entry["sample_id"]);
+        if entry["hospitalization"] == "":
+            entry["hospitalization"] = None;
+        elif int(entry["hospitalization"]) == 1:
+            entry["hospitalization"] = True;
+        elif int(entry["hospitalization"]) == 0:
+            entry["hospitalization"] = False;
+        return entry;
+
+
 class SampleSequencing(SampleExtended):
 
-    submit_table_name = "sample_sequencing";
+    submit_table_name = "samples_sequencing";
+
+
+    @classmethod
+    def clean_submit(cls, entry):
+        entry["sample_id"] = int(entry["sample_id"]);
+        if entry["coverage"] == "":
+            entry["coverage"] = None;
+        return entry;
 
 
 
@@ -161,14 +185,6 @@ class Samples(DBInterface):
         del submitted["sample_id"];
         submitted["name"] = submitted["sample_name"];
         del submitted["sample_name"];
-#
-#        if submitted["hospitalization"] == "Yes":
-#            submitted["hospitalization"] = True;
-#        elif submitted["hospitalization"] == "No":
-#            submitted["hospitalization"] = False;
-#        else:
-#            submitted["hospitalization"] = None;
-
         return submitted;
 
 

@@ -54,25 +54,23 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		sampling.specimen_source_id AS specimen_source_id,
 		sampling.sample_storage_conditions AS sample_storage_conditions,
 		sampling.definition_for_seropositive_sample AS definition_for_seropositive_sample,
-		sampling.serotype AS serotype
+		sampling.serotype AS serotype,
 
-
-	/*
-		host_details.subject_exposure AS subject_exposure,
-		host_details.subject_exposure_duration AS subject_exposure_duration,
-		host_details.type_exposure AS	type_exposure,
-		host_details.hospitalization AS hospitalization,
-		host_details.ilness_duration AS ilness_duration,
-		host_details.ilness_symptoms AS ilness_symptoms,
-		host_details.host_disease_outcome_id AS host_disease_outcome_id,
-		host_details.host_health_state_id	AS host_health_state_id,
-		host_details.treatment AS	treatment,
-
-
+		health.subject_exposure AS subject_exposure,
+		health.subject_exposure_duration AS subject_exposure_duration,	
+		health.type_exposure AS type_exposure,
+		health.hospitalization AS hospitalization,
+		health.ilness_duration AS ilness_duration,
+		health.ilness_symptoms AS ilness_symptoms,
+		health.host_disease_outcome_id AS host_disease_outcome_id,
+		health.host_health_state_id AS host_health_state_id,
+		health.treatment AS treatment,
+		health.outbreak AS outbreak,
+	
 		sequencing.sequencing_instrument_id AS sequencing_instrument_id,
 		sequencing.assembly_method_id AS assembly_method_id,
 		sequencing.coverage AS coverage
-*/
+
 
 		FROM samples
 		LEFT JOIN samples_location AS location
@@ -85,12 +83,7 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 			ON samples.id = host.sample_id
 		LEFT JOIN samples_sampling AS sampling
 			ON samples.id = sampling.sample_id
-
-/*
-		LEFT JOIN samples_host AS host_details
-			ON samples.id = host_details.id
-		LEFT JOIN samples_sequencing AS sequencing
-			ON samples.id = sequencing.id
 		LEFT JOIN samples_health_status AS health
-			ON samples.id = health.id
-*/
+			ON samples.id = health.sample_id
+		LEFT JOIN samples_sequencing AS sequencing
+			ON samples.id = sequencing.sample_id

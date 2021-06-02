@@ -91,7 +91,8 @@ CREATE TABLE IF NOT EXISTS `samples_health_status` (
 	ilness_symptoms							VARCHAR(600),
 	host_disease_outcome_id			TINYINT UNSIGNED,
 	host_health_state_id				TINYINT UNSIGNED,
-	treatment										VARCHAR(500)
+	treatment										VARCHAR(500),
+	outbreak										VARCHAR(200)
 
 );
 

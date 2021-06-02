@@ -44,7 +44,23 @@ CREATE OR REPLACE VIEW view_samples_details AS
 		sampling.isolate AS isolate,
 		sampling.strain AS strain,
 		sampling.sample_capture_status AS sample_capture_status,
-		sampling.specimen_source AS specimen_source
+		sampling.specimen_source AS specimen_source,
+
+		health.subject_exposure AS subject_exposure,
+		health.subject_exposure_duration AS subject_exposure_duration,
+		health.type_exposure AS type_exposure,
+		health.hospitalization AS hospitalization,
+		IF (health.ilness_duration IS NULL, "",
+			CONCAT(health.ilness_duration, " days")) AS ilness_duration,
+		health.ilness_symptoms AS ilness_symptoms,
+		health.host_disease_outcome AS host_disease_outcome,
+		health.treatment AS treatment,
+		health.outbreak AS outbreak,
+
+		sequencing.sequencing_instrument AS sequencing_instrument,
+		sequencing.sequencing_platform AS sequencing_platform,
+		sequencing.assembly_method AS assembly_method,
+		sequencing.coverage AS coverage
 
 
 	FROM view_samples_base AS samples
@@ -58,4 +74,7 @@ CREATE OR REPLACE VIEW view_samples_details AS
 		ON samples.sample_id = host.sample_id
 	LEFT JOIN view_samples_sampling AS sampling
 		ON samples.sample_id = sampling.sample_id
-
+	LEFT JOIN view_samples_health_status AS health
+		ON samples.sample_id = health.sample_id
+	LEFT JOIN view_samples_sequencing AS sequencing
+		ON samples.sample_id = sequencing.sample_id

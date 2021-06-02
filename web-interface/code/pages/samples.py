@@ -13,7 +13,8 @@ from .src.samples import Samples, \
     SampleLocation, \
     SampleHost, \
     SampleSampling, \
-    SampleSequencing
+    SampleSequencing, \
+    SampleHealthStatus
 from .src.authors import Authors
 from .src.author_groups import AuthorGroups
 from .src.base.excel_generator import ExcelGenerator
@@ -128,6 +129,14 @@ def submit_samples():
     sampling = funcs.parse_form_simple(request.form, "sampling");
     sampling["sample_id"] = sample_id;
     SampleSampling.save_entry(sampling);
+
+    health = funcs.parse_form_simple(request.form, "health");
+    health["sample_id"] = sample_id;
+    SampleHealthStatus.save_entry(health);
+
+    sequencing = funcs.parse_form_simple(request.form, "sequencing");
+    sequencing["sample_id"] = sample_id;
+    SampleSequencing.save_entry(sequencing);
 
     return redirect(url_for('view_samples'));
 

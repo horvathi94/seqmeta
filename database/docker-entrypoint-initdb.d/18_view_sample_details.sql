@@ -136,4 +136,50 @@ CREATE OR REPLACE VIEW view_samples_sampling AS
 	LEFT JOIN sample_capture_status AS capture_statuses
 		ON sampling.sample_capture_status_id = capture_statuses.id
 	LEFT JOIN view_specimen_sources AS specimen_sources
-		ON sampling.specimen_source_id = specimen_sources.id
+		ON sampling.specimen_source_id = specimen_sources.id;
+
+
+CREATE OR REPLACE VIEW view_samples_health_status AS 
+
+	SELECT 
+
+		health.sample_id AS sample_id,
+		health.subject_exposure AS subject_exposure ,
+		health.subject_exposure_duration AS subject_exposure_duration,
+		health.type_exposure AS type_exposure,
+		IF (health.hospitalization IS NULL, "",
+			IF(health.hospitalization IS TRUE, "yes", "no")) AS hospitalization,
+		health.ilness_duration AS ilness_duration,
+		health.ilness_symptoms AS ilness_symptoms,
+		outcome.label AS host_disease_outcome,
+		health_states.label AS host_health_state,
+		health.treatment AS treatment,
+		health.outbreak AS outbreak
+
+
+	FROM samples_health_status AS health
+	LEFT JOIN host_health_states AS health_states
+		ON health.host_health_state_id = health_states.id 
+	LEFT JOIN host_disease_outcome AS outcome
+		ON health.host_disease_outcome_id = outcome.id;
+	
+
+CREATE OR REPLACE VIEW view_samples_sequencing AS 
+
+	SELECT 
+
+		sequencing.sample_id AS sample_id,
+		instruments.label AS sequencing_instrument,
+		platforms.label AS sequencing_platform,
+		assembly.label AS assembly_method,
+		sequencing.coverage AS coverage
+
+	FROM samples_sequencing AS sequencing
+	LEFT JOIN assembly_methods AS assembly
+		ON sequencing.assembly_method_id = assembly.id
+	LEFT JOIN sequencing_instruments AS instruments
+		ON sequencing.sequencing_instrument_id = instruments.id
+	LEFT JOIN sequencing_platforms AS platforms
+		ON instruments.platform_id = platforms.id;
+	
+	

@@ -27,32 +27,10 @@
 
 	{% include('samples/fields/collection.html') %}
 	{% include('samples/fields/location.html') %}
-
-
-
-	{#
-	{% include('samples/fields/passage_details.html') %}
-	#}
-
-
 	{% include('samples/fields/host.html') %}
 
-	{#
-
-
-	<tr>
-		<td> Outbreak {{ marker("gisaid", requirement="optional") }}</td>
-		<td> <input type="text" name="outbreak" value="{{ sample.outbreak }}"/> </td>
-		<td> Date, location <em> e.g. type of gathering, family cluster etc. </em> </td>
-	</tr>
-
-	
-	{% include('samples/fields/methods.html') %}
-	{% include('samples/fields/ilness.html') %}	
-
-	{% include('samples/fields/serology_detection.html') %}
-	{% include('samples/fields/infraspecies_information.html') %}
-	#}
+	{% include('samples/fields/health_status.html') %}
+	{% include('samples/fields/sequencing.html') %}
 
 	{% include('samples/fields/sampling.html') %}
 	{% include('samples/fields/library.html') %}
