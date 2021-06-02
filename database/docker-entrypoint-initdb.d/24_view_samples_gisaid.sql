@@ -1,53 +1,47 @@
-/*CREATE VIEW view_samples_gisaid AS
+CREATE VIEW view_samples_gisaid AS
 
 	SELECT 
-		samples.id AS sample_id,
-		samples.name AS sample_name,
+
+		samples.sample_id AS sample_id,
+		samples.sample_name AS sample_name,
+
+		sampling.passage_details AS passage_details,
+		collection.collection_date AS collection_date,
+		location.location AS location,
+		location.additional_location_info AS additional_location_info,
+		hosts.host_common_name AS host,
+		hosts.additional_host_info AS additional_host_info,
+		sampling.sampling_strategy AS sampling_strategy,
+		hosts.patient_gender AS patient_gender,
+		hosts.patient_age AS patient_age,
+		hosts.patient_status AS patient_status,
+		sampling.specimen_source AS specimen_source,
+		health.outbreak AS outbreak,
+		hosts.last_vaccinated AS last_vaccinated,
+		health.treatment AS treatment,
+		sequencing.sequencing_instrument AS sequencing_technology,
+		sequencing.assembly_method AS assembly_method,
+		sequencing.coverage_x AS coverage,
+		sampling.originating_lab_name AS originating_lab_name,
+		sampling.originating_lab_address AS originating_lab_address,
+		sampling.originating_lab_sample_name AS originating_lab_sample_name,
+		sampling.submitting_lab_name AS submitting_lab_name,
+		sampling.submitting_lab_address AS submitting_lab_address,
+		sampling.submitting_lab_sample_name AS submitting_lab_sample_name,
+		sampling.authors_list AS authors_list
 
 
-		originating_lab.name AS originating_lab_name,
-		originating_lab.address AS originating_lab_address,
-		samples.originating_lab_sample_name AS originating_lab_sample_name,
-		submitting_lab.name AS submitting_lab_name,
-		submitting_lab.address AS submitting_lab_address,
-		samples.submitting_lab_sample_name AS submitting_lab_sample_name,
-		`groups`.abbreviated_middle_names AS authors_list,
+	FROM view_samples_base AS samples
+	LEFT JOIN view_samples_sampling AS sampling
+		ON samples.sample_id = sampling.sample_id
+	LEFT JOIN view_samples_collection AS collection
+		ON samples.sample_id = collection.sample_id
+	LEFT JOIN view_samples_location AS location
+		ON samples.sample_id = location.sample_id
+	LEFT JOIN view_samples_host AS hosts
+		ON samples.sample_id = hosts.sample_id
+	LEFT JOIN view_samples_health_status AS health
+		ON samples.sample_id = health.sample_id
+	LEFT JOIN view_samples_sequencing AS sequencing
+		ON samples.sample_id = sequencing.sample_id
 
-		passage_details.label AS passage_details,
-		sampling_strategies.label AS sampling_strategy,
-		sequencing_instruments.label AS sequencing_technology,
-		assembly_methods.label AS assembly_method,
-		CONCAT(samples.coverage, "x") AS coverage,
-
-		specimen_sources.label AS specimen_source,
-		samples.outbreak AS outbreak,
-		samples.last_vaccinated AS last_vaccinated,
-		samples.treatment AS treatment
-
-
-	FROM samples
-	LEFT JOIN view_hosts AS hosts
-		ON samples.host_id = hosts.id
-	LEFT JOIN patient_statuses
-		ON samples.patient_status_id = patient_statuses.id
-	LEFT JOIN view_institutions AS originating_lab
-		ON samples.originating_lab_id = originating_lab.id
-	LEFT JOIN view_institutions AS submitting_lab
-		ON samples.submitting_lab_id = submitting_lab.id
-	LEFT JOIN view_authors_in_groups_condensed AS `groups`
-		ON samples.author_group_id = `groups`.`group_id`
-	LEFT JOIN passage_details
-		ON samples.passage_details_id = passage_details.id
-	LEFT JOIN sampling_strategies
-		ON samples.sampling_strategy_id = sampling_strategies.id	
-	LEFT JOIN sequencing_instruments
-		ON samples.sequencing_instrument_id = sequencing_instruments.id
-	LEFT JOIN assembly_methods
-		ON samples.assembly_method_id = assembly_methods.id
-	LEFT JOIN specimen_sources
-		ON samples.specimen_source_id = specimen_sources.id
-	LEFT JOIN continents
-		ON samples.continent_id = continents.id
-	LEFT JOIN countries
-		ON samples.country_id = countries.id
-*/

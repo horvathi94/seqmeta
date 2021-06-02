@@ -52,6 +52,8 @@ class SampleCollection(SampleExtended):
     @classmethod
     def clean_submit(cls, entry):
         entry["sample_id"] = int(entry["sample_id"]);
+        if entry["year"] == "":
+            entry["year"] = None;
         if entry["month"] == "":
             entry["month"] = None;
         if entry["day"] == "":
@@ -113,6 +115,8 @@ class SampleHealthStatus(SampleExtended):
             entry["hospitalization"] = True;
         elif int(entry["hospitalization"]) == 0:
             entry["hospitalization"] = False;
+        if entry["ilness_duration"] == "":
+            entry["ilness_duration"] = None;
         return entry;
 
 

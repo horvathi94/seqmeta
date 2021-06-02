@@ -52,13 +52,13 @@ class Sample(DBInterface):
         return attr;
 
     @classmethod
-    def create_xml(cls, sample_id):
+    def create_sample_xml(cls, sample_id):
         sample ,= Cursor.select("view_samples_ena",
                     clauses="WHERE `sample_id` = {:d}".format(sample_id));
 
-        sample_set = ET.Element("SAMPLE_SET");
+        sample_tag = ET.Element("SAMPLE");
         attr = cls.attr("ENA-CHECKLIST", "ERC000033");
-        sample_set.append(attr);
+        sample_tag.append(attr);
 
         for key in sample:
             if key == "sample_id":
@@ -74,6 +74,15 @@ class Sample(DBInterface):
             else:
                 continue;
 
-            sample_set.append(attr);
+            sample_tag.append(attr);
 
+        return sample_tag;
+
+
+    @classmethod
+    def create_xml(cls, sample_ids):
+
+        sample_set = ET.Element("SAMPLE_SET");
+        for sample_id in sample_ids:
+            sample_set.append(cls.create_sample_xml(sample_id));
         return ET.tostring(sample_set);

@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `samples_collection` (
 
 	sample_id					INT UNSIGNED NOT NULL PRIMARY KEY,
-	year							SMALLINT UNSIGNED NOT NULL,
+	year							SMALLINT UNSIGNED,
 	month							TINYINT UNSIGNED,
 	day								TINYINT UNSIGNED,
 	collector_id			INT UNSIGNED

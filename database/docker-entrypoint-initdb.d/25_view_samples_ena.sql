@@ -1,81 +1,66 @@
-/*CREATE OR REPLACE VIEW `view_samples_ena` AS
+CREATE OR REPLACE VIEW `view_samples_ena` AS
 
 	SELECT 
 
-		samples.id AS sample_id,
-		samples.name AS sample_name,
-		CONCAT(samples.collection_year,  
-			IF (samples.collection_month > 0 AND samples.collection_month IS NOT NULL,
-				CONCAT("-", LPAD(samples.collection_month, 2, 0), 
-					IF (samples.collection_day > 0 AND samples.collection_day IS NOT NULL,
-						CONCAT("-", LPAD(samples.collection_day, 2, 0) ), "" ) ), 
-					"") ) AS `collection date`,
+		samples.sample_id AS sample_id,
+		samples.sample_name AS `virus identifier`,
 
-		samples.subject_exposure AS `subject exposure`,
-		samples.subject_exposure_duration AS `subject exposure duration`,
-		samples.ppe AS `personal protective equipment`,
-		IF (samples.hospitalization = "" OR samples.hospitalization IS NULL, "", 
-			IF (samples.hospitalization = 1, "yes", "no")
-		) AS hospitalisation,	
-		IF (samples.ilness_duration <> 0 OR samples.ilness_duration IS NOT NULL,
-			CONCAT(samples.ilness_duration, " ", "days"), "") AS `ilness duration`,
-		samples.ilness_symptoms AS `ilness symptoms`,
+		health.subject_exposure AS `subject exposure`,
+		health.subject_exposure_duration AS `subject exposure duration`,
+		health.type_exposure AS `type exposure`,
+		hosts.ppe AS `personal protective equipment`,
+		health.hospitalization AS `hospitalisation`,	
+		health.ilness_duration_days AS `ilness duration`,
+		health.ilness_symptoms AS `ilness symptoms`,
 
-		countries.label AS `geographic location (country and/or sea)`,
-		samples.geo_loc_latitude AS `geographic location (latitude)`,
-		samples.geo_loc_longitude AS `geographic location (longitude)`,
-		CONCAT(samples.county, ", ", samples.city) AS `geographic location (region and locality)`,
+		collection.collection_date AS `collection date`,
+		location.country AS `geographic location (country and/or sea)`,
+		location.geo_loc_latitude AS `geographic location (latitude)`,
+		location.geo_loc_longitude AS `geographic location (longitude)`,
+		CONCAT( 
+			IF (location.region IS NULL, "", 
+				CONCAT(location.region, ", ") ),
+			location.locality ) AS `geographic location (region and locality)`,
+
+		sampling.sample_capture_status AS `sample capture status`,
+
+		health.host_disease_outcome AS `host disease outcome`,
+
+		hosts.host_common_name AS `host common name`,
+		hosts.host_subject_id AS `host subject id`,
+		hosts.patient_age AS `host age`,
+		hosts.patient_gender_ena AS `host sex`,
+		health.host_health_state AS `host health state`,
+		hosts.host_scientific_name AS `host scientific name`,
 		
-		sample_capture_status.label AS `sample capture status`,
-		host_disease_outcome.label AS `host disease outcome`,
+		collection.collector_abbreviated_middle_name AS `collector name`, 
+		CONCAT(sampling.originating_lab_name, ", ", sampling.originating_lab_address) AS `collecting institution`,
+		sampling.sample_storage_conditions AS `sample storage conditions`,
 
-		hosts.label AS `host common name`,
-		samples.host_subject_id AS `host subject id`,
-		samples.patient_age AS `host age`,
-		IF (samples.patient_gender = "" OR samples.patient_gender IS NULL, "not provided", 
-			IF (samples.patient_gender = 1, "male", "female")
-		) AS `host sex`,
-		host_health_states.label AS `host health state`,
-		hosts.latin AS `host scientific name`,
+		sampling.definition_for_seropositive_sample AS `definition for seropositive sample`,
+		sampling.serotype AS `serotype (required for a seropositive sample)`,
 
-		samples.submitting_lab_sample_name AS `virus identifier`,
+		sampling.isolate AS `isolate`,
+		sampling.strain AS `strain`,
 
-		collectors.abbreviated_middle_name AS `collector name`,
-		CONCAT(collecting_institution.name, ", ", collecting_institution.address) AS `collecting institution`,
-		samples.sample_storage_conditions AS `sample storage conditions`,
+		hosts.host_habitat AS `host habitat`,
+		sampling.isolation_source_host_associated AS `isolation source host associated`,
+		hosts.host_description AS `host description`,
 
-		samples.definition_for_seropositive_sample AS `definition for seropositive sample`,
-		samples.serotype AS `serotype (required for a seropositive sample)`,
+		hosts.host_gravidity AS `gravidity`,
+		hosts.host_behaviour AS `host behaviour`,
 
-		samples.isolate AS `isolate`,
-		samples.strain AS `strain`,
-
-		host_habitats.label AS `host habitat`,
-		samples.isolation_source_host_associated AS `isolation source host associated`,
-		samples.host_description AS `host description`,
-
-		samples.gravidity AS `gravidity`,
-		host_behaviours.label AS `host behaviour`,
-
-		samples.isolation_source_non_host_associated AS `isolation source non-host-associated`
+		sampling.isolation_source_non_host_associated AS `isolation source non-host-associated`
 
 	FROM view_samples_base AS samples
-	LEFT JOIN countries
-		ON samples.country_id = countries.id
-	LEFT JOIN sample_capture_status
-		ON samples.sample_capture_status_id = sample_capture_status.id
-	LEFT JOIN host_disease_outcome
-		ON samples.host_disease_outcome_id = host_disease_outcome.id
-	LEFT JOIN hosts
-		ON samples.host_id = hosts.id
-	LEFT JOIN host_health_states
-		ON samples.host_health_state_id = host_health_states.id
-	LEFT JOIN view_authors AS collectors
-		ON samples.collector_name_id = collectors.id
-	LEFT JOIN view_institutions AS collecting_institution
-		ON samples.originating_lab_id = collecting_institution.id
-	LEFT JOIN host_habitats
-		ON samples.host_habitat_id = host_habitats.id
-	LEFT JOIN host_behaviours
-		ON samples.host_behaviour_id = host_behaviours.id
-	*/
+	LEFT JOIN view_samples_health_status AS health
+		ON samples.sample_id = health.sample_id
+	LEFT JOIN view_samples_host AS hosts
+		ON samples.sample_id = hosts.sample_id
+	LEFT JOIN view_samples_collection AS collection
+		ON samples.sample_id = collection.sample_id
+	LEFT JOIN view_samples_location AS location
+		ON samples.sample_id = location.sample_id
+	LEFT JOIN view_samples_sampling AS sampling
+		ON samples.sample_id = sampling.sample_id
+

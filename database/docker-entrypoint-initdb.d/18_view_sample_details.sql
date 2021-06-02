@@ -7,6 +7,10 @@ CREATE OR REPLACE VIEW view_samples_location AS
 			IF(location.region IS NOT NULL, CONCAT(" / ", location.region), ""),
 			IF(location.locality IS NOT NULL, CONCAT(" / ", location.locality), "")
 			) AS location,
+		continents.label AS continent,
+		countries.label AS country,
+		location.region AS region,
+		location.locality AS locality,
 		location.additional_info AS additional_location_info,
 		location.geo_loc_latitude AS geo_loc_latitude,
 		location.geo_loc_longitude AS geo_loc_longitude
@@ -79,7 +83,11 @@ CREATE OR REPLACE VIEW view_samples_host AS
 		IF (host.patient_gender IS NULL, "unknown", 
 			IF (host.patient_gender IS TRUE, "Male", "Female")
 		) AS patient_gender,
+		IF (host.patient_gender IS NULL, "not provided", 
+			IF (host.patient_gender IS TRUE, "male", "female")
+		) AS patient_gender_ena,
 		patient_statuses.label AS patient_status,
+		host.ppe AS ppe,
 		host.last_vaccinated AS last_vaccinated,
 		habitats.label AS host_habitat,
 		behaviours.label AS host_behaviour,
@@ -150,6 +158,8 @@ CREATE OR REPLACE VIEW view_samples_health_status AS
 		IF (health.hospitalization IS NULL, "",
 			IF(health.hospitalization IS TRUE, "yes", "no")) AS hospitalization,
 		health.ilness_duration AS ilness_duration,
+		IF(health.ilness_duration IS NULL, "",
+			CONCAT(health.ilness_duration, " days")) AS ilness_duration_days,
 		health.ilness_symptoms AS ilness_symptoms,
 		outcome.label AS host_disease_outcome,
 		health_states.label AS host_health_state,
@@ -172,7 +182,9 @@ CREATE OR REPLACE VIEW view_samples_sequencing AS
 		instruments.label AS sequencing_instrument,
 		platforms.label AS sequencing_platform,
 		assembly.label AS assembly_method,
-		sequencing.coverage AS coverage
+		sequencing.coverage AS coverage,
+		IF (sequencing.coverage IS NULL, "",
+			CONCAT(sequencing.coverage, "x")) AS coverage_x
 
 	FROM samples_sequencing AS sequencing
 	LEFT JOIN assembly_methods AS assembly

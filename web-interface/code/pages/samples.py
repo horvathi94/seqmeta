@@ -1,3 +1,4 @@
+import os
 from __main__ import app
 from flask import request, \
     render_template, \
@@ -5,7 +6,9 @@ from flask import request, \
     redirect, \
     make_response, \
     send_file, \
-    url_for
+    url_for, \
+    Response
+from datetime import datetime
 
 from .src.samples import Samples, \
     SampleLibrary, \
@@ -17,7 +20,8 @@ from .src.samples import Samples, \
     SampleHealthStatus
 from .src.authors import Authors
 from .src.author_groups import AuthorGroups
-from .src.base.excel_generator import ExcelGenerator
+from .src.gisaid_submit import GisaidSubmit
+from .src.ena import Sample as EnaSample
 from .src.fast_files import Fasta
 from .src.institutions import Institutions
 from .src.locations import Continents, Countries
@@ -106,38 +110,29 @@ def edit_samples():
 
 @app.route("/samples/submit", methods=["POST"])
 def submit_samples():
-
     sample_data = funcs.parse_form_simple(request.form, "sample");
     sample_id = Samples.save_entry(sample_data);
-
     location = funcs.parse_form_simple(request.form, "location");
     location["sample_id"] = sample_id;
     SampleLocation.save_entry(location);
-
     collection = funcs.parse_form_simple(request.form, "collection");
     collection["sample_id"] = sample_id;
     SampleCollection.save_entry(collection);
-
     library = funcs.parse_form_simple(request.form, "library");
     library["sample_id"] = sample_id;
     SampleLibrary.save_entry(library);
-
     host = funcs.parse_form_simple(request.form, "host");
     host["sample_id"] = sample_id;
     SampleHost.save_entry(host);
-
     sampling = funcs.parse_form_simple(request.form, "sampling");
     sampling["sample_id"] = sample_id;
     SampleSampling.save_entry(sampling);
-
     health = funcs.parse_form_simple(request.form, "health");
     health["sample_id"] = sample_id;
     SampleHealthStatus.save_entry(health);
-
     sequencing = funcs.parse_form_simple(request.form, "sequencing");
     sequencing["sample_id"] = sample_id;
     SampleSequencing.save_entry(sequencing);
-
     return redirect(url_for('view_samples'));
 
 
@@ -182,9 +177,13 @@ def samples_generate():
                                         sample_ids=selected);
 
         if filename == "": filename = str(datetime.now()) + "_gisaid";
-        ExcelGenerator.write_gisaid(samples);
-        excel_file = os.path.join(ExcelGenerator.get_temp_filename("gisaid"));
+        GisaidSubmit.write_gisaid(samples);
+        excel_file = os.path.join(GisaidSubmit.get_temp_filename());
         return send_file(excel_file, attachment_filename=filename+".xls")
+
+    if "ena" in sub_types:
+        test = EnaSample.create_xml(selected);
+        return Response(test, mimetype="text/xml");
 
 
     return "Finished";
