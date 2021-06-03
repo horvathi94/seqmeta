@@ -13,6 +13,7 @@
 		<th> Collection date </th>
 
 		<th> Author group </th>
+		<th> Has assembly file </th>
 
 		<th> Details </th>
 		<th> Edit </th>
@@ -28,6 +29,17 @@
 			<td> {{ sample.collection_date }} </td>
 
 			<td> {{ sample.group_name }} </td>
+
+			<td>
+				{% if sample.assemblies_count == 1 %}
+					Yes
+				{% elif sample.assemblies_count == 0 %}
+					No
+				{% else %}
+					Something went wrong
+				{% endif %}
+
+			<td>
 
 			<td> 
 				<input type="button" value="Details" onclick="displayDetails({{ sample.sample_id }})"/>

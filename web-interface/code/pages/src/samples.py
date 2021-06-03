@@ -2,6 +2,7 @@ from collections import OrderedDict
 from datetime import datetime
 from .cursor import Cursor
 from .db_interface import DBInterface
+from .fast_files import Fasta
 
 
 class SampleExtended(DBInterface):
@@ -195,5 +196,4 @@ class Samples(DBInterface):
     @classmethod
     def save(cls, submitted):
         pass;
-
 

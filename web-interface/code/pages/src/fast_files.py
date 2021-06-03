@@ -1,24 +1,32 @@
 import os
 from Bio import SeqIO
+from .src.db_interface import DBInterface
 
-class FastFile:
+
+
+class SeqFiles:
 
     main_dir = "/samples";
+    path = "";
+
+
+
+class FastFile(DBInterface):
+
+    main_dir = "/samples";
+    path = "";
 
     def __init__(self, sample_name):
-
         self.sample_name = sample_name;
 
 
-    def get_filenames(self):
-
+    @classmethod
+    def get_filenames(cls, sample_name):
         filenames = [];
-
-        for ext in self.extensions:
-            file_name = self.sample_name + "." + ext;
-            the_file = os.path.join(self.main_dir, self.path, file_name);
+        for ext in cls.extensions:
+            file_name = sample_name + "." + ext;
+            the_file = os.path.join(cls.main_dir, cls.path, file_name);
             if os.path.isfile(the_file): filenames.append(file_name);
-
         return filenames;
 
 
@@ -29,15 +37,20 @@ class Fasta(FastFile):
     path = "fasta";
 
     def __init__(self, sample_name):
-
         super().__init__(sample_name);
         self.has_fasta = False;
         self.fasta_filename = "";
         self.check_fasta_file();
 
 
-    def check_fasta_file(self):
+    @classmethod
+    def check_file_exists(cls, sample_name):
+        fasta = cls.get_filenames(sample_name);
+        if len(fasta) == 1: return True;
+        return False;
 
+
+    def check_fasta_file(self):
         files = self.get_filenames();
         if len(files) == 1:
             self.has_fasta = True;

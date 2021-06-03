@@ -55,6 +55,7 @@ def view_samples():
                                name_plural="samples",
                                link="edit_samples");
     else:
+#        return jsonify(samples_list);
         html+= render_template("samples/list.html", samples=samples_list);
 
     scripts = ["sample_details.js"];
@@ -136,9 +137,9 @@ def submit_samples():
     SampleSequencing.save_entry(sequencing);
     if "fasta-file" in request.files:
         fasta = request.files["fasta-file"];
-        return "FASTA found", fasta;
         fasta.save(os.path.join(
-            app.config["UPLOAD_FOLDER"], "fasta", fasta));
+            app.config["UPLOAD_FOLDER"], "fasta",
+                sample_data["name"] + ".fasta"));
     return redirect(url_for('view_samples'));
 
 
