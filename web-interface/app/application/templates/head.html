@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> SeqMeta </title>
+
+		<style>
+
+			@font-face {
+				font-family: "Archivo";
+				src: url("{{ url_for('static', filename='assets/Archivo_Condensed-ExtraLight.ttf') }}") format("truetype");
+			}
+
+		</style>
+
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">	
+
+		{% for style in styles %}
+			
+			{% set css_url = 'css/' + style %}
+			<link rel="stylesheet" href="{{ url_for('static', filename=css_url) }}">
+
+		{% endfor %}
+
+		<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/>
+
+		{% if jquery %}
+			<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		{% endif %}
+
+	</head>
+
+	<body>
+
+		<nav>
+			<a href="{{ url_for('home_bp.home') }}"><img src="/favicon.ico"></a>
+			
+			{#
+			<a href="{{ url_for('view_samples') }}">Samples</a>
+			#}
+			<a href="{{ url_for('authors_bp.show') }}">Authors</a>
+			{#
+			<a href="{{ url_for('view_author_groups') }}">Groups</a>
+			<a href="{{ url_for('view_institutions') }}">Institutions</a>
+			<a href="{{ url_for('set_options_list') }}">Custom options</a>
+			<a href="{{ url_for('view_ena_studies') }}">ENA Studies</a>
+			#}
+		</nav>
+
