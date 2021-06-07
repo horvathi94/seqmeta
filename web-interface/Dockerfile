@@ -1,17 +1,16 @@
 FROM python:3.6 AS development
 MAINTAINER horvathi94 
 
-WORKDIR /app
-
+WORKDIR /temp
 COPY ./development/requirements.txt requirements.txt
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 EXPOSE 5000
 
-#COPY ./code /app
-
-CMD ["python3", "./code/main.py"]
-#CMD ["tail", "-f", "/etc/hosts"]
+WORKDIR /app
+#CMD ["python3", "./wsgi.py"]
+#CMD["uwsg"]
+CMD ["tail", "-f", "/etc/passwd"]
 
 
 FROM development AS production

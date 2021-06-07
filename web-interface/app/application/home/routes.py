@@ -6,6 +6,6 @@ home_bp = Blueprint("home_bp", __name__,
                     static_folder="static");
 
 
-@home_blueprint.route("/", methods=["GET"])
+@home_bp.route("/", methods=["GET"])
 def home():
     return render_template("index.html");

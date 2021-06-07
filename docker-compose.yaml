@@ -11,8 +11,8 @@ services:
     #    image: horvathi94/seq-test
     build: 
       context: ./web-interface
-      target: {$STAGING_LEVEL:development}
-      docker-files: Dockerfile
+      target: ${STAGING_LEVEL:-development}
+      dockerfile: Dockerfile
 
     depends_on:
       - database
@@ -26,7 +26,7 @@ services:
       MYSQL_PASSWORD: 12345
 
     volumes:
-      - ./web-interface/app/:/app/
+      - ./web-interface/app:/app
       - ./samples:/samples
       - ./temp:/temp
 
