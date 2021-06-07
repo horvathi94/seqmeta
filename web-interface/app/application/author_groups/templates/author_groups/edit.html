@@ -1,0 +1,70 @@
+
+<form action="{{ url_for('author_groups_bp.submit') }}" method="POST">
+
+<div id="editor-shell">
+
+	<input type="hidden" name="group+id" value="{{ group.group_id }}"/>
+
+	<div class="name-edit">
+		<label for="group_name"> Group name: </label>
+		<input type="text" name="group+name" value="{{ group.group_name }}"/>
+	</div>
+
+	<div id="editor">
+
+		<div class="editor-head">
+			<span> Order </span>
+			<span> Name </span>
+		</div>
+
+		<input type="button" 
+					 onclick="addAuthorToGroup()"
+					 value="Add"/>
+
+		{% for author in group.authors %}
+
+			<div class="editor-entry">
+
+				<input type="number" 
+					class="order"
+					name="author+{{ loop.index }}+order_index"
+					value="{{ author.order_index }}"/>
+
+				<input type="hidden" 
+					class="authorid"
+					name="author+{{ loop.index }}+author_id"
+					value="{{ author.author_id }}"/> 
+
+				<span> {{ author.abbreviated_middle_name }} </span>
+
+			</div>
+
+		{% endfor %}
+
+
+
+		<div id="editor-empty" style="display: none;">
+			<input type="number" 
+				class="order empty"
+				value="0"/>
+
+
+			<select class="authorid empty" name="name_tag">
+
+				{% for a in authors_list %}
+
+					<option value="{{ a.id }}"> {{ a.abbreviated_middle_name }} </option>
+
+				{% endfor %}
+
+			</select>
+
+		</div>
+
+	</div>
+
+	<input type="submit" value="Save"/>
+
+</div>
+
+

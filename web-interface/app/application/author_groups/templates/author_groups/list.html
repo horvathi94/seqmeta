@@ -1,0 +1,30 @@
+<table>
+
+	<tr>
+		<th> Group ID </th>
+		<th> Group name </th>
+		<th> Authors </th>
+		<th> Members count </th>
+		<th> </th>
+	</tr>
+
+	{% for group in groups %}
+	<tr>
+		<td> {{group.group_id}} </td>
+		<td> {{group.group_name}} </td>
+		<td> {{group.abbreviated_middle_names}} </td>
+		<td> {{group.members_count}} </td>
+		<td>
+			<input type="button"
+		 onclick="location.href='{{ url_for('author_groups_bp.edit') }}?id={{group.group_id}}'"
+		 value="Edit"/>
+		</td>
+	</tr>
+	{% endfor %}
+
+</table>
+
+
+<input type="button"
+			 onclick="location.href='{{ url_for('author_groups_bp.edit') }}'"
+			 value="Add"/>
