@@ -17,7 +17,12 @@ def create_app():
         app.register_blueprint(home.home_bp);
 
         from .authors import routes as authors
-        app.register_blueprint(authors.authors_bp);
+        app.register_blueprint(authors.authors_bp,
+                               url_prefix="/authors");
+
+        from .author_groups import routes as author_groups
+        app.register_blueprint(author_groups.author_groups_bp,
+                               url_prefix="/author-groups");
 
     return app;
 

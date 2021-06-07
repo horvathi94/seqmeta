@@ -1,20 +1,16 @@
-	{% for script in modules %}
-		
-		{% set js_url = 'js/' + script %}
-
-		<script type="module" 
-			src="{{ url_for('static', filename=js_url) }}">
-		</script>
-
-	{% endfor %}
-
-
 	{% for script in scripts %}
-		
-		{% set js_url = 'js/' + script %}
+	
+
+		{% if "prefix" in script %}
+			{% set js_url = script.prefix + "/static/js/" + script.filename %}	
+		{% else %}
+			{% set js_filename = "js/" + script.filename %}
+			{% set js_url = url_for("static", filename=js_filename) %}
+		{% endif %}
 
 		<script type="text/javascript" 
-			src="{{ url_for('static', filename=js_url) }}">
+		
+			src="{{ js_url }}">
 		</script>
 
 	{% endfor %}
@@ -23,6 +19,7 @@
 
 
 	<footer>
+		Footer
 
 	</footer>
 
