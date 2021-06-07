@@ -1,6 +1,6 @@
 import os
 from Bio import SeqIO
-from .src.db_interface import DBInterface
+from .db_interface import DBInterface
 
 
 

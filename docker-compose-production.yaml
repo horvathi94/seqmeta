@@ -6,17 +6,19 @@ networks:
 
 services:
 
-  interface:
+  app:
 
     #    image: horvathi94/seq-test
-    build: ./web-interface
-    target: development
+    build: 
+      context: ./web-interface
+      dockerfile: Dockerfile
+      target: production
 
     depends_on:
       - database
 
-    ports:
-      - "5000:5000"
+    #    ports:
+    #- "5000:5000"
 
     environment:
       MYSQL_DATABASE: sequencing_data
@@ -48,4 +50,22 @@ services:
 
     networks:
       - app-network
+
+
+  nginx:
+
+    image: nginx:stable
+
+    depends_on:
+      - app
+
+    ports: 
+      - "5001:80"
+
+    volumes:
+      - ./web-interface/production/nginx.conf:/etc/nginx/conf.d/site/.conf
+    
+    networks:
+      - app-network
+
 

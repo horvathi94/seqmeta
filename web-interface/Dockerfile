@@ -1,16 +1,27 @@
-FROM python:3.6
+FROM python:3.6 AS development
 MAINTAINER horvathi94 
-
 
 WORKDIR /app
 
-COPY ./requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
-
+COPY ./development/requirements.txt requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 EXPOSE 5000
 
 #COPY ./code /app
+
+CMD ["python3", "./code/main.py"]
+#CMD ["tail", "-f", "/etc/hosts"]
+
+
+FROM development AS production
+
+COPY ./production/requirements.txt prod-requirements.txt
+RUN pip3 install --no-cache-dir -r prod-requirements.txt
+
+#COPY ./code ./
+WORKDIR /app/code
+#COPY ./production/wsgi.ini ./wsgi.ini
 
 RUN groupadd --gid 5000 pyman \
 	&& useradd --uid 5000 --gid 5000 --shell /bin/bash pyman \
@@ -19,5 +30,4 @@ RUN groupadd --gid 5000 pyman \
 
 USER pyman
 
-CMD ["python3", "./code/main.py"]
-#CMD ["tail", "-f", "/etc/hosts"]
+CMD ["uwsgi", "wsgi.ini"]
