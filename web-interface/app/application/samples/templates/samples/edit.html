@@ -1,0 +1,53 @@
+{% from 'macros/select.j2' import select %}
+{% from 'macros/radio.j2' import radio %}
+{% from 'macros/markers.j2' import marker %}
+
+<form action="{{ url_for('submit_samples') }}" method="POST" enctype="multipart/form-data">
+
+<table>
+
+	<input type="hidden" name="sample+sample_id" value="{{ sample.sample_id }}" />
+
+	<tr>
+		<th> Property </th>
+		<th> Value </th>
+		<th> Description </th>
+	</tr>
+
+	
+	<tr>
+		<td> Sample name </td>
+		<td> <input type="text" name="sample+sample_name" value="{{ sample.sample_name }}"
+									 maxlength="200"
+									onchange="changeSampleNames(this);"/> </td>
+		<td> Name of the sequenced files. Use this to keep track of your samples in the database. </td>
+	</tr>
+
+
+	{% include('samples/fields/collection.html') %}
+	{% include('samples/fields/location.html') %}
+	{% include('samples/fields/host.html') %}
+
+	{% include('samples/fields/health_status.html') %}
+	{% include('samples/fields/sequencing.html') %}
+
+	{% include('samples/fields/sampling.html') %}
+	{% include('samples/fields/library.html') %}
+
+</table>
+
+{% include('samples/fields/files.html') %}
+
+<input type="submit" value="Save"/>
+
+</form>
+
+<div class="legend">
+	<p>Field {{	marker("gisaid", requirement='mandatory') }}: the field is mandatory for submission to the GISAID database.</p>
+	<p>Field {{ marker("gisaid", requirement='optional') }}: the field is optional for submission to the GISAID database.</p>
+	<p>Field {{ marker("ena", requirement='mandatory') }}: the field is mandatory for submission to the ENA database.</p>
+	<p>Field {{ marker("ena", requirement='recommended') }}: the field is recommended for submission to the ENA database.</p>
+	<p>Field {{ marker("ena", requirement='optional') }}: the field is optional for submission to the ENA database.</p>
+	<p>Field {{ marker("ncbi", requirement='mandatory') }}: the field is mandatory for submission to the ENA database.</p>
+
+</div>

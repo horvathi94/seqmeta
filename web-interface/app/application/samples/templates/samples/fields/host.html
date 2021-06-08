@@ -1,0 +1,114 @@
+<tr>
+	<td> Host {{ marker("gisaid") }} {{ marker("ena") }}</td>
+	<td> {{ select("host+host_id", hosts, selected_id=sample.host_id) }} </td>
+	<td> You can add more options in the 
+		<a href="{{ url_for('set_options_list') }}">manage options tab</a> </td>
+</tr>
+
+
+<tr>
+	<td> Host subject ID {{ marker("ena") }}</td>
+	<td>
+		<input type="text" name="host+host_subject_id" value="{{ sample.host_subject_id }}"/>
+	</td>
+	<td>A unique identifier by which each subject can be referred to, de-identified, 
+		<em>e.g. #131</em></td>
+</tr>
+
+
+<tr>
+	<td> Additional host information {{ marker('gisaid', requirement='optional') }}</td>
+	<td> <input type="text" name="host+additional_host_info" 
+							value="{{ sample.additional_host_info }}"/> </td>
+	<td> <em> e.g. Patient infected while traveling in... </em> </td>
+</tr>
+
+
+<tr>
+	<td> Gender {{ marker("gisaid") }} {{ marker("ena") }}</td>
+	{% set genders=[{"label": "Male", "value":"1"}, 
+									{"label": "Female", "value": "0"}, 
+									{"label": "unknown", "value":""}] %}
+	<td> {{ radio("host+patient_gender", genders, 
+					selected_value=sample.patient_gender) }} </td>
+	<td> The gender of the patient </td>
+</tr>
+
+
+<tr>
+	<td> Patient age {{ marker("gisaid") }} 
+			{{ marker("ena", requirement="recommended") }}</td>
+	<td> 
+		<input type="number" name="host+patient_age" min="0" max="150" 
+						value="{{ sample.patient_age }}"/> 
+	</td>
+	<td> Age of the patient in years. </td>
+</tr>
+
+
+<tr>
+	<td> Patient status {{ marker("gisaid") }}</td>
+	<td> {{ select("host+patient_status_id", 
+					patient_statuses, 
+					selected_id=sample.patient_status_id) }} </td>
+	<td> The status of the patient when the sample was collected. </td>
+</tr>
+
+
+<tr>
+	<td> Last vaccinated {{ marker("gisaid", requirement="optional") }}</td>
+	<td> <input type="text" name="host+last_vaccinated" 
+								value="{{ sample.last_vaccinated }}"/> </td>
+	<td> Provide details if applicable </td>
+</tr>
+
+
+<tr>
+	<td> Personal protective equipment {{ marker("ena", requirement="optional") }}</td>
+	<td>
+		<input type="text" name="host+ppe" value="{{ sample.ppe }}"/>
+	</td>
+	<td>Use of personal protective equipment, such as gloves, gowns, 
+		during any type of exposure. <em>Example: mask.</em></td>
+</tr>
+
+
+<tr>
+	<td>Host habitat {{ marker("ena", requirement="recommended") }}</td>
+	<td> {{ select("host+host_habitat_id",
+									host_habitats,
+									selected_id=sample.host_habitat_id) }} </td>
+	<td>Natural habitat of the avian or mammalian host.</td>
+</tr>
+
+
+<tr>
+	<td>Host behaviour {{ marker("ena", requirement="recommended") }}</td>
+	<td> {{ select("host+host_behaviour_id",
+									host_behaviours,
+									selected_id=sample.host_behaviour_id) }} </td>
+	<td>Natural behaviour of the host.</td>
+</tr>
+
+
+<tr>
+	<td>Host description {{ marker("ena", requirement="optional") }}</td>
+	<td>
+		<input type="text" name="host+host_description"
+											 value="{{ sample.host_description }}"/>
+	</td>
+	<td>Other descriptive information relating to the host.</td>
+</tr>
+
+
+
+<tr>
+	<td> Gravidity {{ marker("ena", requirement="optional") }} </td>
+	<td>
+		<input type="text" name="host+gravidity" value="{{ sample.gravidity }}"/>
+	</td>
+	<td>Whether or not the subject is gravid. If so, report date due or date post-conception and specify which of these two dates is being reported.</td>
+</tr>
+
+
+

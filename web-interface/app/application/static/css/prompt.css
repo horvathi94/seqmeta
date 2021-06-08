@@ -1,0 +1,24 @@
+div.prompt.wrap {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+div.prompt.wrap h4 {
+	color: green;
+}
+
+div.prompt.data {
+	opacity: 1;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	padding: 0.2em 1em 1em 1em;
+	border: 2px solid black;
+	border-radius: 2px;
+}

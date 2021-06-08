@@ -1,0 +1,147 @@
+<tr>
+	<td> Originating lab {{ marker("gisaid") }}</td>
+	<td> {{ select("sampling+originating_lab_id", institutions, 
+			selected_id=sample.originating_lab_id) }} </td>
+	<td> Where the clinical specimen or virus isolate was first obtained. </td>
+</tr>
+
+
+<tr>
+	<td> Sample ID given by originating lab {{ marker("gisaid", requirement="optional") }} </td>
+	<td> <input type="text" id="originating_lab_sample_name"
+		name="sampling+originating_lab_sample_name" 
+		value="{{ sample.originating_lab_sample_name }}"/> </td>
+	<td>  </td>
+</tr>
+
+
+<tr>
+	<td> Submitting lab {{ marker("gisaid") }}</td>
+	<td> {{ select("sampling+submitting_lab_id", institutions, 
+			selected_id=sample.originating_lab_id) }} </td>
+	<td> Where the sequence data have been generated and submitted to GISAID. </td>
+</tr>
+
+
+<tr>
+	<td> Sample ID given by originating lab {{ marker("gisaid", requirement="optional") }} </td>
+	<td> <input type="text" id="submitting_lab_sample_name" 
+		name="sampling+submitting_lab_sample_name" 
+		value="{{ sample.submitting_lab_sample_name }}"/> </td>
+	<td>  </td>
+</tr>
+
+
+<tr>
+	<td> Authors group {{ marker("gisaid") }} </td>
+	<td> {{ select("sampling+author_group_id", author_groups, 
+		selected_id=sample.author_group_id) }} </td>
+	<td> Create and edit author groups 
+		<a href="{{ url_for('view_author_groups') }}">here</a> </td>
+</tr>
+
+
+<tr>
+	<td> Sampling strategy {{ marker("gisaid", requirement="optional") }}</td>
+	<td> {{ select("sampling+sampling_strategy_id", sampling_strategies, 
+		selected_id=sample.sampling_strategy_id) }} </td>
+	<td> The sampling strategy used to select the sample. </td>
+</tr>
+
+
+<tr>
+	<td> Passage details {{ marker('gisaid') }}</td>
+	<td> {{ select("sampling+passage_details_id", 
+									passage_details, 
+									selected_id=sample.passage_details_id) }} </td>
+	<td> Passage details/history </td>
+</tr>
+
+
+<tr>
+	<td> Isolate {{ marker("ena") }}</td>
+	<td> 
+		<input type="text" name="sampling+isolate"
+											 value="{{ sample.isolate }}"/>
+	</td>
+	<td> Individual isolate from which the sample was obtained </td>
+</tr>
+
+
+<tr>
+	<td> Strain {{ marker("ena", requirement="optional") }}</td>
+	<td> 
+		<input type="text" name="sampling+strain"
+											 value="{{ sample.strain }}"/>
+	</td>
+	<td> Name of the strain from which the sample was obtained. </td>
+</tr>
+
+
+<tr>
+	<td>Isolation source host-associated {{ marker("ena", requirement="recommended") }}</td>
+	<td>
+		<input type="text" name="sampling+isolation_source_host_associated"
+											 value="{{ sample.isolation_source_host_associated }}"/>
+	</td>
+	<td>Name of host tissue or organ sampled for analysis. <em>Example: tracheal tissue</em></td>
+</tr>
+
+
+<tr>
+	<td> Isolation source non-host-associated {{ marker("ena", requirement="recommended") }} </td>
+	<td>
+		<input type="text" name="sampling+isolation_source_non_host_associated" 
+			value="{{ sample.isolation_source_non_host_associated }}"/>
+	</td>
+	<td>Describes the physical, environmental and/or local geographical source of the biological sample from which the sample was derived. <em>Example: soil</em></td>
+</tr>
+
+
+
+<tr>
+	<td>Sample capture status {{ marker("ena", requirement="recommended") }}</td>
+	<td> {{ select("sampling+sample_capture_status_id", 
+									sample_capture_statuses, 
+									selected_id=sample.sample_capture_status_id) }} </td>
+	<td>Reason for the sample collection.</td>
+</tr>
+	
+
+<tr>
+	<td> Specimen source {{ marker("gisaid", requirement="optional") }}</td>
+	<td> {{ select("sampling+specimen_source_id", 
+									specimen_sources, 
+									selected_id=sample.specimen_source_id) }} </td>
+	<td> Source of the specimen </td>
+</tr>
+
+
+<tr>
+	<td> Sample storage conditions {{ marker("ena", requirement="optional") }}</td>
+	<td> 
+		<input type="text" name="sampling+sample_storage_conditions"
+						value="{{ sample.sample_storage_conditions }}"/>
+	</td>
+	<td> Conditions at which sample was stored, usually storage temperature, duration and location. </td>
+</tr>
+
+
+<tr>
+	<td> Definition for seropositive sample {{ marker("ena", requirement="recommended") }}</td>
+	<td> 
+		<input type="text" name="sampling+definition_for_seropositive_sample"
+											 value="{{ sample.definition_for_seropositive_sample }}"/>
+	</td>
+	<td> The cut off value used by an investigatior in determining that a sample was seropositive. </td>
+</tr>
+
+
+<tr>
+	<td> Serotype (<em>required for a seropositive sample</em>) {{ marker("ena", requirement="recommended") }}</td>
+	<td> 
+		<input type="text" name="sampling+serotype"
+											 value="{{ sample.serotype }}"/>
+	</td>
+	<td> Serological variety of a species characterised by its antigenic properties. For Influenza, HA subtype should be the letter H followed by a number between 1-16 unless novel subtype is identified and the NA subtype should be the letter N followed by a number between 1-9 unless novel subtype is identified. If only one of the subtypes have been tested then use the format H5Nx or HxN1. <em>Example: H1N1.</em> </td>
+</tr>

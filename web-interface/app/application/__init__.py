@@ -16,6 +16,9 @@ def create_app():
         from .home import routes as home
         app.register_blueprint(home.home_bp);
 
+        from .samples import routes as samples
+        app.register_blueprint(samples.samples_bp);
+
         from .authors import routes as authors
         app.register_blueprint(authors.authors_bp);
 

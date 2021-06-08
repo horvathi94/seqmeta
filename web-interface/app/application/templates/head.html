@@ -42,9 +42,7 @@
 		<nav>
 			<a href="{{ url_for('home_bp.home') }}"><img src="/favicon.ico"></a>
 			
-			{#
-			<a href="{{ url_for('view_samples') }}">Samples</a>
-			#}
+			<a href="{{ url_for('samples_bp.show') }}">Samples</a>
 			<a href="{{ url_for('authors_bp.show') }}">Authors</a>
 			<a href="{{ url_for('author_groups_bp.show') }}">Groups</a>
 			<a href="{{ url_for('institutions_bp.show') }}">Institutions</a>

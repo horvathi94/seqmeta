@@ -1,0 +1,14 @@
+{% macro radio(name, options, selected_value="") %}
+
+	{% for option in options %}
+		
+		{% if option.value|string == selected_value|string	%}
+			<input type="radio" name="{{ name }}" checked="checked" value="{{ option.value }}"/>
+		{% else %}
+			<input type="radio" name="{{ name }}" value="{{ option.value }}"/>
+		{% endif %}
+		<label for name="{{ name }}"/> {{ option.label }} </label>
+
+	{% endfor %}
+
+{% endmacro %}

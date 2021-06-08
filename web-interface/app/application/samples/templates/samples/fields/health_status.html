@@ -1,0 +1,98 @@
+<tr>
+	<td> Outbreak {{ marker("gisaid", requirement="optional") }}</td>
+	<td> <input type="text" name="health+outbreak" maxlength="200"
+							value="{{ sample.outbreak }}"/> </td>
+	<td> Date, location <em> e.g. type of gathering, family cluster etc. </em> </td>
+</tr>
+
+
+<tr>
+	<td> Subject exposure {{ marker("ena", requirement="optional") }}</td>
+	<td> 
+		<input type="text" name="health+subject_exposure"
+					value="{{ sample.subject_exposure }}"/> 
+	</td>
+	<td> Exposure of the subject to infected human or animals, such as poultry, wild bird or swine. 
+		If multiple exposures are applicable, please state them separated by semicolon. <em>Example: poultry; wild bird. </em></td>
+</tr>
+
+
+<tr>
+	<td> Subject exposure duration {{ marker("ena", requirement="optional") }}</td>
+	<td> 
+		<input type="text" name="health+subject_exposure_duration"
+											 value="{{ sample.subject_exposure_duration }}"/> 
+	</td>
+	<td> Duration of the exposure of the subject to an infected human or animal. 
+		If multiple exposures are applicable, please state their duration in the same order in which you reported the exposure in the field 'subject exposure'. 
+		<em>Example: 1 day; 0.33 days.</em></td>
+</tr>
+
+
+<tr>
+	<td> Type exposure {{ marker("ena", requirement="optional") }}</td>
+	<td>
+		<input type="text" name="health+type_exposure"
+											 value="{{ sample.type_exposure }}"/>
+	</td>
+	<td>Setting within which the subject is exposed to animals, such as farm, slaughterhouse, food preparation. 
+		If multiple exposures are applicable, please state their type in the same order in which you reported the exposure in the field 'subject exposure'. 
+		<em>Example: backyard flock; confined animal feeding operation</em></td>
+</tr>
+
+
+<tr>
+	<td> Host health state {{ marker("ena") }}</td>
+	<td>
+		{{ select("health+host_health_state_id",
+							host_health_states,
+							selected_id=sample.host_health_state_id) }} 
+	</td>
+	<td>Health status of the host at the time of sample collection.</td>
+</tr>
+
+<tr>
+	<td>Hospitalisation {{ marker("ena", requirement="optional") }}</td>
+	{% set hosps=[{"label": "Yes", "value":"1"}, 
+								{"label": "No", "value": "0"}, 
+								{"label": "N/A", "value":""}] %}
+	<td> {{ radio("health+hospitalization", hosps, selected_value=sample.hospitalization) }} </td>
+	<td>Was the subject confined to a hospital as a result of virus infection or problems occurring secondary to virus infection?</td>
+</tr>
+
+
+<tr>
+	<td>Ilness duration {{ marker("ena", requirement="optional") }}</td>
+	<td>
+		<input type="number" name="health+ilness_duration" min="0"
+			value="{{ sample.ilness_duration }}"/>
+	</td>
+	<td>The number of days the illness lasted. Example: 4.</td>
+</tr>
+
+
+<tr>
+	<td>Ilness symptoms {{ marker("ena", requirement="optional") }}</td>
+	<td>
+		<input type="text" name="health+ilness_symptoms" value="{{ sample.ilness_symptoms }}"/>
+	</td>
+	<td>The symptoms that have been reported in relation to the illness, such as cough, diarrhea, fever, headache, malaise, myalgia, nausea, runny_nose, shortness_of_breath, sore_throat. If multiple exposures are applicable, please state them separated by semicolon.</td>
+</tr>
+
+
+<tr>
+	<td> Treatment {{ marker("gisaid", requirement="optional") }} </td>
+	<td> <input type="text" name="health+treatment" value="{{ sample.treatment }}"/> </td>
+	<td> Include drug name, dosage. </td>
+</tr>
+
+
+<tr>
+	<td>Host disease outcome {{ marker("gisaid", requirement="recommended") }}</td>
+	<td> {{ select("health+host_disease_outcome_id",
+					host_disease_outcomes,
+					selected_id=sample.host_disease_outcome_id) }} </td>
+	<td>Disease outcome in the host.</td>
+</tr>
+
+

@@ -1,0 +1,36 @@
+#sample-details-table {
+	border: 0px;
+}
+
+#sample-details-table th, #sample-details-table td {
+	border: 0px;
+	padding: 0.6em 0.3em;
+}
+
+#sample-details-table td.prop{
+	text-align: right;
+	font-weight: bold;
+}
+
+#sample-details-table td.value{
+	text-align: left;
+}
+
+.prompt.hide {
+	display: block;
+	font-weight: bold;
+	margin-right: 1em;
+	margin-left: auto;
+}
+
+
+.filegen.wrap {
+	max-width: 40%;
+	background-color: var(--orange);
+	border: 2px solid black;
+	padding: 0.7em;
+	display: grid;
+	grid-template-columns: 20% 5% 75%;
+	row-gap: 10px;
+}
+
