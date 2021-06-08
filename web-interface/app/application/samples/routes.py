@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 from flask import Blueprint, render_template, request, redirect, url_for, \
-    jsonify, send_file
+    jsonify, send_file, Response
 from application.src.samples.samples import Samples
 from application.src.samples.extensions.collections import Collection
 from application.src.samples.extensions.host import Host
@@ -16,6 +16,7 @@ from application.src import misc
 from application.src import library as lib
 from application.src.forms.form import Form
 from application.src.metatemplates.gisaid import GisaidMeta
+from application.src.metatemplates.ena import EnaMeta
 
 samples_bp = Blueprint("samples_bp", __name__,
                        template_folder="templates",
@@ -136,17 +137,28 @@ def gen_gisaid_meta():
         return "Nothing selected";
     samples = Samples.fetch_entries("view_samples_gisaid",
                                     sample_ids=selected);
-    filename = "gisaid_metadata_" + str(datetime.now()) + ".xls";
     GisaidMeta.write_gisaid(samples);
-    excel_file = os.path.join(GisaidMeta.get_temp_filename());
+    filename = GisaidMeta.get_attachment_filename();
+    excel_file = GisaidMeta.get_tempfile();
     return send_file(excel_file, attachment_filename=filename);
 
 
 @samples_bp.route("/samples/generate/ncbi", methods=["POST"])
 def gen_ncbi_meta():
-    return "NCBI"
+    selected = [int(i) for i in request.form.getlist("selected-samples")];
+    if len(selected) == 0:
+        return "Nothing selected";
+    test = Samples.fetch_entries("view_samples_ncbi_sra",
+                                 sample_ids=selected);
+    return jsonify(test);
 
 
 @samples_bp.route("/samples/generate/ena", methods=["POST"])
 def gen_ena_meta():
-    return "ENA"
+    selected = [int(i) for i in request.form.getlist("selected-samples")];
+    if len(selected) == 0:
+        return "Nothing selected";
+    EnaMeta.write_zip(selected);
+    ena_zip = EnaMeta.get_tempfile();
+    filename = EnaMeta.get_attachment_filename();
+    return send_file(ena_zip, attachment_filename=filename);

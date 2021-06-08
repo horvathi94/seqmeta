@@ -1,11 +1,9 @@
-import os
 from datetime import datetime
 from openpyxl import Workbook
+from .tempfile import TempFile
 
 
-class ExcelGenerator:
-
-    save_dir = "/temp";
+class ExcelGenerator(TempFile):
 
     @staticmethod
     def create_worksheet(title):
@@ -17,11 +15,5 @@ class ExcelGenerator:
 
     @classmethod
     def save_excel(cls, wb, filename):
-        excel_file = os.path.join(cls.save_dir, filename);
-        wb.save(filename=excel_file);
-
-
-    @classmethod
-    def get_temp_filename(cls):
-        return os.path.join(cls.save_dir, cls.temp_filename);
+        wb.save(filename=cls.get_tempfile());
 

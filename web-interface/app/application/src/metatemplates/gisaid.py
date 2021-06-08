@@ -1,9 +1,11 @@
-from .excel_gen import ExcelGenerator
+from .base.excel_gen import ExcelGenerator
 from application.src.samples.virusname import VirusnameGisaid
 
 class GisaidMeta(ExcelGenerator):
 
-    temp_filename = "last_generated_gisaid.xls";
+    tempfilename = "last_generated_gisaid.xls";
+    attachement_prefix = "gisaid";
+    extension = "xls";
 
     @classmethod
     def populate_gisaid(cls, ws, samples):
@@ -43,6 +45,6 @@ class GisaidMeta(ExcelGenerator):
     def write_gisaid(cls, samples):
         wb, ws = cls.create_worksheet("Submissions");
         cls.populate_gisaid(ws, samples);
-        cls.save_excel(wb, cls.get_temp_filename());
+        cls.save_excel(wb, cls.get_tempfile());
         wb.close();
 
