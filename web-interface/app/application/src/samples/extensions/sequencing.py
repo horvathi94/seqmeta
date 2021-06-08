@@ -1,7 +1,7 @@
 from .base import SampleExtension
 
 
-class SampleSequencing(SampleExtension):
+class Sequencing(SampleExtension):
 
     submit_table_name = "samples_sequencing";
 

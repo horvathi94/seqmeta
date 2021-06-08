@@ -1,5 +1,7 @@
 web-interface/temp
 scratch
+web-interface/uploads
+web-interface/samples
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

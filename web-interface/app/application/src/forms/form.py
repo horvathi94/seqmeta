@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 class Form:
 
-    @classmethod
+    @staticmethod
     def parse_simple(form_data, main_key):
         res = OrderedDict();
         for key in form_data:
@@ -15,7 +15,7 @@ class Form:
         return res;
 
 
-    @classmethod
+    @staticmethod
     def parse_list(form_data, main_key):
         res = [];
         for key in form_data:

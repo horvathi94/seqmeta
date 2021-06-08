@@ -1,11 +1,19 @@
+import os.path
 from flask import Blueprint, render_template, request, redirect, url_for, \
     jsonify
 from application.src.samples.samples import Samples
-from application.src.samples import extensions as sample_exten
+from application.src.samples.extensions.collections import Collection
+from application.src.samples.extensions.host import Host
+from application.src.samples.extensions.health_status import HealthStatus
+from application.src.samples.extensions.library import Library
+from application.src.samples.extensions.location import Location
+from application.src.samples.extensions.sampling import Sampling
+from application.src.samples.extensions.sequencing import Sequencing
 from application.src.institutions import Institutions
 from application.src.authors import Authors, AuthorGroups
 from application.src import misc
 from application.src import library as lib
+from application.src.forms.form import Form
 
 samples_bp = Blueprint("samples_bp", __name__,
                        template_folder="templates",
@@ -75,33 +83,32 @@ def edit():
 
 @samples_bp.route("/samples/submit", methods=["POST"])
 def submit():
-    sample_data = funcs.parse_form_simple(request.form, "sample");
+    sample_data = Form.parse_simple(request.form, "sample");
     sample_id = Samples.save_entry(sample_data);
-    location = funcs.parse_form_simple(request.form, "location");
+    location = Form.parse_simple(request.form, "location");
     location["sample_id"] = sample_id;
-    SampleLocation.save_entry(location);
-    collection = funcs.parse_form_simple(request.form, "collection");
+    Location.save_entry(location);
+    collection = Form.parse_simple(request.form, "collection");
     collection["sample_id"] = sample_id;
-    SampleCollection.save_entry(collection);
-    library = funcs.parse_form_simple(request.form, "library");
+    Collection.save_entry(collection);
+    library = Form.parse_simple(request.form, "library");
     library["sample_id"] = sample_id;
-    SampleLibrary.save_entry(library);
-    host = funcs.parse_form_simple(request.form, "host");
+    Library.save_entry(library);
+    host = Form.parse_simple(request.form, "host");
     host["sample_id"] = sample_id;
-    SampleHost.save_entry(host);
-    sampling = funcs.parse_form_simple(request.form, "sampling");
+    Host.save_entry(host);
+    sampling = Form.parse_simple(request.form, "sampling");
     sampling["sample_id"] = sample_id;
-    SampleSampling.save_entry(sampling);
-    health = funcs.parse_form_simple(request.form, "health");
+    Sampling.save_entry(sampling);
+    health = Form.parse_simple(request.form, "health");
     health["sample_id"] = sample_id;
-    SampleHealthStatus.save_entry(health);
-    sequencing = funcs.parse_form_simple(request.form, "sequencing");
+    HealthStatus.save_entry(health);
+    sequencing = Form.parse_simple(request.form, "sequencing");
     sequencing["sample_id"] = sample_id;
-    SampleSequencing.save_entry(sequencing);
+    Sequencing.save_entry(sequencing);
     if "fasta-file" in request.files:
         fasta = request.files["fasta-file"];
-        fasta.save(os.path.join(
-            app.config["UPLOAD_FOLDER"], "fasta",
+        fasta.save(os.path.join("/uploads", "fasta",
                 sample_data["name"] + ".fasta"));
     return redirect(url_for('view_samples'));
 

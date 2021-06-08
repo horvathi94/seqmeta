@@ -1,7 +1,7 @@
 from .base import SampleExtension
 
 
-class Host(SampleExtended):
+class Host(SampleExtension):
 
     submit_table_name = "samples_host";
 

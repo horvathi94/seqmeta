@@ -27,7 +27,7 @@ services:
 
     volumes:
       - ./web-interface/app:/app
-      - ./samples:/samples
+      - ./uploads:/uploads
       - ./temp:/temp
 
     networks:
