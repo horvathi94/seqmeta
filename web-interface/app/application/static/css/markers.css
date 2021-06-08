@@ -1,0 +1,14 @@
+.mark.mandatory {
+	font-weight: bold;
+	color: red;
+}
+
+.mark.recommended {
+	font-weight: bold;
+	color: var(--light-green);
+}
+
+.mark.optional {
+	color: grey;
+}
+

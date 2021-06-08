@@ -1,6 +1,11 @@
 from flask import Blueprint, render_template, request, redirect, url_for, \
     jsonify
 from application.src.samples.samples import Samples
+from application.src.samples import extensions as sample_exten
+from application.src.institutions import Institutions
+from application.src.authors import Authors, AuthorGroups
+from application.src import misc
+from application.src import library as lib
 
 samples_bp = Blueprint("samples_bp", __name__,
                        template_folder="templates",
@@ -29,7 +34,44 @@ def show():
 
 @samples_bp.route("/samples/edit")
 def edit():
-    return "Edit";
+    styles = [{"filename": "edit.css", "prefix": "samples"},
+              {"filename": "markers.css"}];
+    scripts = [{"filename": "edit.js", "prefix": "samples"}];
+    sample_id = int(request.args["id"]) if "id" in request.args else 0;
+    html = render_template("head.html", styles=styles);
+    html+= render_template(
+        "samples/edit.html",
+        sample=Samples.fetch_entry_edit(id=sample_id, id_key="sample_id"),
+        authors=Authors.fetch_list_labeled(
+            replace_key="abbreviated_middle_name"),
+        author_groups=AuthorGroups.fetch_list_labeled(
+            replace_key="group_name",
+            replace_id="group_id"),
+        institutions=Institutions.fetch_list_labeled(),
+        hosts=misc.Hosts.fetch_list(),
+        sampling_strategies=misc.SamplingStrategies.fetch_list(),
+        passage_details=misc.PassageDetails.fetch_list(),
+        assembly_methods=misc.AssemblyMethods.fetch_list(),
+        sequencing_instruments=misc.SequencingInstruments.fetch_list(),
+        patient_statuses=misc.PatientStatuses.fetch_list(),
+        specimen_sources=misc.SpecimenSources.fetch_list(),
+        countries=misc.Countries.fetch_list(),
+        continents=misc.Continents.fetch_list(),
+        sample_capture_statuses=misc.SampleCaptureStatuses.fetch_list(),
+        host_disease_outcomes=misc.HostDiseaseOutcomes.fetch_list(),
+        host_health_states=misc.HostHealthStates.fetch_list(),
+        host_habitats=misc.HostHabitats.fetch_list(),
+        host_behaviours=misc.HostBehaviours.fetch_list(),
+        library_strategies=lib.LibraryStrategies.fetch_list_labeled(
+            replace_key="item_key"),
+        library_sources=lib.LibrarySources.fetch_list_labeled(
+            replace_key="item_key"),
+        library_selections=lib.LibrarySelections.fetch_list_labeled(
+            replace_key="item_key")
+        );
+    html+= render_template("footer.html", scripts=scripts);
+    return html;
+
 
 @samples_bp.route("/samples/submit", methods=["POST"])
 def submit():

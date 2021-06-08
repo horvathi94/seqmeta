@@ -1,6 +1,16 @@
 from .db.cursor import Cursor
 from .db.interface import DBInterface
 
+
+class Countries(DBInterface):
+    display_table_name = "countries";
+
+
+class Continents(DBInterface):
+    display_table_name = "continents";
+
+
+
 class Hosts(DBInterface):
 
     display_table_name = "view_hosts";
