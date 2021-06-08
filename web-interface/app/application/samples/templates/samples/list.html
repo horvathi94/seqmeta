@@ -60,32 +60,18 @@
 
 	<div class="filegen wrap">
 
-		<label for name="submission_types"> GISAID </label>
-		<input type="checkbox" name="submission_types" 
-													 value="gisaid"/>
-		<input type="text" name="submission_filename_gisaid"
-						value="" 
-						placeholder="datetime.now()_gisaid"/>
+		<h4> Generate metadata for upload: </h4>
+
+		<input type="submit" value="GISAID" 
+						formaction="{{ url_for( 'samples_bp.gen_gisaid_meta' ) }}"/>
+
+		<input type="submit" value="ENA" 
+						formaction="{{ url_for( 'samples_bp.gen_ena_meta' ) }}"/>
+
+		<input type="submit" value="NCBI" 
+						formaction="{{ url_for( 'samples_bp.gen_ncbi_meta' ) }}"/>
 
 
-		<label for name="submission_types"> ENA </label>
-		<input type="checkbox" name="submission_types"
-												 value="ena"/>
-		<input type="text" name="submission_filename_ena"
-					value="" 
-					placeholder="ena_file_name"/>
-
-
-
-		<label for name="submission_types"> NCBI </label>
-		<input type="checkbox" name="submission_types"
-												 value="ncbi"/>
-		<input type="text" name="submission_filename_ncbi"
-					value="" 
-					placeholder="ncbi_file_name"/>
-
-
-		<input type="submit" value="Generate"/>
 
 	</div>
 

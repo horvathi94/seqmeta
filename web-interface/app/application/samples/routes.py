@@ -1,6 +1,7 @@
 import os
+from datetime import datetime
 from flask import Blueprint, render_template, request, redirect, url_for, \
-    jsonify
+    jsonify, send_file
 from application.src.samples.samples import Samples
 from application.src.samples.extensions.collections import Collection
 from application.src.samples.extensions.host import Host
@@ -14,6 +15,7 @@ from application.src.authors import Authors, AuthorGroups
 from application.src import misc
 from application.src import library as lib
 from application.src.forms.form import Form
+from application.src.metatemplates.gisaid import GisaidMeta
 
 samples_bp = Blueprint("samples_bp", __name__,
                        template_folder="templates",
@@ -109,7 +111,7 @@ def submit():
 
     fasta = request.files["fasta-file"];
     if fasta.filename != "":
-        fasta.save(os.path.join("/uploads", "fasta",
+        fasta.save(os.path.join("/uploads/samples/assemblies",
                 sample_data["name"] + ".fasta"));
     return redirect(url_for('samples_bp.show'));
 
@@ -124,3 +126,27 @@ def sample_details():
 @samples_bp.route("/samples/generate")
 def generate():
     return "Generate"
+
+
+
+@samples_bp.route("/samples/generate/gisaid", methods=["POST"])
+def gen_gisaid_meta():
+    selected = [int(i) for i in request.form.getlist("selected-samples")];
+    if len(selected) == 0:
+        return "Nothing selected";
+    samples = Samples.fetch_entries("view_samples_gisaid",
+                                    sample_ids=selected);
+    filename = "gisaid_metadata_" + str(datetime.now()) + ".xls";
+    GisaidMeta.write_gisaid(samples);
+    excel_file = os.path.join(GisaidMeta.get_temp_filename());
+    return send_file(excel_file, attachment_filename=filename);
+
+
+@samples_bp.route("/samples/generate/ncbi", methods=["POST"])
+def gen_ncbi_meta():
+    return "NCBI"
+
+
+@samples_bp.route("/samples/generate/ena", methods=["POST"])
+def gen_ena_meta():
+    return "ENA"
