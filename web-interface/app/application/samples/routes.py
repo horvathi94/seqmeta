@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, \
     jsonify
-from application.src.samples import Samples
+from application.src.samples.samples import Samples
 
 samples_bp = Blueprint("samples_bp", __name__,
                        template_folder="templates",
