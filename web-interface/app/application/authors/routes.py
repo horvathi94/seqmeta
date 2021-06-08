@@ -1,4 +1,3 @@
-from flask import current_app as app
 from flask import Blueprint, render_template, request, redirect, url_for
 from application.src.authors import Authors
 

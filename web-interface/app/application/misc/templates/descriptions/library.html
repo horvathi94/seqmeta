@@ -1,0 +1,33 @@
+{% macro description_table(name, items) %}
+
+
+		{% for item in items %}
+			
+			<dl>
+				<dt>{{ item.item_key }}</dt>
+				<dd>{{ item.item_value }}</dd>
+			</dl>
+		
+
+		{% endfor %}
+
+
+{% endmacro %}
+
+
+
+<h2 id="library-strategies"> Library strategies </h2>
+
+	{{ description_table("Strategy", lib_strategies) }}
+
+	<hr>
+
+<h2 id="library-sources"> Library sources </h2>
+
+	{{ description_table("Source", lib_sources) }}
+
+	<hr>
+
+<h2 id="library-selections"> Library selection </h2>
+
+	{{ description_table("Selection", lib_selections) }}

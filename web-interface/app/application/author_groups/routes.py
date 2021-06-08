@@ -1,15 +1,16 @@
 from flask import current_app as app
 from flask import Blueprint, render_template, request, redirect, url_for
 from application.src.authors import Authors, AuthorGroups
+from application.src.forms.form import Form
 
 
 author_groups_bp = Blueprint("author_groups_bp", __name__,
-                                template_folder="templates",
-                                static_folder="static",
-                                static_url_path="/static");
+                               template_folder="templates",
+                               static_folder="static",
+                               static_url_path="/static/author-groups/");
 
 
-@author_groups_bp.route("/view")
+@author_groups_bp.route("/author-groups/view")
 def show():
     groups_list = AuthorGroups.fetch_list();
     html = render_template("head.html");
@@ -23,9 +24,9 @@ def show():
     return html;
 
 
-@author_groups_bp.route("/edit")
+@author_groups_bp.route("/author-groups/edit")
 def edit():
-    scripts = [{"filename":"edit.js", "prefix":"/author-groups"}];
+    scripts = [{"filename":"edit.js", "prefix":"author-groups"}];
     group_id = int(request.args["id"]) if "id" in request.args else 0;
     group = AuthorGroups.fetch_entry_edit(group_id=group_id);
     authors_list = Authors.fetch_list();
@@ -38,10 +39,10 @@ def edit():
     return html;
 
 
-@author_groups_bp.route("/submit", methods=["POST"])
+@author_groups_bp.route("/author-groups/submit", methods=["POST"])
 def submit():
     form_data = request.form.to_dict();
-    authors_list = funcs.parse_form_list(form_data, "author");
-    group = funcs.parse_form_simple(form_data, "group");
+    authors_list = Form.parse_list(form_data, "author");
+    group = Form.parse_simple(form_data, "group");
     AuthorGroups.save(group, authors_list);
     return redirect(url_for('author_groups_bp.show'));

@@ -1,0 +1,28 @@
+<table>
+
+	<tr>
+		<th>ID</th>
+		<th>Name</th>
+		<th>Address</th>
+		<th></th>
+	</tr>
+
+	{% for institution in institutions %}
+	<tr>
+		<td>{{institution.id}}</td>
+		<td>{{institution.name}}</td>
+		<td>{{institution.address}}</td>
+		<td>
+			<input type="button"
+						 onclick="location.href='{{ url_for('institutions_bp.edit') }}?id={{institution.id}}'"
+						 value="Edit"/>
+		</td>
+	</tr>
+	{% endfor %}
+
+</table>
+
+
+<input type="button"
+	onclick="location.href='{{ url_for('institutions_bp.edit') }}'"
+	value="Add"/>

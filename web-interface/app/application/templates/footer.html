@@ -2,7 +2,7 @@
 	
 
 		{% if "prefix" in script %}
-			{% set js_url = script.prefix + "/static/js/" + script.filename %}	
+			{% set js_url = "/static/" + script.prefix + "/js/" + script.filename %}	
 		{% else %}
 			{% set js_filename = "js/" + script.filename %}
 			{% set js_url = url_for("static", filename=js_filename) %}

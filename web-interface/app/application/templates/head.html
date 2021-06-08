@@ -16,9 +16,15 @@
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">	
 
 		{% for style in styles %}
+
+			{% if "prefix" in style %}
+				{% set css_filename = style.prefix + "/css/" + style.filename %}	
+			{% else %}
+				{% set css_filename = "css/" + style.filename %}
+				{% set css_url = url_for("static", filename=css_filename) %}
+			{% endif %}
 			
-			{% set css_url = 'css/' + style %}
-			<link rel="stylesheet" href="{{ url_for('static', filename=css_url) }}">
+			<link rel="stylesheet" href="{{ url_for('static', filename=css_filename) }}">
 
 		{% endfor %}
 
@@ -41,8 +47,8 @@
 			#}
 			<a href="{{ url_for('authors_bp.show') }}">Authors</a>
 			<a href="{{ url_for('author_groups_bp.show') }}">Groups</a>
+			<a href="{{ url_for('institutions_bp.show') }}">Institutions</a>
 			{#
-			<a href="{{ url_for('view_institutions') }}">Institutions</a>
 			<a href="{{ url_for('set_options_list') }}">Custom options</a>
 			<a href="{{ url_for('view_ena_studies') }}">ENA Studies</a>
 			#}
