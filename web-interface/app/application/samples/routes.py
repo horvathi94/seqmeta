@@ -1,4 +1,4 @@
-import os.path
+import os
 from flask import Blueprint, render_template, request, redirect, url_for, \
     jsonify
 from application.src.samples.samples import Samples
@@ -106,11 +106,12 @@ def submit():
     sequencing = Form.parse_simple(request.form, "sequencing");
     sequencing["sample_id"] = sample_id;
     Sequencing.save_entry(sequencing);
-    if "fasta-file" in request.files:
-        fasta = request.files["fasta-file"];
+
+    fasta = request.files["fasta-file"];
+    if fasta.filename != "":
         fasta.save(os.path.join("/uploads", "fasta",
                 sample_data["name"] + ".fasta"));
-    return redirect(url_for('view_samples'));
+    return redirect(url_for('samples_bp.show'));
 
 
 @samples_bp.route("/samples/details")
@@ -118,6 +119,7 @@ def sample_details():
     sample_id = int(request.args["id"]) if "id" in request.args else 0;
     sample_details = Samples.fetch_details(sample_id=sample_id);
     return jsonify(sample_details);
+
 
 @samples_bp.route("/samples/generate")
 def generate():
