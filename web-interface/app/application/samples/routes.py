@@ -123,8 +123,10 @@ def submit():
                      "is_assembly": True,
                      "is_forward_read": None};
         SeqFile.save(file_data);
-#        assembly_file.save(os.path.join("/uploads/samples/assemblies",
-#                sample_data["name"] + ".fasta"));
+        seqfile, = SeqFile.fetch_entries_by_sample_id(sample_id);
+        filename = seqfile["filename"];
+        assembly_file.save(os.path.join("/uploads/samples/assemblies",
+                                        filename));
     return redirect(url_for('samples_bp.show'));
 
 
