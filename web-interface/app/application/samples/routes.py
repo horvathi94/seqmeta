@@ -50,6 +50,8 @@ def edit():
               {"filename": "markers.css"}];
     scripts = [{"filename": "edit.js", "prefix": "samples"}];
     sample_id = int(request.args["id"]) if "id" in request.args else 0;
+
+#    return jsonify(SeqFile.fetch_entries_by_sample_id(1));
     html = render_template("head.html", styles=styles);
     html+= render_template(
         "samples/edit.html",

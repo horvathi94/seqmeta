@@ -41,8 +41,8 @@ DELIMITER $$
 CREATE PROCEDURE upsert_seqfiles (
 	IN sample_id 				INT UNSIGNED,
 	IN file_type_id 		INT UNSIGNED, 
-	IN is_assembly			INT UNSIGNED,
-	IN is_forward_read	INT UNSIGNED
+	IN is_assembly			BIT(1),
+	IN is_forward_read	BIT(1)
 )
 
 	BEGIN
@@ -50,11 +50,22 @@ CREATE PROCEDURE upsert_seqfiles (
 		SET @working_id := 0;
 
 
-		SELECT @working_id := id 
-			FROM seqfiles 
-			WHERE seqfiles.sample_id = sample_id 
-				AND seqfiles.is_assembly = is_assembly
-				AND seqfiles.is_forward_read = is_forward_read;
+		IF ( is_forward_read IS NULL ) THEN
+
+			SELECT @working_id := id 
+				FROM seqfiles 
+				WHERE seqfiles.sample_id = sample_id 
+					AND seqfiles.is_assembly = is_assembly;
+
+		ELSE 
+
+			SELECT @working_id := id 
+				FROM seqfiles 
+				WHERE seqfiles.sample_id = sample_id 
+					AND seqfiles.is_assembly = is_assembly
+					AND seqfiles.is_forward_read = is_forward_read;
+		
+		END IF;
 
 		IF ( @working_id = 0 ) THEN 
 
@@ -70,7 +81,6 @@ CREATE PROCEDURE upsert_seqfiles (
 				WHERE id = @working_id;
 
 		END IF;
-
 
 	END $$
 

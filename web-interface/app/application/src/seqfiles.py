@@ -8,7 +8,7 @@ class SeqFileTypes(DBInterface):
 
 class SeqFile(DBInterface):
 
-    display_table_name = "view_samples_seqfiles";
+    display_table_name = "view_seqfiles";
 
     @classmethod
     def save(cls, data):
@@ -17,5 +17,10 @@ class SeqFile(DBInterface):
         Cursor.call_procedure("upsert_seqfiles", args=args, commit=True);
 
 
+    @classmethod
+    def fetch_entries_by_sample_id(cls, sample_id):
+        seqfiles = Cursor.select(cls.display_table_name,
+                      clauses="WHERE sample_id = {:d}".format(sample_id));
+        return seqfiles;
 
 
