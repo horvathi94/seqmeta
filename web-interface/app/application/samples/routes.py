@@ -17,6 +17,7 @@ from application.src import library as lib
 from application.src.forms.form import Form
 from application.src.metatemplates.gisaid import GisaidMeta
 from application.src.metatemplates.ena import EnaMeta
+from application.src.seqfiles import SeqFileTypes, SeqFile
 
 samples_bp = Blueprint("samples_bp", __name__,
                        template_folder="templates",
@@ -78,6 +79,8 @@ def edit():
         library_sources=lib.LibrarySources.fetch_list_labeled(
             replace_key="item_key"),
         library_selections=lib.LibrarySelections.fetch_list_labeled(
+            replace_key="item_key"),
+        seqfile_types=SeqFileTypes.fetch_list_labeled(
             replace_key="item_key")
         );
     html+= render_template("footer.html", scripts=scripts);
@@ -110,10 +113,15 @@ def submit():
     sequencing["sample_id"] = sample_id;
     Sequencing.save_entry(sequencing);
 
-    fasta = request.files["fasta-file"];
-    if fasta.filename != "":
-        fasta.save(os.path.join("/uploads/samples/assemblies",
-                sample_data["name"] + ".fasta"));
+    assembly_file = request.files["assembly-file"];
+    if assembly_file.filename != "":
+        file_data = {"sample_id": sample_id,
+                     "file_type_id": request.form["assembly-file-type"],
+                     "is_assembly": True,
+                     "is_forward_read": None};
+        SeqFile.save(file_data);
+#        assembly_file.save(os.path.join("/uploads/samples/assemblies",
+#                sample_data["name"] + ".fasta"));
     return redirect(url_for('samples_bp.show'));
 
 
