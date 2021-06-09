@@ -15,4 +15,6 @@ class Library(SampleExtension):
             entry["layout_paired"] = False;
         if entry["preparation_date"] == "":
             entry["preparation_date"] = None;
+        if entry["lib_id"] == "":
+            entry["lib_id"] = None;
         return entry;
