@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `samples_location` (
 CREATE TABLE IF NOT EXISTS `samples_library` (
 	
 	sample_id 							INT UNSIGNED NOT NULL PRIMARY KEY,
-	lib_id									VARCHAR(200) UNIQUE,
+	lib_id									VARCHAR(200) NULL UNIQUE,
 	layout_paired						BIT(1),					
 	strategy_id							SMALLINT UNSIGNED,
 	source_id								SMALLINT UNSIGNED,

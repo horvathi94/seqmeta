@@ -17,7 +17,7 @@ from application.src import library as lib
 from application.src.forms.form import Form
 from application.src.metatemplates.gisaid import GisaidMeta
 from application.src.metatemplates.ena import EnaMeta
-from application.src.seqfiles import SeqFileTypes, SeqFile
+from application.src.seqfiles import SeqFileTypes, SeqFile, SeqFilesBunch
 
 samples_bp = Blueprint("samples_bp", __name__,
                        template_folder="templates",
@@ -32,6 +32,9 @@ def show():
               {"filename": "samples.css", "prefix":"samples"}];
     scripts = [{"filename": "details.js", "prefix":"samples"}];
     samples_list = Samples.fetch_list();
+    for sample in samples_list:
+        seqbunch = SeqFilesBunch(sample["sample_id"]);
+        sample["seqfiles"] = seqbunch.todict();
     html = render_template("head.html", styles=styles);
     if len(samples_list) == 0:
         html+= render_template("list_is_empty.html",
@@ -50,8 +53,6 @@ def edit():
               {"filename": "markers.css"}];
     scripts = [{"filename": "edit.js", "prefix": "samples"}];
     sample_id = int(request.args["id"]) if "id" in request.args else 0;
-
-#    return jsonify(SeqFile.fetch_entries_by_sample_id(1));
     html = render_template("head.html", styles=styles);
     html+= render_template(
         "samples/edit.html",

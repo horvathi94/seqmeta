@@ -6,7 +6,7 @@ COPY ./development/requirements.txt requirements.txt
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 RUN mkdir -p /uploads/samples/assemblies \ 
-	& mkdir -p /uploads/samples/raw
+	& mkdir -p /uploads/samples/reads
 
 
 EXPOSE 5000

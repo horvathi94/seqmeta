@@ -31,12 +31,10 @@
 			<td> {{ sample.group_name }} </td>
 
 			<td>
-				{% if sample.assemblies_count == 1 %}
+				{% if sample.seqfiles.assembly_file.exists %}
 					Yes
-				{% elif sample.assemblies_count == 0 %}
-					No
 				{% else %}
-					Something went wrong
+					No
 				{% endif %}
 
 			<td>

@@ -13,4 +13,6 @@ class Library(SampleExtension):
             entry["layout_paired"] = True;
         else:
             entry["layout_paired"] = False;
+        if entry["preparation_date"] == "":
+            entry["preparation_date"] = None;
         return entry;
