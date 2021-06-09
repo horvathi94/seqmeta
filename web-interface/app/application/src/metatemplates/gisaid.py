@@ -1,50 +1,31 @@
-from .base.excel_gen import ExcelGenerator
-from application.src.samples.virusname import VirusnameGisaid
+import os.path
+from zipfile import ZipFile
+from .gisaid_excel import GisaidExcel
+from .base.tempfile import TempFile
+from application.src.samples.samples import Samples
+from application.src.seqfiles.seqfiles import SeqFilesBunch
 
-class GisaidMeta(ExcelGenerator):
+class GisaidMeta(TempFile):
 
-    tempfilename = "last_generated_gisaid.xls";
-    attachement_prefix = "gisaid";
-    extension = "xls";
-
-    @classmethod
-    def populate_gisaid(cls, ws, samples):
-        for indx, sample in enumerate(samples):
-            i = indx+3;
-            ws["A{:d}".format(i)] = "Submitter"          # Submitter
-            ws["B{:d}".format(i)] = "filename";          # Filename
-            ws["C{:d}".format(i)] = VirusnameGisaid.create_name(sample);
-            ws["D{:d}".format(i)] = "betacoronavirus"    # Leave as default
-            ws["E{:d}".format(i)] = sample["passage_details"]
-            ws["F{:d}".format(i)] = str(sample["collection_date"]);
-            ws["G{:d}".format(i)] = sample["location"];
-            ws["H{:d}".format(i)] = sample["additional_location_info"];
-            ws["I{:d}".format(i)] = sample["host"];
-            ws["J{:d}".format(i)] = sample["additional_host_info"];
-            ws["K{:d}".format(i)] = sample["sampling_strategy"];
-            ws["L{:d}".format(i)] = sample["patient_gender"]
-            ws["M{:d}".format(i)] = sample["patient_age"];
-            ws["N{:d}".format(i)] = sample["patient_status"];
-            ws["O{:d}".format(i)] = sample["specimen_source"];
-            ws["P{:d}".format(i)] = sample["outbreak"];
-            ws["Q{:d}".format(i)] = sample["last_vaccinated"];
-            ws["R{:d}".format(i)] = sample["treatment"];
-            ws["S{:d}".format(i)] = sample["sequencing_technology"];
-            ws["T{:d}".format(i)] = sample["assembly_method"];
-            ws["U{:d}".format(i)] = sample["coverage"];
-            ws["V{:d}".format(i)] = sample["originating_lab_name"];
-            ws["W{:d}".format(i)] = sample["originating_lab_address"];
-            ws["X{:d}".format(i)] = sample["originating_lab_sample_name"];
-            ws["Y{:d}".format(i)] = sample["submitting_lab_name"];
-            ws["Z{:d}".format(i)] = sample["submitting_lab_address"];
-            ws["AA{:d}".format(i)] = sample["submitting_lab_sample_name"];
-            ws["AB{:d}".format(i)] = sample["authors_list"];
+    tempfilename = "last_generated_gisaid.zip";
+    attachement_prefix = "gisaid_";
+    extension = "zip";
 
 
     @classmethod
-    def write_gisaid(cls, samples):
-        wb, ws = cls.create_worksheet("Submissions");
-        cls.populate_gisaid(ws, samples);
-        cls.save_excel(wb, cls.get_tempfile());
-        wb.close();
+    def write_zip(cls, selected):
+
+        samples = Samples.fetch_entries("view_samples_gisaid",
+                                        sample_ids=selected);
+        GisaidExcel.write_gisaid(samples);
+
+        with ZipFile(cls.get_tempfile(), "w") as zipObj:
+            zipObj.write(GisaidExcel.get_tempfile(), "submission.xls");
+            for sample in samples:
+                seqbunch = SeqFilesBunch(sample["sample_id"]);
+                seqbunch.write_gisiad_tempfile();
+                if seqbunch.has_assembly_file():
+                    zipObj.write(seqbunch.get_tempfile(),
+                                 seqbunch.assembly_file["filename"]);
+
 

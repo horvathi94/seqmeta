@@ -1,4 +1,4 @@
-CREATE VIEW view_samples_gisaid AS
+CREATE OR REPLACE VIEW view_samples_gisaid AS
 
 	SELECT 
 
@@ -28,8 +28,9 @@ CREATE VIEW view_samples_gisaid AS
 		sampling.submitting_lab_name AS submitting_lab_name,
 		sampling.submitting_lab_address AS submitting_lab_address,
 		sampling.submitting_lab_sample_name AS submitting_lab_sample_name,
-		sampling.authors_list AS authors_list
+		sampling.authors_list AS authors_list,
 
+		seqfiles.filename AS seqfilename
 
 	FROM view_samples_base AS samples
 	LEFT JOIN view_samples_sampling AS sampling
@@ -44,4 +45,5 @@ CREATE VIEW view_samples_gisaid AS
 		ON samples.sample_id = health.sample_id
 	LEFT JOIN view_samples_sequencing AS sequencing
 		ON samples.sample_id = sequencing.sample_id
-
+	LEFT JOIN view_seqfiles AS seqfiles
+		ON samples.sample_id = seqfiles.sample_id

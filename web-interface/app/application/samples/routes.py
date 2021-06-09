@@ -17,7 +17,8 @@ from application.src import library as lib
 from application.src.forms.form import Form
 from application.src.metatemplates.gisaid import GisaidMeta
 from application.src.metatemplates.ena import EnaMeta
-from application.src.seqfiles import SeqFileTypes, SeqFile, SeqFilesBunch
+from application.src.seqfiles.db import SeqFileTypes, SeqFile
+from application.src.seqfiles.seqfiles import SeqFilesBunch
 
 samples_bp = Blueprint("samples_bp", __name__,
                        template_folder="templates",
@@ -53,10 +54,12 @@ def edit():
               {"filename": "markers.css"}];
     scripts = [{"filename": "edit.js", "prefix": "samples"}];
     sample_id = int(request.args["id"]) if "id" in request.args else 0;
+    seqfiles=SeqFilesBunch(sample_id);
     html = render_template("head.html", styles=styles);
     html+= render_template(
         "samples/edit.html",
         sample=Samples.fetch_entry_edit(id=sample_id, id_key="sample_id"),
+        seqfiles=seqfiles.todict(),
         authors=Authors.fetch_list_labeled(
             replace_key="abbreviated_middle_name"),
         author_groups=AuthorGroups.fetch_list_labeled(
@@ -148,12 +151,10 @@ def gen_gisaid_meta():
     selected = [int(i) for i in request.form.getlist("selected-samples")];
     if len(selected) == 0:
         return "Nothing selected";
-    samples = Samples.fetch_entries("view_samples_gisaid",
-                                    sample_ids=selected);
-    GisaidMeta.write_gisaid(samples);
+    GisaidMeta.write_zip(selected);
     filename = GisaidMeta.get_attachment_filename();
-    excel_file = GisaidMeta.get_tempfile();
-    return send_file(excel_file, attachment_filename=filename);
+    zip_file = GisaidMeta.get_tempfile();
+    return send_file(zip_file, attachment_filename=filename);
 
 
 @samples_bp.route("/samples/generate/ncbi", methods=["POST"])
@@ -169,9 +170,21 @@ def gen_ncbi_meta():
 @samples_bp.route("/samples/generate/ena", methods=["POST"])
 def gen_ena_meta():
     selected = [int(i) for i in request.form.getlist("selected-samples")];
-    if len(selected) == 0:
-        return "Nothing selected";
+    if len(selected) == 0: return "Nothing selected";
     EnaMeta.write_zip(selected);
     ena_zip = EnaMeta.get_tempfile();
     filename = EnaMeta.get_attachment_filename();
     return send_file(ena_zip, attachment_filename=filename);
+
+
+@samples_bp.route("/samples/generate/concat-assemblies", methods=["POST"])
+def gen_concat_assemblies():
+    selected = [int(i) for i in request.form.getlist("selected-samples")];
+    if len(selected) == 0: return "Nothing selected";
+    ret = "";
+    for sid in selected:
+        seqbunch = SeqFilesBunch(sid);
+        ret+= str(seqbunch.get_assembly());
+    return ret;
+
+
