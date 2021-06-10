@@ -4,11 +4,11 @@ from application.src.db.interface import DBInterface
 
 class VirusnameGisaid(DBInterface):
 
-    display_table_name = "view_virusname_gisaid";
+    display_table_name = "view_samples_gisaid";
     submit_table_name = "virusname_gisaid";
     save_procedure = "upsert_ordereddict_table";
     item_keys = ["key", "string"];
-    items_table = "view_samples_virusname_gisaid";
+    items_table = "view_samples_gisaid";
 
 
     @classmethod

@@ -102,9 +102,9 @@ class SeqFilesBunch(TempFile):
         virusname = VirusnameGisaid.create_name(sample);
         seqfile = self.get_assembly_file();
         seqdata = SeqIO.read(seqfile, self.assembly_file["file_type"]);
-        seqdata.id = "hCoV-19";
-        seqdata.name = "hCoV-19";
-        seqdata.description = virusname;
+        seqdata.id = virusname;
+        seqdata.name = "";
+        seqdata.description = "";
 
         with open(self.get_tempfile(), "w") as outf:
             SeqIO.write(seqdata, outf, "fasta");
