@@ -1,7 +1,3 @@
-CALL create_dict_table("library_strategies");
-CALL create_dict_table("library_sources");
-CALL create_dict_table("library_selections");
-
 CALL upsert_dict_table("library_strategies", 1, "WGA", "Random sequencing of the whole genome following non-pcr amplification");
 CALL upsert_dict_table("library_strategies", 2, "WGS", "Random sequencing of the whole genome");
 CALL upsert_dict_table("library_strategies", 3, "WXS", "Random sequencing of exonic regions selected from the genome");

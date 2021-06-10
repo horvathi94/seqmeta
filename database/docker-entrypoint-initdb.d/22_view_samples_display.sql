@@ -4,6 +4,7 @@ CREATE OR REPLACE VIEW view_samples_display AS
 
 		samples.sample_id AS sample_id,
 		samples.sample_name AS sample_name,
+		samples.sample_comment AS sample_comment,
 		collection.collection_date AS collection_date,
 		sampling.author_group_name AS group_name
 		

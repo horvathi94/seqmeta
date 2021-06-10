@@ -15,6 +15,7 @@
 		<th> Author group </th>
 		<th> Has assembly file </th>
 
+		<th> Comment </th>
 		<th> Details </th>
 		<th> Edit </th>
 	</tr>
@@ -36,8 +37,11 @@
 				{% else %}
 					No
 				{% endif %}
+			</td>
 
 			<td>
+				{{ sample.sample_comment }}
+			</td>
 
 			<td> 
 				<input type="button" value="Details" onclick="displayDetails({{ sample.sample_id }})"/>

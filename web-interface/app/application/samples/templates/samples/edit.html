@@ -22,6 +22,14 @@
 									onchange="changeSampleNames(this);"/> </td>
 		<td> Name of the sequenced files. Use this to keep track of your samples in the database. </td>
 	</tr>
+	
+	<tr>
+		<td> Comment </td>
+		<td> <input type="text" name="sample+sample_comment" value="{{ sample.sample_comment }}"
+									 maxlength="200"/> </td>
+		<td> A comment to more easily identify the sample. This will not be used for any of the uploads. </td>
+	</tr>
+
 
 
 	{% include('samples/fields/collection.html') %}

@@ -15,7 +15,7 @@ def show():
     if len(authors_list) == 0:
         html+= render_template("empty_list.html",
                                name_plural="authors",
-                               link="bp_authors.edit");
+                               link="authors_bp.edit");
     else:
         html+= render_template("authors/list.html", authors=authors_list);
     html+= render_template("footer.html");

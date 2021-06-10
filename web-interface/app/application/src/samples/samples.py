@@ -59,6 +59,8 @@ class Samples(DBInterface):
         del submitted["sample_id"];
         submitted["name"] = submitted["sample_name"];
         del submitted["sample_name"];
+        submitted["comment"] = submitted["sample_comment"];
+        del submitted["sample_comment"];
         return submitted;
 
 

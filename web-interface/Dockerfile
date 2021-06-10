@@ -13,7 +13,6 @@ EXPOSE 5000
 
 WORKDIR /app
 #CMD ["python3", "./wsgi.py"]
-#CMD["uwsg"]
 CMD ["tail", "-f", "/etc/passwd"]
 
 
@@ -22,9 +21,9 @@ FROM development AS production
 COPY ./production/requirements.txt prod-requirements.txt
 RUN pip3 install --no-cache-dir -r prod-requirements.txt
 
-#COPY ./code ./
-WORKDIR /app/code
-#COPY ./production/wsgi.ini ./wsgi.ini
+
+WORKDIR /app
+COPY ./app /app
 
 RUN groupadd --gid 5000 pyman \
 	&& useradd --uid 5000 --gid 5000 --shell /bin/bash pyman \
@@ -33,4 +32,4 @@ RUN groupadd --gid 5000 pyman \
 
 USER pyman
 
-CMD ["uwsgi", "wsgi.ini"]
+CMD ["python3", "/app/wsgi.py"]

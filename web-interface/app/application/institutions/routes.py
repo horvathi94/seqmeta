@@ -11,7 +11,7 @@ def show():
     institutions_list = Institutions.fetch_list();
     html = render_template("head.html");
     if len(institutions_list) == 0:
-        html+= render_template("list_is_empty.html",
+        html+= render_template("empty_list.html",
                                name_plural="institutions",
                                link="institutions_bp.edit");
     else:

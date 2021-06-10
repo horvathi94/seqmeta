@@ -38,7 +38,7 @@ def show():
         sample["seqfiles"] = seqbunch.todict();
     html = render_template("head.html", styles=styles);
     if len(samples_list) == 0:
-        html+= render_template("list_is_empty.html",
+        html+= render_template("empty_list.html",
                                name_plural="samples",
                                link="samples_bp.edit");
     else:
