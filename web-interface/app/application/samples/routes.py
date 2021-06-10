@@ -93,6 +93,15 @@ def edit():
     return html;
 
 
+@samples_bp.route("/samples/add-multiple", methods=["GET"])
+def add_multiple():
+    scripts = [{"filename": "edit-multiple.js", "prefix": "samples"}];
+    html = render_template("head.html");
+    html+= render_template("samples/add_multiple.html");
+    html+= render_template("footer.html", scripts=scripts);
+    return html;
+
+
 @samples_bp.route("/samples/submit", methods=["POST"])
 def submit():
     sample_data = Form.parse_simple(request.form, "sample");
