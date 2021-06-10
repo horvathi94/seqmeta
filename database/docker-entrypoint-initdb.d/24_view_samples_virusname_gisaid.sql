@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW view_samples_gisaid AS
+CREATE OR REPLACE VIEW view_samples_virusname_gisaid AS
 
 	SELECT 
 
@@ -6,8 +6,13 @@ CREATE OR REPLACE VIEW view_samples_gisaid AS
 		samples.sample_name AS sample_name,
 
 		sampling.passage_details AS passage_details,
-		collection.collection_date AS collection_date,
-		location.location AS location,
+		collection.collection_year AS collection_year,
+		collection.collection_month AS collection_month,
+		collection.collection_day AS collection_day,
+		location.continent AS continent,
+		location.country AS country,
+		location.region AS region,
+		location.locality AS locality,
 		location.additional_location_info AS additional_location_info,
 		hosts.host_common_name AS host,
 		hosts.additional_host_info AS additional_host_info,

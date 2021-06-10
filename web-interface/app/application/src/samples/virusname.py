@@ -8,7 +8,7 @@ class VirusnameGisaid(DBInterface):
     submit_table_name = "virusname_gisaid";
     save_procedure = "upsert_ordereddict_table";
     item_keys = ["key", "string"];
-    items_table = "view_samples_gisaid";
+    items_table = "view_samples_virusname_gisaid";
 
 
     @classmethod
