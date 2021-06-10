@@ -74,14 +74,14 @@ class DBInterface:
     @classmethod
     def save_by_procedure(cls, items):
         """
-            Good for basic tables with columns: | id | label |
+            Good for basic tables with columns: | label | indx |
         """
-        if cls.save_procedure == "":
-            return;
-
         for item in items:
-            args = (int(item["id"]), str(item["label"]));
-            Cursor.call_procedure(cls.save_procedure, args=args, commit=True);
+            args = (cls.submit_table_name,
+                    str(item["label"]),
+                    int(item["indx"]));
+            Cursor.call_procedure("upsert_basic_table",
+                                  args=args, commit=True);
 
 
     @classmethod

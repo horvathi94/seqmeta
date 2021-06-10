@@ -1,0 +1,71 @@
+{% macro basic_table_editor(name, items, form_link) %}
+
+	<form action="{{ url_for(form_link) }}" method="POST">
+
+		<input type="button" value="+" onclick="addNew_{{name}}();"/>
+
+		<table id="editor-table-{{ name }}">
+
+			<tr>
+				<th>Index</th>
+				<th>Label</th>
+			</tr>
+
+			<tr class="template" style="visibility: hidden;">
+				<td>
+					<input type="number" name="{{name}}+0+indx" value=""/>
+				</td>
+				<td>
+					<input type="text" name="{{name}}+0+label" value=""/>
+				</td>
+			</tr>
+
+			{% for item in items %}
+				<tr>
+					<td>
+						<input type="number" name="{{name}}+{{loop.index}}+indx" 
+										value="{{item.indx}}"/>
+					</td>
+					<td>
+						<input type="text" name="{{name}}+{{loop.index}}+label"
+										value="{{item.label}}"/>
+					</td>
+				</tr>
+			{% endfor %}
+
+		</table>
+
+		<input type="submit" value="Save"/>
+
+	</form>
+
+
+	<script>
+		function addNew_{{ name }}(){
+			const table = document.getElementById("editor-table-{{ name }}").tBodies[0];
+			const template = table.getElementsByClassName("template")[0];
+
+			let indx = 0;
+			let newIndx = 0;
+			for ( i=2; i<table.rows.length; i++){
+				indx = table.rows[i].cells[0].getElementsByTagName("input")[0].getAttribute("name").split("+")[1];
+				indx = Number(indx);
+				if ( indx > newIndx ){
+					newIndx = indx;
+				}
+			}
+
+			let cloned = template.cloneNode(true);
+			cloned.style.visibility = "visible";
+			rowIndx = table.rows.length - 1;
+			let indxName = "{{ name }}+" + rowIndx + "+indx";
+			let labelName = "{{ name }}+" + rowIndx + "+label";
+			indxCell = cloned.cells[0].getElementsByTagName("input")[0];
+			indxCell.setAttribute("name", indxName);
+			indxCell.value = newIndx+1;
+			cloned.cells[1].getElementsByTagName("input")[0].setAttribute("name", labelName);
+			table.appendChild(cloned);
+		}
+	</script>
+
+{% endmacro %}

@@ -45,7 +45,10 @@
 	<td> Sampling strategy {{ marker("gisaid", requirement="optional") }}</td>
 	<td> {{ select("sampling+sampling_strategy_id", sampling_strategies, 
 		selected_id=sample.sampling_strategy_id) }} </td>
-	<td> The sampling strategy used to select the sample. </td>
+	<td> The sampling strategy used to select the sample. 
+		Edit and add options 
+		<a href="{{ url_for('misc_bp.edit') }}#specimen-sources-editor" 
+			target="_blank">here</a> </td>
 </tr>
 
 

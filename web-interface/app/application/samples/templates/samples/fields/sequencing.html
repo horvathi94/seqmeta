@@ -3,9 +3,7 @@
 	<td> {{ select("sequencing+sequencing_instrument_id", 
 									sequencing_instruments, 
 									selected_id=sample.sequencing_instrument_id) }} </td>
-	<td> Apparatus with which the sequencing was done.
-	ID :{{ sample.sequencing_instrument_id }}.
-	</td>
+	<td> Apparatus with which the sequencing was done.</td>
 </tr>
 
 
@@ -14,7 +12,10 @@
 	<td> {{ select("sequencing+assembly_method_id", 
 					assembly_methods, 
 					selected_id=sample.assembly_method_id) }} </td>
-	<td> Program name and version with which the assembly of the sequence was performed. </td>
+	<td> Program name and version with which the assembly of the sequence was performed. 
+	Edit and add options:
+	<a href="{{ url_for('misc_bp.edit') }}#assembly-methods-editor" 
+		target="_blank">here</a></td>
 </tr>
 
 
