@@ -1,0 +1,31 @@
+.table-wrap {
+	width: 100%;
+	overflow: auto;
+}
+
+#samples-editor{
+	border-collapse: separate;
+	table-layout: fixed;
+	position: relative;
+}
+
+
+#samples-editor td {
+	border-top: 1px solid grey;
+	border-right: 1px solid grey;
+	min-width: 10em;
+}
+
+#samples-editor tr.template{
+	height: 0px;
+	max-height: 0px;
+}
+
+
+#samples-editor td:nth-child(1),
+#samples-editor th:nth-child(1){
+	position: sticky;
+	left: 0;
+	z-index: 10;
+	background-color: var(--light-green);
+}

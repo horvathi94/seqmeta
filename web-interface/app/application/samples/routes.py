@@ -19,6 +19,7 @@ from application.src.metatemplates.gisaid import GisaidMeta
 from application.src.metatemplates.ena import EnaMeta
 from application.src.seqfiles.db import SeqFileTypes, SeqFile
 from application.src.seqfiles.seqfiles import SeqFilesBunch
+from .save import save
 
 samples_bp = Blueprint("samples_bp", __name__,
                        template_folder="templates",
@@ -95,38 +96,55 @@ def edit():
 
 @samples_bp.route("/samples/add-multiple", methods=["GET"])
 def add_multiple():
+    styles = [{"filename": "add-multiple.css", "prefix": "samples"}];
     scripts = [{"filename": "edit-multiple.js", "prefix": "samples"}];
-    html = render_template("head.html");
-    html+= render_template("samples/add_multiple.html");
+    html = render_template("head.html", styles=styles);
+    html+= render_template("samples/add_multiple.html",
+        authors=Authors.fetch_list_labeled(
+            replace_key="abbreviated_middle_name"),
+        author_groups=AuthorGroups.fetch_list_labeled(
+            replace_key="group_name",
+            replace_id="group_id"),
+        institutions=Institutions.fetch_list_labeled(),
+        hosts=misc.Hosts.fetch_list(),
+        sampling_strategies=misc.SamplingStrategies.fetch_list(),
+        passage_details=misc.PassageDetails.fetch_list(),
+        assembly_methods=misc.AssemblyMethods.fetch_list(),
+        sequencing_instruments=misc.SequencingInstruments.fetch_list(),
+        patient_statuses=misc.PatientStatuses.fetch_list(),
+        specimen_sources=misc.SpecimenSources.fetch_list(),
+        countries=misc.Countries.fetch_list(),
+        continents=misc.Continents.fetch_list(),
+        sample_capture_statuses=misc.SampleCaptureStatuses.fetch_list(),
+        host_disease_outcomes=misc.HostDiseaseOutcomes.fetch_list(),
+        host_health_states=misc.HostHealthStates.fetch_list(),
+        host_habitats=misc.HostHabitats.fetch_list(),
+        host_behaviours=misc.HostBehaviours.fetch_list(),
+        library_strategies=lib.LibraryStrategies.fetch_list_labeled(
+            replace_key="item_key"),
+        library_sources=lib.LibrarySources.fetch_list_labeled(
+            replace_key="item_key"),
+        library_selections=lib.LibrarySelections.fetch_list_labeled(
+            replace_key="item_key"),
+        seqfile_types=SeqFileTypes.fetch_list_labeled(
+            replace_key="item_key")
+        );
     html+= render_template("footer.html", scripts=scripts);
     return html;
 
 
 @samples_bp.route("/samples/submit", methods=["POST"])
 def submit():
-    sample_data = Form.parse_simple(request.form, "sample");
-    sample_id = Samples.save_entry(sample_data);
-    location = Form.parse_simple(request.form, "location");
-    location["sample_id"] = sample_id;
-    Location.save_entry(location);
-    collection = Form.parse_simple(request.form, "collection");
-    collection["sample_id"] = sample_id;
-    Collection.save_entry(collection);
-    library = Form.parse_simple(request.form, "library");
-    library["sample_id"] = sample_id;
-    Library.save_entry(library);
-    host = Form.parse_simple(request.form, "host");
-    host["sample_id"] = sample_id;
-    Host.save_entry(host);
-    sampling = Form.parse_simple(request.form, "sampling");
-    sampling["sample_id"] = sample_id;
-    Sampling.save_entry(sampling);
-    health = Form.parse_simple(request.form, "health");
-    health["sample_id"] = sample_id;
-    HealthStatus.save_entry(health);
-    sequencing = Form.parse_simple(request.form, "sequencing");
-    sequencing["sample_id"] = sample_id;
-    Sequencing.save_entry(sequencing);
+    save_data = {};
+    save_data["sample"] = Form.parse_simple(request.form, "sample");
+    save_data["location"] = Form.parse_simple(request.form, "location");
+    save_data["collection"] = Form.parse_simple(request.form, "collection");
+    save_data["library"] = Form.parse_simple(request.form, "library");
+    save_data["host"] = Form.parse_simple(request.form, "host");
+    save_data["sampling"] = Form.parse_simple(request.form, "sampling");
+    save_data["health"] = Form.parse_simple(request.form, "health");
+    save_data["sequencing"] = Form.parse_simple(request.form, "sequencing");
+    save([save_data]);
 
     assembly_file = request.files["assembly-file"];
     if assembly_file.filename != "":
@@ -140,6 +158,21 @@ def submit():
         assembly_file.save(os.path.join("/uploads/samples/assemblies",
                                         filename));
     return redirect(url_for('samples_bp.show'));
+
+
+@samples_bp.route("/samples/submit-multiple", methods=["POST"])
+def submit_multiple():
+    sample_data = Form.parse_list(request.form, "sample")[1:];
+    collection = Form.parse_list(request.form, "collection")[1:];
+    location = Form.parse_list(request.form, "location")[1:];
+    samples = [];
+    for i, sd in enumerate(sample_data):
+        save_data = {};
+        save_data["sample"] = sd;
+        save_data["location"] = location[i];
+        save_data["collection"] = collection[i];
+        samples.append(save_data);
+    return jsonify(samples);
 
 
 @samples_bp.route("/samples/details")

@@ -1,80 +1,45 @@
-{% from 'macros/select.j2' import select %}
-
 <input type="button" value="Add" onclick="addNewRow();"/>
 
+<form action="{{ url_for('samples_bp.submit_multiple') }}" method="POST">
 
-<div class="editor wrap">
-	<div class="editor row header">
-		<span>Sample name</span>
-		<span>Collection date: year</span>
-		<span>Collection date: monspan</span>
-		<span>Collection date: day</span>
-		<span>Colletor name</span>
-		<span>Continent</span>
-		<span>Country</span>
-		<span>Region</span>
-		<span>Locality</span>
+	<div class="table-wrap">
+
+		<table id="samples-editor">
+			<tr>
+				<th>Sample name</th>
+				<th>Sample comment</th>
+				<th>Collection date: year</th>
+				<th>Collection date: month</th>
+				<th>Collection date: day</th>
+				<th>Colletor name</th>
+				<th>Continent</th>
+				<th>Country</th>
+				<th>Region</th>
+				<th>Locality</th>
+				<th>Additional location information </th>
+				<th>Geographic location (latitude) DD </th>
+				<th>Geographic location (longitude) DD </th>
+				<th>Host</th>
+				<th>Host subject ID</th>
+				<th>Host additional information</th>
+				<th>Patient gender</th>
+				<th>Patient age</th>
+				<th>Patient status</th>
+				<th>Last vaccinated</th>
+				<th>PPE</th>
+				<th>Host habitat</th>
+				<th>Host behaviour</th>
+				<th>Host description</th>
+				<th>Host gravidity</th>
+			</tr>
+
+			{% include("samples/multiple/all.html") %}
+			{% include("samples/multiple/template.html") %}
+
+		</table>
+
 	</div>
 
-	<div class="editor row all">
-		<span>
-			<input type="text" readonly/>
-		</span>
-		<span>
-			<input type="number" min="2019" name="collection+year"/>
-		</span>
-		<span>
-			<input type="number" min="0" max="12" name="collection+month"/>
-		</span>
-		<span>
-			<input type="number" min="0" max="31" name="collection+day"/>
-		</span>
-		<span>
-			{{ select("collection+collector_id", authors) }}
-		</span>
-		<span>
-			{{ select("location+continent_id", continents) }}
-		</span>
-		<span>
-			{{ select("location+country_id", countries) }}
-		</span>
-		<span>
-			<input type="text" name="location+region" maxlength="200"/>	
-		<1/span>
-		<span>
-			<input type="text" name="location+locality" maxlength="200"/>	
-		</span>
-	</div>
+	<input type="submit" value="Save"/>
 
-	<div class="editor row hidden">
-		<span>
-			<input type="text" readonly/>
-		</span>
-		<span>
-			<input type="number" min="2019" name="collection+year"/>
-		</span>
-		<span>
-			<input type="number" min="0" max="12" name="collection+month"/>
-		</span>
-		<span>
-			<input type="number" min="0" max="31" name="collection+day"/>
-		</span>
-		<span>
-			{{ select("collection+collector_id", authors) }}
-		</span>
-		<span>
-			{{ select("location+continent_id", continents) }}
-		</span>
-		<span>
-			{{ select("location+country_id", countries) }}
-		</span>
-		<span>
-			<input type="text" name="location+region" maxlength="200"/>	
-		</span>
-		<span>
-			<input type="text" name="location+locality" maxlength="200"/>	
-		</span>
-	</div>
-
-
-
+</form>

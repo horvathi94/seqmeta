@@ -1,12 +1,12 @@
-{% macro radio(name, options, selected_value="") %}
+{% macro radio(name, options, selected_value="", class="", onchange="") %}
 
 	{% for option in options %}
 		
-		{% if option.value|string == selected_value|string	%}
-			<input type="radio" name="{{ name }}" checked="checked" value="{{ option.value }}"/>
-		{% else %}
-			<input type="radio" name="{{ name }}" value="{{ option.value }}"/>
-		{% endif %}
+		<input type="radio" name="{{ name }}" 
+				{{ "checked='checked'" if option.value|string == selected_value|string }} 
+				{{ "class="+class if class else "" }}
+				{{ "onchange="+onchange if onchange else "" }}
+				value="{{ option.value }}"/>
 		<label for name="{{ name }}"/> {{ option.label }} </label>
 
 	{% endfor %}
