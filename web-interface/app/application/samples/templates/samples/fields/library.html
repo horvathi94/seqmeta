@@ -48,11 +48,7 @@
 <tr>
 	<td> Library layout {{ marker("ncbi") }} </td>
 	<td> 
-		{% set lib_layout = [ 
-						{"label": "Paired-End", "value": "1"},
-						{"label": "Single", "value": "0" },
-						{"label": "N/A", "value": "" } ] %}
-		{{ radio("library+layout_paired", lib_layout, 
+		{{ radio("library+layout_paired", library_layouts, 
 				selected_value=sample.library_layout_paired) }}	
 	</td>
 	<td> Paired-end or Single </td>

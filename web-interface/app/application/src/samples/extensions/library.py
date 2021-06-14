@@ -1,5 +1,5 @@
 from .base import SampleExtension
-
+from .radios import LIBRARY_LAYOUTS
 
 class Library(SampleExtension):
 
@@ -7,14 +7,21 @@ class Library(SampleExtension):
 
     @classmethod
     def clean_submit(cls, entry):
-        if entry["layout_paired"] == "":
-            entry["layout_paired"] = None;
-        elif entry["layout_paired"]:
-            entry["layout_paired"] = True;
-        else:
-            entry["layout_paired"] = False;
+        for layout in LIBRARY_LAYOUTS:
+            if layout["value"] == int(entry["layout_paired"]):
+                entry["layout_paired"] = layout["db_value"];
+                break;
         if entry["preparation_date"] == "":
             entry["preparation_date"] = None;
         if entry["lib_id"] == "":
             entry["lib_id"] = None;
+        return entry;
+
+
+    @classmethod
+    def clean_entry(cls, entry):
+        for layout in LIBRARY_LAYOUTS:
+            if layout["db_value"] == entry["layout_paired"]:
+                entry["layout_paired"] = layout["value"];
+                break;
         return entry;

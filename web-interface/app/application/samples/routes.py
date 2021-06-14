@@ -19,6 +19,7 @@ from application.src.metatemplates.gisaid import GisaidMeta
 from application.src.metatemplates.ena import EnaMeta
 from application.src.seqfiles.db import SeqFileTypes, SeqFile
 from application.src.seqfiles.seqfiles import SeqFilesBunch
+from application.src.samples.extensions.radios import LIBRARY_LAYOUTS
 from .save import save
 
 samples_bp = Blueprint("samples_bp", __name__,
@@ -56,6 +57,7 @@ def edit():
     scripts = [{"filename": "edit.js", "prefix": "samples"}];
     sample_id = int(request.args["id"]) if "id" in request.args else 0;
     seqfiles=SeqFilesBunch(sample_id);
+    sample=Samples.fetch_entry_edit(id=sample_id, id_key="sample_id");
     html = render_template("head.html", styles=styles);
     html+= render_template(
         "samples/edit.html",
@@ -87,6 +89,7 @@ def edit():
             replace_key="item_key"),
         library_selections=lib.LibrarySelections.fetch_list_labeled(
             replace_key="item_key"),
+        library_layouts=LIBRARY_LAYOUTS,
         seqfile_types=SeqFileTypes.fetch_list_labeled(
             replace_key="item_key")
         );
@@ -166,12 +169,22 @@ def submit_multiple():
     sample_data = Form.parse_list(request.form, "sample")[1:];
     collection = Form.parse_list(request.form, "collection")[1:];
     location = Form.parse_list(request.form, "location")[1:];
+    host = Form.parse_list(request.form, "host")[1:];
+    health = Form.parse_list(request.form, "health")[1:];
+    sequencing = Form.parse_list(request.form, "sequencing")[1:];
+    sampling = Form.parse_list(request.form, "sampling")[1:];
+    library = Form.parse_list(request.form, "library")[1:];
     samples = [];
     for i, sd in enumerate(sample_data):
         save_data = {};
         save_data["sample"] = sd;
         save_data["location"] = location[i];
         save_data["collection"] = collection[i];
+        save_data["host"] = host[i];
+        save_data["health"] = health[i];
+        save_data["sequencing"] = sequencing[i];
+        save_data["sampling"] = sampling[i];
+        save_data["library"] = library[i];
         samples.append(save_data);
     return jsonify(samples);
 
