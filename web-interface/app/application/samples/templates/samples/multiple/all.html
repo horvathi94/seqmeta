@@ -319,9 +319,54 @@
 	<td> 
 		<input type="text" name="sampling-serotype-all"
 											 class="serotype"
-											 onchange="updateColumn(this);"/ />
+											 onchange="updateColumn(this);" />
 	</td>
 
+
+	<td> 
+		<p> Unique </p>
+	</td>
+
+
+	<td> 
+		{{ select("library-strategy_id-all", library_strategies, 
+							class="library-strategy",
+							onchange="updateColumnSelect(this);") }} 
+	</td>
+
+	<td> 
+		{{ select("library-source_id-all", library_sources, 
+							class="library-source",
+							onchange="updateColumnSelect(this);") }} 
+	</td>
+
+	<td> 
+		{{ select("library-selection_id-all", library_selections, 
+							class="library-selection",
+							onchange="updateColumnSelect(this);") }} 
+	</td>
+
+	<td> 
+		{% set lib_layout = [ 
+						{"label": "Paired-End", "class": "1"},
+						{"label": "Single", "class": "0" },
+						{"label": "N/A", "class": "" } ] %}
+		{{ radio("library-layout_paired-all", lib_layout, 
+						class="library-layout-paired") }}	
+	</td>
+
+
+	<td>
+		<input type="text" name="library-design_description-all" maxlength="1000"
+											 class="library-design-description"
+											 onchange="updateColumn(this);"/>
+	</td>
+
+	<td>
+		<input type="date" name="library-preparation_date-all" min="2019-12-01"
+											 class="library-preparation-date"
+											 onchange="updateColumn(this);"/>
+	</td>
 
 
 

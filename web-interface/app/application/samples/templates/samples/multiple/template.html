@@ -304,4 +304,46 @@
 	</td>
 
 
+	<td> 
+		<input type="text" name="library+0+lib_id" 
+			class="library-id"/>
+	</td>
+
+
+	<td> 
+		{{ select("library+0+strategy_id", library_strategies, 
+							class="library-strategy") }}
+	</td>
+
+	<td> 
+		{{ select("library+0+source_id", library_sources, 
+							class="library-source") }}
+	</td>
+
+	<td> 
+		{{ select("library+0+selection_id", library_selections, 
+							class="library-selection") }}
+	</td>
+
+	<td> 
+		{% set lib_layout = [ 
+						{"label": "Paired-End", "class": "1"},
+						{"label": "Single", "class": "0" },
+						{"label": "N/A", "class": "" } ] %}
+		{{ radio("library+0+layout_paired", lib_layout, 
+						class="library-layout-paired") }}	
+	</td>
+
+
+	<td>
+		<input type="text" name="library+0+design_description" maxlength="1000"
+											 class="library-design-description"/>
+	</td>
+
+	<td>
+		<input type="date" name="library+0+preparation_date" min="2019-12-01"
+											 class="library-preparation-date"/>
+	</td>
+
+
 </tr>
