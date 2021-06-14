@@ -135,10 +135,65 @@
 					class="host-description"/>
 	</td>
 
+
 	<td>
 		<input type="text" name="host+0+gravidity" 
 					class="host-gravidity"/>
 	</td>
+
+	<td> 
+		<input type="text" name="health+0+outbreak" maxlength="200"
+							class="outbreak"/> 
+	</td>
+
+	<td> 
+		<input type="text" name="health+0+subject_exposure"
+					class="subject-exposure"/> 
+	</td>
+
+	<td> 
+		<input type="text" name="health+0+subject_exposure_duration"
+											 class="subject-exposure-duration"/> 
+	</td>
+
+	<td>
+		<input type="text" name="health+0+type_exposure"
+											 class="type-exposure"/>
+	</td>
+
+	<td>
+		{{ select("health+0+host_health_state_id",
+							host_health_states,
+							class="host-health-state") }} 
+	</td>
+
+	{% set hosps=[{"label": "Yes", "value":"1"}, 
+								{"label": "No", "value": "0"}, 
+								{"label": "N/A", "value":""}] %}
+	<td> {{ radio("health+0+hospitalization", hosps,
+								class="hospitalisation") }} </td>
+
+	<td>
+		<input type="number" name="health+0+ilness_duration" min="0"
+				class="ilness-duration"/>
+	</td>
+
+	<td>
+		<input type="text" name="health+0+ilness_symptoms" 
+				class="ilness-symptoms"/>
+	</td>
+
+	<td> 
+		<input type="text" name="health+0+treatment" class="treatment"/> 
+	</td>
+
+
+	<td> 
+		{{ select("health+host_disease_outcome_id",
+						host_disease_outcomes,
+						class="host-disease-outcome") }} 
+	</td>
+
 
 
 </tr>

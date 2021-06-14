@@ -131,12 +131,71 @@
 
 	<td>
 		<input type="text" name="host-host_description-all"
-					class="host-description" onchange="updateColumn(this);"//>
+					class="host-description" onchange="updateColumn(this);"/>
 	</td>
 
 	<td>
 		<input type="text" name="host-gravidity-all" 
-					class="host-gravidity" onchange="updateColumn(this);"//>
+					class="host-gravidity" onchange="updateColumn(this);"/>
 	</td>
+
+	<td> 
+		<input type="text" name="health-outbreak" maxlength="200"
+							class="outbreak" onchange="updateColumn(this);" /> 
+	</td>
+
+
+
+	<td> 
+		<input type="text" name="health-subject_exposure-all"
+					class="subject-exposure" onchange="updateColumn(this);" /> 
+	</td>
+
+	<td> 
+		<input type="text" name="health-subject_exposure_duration-all"
+				 class="subject-exposure-duration" onchange="updateColumn(this);" /> 
+	</td>
+
+	<td>
+		<input type="text" name="health-type_exposure-all"
+				 class="type-exposure" onchange="updateColumn(this);" />
+	</td>
+
+	<td>
+		{{ select("health-host_health_state_id",
+							host_health_states,
+							class="host-health-state",
+							onchange="updateColumnSelect(this);") }} 
+	</td>
+
+	<td> 
+		<p> Hospitalisation </p>
+	</td>
+
+	<td>
+		<input type="number" name="health-ilness_duration-all" min="0"
+				class="ilness-duration" onchange="updateColumn(this);"  />
+	</td>
+
+	<td>
+		<input type="text" name="health-ilness_symptoms-all" 
+				class="ilness-symptoms" onchange="updateColumn(this);" />
+	</td>
+
+	<td> 
+		<input type="text" name="health-treatment-all" 
+				class="treatment" onchange="updateColumn(this);" /> 
+	</td>
+
+
+	<td> 
+		{{ select("health+host_disease_outcome_id-all",
+						host_disease_outcomes,
+						class="host-disease-outcome",
+						onchange="updateColumnSelect(this);") }} 
+	</td>
+
+
+
 
 </tr>
