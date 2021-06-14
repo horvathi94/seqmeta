@@ -91,9 +91,9 @@ def edit():
             replace_key="item_key"),
         library_selections=lib.LibrarySelections.fetch_list_labeled(
             replace_key="item_key"),
-        library_layouts=LIBRARY_LAYOUTS,
         seqfile_types=SeqFileTypes.fetch_list_labeled(
             replace_key="item_key"),
+        library_layouts=LIBRARY_LAYOUTS,
         genders=PATIENT_GENDERS,
         hospitalisations=HOSPITALISATIONS,
         );
@@ -135,7 +135,10 @@ def add_multiple():
         library_selections=lib.LibrarySelections.fetch_list_labeled(
             replace_key="item_key"),
         seqfile_types=SeqFileTypes.fetch_list_labeled(
-            replace_key="item_key")
+            replace_key="item_key"),
+        library_layouts=LIBRARY_LAYOUTS,
+        genders=PATIENT_GENDERS,
+        hospitalisations=HOSPITALISATIONS,
         );
     html+= render_template("footer.html", scripts=scripts);
     return html;
@@ -182,6 +185,7 @@ def submit_multiple():
     for i, sd in enumerate(sample_data):
         save_data = {};
         save_data["sample"] = sd;
+        save_data["sample"]["sample_id"] = 0;
         save_data["location"] = location[i];
         save_data["collection"] = collection[i];
         save_data["host"] = host[i];
@@ -190,8 +194,7 @@ def submit_multiple():
         save_data["sampling"] = sampling[i];
         save_data["library"] = library[i];
         samples.append(save_data);
-    return jsonify(samples);
-
+    save(samples);
 
 @samples_bp.route("/samples/details")
 def sample_details():

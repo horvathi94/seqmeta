@@ -88,12 +88,9 @@
 				class="additional-host-info"/> 
 	</td>
 
-	{% set genders=[{"label": "Male", "value":"1"}, 
-									{"label": "Female", "value": "0"}, 
-									{"label": "unknown", "value":""}] %}
 	<td> 
 		{{ radio("host+0+patient_gender", genders, 
-					class="gender") }} 
+							class="gender") }} 
 	</td>
 
 	<td> 
@@ -167,11 +164,10 @@
 							class="host-health-state") }} 
 	</td>
 
-	{% set hosps=[{"label": "Yes", "value":"1"}, 
-								{"label": "No", "value": "0"}, 
-								{"label": "N/A", "value":""}] %}
-	<td> {{ radio("health+0+hospitalization", hosps,
-								class="hospitalisation") }} </td>
+	<td> 
+		{{ radio("health+0+hospitalization", hospitalisations,
+								class="hospitalisation") }} 
+	</td>
 
 	<td>
 		<input type="number" name="health+0+ilness_duration" min="0"
@@ -326,11 +322,7 @@
 	</td>
 
 	<td> 
-		{% set lib_layout = [ 
-						{"label": "Paired-End", "class": "1"},
-						{"label": "Single", "class": "0" },
-						{"label": "N/A", "class": "" } ] %}
-		{{ radio("library+0+layout_paired", lib_layout, 
+		{{ radio("library+0+layout_paired", library_layouts, 
 						class="library-layout-paired") }}	
 	</td>
 

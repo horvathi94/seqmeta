@@ -86,14 +86,9 @@
 				class="additional-host-info" onchange="updateColumn(this);"/> 
 	</td>
 
-	{% set genders=[{"label": "Male", "value":"1"}, 
-									{"label": "Female", "value": "0"}, 
-									{"label": "unknown", "value":""}] %}
 	<td> 
-		{#		{{ radio("host-patient_gender-all", genders, 
+			{{ radio("host-patient_gender-all", genders, 
 					class="gender", onchange="updateColumnRadio(this);" ) }} 
-			#}
-			<p> Gender </p>
 	</td>
 
 	<td> 
@@ -168,8 +163,9 @@
 							onchange="updateColumnSelect(this);") }} 
 	</td>
 
-	<td> 
-		<p> Hospitalisation </p>
+	<td>
+		{{ radio("health-hospitalization", hospitalisations,
+								class="hospitalisation", onchange="updateColumnRadio(this)") }} 
 	</td>
 
 	<td>
@@ -189,7 +185,7 @@
 
 
 	<td> 
-		{{ select("health+host_disease_outcome_id-all",
+		{{ select("health-host_disease_outcome_id-all",
 						host_disease_outcomes,
 						class="host-disease-outcome",
 						onchange="updateColumnSelect(this);") }} 
@@ -347,12 +343,8 @@
 	</td>
 
 	<td> 
-		{% set lib_layout = [ 
-						{"label": "Paired-End", "class": "1"},
-						{"label": "Single", "class": "0" },
-						{"label": "N/A", "class": "" } ] %}
-		{{ radio("library-layout_paired-all", lib_layout, 
-						class="library-layout-paired") }}	
+		{{ radio("library-layout_paired-all", library_layouts, 
+						class="library-layout-paired", onchange="updateColumnRadio(this)") }}	
 	</td>
 
 
