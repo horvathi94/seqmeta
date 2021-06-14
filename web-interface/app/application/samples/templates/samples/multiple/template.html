@@ -217,5 +217,91 @@
 
 
 
+	<td> 
+		{{ select("sampling+0+originating_lab_id", institutions, 
+							class="originating-lab") }} 
+	</td>
+
+	<td> 
+		<input type="text"
+			name="sampling+0+originating_lab_sample_name" 
+			class="originating-lab-sample-name"/> 
+	</td>
+
+	<td> 
+		{{ select("sampling+0+submitting_lab_id", institutions, 
+							class="submitting-lab") }}
+	</td>
+
+	<td> 
+		<input type="text" 
+			name="sampling+0+submitting_lab_sample_name" 
+			class="submitting-lab-sample-name"/> 
+	</td>
+
+	<td> 
+		{{ select("sampling+0+author_group_id", author_groups, 
+							class="author-group")}} 
+	</td>
+
+	<td> 
+		{{ select("sampling+0+sampling_strategy_id", sampling_strategies, 
+				class="sampling-strategies")}} 
+	</td>
+
+	<td> 
+		{{ select("sampling+0+passage_details_id", 
+									passage_details, 
+									class="passage-details") }} 
+	</td>
+
+	<td> 
+		<input type="text" name="sampling+0+isolate"
+											 class="isolate"/>
+	</td>
+
+	<td> 
+		<input type="text" name="sampling+0+strain"
+											 class="strain"/>
+	</td>
+
+	<td>
+		<input type="text" name="sampling+0+isolation_source_host_associated"
+											 class="isolation-source-host-associated"/>
+	</td>
+
+	<td>
+		<input type="text" name="sampling+0+isolation_source_non_host_associated" 
+			class="isolation-source-non-host-associated"/>
+	</td>
+
+	<td> 
+		{{ select("sampling+0+sample_capture_status_id", 
+									sample_capture_statuses, 
+									class="sample-capture-status") }} 
+	</td>
+	
+	<td> 
+		{{ select("sampling+0+specimen_source_id", 
+									specimen_sources, 
+									class="specimen-source") }} 
+	</td>
+
+	<td> 
+		<input type="text" name="sampling+0+sample_storage_conditions"
+						class="sample-storage-conditions"/>
+	</td>
+
+
+	<td> 
+		<input type="text" name="sampling+0+definition_for_seropositive_sample"
+											 class="definition-for-seropositive-sample"/>
+	</td>
+
+	<td> 
+		<input type="text" name="sampling+0+serotype"
+											 class="serotype"/>
+	</td>
+
 
 </tr>

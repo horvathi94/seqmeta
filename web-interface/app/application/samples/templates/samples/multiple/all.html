@@ -220,5 +220,109 @@
 
 
 
+	<td> 
+		{{ select("sampling-originating_lab_id-all", institutions, 
+							class="originating-lab",
+							onchange="updateColumnSelect(this);") }} 
+	</td>
+
+	<td> 
+		<input type="text" 
+			name="sampling-originating_lab_sample_name-all" 
+			class="originating-lab-sample-name"
+			onchange="updateColumn(this);"/> 
+	</td>
+
+	<td> 
+		{{ select("sampling-submitting_lab_id-all", institutions, 
+							class="submitting-lab",
+							onchange="updateColumnSelect(this);") }}
+	</td>
+
+	<td> 
+		<input type="text" 
+			name="sampling-submitting_lab_sample_name-all" 
+			class="submitting-lab-sample-name"
+			onchange="updateColumn(this);"/> 
+	</td>
+
+	<td> 
+		{{ select("sampling-author_group_id-all", author_groups, 
+							class="author-group",
+							onchange="updateColumnSelect(this);") }} 
+	</td>
+
+	<td> 
+		{{ select("sampling-sampling_strategy_id-all", sampling_strategies, 
+				class="sampling-strategies",
+				onchange="updateColumnSelect(this);") }} 
+	</td>
+
+	<td> 
+		{{ select("sampling-passage_details_id-all", 
+									passage_details, 
+									class="passage-details",
+									onchange="updateColumnSelect(this);") }} 
+	</td>
+
+	<td> 
+		<input type="text" name="sampling-isolate-all"
+											 class="isolate"
+											 onchange="updateColumn(this);"/>
+	</td>
+
+	<td> 
+		<input type="text" name="sampling-strain-all"
+											 class="strain"
+											 onchange="updateColumn(this);"/>
+	</td>
+
+	<td>
+		<input type="text" name="sampling-isolation_source_host_associated-all"
+											 class="isolation-source-host-associated"
+											 onchange="updateColumn(this);"/>
+	</td>
+
+	<td>
+		<input type="text" name="sampling-isolation_source_non_host_associated-all" 
+			class="isolation-source-non-host-associated"
+			onchange="updateColumn(this);"/>
+	</td>
+
+	<td> 
+		{{ select("sampling-sample_capture_status_id-all", 
+									sample_capture_statuses, 
+									class="sample-capture-status",
+									onchange="updateColumnSelect(this);") }} 
+	</td>
+	
+	<td> 
+		{{ select("sampling-specimen_source_id-all", 
+									specimen_sources, 
+									class="specimen-source",
+									onchange="updateColumnSelect(this);") }} 
+	</td>
+
+	<td> 
+		<input type="text" name="sampling-sample_storage_conditions-all"
+						class="sample-storage-conditions"
+						onchange="updateColumn(this);"/>
+	</td>
+
+
+	<td> 
+		<input type="text" name="sampling-definition_for_seropositive_sample-all"
+											 class="definition-for-seropositive-sample"
+											 onchange="updateColumn(this);"/>
+	</td>
+
+	<td> 
+		<input type="text" name="sampling-serotype-all"
+											 class="serotype"
+											 onchange="updateColumn(this);"/ />
+	</td>
+
+
+
 
 </tr>
