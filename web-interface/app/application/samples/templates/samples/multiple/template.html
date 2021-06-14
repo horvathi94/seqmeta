@@ -189,10 +189,32 @@
 
 
 	<td> 
-		{{ select("health+host_disease_outcome_id",
+		{{ select("health+0+host_disease_outcome_id",
 						host_disease_outcomes,
 						class="host-disease-outcome") }} 
 	</td>
+
+
+	<td> 
+		{{ select("sequencing+0+sequencing_instrument_id", 
+							sequencing_instruments, 
+							class="sequencing-instrument") }} 
+	</td>
+
+
+	<td> 
+		{{ select("sequencing+0+assembly_method_id", 
+					assembly_methods, 
+					class="assembly-method") }} 
+	</td>
+
+
+	<td> 
+		<input type="number" name="sequencing+0+coverage" min=0 
+							style="width:92%;" class="coverage"/>
+		<span>x</span> 
+	</td>
+
 
 
 

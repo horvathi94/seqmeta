@@ -196,6 +196,29 @@
 	</td>
 
 
+	<td> 
+		{{ select("sequencing-sequencing_instrument_id-all", 
+							sequencing_instruments, 
+							class="sequencing-instrument",
+							onchange="updateColumnSelect(this);") }} 
+	</td>
+
+
+	<td> 
+		{{ select("sequencing-assembly_method_id-all", 
+					assembly_methods, 
+					class="assembly-method",
+					onchange="updateColumnSelect(this);") }} 
+	</td>
+
+
+	<td> 
+		<input type="number" name="sequencing-coverage-all" min=0 
+							style="width:92%;" class="coverage" onchange="updateColumn(this);"/>
+		<span>x</span> 
+	</td>
+
+
 
 
 </tr>
