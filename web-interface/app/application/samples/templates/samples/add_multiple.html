@@ -1,3 +1,5 @@
+{% from 'macros/markers.j2' import marker %}
+
 <input type="button" value="Add" onclick="addNewRow();"/>
 
 <form action="{{ url_for('samples_bp.submit_multiple') }}" method="POST">
@@ -8,65 +10,251 @@
 			<tr>
 				<th>Sample name</th>
 				<th>Sample comment</th>
-				<th>Collection date: year</th>
-				<th>Collection date: month</th>
-				<th>Collection date: day</th>
-				<th>Colletor name</th>
-				<th>Continent</th>
-				<th>Country</th>
-				<th>Region</th>
-				<th>Locality</th>
-				<th>Additional location information </th>
-				<th>Geographic location (latitude) DD </th>
-				<th>Geographic location (longitude) DD </th>
-				<th>Host</th>
-				<th>Host subject ID</th>
-				<th>Host additional information</th>
-				<th>Patient gender</th>
-				<th>Patient age</th>
-				<th>Patient status</th>
-				<th>Last vaccinated</th>
-				<th>PPE</th>
-				<th>Host habitat</th>
-				<th>Host behaviour</th>
-				<th>Host description</th>
-				<th>Host gravidity</th>
-				<th>Outbreak</th>
-				<th>Subject exposure</th>
-				<th>Subject exposure duration</th>
-				<th>Type exposure</th>
-				<th>Host health state</th>
-				<th>Hospitalisation</th>
-				<th>Ilness duration</th>
-				<th>Ilness symptoms</th>
-				<th>Treatment</th>
-				<th>Host disease outcome</th>
-				<th>Sequencing instrument</th>
-				<th>Assembly method</th>
-				<th>Coverage</th>
-				<th>Originating lab</th>
-				<th>Sample ID given by originating lab</th>
-				<th>Submitting lab</th>
-				<th>Sample ID given by submitting lab</th>
-				<th>Author group</th>
-				<th>Sampling strategy</th>
-				<th>Passage details</th>
-				<th>Isolate</th>
-				<th>Strain</th>
-				<th>Isolation source host-associated</th>
-				<th>Isolation source non-host-associated</th>
-				<th>Sample capture status</th>
-				<th>Specimen source</th>
-				<th>Sample storage conditions</th>
-				<th>Definition for seropositive sample</th>
-				<th>Serotype</th>
-				<th>Library ID</th>
-				<th>Library strategy</th>
-				<th>Library source</th>
-				<th>Library selection</th>
-				<th>Library layout</th>
-				<th>Library design description</th>
-				<th>Library preparation date</th>
+				<th>
+					Collection date: year
+					{{ marker("gisaid") }}
+					{{ marker("ena", requirement="recommended") }}
+				</th>
+				<th>
+					Collection date: month
+					{{ marker("gisaid") }}
+					{{ marker("ena", requirement="recommended") }}
+				</th>
+				<th>
+					Collection date: day
+					{{ marker("gisaid") }}
+					{{ marker("ena", requirement="recommended") }}
+				</th>
+				<th>
+					Colletor name
+					{{ marker("ena") }}
+				</th>
+				<th>
+					Continent
+					{{ marker("gisaid") }}
+				</th>
+				<th>
+					Country
+					{{ marker("gisaid") }}
+					{{ marker("ena") }}
+				</th>
+				<th>
+					Region
+					{{ marker("gisaid", requirement="optional") }}
+					{{ marker("ena", requirement="recommended") }}
+				</th>
+				<th>
+					Locality
+					{{ marker("gisaid", requirement="optional") }}
+					{{ marker("ena", requirement="recommended") }}
+				</th>
+				<th>
+					Additional location information 
+					{{ marker("gisaid", requirement="optional") }}
+				</th>
+				<th>
+					Geographic location (latitude) DD 
+					{{ marker("ena", requirement="recommended") }}
+				</th>
+				<th>
+					Geographic location (longitude) DD 
+					{{ marker("ena", requirement="recommended") }}
+				</th>
+				<th>
+					Host
+					{{ marker("gisaid") }}
+					{{ marker("ena") }}
+				</th>
+				<th>
+					Host subject ID
+					{{ marker("ena") }}
+				</th>
+				<th>
+					Host additional information
+					{{ marker("gisaid", requirement="optional") }}
+				</th>
+				<th>
+					Patient gender
+					{{ marker("gisaid") }}
+					{{ marker("ena") }}
+				</th>
+				<th>
+					Patient age
+					{{ marker("gisaid") }}
+					{{ marker("ena", requirement="recommended") }}
+				</th>
+				<th>
+					Patient status
+					{{ marker("gisaid") }}
+				</th>
+				<th>
+					Last vaccinated
+					{{ marker("gisaid", requirement="optional") }}
+				</th>
+				<th>
+					PPE
+					{{ marker("ena", requirement="optional") }}
+				</th>
+				<th>
+					Host habitat
+					{{ marker("ena", requirement="recommended") }}
+				</th>
+				<th>
+					Host behaviour
+					{{ marker("ena", requirement="recommended") }}
+				</th>
+				<th>
+					Host description
+					{{ marker("ena", requirement="optional") }}
+				</th>
+				<th>
+					Host gravidity
+					{{ marker("ena", requirement="optional") }}
+				</th>
+				<th>
+					Outbreak
+					{{ marker("gisaid", requirement="optional") }}
+				</th>
+				<th>
+					Subject exposure
+					{{ marker("ena", requirement="optional") }}
+				</th>
+				<th>
+					Subject exposure duration
+					{{ marker("ena", requirement="optional") }}
+				</th>
+				<th>
+					Type exposure
+					{{ marker("ena", requirement="optional") }}
+				</th>
+				<th>
+					Host health state
+					{{ marker("ena") }}
+				</th>
+				<th>
+					Hospitalisation
+					{{ marker("ena", requirement="optional") }}
+				</th>
+				<th>
+					Ilness duration
+					{{ marker("ena", requirement="optional") }}
+				</th>
+				<th>
+					Ilness symptoms
+					{{ marker("ena", requirement="optional") }}
+				</th>
+				<th>
+					Treatment
+					{{ marker("gisaid", requirement="optional") }}
+				</th>
+				<th>
+					Host disease outcome
+					{{ marker("gisaid", requirement="recommended") }}
+				</th>
+				<th>
+					Sequencing instrument
+					{{ marker("gisaid") }}
+				</th>
+				<th>
+					Assembly method
+					{{ marker("gisaid", requirement="optional") }}
+				</th>
+				<th>
+					Coverage
+					{{ marker("gisaid", requirement="optional") }}
+				</th>
+				<th>
+					Originating lab
+					{{ marker("gisaid") }}
+				</th>
+				<th>
+					Sample ID given by originating lab
+					{{ marker("gisaid", requirement="optional") }}
+				</th>
+				<th>
+					Submitting lab
+					{{ marker("gisaid") }}
+				</th>
+				<th>
+					Sample ID given by submitting lab
+					{{ marker("gisaid", requirement="optional") }}
+				</th>
+				<th>
+					Author group
+					{{ marker("gisaid") }}
+				</th>
+				<th>
+					Sampling strategy
+					{{ marker("gisaid", requirement="optional") }}
+				</th>
+				<th>
+					Passage details
+					{{ marker("gisaid") }}
+				</th>
+				<th>
+					Isolate
+					{{ marker("ena") }}
+				</th>
+				<th>
+					Strain
+					{{ marker("ena", requirement="optional") }}
+				</th>
+				<th>
+					Isolation source host-associated
+					{{ marker("ena", requirement="recommended") }}
+				</th>
+				<th>
+					Isolation source non-host-associated
+					{{ marker("ena", requirement="recommended") }}
+				</th>
+				<th>
+					Sample capture status
+					{{ marker("ena", requirement="recommended") }}
+				</th>
+				<th>
+					Specimen source
+					{{ marker("gisaid", requirement="optional") }}
+				</th>
+				<th>
+					Sample storage conditions
+					{{ marker("ena", requirement="optional") }}
+				</th>
+				<th>
+					Definition for seropositive sample
+					{{ marker("ena", requirement="recommended") }}
+				</th>
+				<th>
+					Serotype
+					{{ marker("ena", requirement="recommended") }}
+				</th>
+				<th>
+					Library ID
+					{{ marker("ncbi") }}
+				</th>
+				<th>
+					Library strategy
+					{{ marker("ncbi") }}
+				</th>
+				<th>
+					Library source
+					{{ marker("ncbi") }}
+				</th>
+				<th>
+					Library selection
+					{{ marker("ncbi") }}
+				</th>
+				<th>
+					Library layout
+					{{ marker("ncbi") }}
+				</th>
+				<th>
+					Library design description
+					{{ marker("ncbi", requirement="optional") }}
+				</th>
+				<th>
+					Library preparation date
+					{{ marker("ena", requirement="optional") }}
+				</th>
 			</tr>
 
 			{% include("samples/multiple/all.html") %}

@@ -8,7 +8,7 @@
 
 
 <tr>
-	<td> Assembly method {{ marker("gisaid", requirement="recommended") }}</td>
+	<td> Assembly method {{ marker("gisaid", requirement="optional") }}</td>
 	<td> {{ select("sequencing+assembly_method_id", 
 					assembly_methods, 
 					selected_id=sample.assembly_method_id) }} </td>

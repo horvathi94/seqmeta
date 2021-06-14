@@ -96,7 +96,8 @@ def edit():
 
 @samples_bp.route("/samples/add-multiple", methods=["GET"])
 def add_multiple():
-    styles = [{"filename": "add-multiple.css", "prefix": "samples"}];
+    styles = [{"filename": "add-multiple.css", "prefix": "samples"},
+              {"filename": "markers.css"}];
     scripts = [{"filename": "edit-multiple.js", "prefix": "samples"}];
     html = render_template("head.html", styles=styles);
     html+= render_template("samples/add_multiple.html",

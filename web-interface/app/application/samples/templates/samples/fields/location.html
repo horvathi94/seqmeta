@@ -14,7 +14,7 @@
 
 
 <tr>
-	<td> Region {{ marker('gisaid', requirement='recommended') }} 
+	<td> Region {{ marker('gisaid', requirement='optional') }} 
 		{{ marker("ena", requirement="recommended") }}</td>
 	<td>
 		<input type="text" name="location+region" maxlength="200" 
@@ -25,7 +25,7 @@
 
 
 <tr>
-	<td> Locality {{ marker('gisaid', requirement='recommended') }} 
+	<td> Locality {{ marker('gisaid', requirement='optional') }} 
 		{{ marker("ena", requirement='recommended') }}</td>
 	<td>
 		<input type="text" name="location+locality" maxlength="200" 
