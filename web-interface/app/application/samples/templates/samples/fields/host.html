@@ -26,9 +26,6 @@
 
 <tr>
 	<td> Gender {{ marker("gisaid") }} {{ marker("ena") }}</td>
-	{% set genders=[{"label": "Male", "value":"1"}, 
-									{"label": "Female", "value": "0"}, 
-									{"label": "unknown", "value":""}] %}
 	<td> {{ radio("host+patient_gender", genders, 
 					selected_value=sample.patient_gender) }} </td>
 	<td> The gender of the patient </td>

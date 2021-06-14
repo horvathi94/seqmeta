@@ -2,7 +2,8 @@ from collections import OrderedDict
 from datetime import datetime
 from application.src.db.cursor import Cursor
 from application.src.db.interface import DBInterface
-
+from .extensions.library import Library
+from .extensions.host import Host
 
 class Samples(DBInterface):
 
@@ -16,17 +17,15 @@ class Samples(DBInterface):
     @classmethod
     def clean_entry(cls, entry):
 
-        if "patient_gender" in entry:
-            if entry["patient_gender"] == "b''":
-                entry["patient_gender"] = "unknown";
 
         if "hospitalization" in entry:
             if entry["hospitalization"] == "b''":
                 entry["hospitalization"] = "N/A";
 
-        if "library_layout" in entry:
-            if entry["library_layout"] == "b''":
-                entry["library_layout"] = "";
+        if "patient_gender" in entry:
+            entry = Host.clean_entry(entry);
+        if "library_layout_paired" in entry:
+            entry = Library.clean_entry(entry);
 
         return entry;
 

@@ -4,9 +4,11 @@ from flask import Blueprint, render_template, request, redirect, url_for, \
     jsonify, send_file, Response
 from application.src.samples.samples import Samples
 from application.src.samples.extensions.collections import Collection
-from application.src.samples.extensions.host import Host
+from application.src.samples.extensions.host import Host,\
+    PATIENT_GENDERS
 from application.src.samples.extensions.health_status import HealthStatus
-from application.src.samples.extensions.library import Library
+from application.src.samples.extensions.library import Library,\
+    LIBRARY_LAYOUTS
 from application.src.samples.extensions.location import Location
 from application.src.samples.extensions.sampling import Sampling
 from application.src.samples.extensions.sequencing import Sequencing
@@ -19,7 +21,6 @@ from application.src.metatemplates.gisaid import GisaidMeta
 from application.src.metatemplates.ena import EnaMeta
 from application.src.seqfiles.db import SeqFileTypes, SeqFile
 from application.src.seqfiles.seqfiles import SeqFilesBunch
-from application.src.samples.extensions.radios import LIBRARY_LAYOUTS
 from .save import save
 
 samples_bp = Blueprint("samples_bp", __name__,
@@ -91,7 +92,8 @@ def edit():
             replace_key="item_key"),
         library_layouts=LIBRARY_LAYOUTS,
         seqfile_types=SeqFileTypes.fetch_list_labeled(
-            replace_key="item_key")
+            replace_key="item_key"),
+        genders=PATIENT_GENDERS,
         );
     html+= render_template("footer.html", scripts=scripts);
     return html;
