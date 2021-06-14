@@ -4,6 +4,7 @@ from application.src.db.cursor import Cursor
 from application.src.db.interface import DBInterface
 from .extensions.library import Library
 from .extensions.host import Host
+from .extensions.health_status import HealthStatus
 
 class Samples(DBInterface):
 
@@ -16,12 +17,8 @@ class Samples(DBInterface):
 
     @classmethod
     def clean_entry(cls, entry):
-
-
         if "hospitalization" in entry:
-            if entry["hospitalization"] == "b''":
-                entry["hospitalization"] = "N/A";
-
+            entry = HealthStatus.clean_entry(entry);
         if "patient_gender" in entry:
             entry = Host.clean_entry(entry);
         if "library_layout_paired" in entry:

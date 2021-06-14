@@ -6,7 +6,8 @@ from application.src.samples.samples import Samples
 from application.src.samples.extensions.collections import Collection
 from application.src.samples.extensions.host import Host,\
     PATIENT_GENDERS
-from application.src.samples.extensions.health_status import HealthStatus
+from application.src.samples.extensions.health_status import HealthStatus,\
+    HOSPITALISATIONS
 from application.src.samples.extensions.library import Library,\
     LIBRARY_LAYOUTS
 from application.src.samples.extensions.location import Location
@@ -94,6 +95,7 @@ def edit():
         seqfile_types=SeqFileTypes.fetch_list_labeled(
             replace_key="item_key"),
         genders=PATIENT_GENDERS,
+        hospitalisations=HOSPITALISATIONS,
         );
     html+= render_template("footer.html", scripts=scripts);
     return html;

@@ -53,10 +53,8 @@
 
 <tr>
 	<td>Hospitalisation {{ marker("ena", requirement="optional") }}</td>
-	{% set hosps=[{"label": "Yes", "value":"1"}, 
-								{"label": "No", "value": "0"}, 
-								{"label": "N/A", "value":""}] %}
-	<td> {{ radio("health+hospitalization", hosps, selected_value=sample.hospitalization) }} </td>
+	<td> {{ radio("health+hospitalization", hospitalisations, 
+						selected_value=sample.hospitalization) }} </td>
 	<td>Was the subject confined to a hospital as a result of virus infection or problems occurring secondary to virus infection?</td>
 </tr>
 
