@@ -56,7 +56,8 @@ def show():
 def edit():
     styles = [{"filename": "edit.css", "prefix": "samples"},
               {"filename": "markers.css"}];
-    scripts = [{"filename": "edit.js", "prefix": "samples"}];
+    scripts = [{"filename": "validate-sample-name.js", "prefix": "samples"},
+               {"filename": "edit-sample.js", "prefix": "samples"}];
     sample_id = int(request.args["id"]) if "id" in request.args else 0;
     seqfiles=SeqFilesBunch(sample_id);
     sample=Samples.fetch_entry_edit(id=sample_id, id_key="sample_id");
@@ -105,7 +106,8 @@ def edit():
 def add_multiple():
     styles = [{"filename": "add-multiple.css", "prefix": "samples"},
               {"filename": "markers.css"}];
-    scripts = [{"filename": "edit-multiple.js", "prefix": "samples"}];
+    scripts = [{"filename": "edit-multiple.js", "prefix": "samples"},
+               {"filename": "validate-sample-name.js", "prefix": "samples"}];
     html = render_template("head.html", styles=styles);
     html+= render_template("samples/add_multiple.html",
         authors=Authors.fetch_list_labeled(
@@ -250,4 +252,9 @@ def gen_concat_assemblies():
         ret+= str(seqbunch.get_assembly());
     return ret;
 
+
+@samples_bp.route("/samples/registered-names", methods=["GET"])
+def reg_sample_names():
+    sample_names = [s["sample_name"] for s in Samples.fetch_list()];
+    return jsonify(sample_names);
 
