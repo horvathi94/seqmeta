@@ -157,7 +157,8 @@ def submit():
     save_data["sampling"] = Form.parse_simple(request.form, "sampling");
     save_data["health"] = Form.parse_simple(request.form, "health");
     save_data["sequencing"] = Form.parse_simple(request.form, "sequencing");
-    save([save_data]);
+    sample_ids = save([save_data]);
+    sample_id = sample_ids[0];
 
     assembly_file = request.files["assembly-file"];
     if assembly_file.filename != "":

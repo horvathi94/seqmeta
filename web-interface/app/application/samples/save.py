@@ -10,9 +10,11 @@ from application.src.samples.extensions.sequencing import Sequencing
 
 def save(submitted_samples):
 
+    sample_ids = [];
     for submitted in submitted_samples:
         sample_data = submitted["sample"];
         sample_id = Samples.save_entry(sample_data);
+        sample_ids.append(sample_id);
         location = submitted["location"];
         location["sample_id"] = sample_id;
         Location.save_entry(location);
@@ -34,3 +36,5 @@ def save(submitted_samples):
         sequencing = submitted["sequencing"];
         sequencing["sample_id"] = sample_id;
         Sequencing.save_entry(sequencing);
+
+    return sample_ids;
