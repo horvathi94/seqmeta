@@ -43,3 +43,7 @@ function updateColumnRadio(e){
 	
 }
 
+
+function removeRow(e){
+	e.parentElement.parentElement.remove();
+}
