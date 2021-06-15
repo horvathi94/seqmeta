@@ -10,28 +10,36 @@ async function fetchNamesList(url){
 }
 
 
-function disableSave(inps, names, ommits=[]){
+function disableSave(inps, names, ommits=[], emptyAllowed=false){
 	const subButton = document.querySelectorAll("input[type=submit]")[0];
 
 	disabled = false;
 	Array.from(inps).forEach( (inp, i) => {
-		ok = true;
+		errorCode = "";
 		if (names.includes(inp.value)) {
 			disabled = true;
-			ok = false;
-		} else {
-			if (!ommits.includes(inp.value)){
-				Array.from(inps).slice(0,i).forEach( (inp2) => {
-					if (inp.value == inp2.value){disabled=true; ok=false;}
-				});
-			}
+			errorCode = "Registered in db";
+		} else if ((!inp.value) && (!emptyAllowed)){
+			disabled = true;
+			errorCode = "Empty string not allowed.";
+		} else if (!ommits.includes(inp.value)){
+			Array.from(inps).slice(0,i).forEach( (inp2) => {
+				if (inp.value == inp2.value){
+					disabled=true; 
+					errorCode="Duplicate name."
+				}
+			});
 		}
+				
+		let err = inp.parentElement.getElementsByClassName("error")[0];
+		err.style.visibility = "visible";
 
-		if (!ok) {
+		if (errorCode) {
 			inp.style.backgroundColor = "orangeRed";
-
+			err.innerHTML = errorCode;
 		} else {
 			inp.style.backgroundColor = "#fff";
+			err.innerHTML = "";
 		}
 		subButton.disabled = disabled;
 
@@ -56,7 +64,7 @@ function checkLibraryNames(){
 	const inps = document.getElementsByClassName("library-id");
 	
 	fetchNamesList("library-names").then( (names) => {
-		disableSave(inps, names, ommits=[""]);
+		disableSave(inps, names, ommits=[""], emptyAllowed=true);
 	});
 
 }
