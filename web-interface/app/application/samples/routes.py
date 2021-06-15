@@ -107,7 +107,7 @@ def add_multiple():
     styles = [{"filename": "add-multiple.css", "prefix": "samples"},
               {"filename": "markers.css"}];
     scripts = [{"filename": "edit-multiple.js", "prefix": "samples"},
-               {"filename": "validate-sample-name.js", "prefix": "samples"}];
+               {"filename": "validate-samples.js", "prefix": "samples"}];
     html = render_template("head.html", styles=styles);
     html+= render_template("samples/add_multiple.html",
         authors=Authors.fetch_list_labeled(
@@ -197,6 +197,7 @@ def submit_multiple():
         save_data["library"] = library[i];
         samples.append(save_data);
     save(samples);
+    return redirect(url_for('samples_bp.show'));
 
 @samples_bp.route("/samples/details")
 def sample_details():
@@ -253,8 +254,14 @@ def gen_concat_assemblies():
     return ret;
 
 
-@samples_bp.route("/samples/registered-names", methods=["GET"])
+@samples_bp.route("/samples/registered/sample-names", methods=["GET"])
 def reg_sample_names():
     sample_names = [s["sample_name"] for s in Samples.fetch_list()];
     return jsonify(sample_names);
 
+
+@samples_bp.route("/samples/registered/library-names", methods=["GET"])
+def reg_library_names():
+    lib_ids = [l["library_id"] for l in Library.fetch_list()
+               if l["library_id"] != ""];
+    return jsonify(lib_ids);

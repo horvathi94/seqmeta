@@ -5,7 +5,7 @@ LIBRARY_LAYOUTS = [
     {
         "db_value": "",
         "db_save": None,
-        "value": 1000,
+        "value": 0,
         "label": "N/A"
     },
     {
@@ -25,14 +25,16 @@ LIBRARY_LAYOUTS = [
 
 class Library(SampleExtension):
 
+    display_table_name = "view_samples_library";
     submit_table_name = "samples_library";
 
     @classmethod
     def clean_submit(cls, entry):
-        for layout in LIBRARY_LAYOUTS:
-            if layout["value"] == int(entry["layout_paired"]):
-                entry["layout_paired"] = layout["db_save"];
-                break;
+        if "layout_paired" in entry:
+            for layout in LIBRARY_LAYOUTS:
+                if layout["value"] == int(entry["layout_paired"]):
+                    entry["layout_paired"] = layout["db_save"];
+                    break;
         if entry["preparation_date"] == "":
             entry["preparation_date"] = None;
         if entry["lib_id"] == "":
@@ -42,8 +44,9 @@ class Library(SampleExtension):
 
     @classmethod
     def clean_entry(cls, entry):
-        for layout in LIBRARY_LAYOUTS:
-            if layout["db_value"] == entry["library_layout_paired"]:
-                entry["library_layout_paired"] = layout["value"];
-                break;
+        if "library_layout_paired" in entry:
+            for layout in LIBRARY_LAYOUTS:
+                if layout["db_value"] == entry["library_layout_paired"]:
+                    entry["library_layout_paired"] = layout["value"];
+                    break;
         return entry;

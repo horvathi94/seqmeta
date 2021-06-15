@@ -6,7 +6,7 @@
 	<td>
 		<input type="text" name="sample+0+sample_name"
 			class="sample-name"
-			onchange="disableSave();"/>
+			onchange="checkSampleNames();"/>
 	</td>
 	
 	<td>
@@ -303,7 +303,8 @@
 
 	<td> 
 		<input type="text" name="library+0+lib_id" 
-			class="library-id"/>
+					class="library-id"
+					onchange="checkLibraryNames();"/>
 	</td>
 
 
