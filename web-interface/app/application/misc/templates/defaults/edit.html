@@ -1,0 +1,13 @@
+{% from 'macros/select.j2' import select %}
+
+<form action="{{ url_for('misc_bp.submit_default_values') }}" method="POST">
+
+	{{ select("continent_id", continents, selected_id=default_vals.continent_id) }}
+
+
+	{{ select("country_id", countries, selected_id=default_vals.country_id) }}
+
+
+	<input type="submit" value="Save"/>
+
+</form>

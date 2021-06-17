@@ -3,13 +3,13 @@ CREATE OR REPLACE VIEW `view_default_values` AS
 	SELECT
 
 		(SELECT 
-			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			IF (`item_value` IS NULL, 0, CAST(`item_value` AS UNSIGNED)) 
 			FROM `default_values`
 			WHERE `item_key` = "continent_id"
 		) AS continent_id,
 		
 		(SELECT 
-			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			IF (`item_value` IS NULL, 0, CAST(`item_value` AS UNSIGNED)) 
 			FROM `default_values`
 			WHERE `item_key` = "country_id"
 		) AS country_id,

@@ -1,13 +1,15 @@
 <tr>
 	<td> Continent {{ marker('gisaid') }}</td>
-	<td> {{ select("location+continent_id", continents, selected_id=sample.continent_id) }} </td>
+	{% set selected = sample.continent_id if sample.continent_id != "" else default_vals.continent_id %}
+	<td> {{ select("location+continent_id", continents, selected_id=selected) }} </td>
 	<td> The geographical location of the sample as defined by the continent. </td>
 </tr>
 
 
 <tr>
 	<td> Country {{ marker('gisaid') }} {{ marker('ena') }}</td>
-	<td> {{ select("location+country_id", countries, selected_id=sample.country_id) }} </td>
+	{% set selected = sample.country_id if sample.country_id != "" else default_vals.country_id %}
+	<td> {{ select("location+country_id", countries, selected_id=selected) }} </td>
 	<td> The geographical origin of the sample as defined by the country or sea. 
 		Country or sea names should be chosen from the <a href="http://insdc.org/country.html">INSDC country list</a></td>
 </tr>
@@ -58,7 +60,7 @@
 <tr>
 	<td>Geographic location (longitude) (DD) {{ marker("ena", requirement="recommended") }}</td>
 	<td>
-		<input type="text" name="location+geo_loc_longitude" 
+		<input type="number" name="location+geo_loc_longitude" 
 											 min="-180" max="180" step="0.1"
 											 value="{{ sample.geo_loc_longitude }}"/>
 	</td>

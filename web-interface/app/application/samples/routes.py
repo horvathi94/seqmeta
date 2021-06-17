@@ -23,6 +23,8 @@ from application.src.metatemplates.ena import EnaMeta
 from application.src.seqfiles.db import SeqFileTypes, SeqFile
 from application.src.seqfiles.seqfiles import SeqFilesBunch
 from .save import save
+from application.src.defaults import DefaultValues
+
 
 samples_bp = Blueprint("samples_bp", __name__,
                        template_folder="templates",
@@ -97,6 +99,7 @@ def edit():
         library_layouts=LIBRARY_LAYOUTS,
         genders=PATIENT_GENDERS,
         hospitalisations=HOSPITALISATIONS,
+        default_vals=DefaultValues.fetch(),
         );
     html+= render_template("footer.html", scripts=scripts);
     return html;
@@ -266,3 +269,10 @@ def reg_library_names():
     lib_ids = [l["library_id"] for l in Library.fetch_list()
                if l["library_id"] != ""];
     return jsonify(lib_ids);
+
+
+@samples_bp.route("/test")
+def tester():
+#    return str(DefaultValues.fetch());
+    return jsonify(DefaultValues.fetch());
+

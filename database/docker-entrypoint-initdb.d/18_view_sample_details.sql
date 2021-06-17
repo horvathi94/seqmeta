@@ -3,17 +3,19 @@ CREATE OR REPLACE VIEW view_samples_location AS
 	SELECT 
 
 		location.sample_id AS sample_id,
-		CONCAT(continents.label, " / ", countries.label, 
-			IF(location.region IS NOT NULL, CONCAT(" / ", location.region), ""),
-			IF(location.locality IS NOT NULL, CONCAT(" / ", location.locality), "")
+		CONCAT(
+			IF(continents.label IS NULL OR continents.label = "", "", continents.label),
+			IF(countries.label IS NULL OR countries.label = "", "", CONCAT(" / ", countries.label)), 
+			IF(location.region IS NULL OR location.region = "", "", CONCAT(" / ", location.region)),
+			IF(location.locality IS NULL OR location.locality = "", "", CONCAT(" / ", location.locality))
 			) AS location,
-		continents.label AS continent,
-		countries.label AS country,
+		IF (continents.label IS NULL, "", continents.label) AS continent,
+		IF (countries.label IS NULL, "", countries.label) AS country,
 		location.region AS region,
 		location.locality AS locality,
 		location.additional_info AS additional_location_info,
-		location.geo_loc_latitude AS geo_loc_latitude,
-		location.geo_loc_longitude AS geo_loc_longitude
+		IF (location.geo_loc_latitude IS NULL, "", location.geo_loc_latitude) AS geo_loc_latitude,
+		IF (location.geo_loc_longitude IS NULL, "", location.geo_loc_longitude) AS geo_loc_longitude
 	
 	FROM samples_location AS location
 	LEFT JOIN continents

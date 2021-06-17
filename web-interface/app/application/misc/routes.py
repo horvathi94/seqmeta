@@ -5,8 +5,10 @@ from application.src.library import LibraryStrategies, \
 from application.src.samples.virusname import VirusnameGisaid
 from application.src.forms.form import Form
 from application.src.misc import SpecimenSources, \
-    AssemblyMethods
-
+    AssemblyMethods, \
+    Continents, \
+    Countries
+from application.src.defaults import DefaultValues
 
 misc_bp = Blueprint("misc_bp", __name__,
                     template_folder="templates",
@@ -59,3 +61,20 @@ def submit_assembly_methods():
     parsed = Form.parse_list(request.form, "assembly_methods")[1:];
     AssemblyMethods.save_by_procedure(parsed);
     return redirect(url_for("misc_bp.edit"));
+
+
+@misc_bp.route("/default-values")
+def edit_default_values():
+    html = render_template("head.html");
+    html+= render_template("defaults/edit.html",
+                default_vals=DefaultValues.fetch(),
+                continents=Continents.fetch_list(),
+                countries=Countries.fetch_list(),);
+    html+= render_template("footer.html");
+    return html
+
+
+@misc_bp.route("/default-values/submit", methods=["POST"])
+def submit_default_values():
+    DefaultValues.save(request.form.to_dict());
+    return redirect(url_for("misc_bp.edit_default_values"));

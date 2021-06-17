@@ -39,7 +39,7 @@ class CursorBase:
     def record_to_ordereddict(record, column_names):
         od = OrderedDict();
         for i, col in enumerate(column_names):
-            od[col] = record[i] if record[i] != None else "";
+            od[col] = record[i];
         return od;
 
 
