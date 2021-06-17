@@ -8,13 +8,17 @@ class EnaTsv(TempFile):
     attachment_prefix = "ena";
     extension = "tsv";
 
+    taxonomy = {
+        "tax_id": 2697049,
+        "scientific_name": "Severe acute respiratory syndrome coronavirus 2",
+    };
+
 
     @classmethod
     def write_header(cls, head, units):
         with open(cls.get_tempfile(), "w") as tsvfile:
             tsv_writer = csv.writer(tsvfile, delimiter="\t");
-            tsv_writer.writerow(["#checklist_accession"]);
-            tsv_writer.writerow(["ERC000033"]);
+            tsv_writer.writerow(["#checklist_accession", "ERC000033"]);
             tsv_writer.writerow(["#unique_name_prefix"]);
             tsv_writer.writerow(head);
             tsv_writer.writerow(units);
@@ -48,33 +52,10 @@ class EnaTsv(TempFile):
         with open(cls.get_tempfile(), "a") as tsvfile:
             tsv_writer = csv.writer(tsvfile, delimiter="\t");
             for sample in samples:
-                row = [sample[key] for key in head[3:]];
-                row = [sample["sample_name"]] + [""]*2 + row;
+                sample["sample_alias"] = sample["sample_name"];
+                sample["tax_id"] = cls.taxonomy["tax_id"];
+                sample["scientific_name"] = cls.taxonomy["scientific_name"];
+                row = [sample[key] for key in head];
                 tsv_writer.writerow(row);
 
 
-
-class EnaExcel(ExcelGenerator):
-
-    tempfilename = "last_generated_ena.xls";
-    attachment_prefix = "ena";
-    extension = "xls";
-
-    @classmethod
-    def populate(cls, ws, samples):
-        ws["A1"] = "#checklist_accession";
-        ws["B1"] = "ERC000033";
-        ws["A2"] = "#unique_name_prefix";
-        ws["A3"] = "sample_alias";
-        ws["B3"] = "tax_id";
-        ws["A4"] = "#template";
-        ws["B4"] = "2697049";
-        ws["A5"] = "#units";
-
-
-    @classmethod
-    def write(cls, samples):
-        wb, ws = cls.create_worksheet("Submissions");
-        cls.populate(ws, samples);
-        cls.save_excel(wb, cls.get_tempfile());
-        wb.close();

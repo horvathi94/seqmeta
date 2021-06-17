@@ -24,7 +24,7 @@ CREATE PROCEDURE upsert_dict_table(
 	IN table_name CHAR(100),
 	IN id					INT UNSIGNED,
 	IN item_key		CHAR(200),
-	IN item_value	VARCHAR(1000)
+	IN item_value	VARCHAR(1000) NULL
 )
 
 	BEGIN
@@ -47,11 +47,23 @@ CREATE PROCEDURE upsert_dict_table(
 
 		IF ( @working_id = 0 ) THEN
 
-			SET @query = CONCAT(
-				"INSERT INTO ", table_name,
-				" (item_key, item_value)",
-				" VALUES('", item_key, "', '", item_value , "');"
-			);
+			IF ( item_value IS NOT NULL ) THEN 
+
+				SET @query = CONCAT(
+					"INSERT INTO ", table_name,
+					" (item_key, item_value)",
+					" VALUES('", item_key, "', '", item_value , "');"
+				);
+
+			ELSE
+				
+				SET @query = CONCAT(
+					"INSERT INTO ", table_name,
+					" (item_key, item_value)",
+					" VALUES('", item_key, ",", NULL, ");"
+				);
+
+			END IF;
 
 		ELSE 
 

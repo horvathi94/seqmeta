@@ -1,0 +1,43 @@
+CREATE TABLE IF NOT EXISTS `default_values`(
+	`item_key`			VARCHAR(100) NOT NULL PRIMARY KEY,
+	`item_value`		VARCHAR(100) NULL
+);
+
+
+DELIMITER $$
+
+CREATE PROCEDURE upsert_deftab(
+	IN item_key 		VARCHAR(100),
+	IN item_value 	VARCHAR(100)
+)
+
+	BEGIN
+		
+		SELECT @exist := EXISTS( 
+			SELECT 1 
+				FROM `default_values`
+				WHERE `item_key` = item_key
+		);
+
+		
+		IF (@exist = 1) THEN
+
+			UPDATE `default_values`
+				SET `item_value` = item_value
+				WHERE `item_key` = item_key;
+
+		ELSE 
+
+			INSERT INTO `default_values` (`item_key`, `item_value`) 
+				VALUES (item_key, item_value);
+				
+			END IF;
+
+
+	END $$
+
+
+DELIMITER ;
+
+
+CALL upsert_deftab("country_id", NULL);

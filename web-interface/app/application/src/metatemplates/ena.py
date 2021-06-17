@@ -4,7 +4,7 @@ from application.src.samples.samples import Samples
 from .base.tempfile import TempFile
 from .ena_sample_set import SampleSet
 from .ena_experiment_set import ExperimentSet
-from .ena_excel import EnaTsv
+from .ena_tsv import EnaTsv
 
 class EnaMeta(TempFile):
 
