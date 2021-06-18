@@ -24,7 +24,7 @@ CREATE PROCEDURE upsert_dict_table(
 	IN table_name CHAR(100),
 	IN id					INT UNSIGNED,
 	IN item_key		CHAR(200),
-	IN item_value	VARCHAR(1000) NULL
+	IN item_value	VARCHAR(1000) 
 )
 
 	BEGIN
