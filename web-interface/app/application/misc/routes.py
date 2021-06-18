@@ -4,10 +4,7 @@ from application.src.library import LibraryStrategies, \
     LibrarySources
 from application.src.samples.virusname import VirusnameGisaid
 from application.src.forms.form import Form
-from application.src.misc import SpecimenSources, \
-    AssemblyMethods, \
-    Continents, \
-    Countries
+from application.src import misc
 from application.src.defaults import DefaultValues
 
 misc_bp = Blueprint("misc_bp", __name__,
@@ -32,9 +29,9 @@ def descript_library():
 def edit():
     html = render_template("head.html");
     html+= render_template("misc/specimen_sources.html",
-                           items=SpecimenSources.fetch_list());
+                           items=misc.SpecimenSources.fetch_list());
     html+= render_template("misc/assembly_methods.html",
-                           items=AssemblyMethods.fetch_list());
+                           items=misc.AssemblyMethods.fetch_list());
     html+= render_template("misc/virusname.html",
                 virusname_format=VirusnameGisaid.fetch_format_string(),
                 available_db_keys=VirusnameGisaid.available_db_keys());
@@ -52,14 +49,14 @@ def submit_virusname():
 @misc_bp.route("/misc/submit/specimen-sources", methods=["POST"])
 def submit_specimen_sources():
     parsed = Form.parse_list(request.form, "specimen_source")[1:];
-    SpecimenSources.save_by_procedure(parsed);
+    misc.SpecimenSources.save_by_procedure(parsed);
     return redirect(url_for("misc_bp.edit"));
 
 
 @misc_bp.route("/misc/submit/assembly-methods", methods=["POST"])
 def submit_assembly_methods():
     parsed = Form.parse_list(request.form, "assembly_methods")[1:];
-    AssemblyMethods.save_by_procedure(parsed);
+    misc.AssemblyMethods.save_by_procedure(parsed);
     return redirect(url_for("misc_bp.edit"));
 
 
@@ -67,9 +64,18 @@ def submit_assembly_methods():
 def edit_default_values():
     html = render_template("head.html");
     html+= render_template("defaults/edit.html",
-                default_vals=DefaultValues.fetch(),
-                continents=Continents.fetch_list(),
-                countries=Countries.fetch_list(),);
+        default_vals=DefaultValues.fetch(),
+        continents=misc.Continents.fetch_list(),
+        countries=misc.Countries.fetch_list(),
+        hosts=misc.Hosts.fetch_list(),
+        sampling_strategies=misc.SamplingStrategies.fetch_list(),
+        passage_details=misc.PassageDetails.fetch_list(),
+        assembly_methods=misc.AssemblyMethods.fetch_list(),
+        sequencing_instruments=misc.SequencingInstruments.fetch_list(),
+        patient_statuses=misc.PatientStatuses.fetch_list(),
+        specimen_sources=misc.SpecimenSources.fetch_list(),
+        sample_capture_statuses=misc.SampleCaptureStatuses.fetch_list(),
+    );
     html+= render_template("footer.html");
     return html
 

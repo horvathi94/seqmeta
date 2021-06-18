@@ -1,17 +1,21 @@
 <tr>
 	<td> Sequencing instrument {{ marker("gisaid") }}</td>
+	{% set selected = sample.sequencing_instrument_id if sample.sequencing_instrument_id != ""
+		else default_vals.sequencing_instrument_id %}
 	<td> {{ select("sequencing+sequencing_instrument_id", 
 									sequencing_instruments, 
-									selected_id=sample.sequencing_instrument_id) }} </td>
+									selected_id=selected) }} </td>
 	<td> Apparatus with which the sequencing was done.</td>
 </tr>
 
 
 <tr>
 	<td> Assembly method {{ marker("gisaid", requirement="optional") }}</td>
+	{% set selected = sample.assmebly_method_id if sample.assembly_method_id != ""
+		else default_vals.assembly_method_id %}
 	<td> {{ select("sequencing+assembly_method_id", 
 					assembly_methods, 
-					selected_id=sample.assembly_method_id) }} </td>
+					selected_id=selected) }} </td>
 	<td> Program name and version with which the assembly of the sequence was performed. 
 	Edit and add options:
 	<a href="{{ url_for('misc_bp.edit') }}#assembly-methods-editor" 

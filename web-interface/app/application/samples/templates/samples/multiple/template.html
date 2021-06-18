@@ -36,28 +36,30 @@
 	</td>
 	
 	<td>
-		{{ select("collection+0+collector_id", authors,
+		{{ select("collection+0+collector_id", authors, 
 							class="collector-name") }}
 	</td>
 	
 
 	<td>
-		{{ select("location+0+continent_id", continents,
+		{{ select("location+0+continent_id", continents, selected_id=default_vals.continent_id,
 							class="continent") }}
 	</td>
 	
 	<td>
-		{{ select("location+0+country_id", countries,
+		{{ select("location+0+country_id", countries, selected_id=default_vals.country_id,
 							class="country") }}
 	</td>
 	
 	<td>
 		<input type="text" name="location+0+region" maxlength="200"
+				value="{{ default_vals.region }}"
 				class="region"/>	
 	</td>
 	
 	<td>
 		<input type="text" name="location+0+locality" maxlength="200"
+				value="{{ default_vals.locality }}"
 				class="locality"/>	
 	</td>
 	
@@ -68,19 +70,21 @@
 	
 	<td>
 		<input type="number" name="location+0+geo_loc_latitude"
-				min="-90" max="90" step="0.1"
+				min="-90" max="90" step="0.01"
+				value="{{ default_vals.geo_loc_latitude }}"
 				class="location-geo-loc-latitude" />	
 	</td>
 	
 	<td>
 		<input type="number" name="location+0+geo_loc_longitude"
-				min="-180" max="180" step="0.1"
+				value="{{ default_vals.geo_loc_longitude }}"
+				min="-180" max="180" step="0.01"
 				class="location-geo-loc-longitude" />	
 	</td>
 	
 
 	<td>
-		{{ select("host+0+host_id", hosts,
+		{{ select("host+0+host_id", hosts, selected_id=default_vals.host_id,
 							class="host") }}
 	</td>
 	
@@ -107,6 +111,7 @@
 
 	<td> 
 		{{ select("host+0+patient_status_id", patient_statuses, 
+								selected_id=default_vals.patient_status_id, 
 								class="patient_status") }} 
 	</td>
 
@@ -200,6 +205,7 @@
 	<td> 
 		{{ select("sequencing+0+sequencing_instrument_id", 
 							sequencing_instruments, 
+							selected_id=default_vals.sequencing_instrument_id,
 							class="sequencing-instrument") }} 
 	</td>
 
@@ -207,6 +213,7 @@
 	<td> 
 		{{ select("sequencing+0+assembly_method_id", 
 					assembly_methods, 
+					selected_id=default_vals.assembly_method_id,
 					class="assembly-method") }} 
 	</td>
 
@@ -248,12 +255,13 @@
 
 	<td> 
 		{{ select("sampling+0+sampling_strategy_id", sampling_strategies, 
-				class="sampling-strategies")}} 
+				class="sampling-strategies", selected_id=default_vals.sampling_strategy_id)}} 
 	</td>
 
 	<td> 
 		{{ select("sampling+0+passage_details_id", 
 									passage_details, 
+									selected_id=default_vals.passage_details_id,
 									class="passage-details") }} 
 	</td>
 
@@ -280,12 +288,14 @@
 	<td> 
 		{{ select("sampling+0+sample_capture_status_id", 
 									sample_capture_statuses, 
+									selected_id=default_vals.sample_capture_status_id,
 									class="sample-capture-status") }} 
 	</td>
 	
 	<td> 
 		{{ select("sampling+0+specimen_source_id", 
 									specimen_sources, 
+									selected_id=default_vals.specimen_source_id,
 									class="specimen-source") }} 
 	</td>
 

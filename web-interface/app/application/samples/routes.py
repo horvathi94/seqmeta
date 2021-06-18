@@ -144,6 +144,7 @@ def add_multiple():
         library_layouts=LIBRARY_LAYOUTS,
         genders=PATIENT_GENDERS,
         hospitalisations=HOSPITALISATIONS,
+        default_vals=DefaultValues.fetch(),
         );
     html+= render_template("footer.html", scripts=scripts);
     return html;

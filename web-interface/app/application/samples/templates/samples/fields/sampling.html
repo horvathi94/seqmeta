@@ -43,8 +43,9 @@
 
 <tr>
 	<td> Sampling strategy {{ marker("gisaid", requirement="optional") }}</td>
+	{% set selected = sample.sampling_strategy_id if sample.sampling_strategy_id != "" else default_vals.sampling_strategy_id %}
 	<td> {{ select("sampling+sampling_strategy_id", sampling_strategies, 
-		selected_id=sample.sampling_strategy_id) }} </td>
+		selected_id=selected) }} </td>
 	<td> The sampling strategy used to select the sample. 
 		Edit and add options 
 		<a href="{{ url_for('misc_bp.edit') }}#specimen-sources-editor" 
@@ -54,9 +55,10 @@
 
 <tr>
 	<td> Passage details {{ marker('gisaid') }}</td>
+	{% set selected = sample.passage_details_id if sample.passage_details_id != "" else default_vals.passage_details_id %}
 	<td> {{ select("sampling+passage_details_id", 
 									passage_details, 
-									selected_id=sample.passage_details_id) }} </td>
+									selected_id=selected) }} </td>
 	<td> Passage details/history </td>
 </tr>
 
@@ -104,18 +106,22 @@
 
 <tr>
 	<td>Sample capture status {{ marker("ena", requirement="recommended") }}</td>
+	{% set selected = sample.sample_capture_id if sample.sample_capture_status_id != "" 
+		else default_vals.sample_capture_status_id %}
 	<td> {{ select("sampling+sample_capture_status_id", 
 									sample_capture_statuses, 
-									selected_id=sample.sample_capture_status_id) }} </td>
+									selected_id=selected) }} </td>
 	<td>Reason for the sample collection.</td>
 </tr>
 	
 
 <tr>
 	<td> Specimen source {{ marker("gisaid", requirement="optional") }}</td>
+	{% set selected = sample.specimen_source_id if sample.specimen_source_id != ""
+		else default_vals.specimen_source_id %}
 	<td> {{ select("sampling+specimen_source_id", 
 									specimen_sources, 
-									selected_id=sample.specimen_source_id) }} </td>
+									selected_id=selected) }} </td>
 	<td> Source of the specimen </td>
 </tr>
 

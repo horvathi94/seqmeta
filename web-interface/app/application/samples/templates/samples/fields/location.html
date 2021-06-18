@@ -19,8 +19,9 @@
 	<td> Region {{ marker('gisaid', requirement='optional') }} 
 		{{ marker("ena", requirement="recommended") }}</td>
 	<td>
+		{% set region = sample.region if sample.region != "" else default_vals.region %}
 		<input type="text" name="location+region" maxlength="200" 
-			value="{{ sample.region }}"/>	
+			value="{{ region }}"/>	
 	</td>
 	<td> The geographical location of the sample as defined by the region. </td>
 </tr>
@@ -30,8 +31,9 @@
 	<td> Locality {{ marker('gisaid', requirement='optional') }} 
 		{{ marker("ena", requirement='recommended') }}</td>
 	<td>
+		{% set locality = sample.locality if sample.locality != "" else default_vals.locality %}
 		<input type="text" name="location+locality" maxlength="200" 
-			value="{{ sample.locality }}"/>	
+			value="{{ locality }}"/>	
 	</td>
 	<td> The geographical location of the sample as defined by the locality. </td>
 </tr>
@@ -48,9 +50,10 @@
 <tr>
 	<td>Geographic location (latitude) (DD) {{ marker("ena", requirement="recommended") }}</td>
 	<td>
+		{% set geo_loc_latitude = sample.geo_loc_latitude if sample.geo_loc_latitude != "" else default_vals.geo_loc_latitude %}
 		<input type="number" name="location+geo_loc_latitude"
-												 min="-90" max="90" step="0.1"
-												 value="{{ sample.geo_loc_latitude }}"/>	
+												 min="-90" max="90" step="0.01"
+												 value="{{ geo_loc_latitude }}"/>	
 	</td>
 	<td>The geographical origin of the sample as defined by latitude. 
 		Minimum value: -90 and maximum value: 90.</td>
@@ -60,9 +63,10 @@
 <tr>
 	<td>Geographic location (longitude) (DD) {{ marker("ena", requirement="recommended") }}</td>
 	<td>
+		{% set geo_loc_longitude = sample.geo_loc_longitude if sample.geo_loc_longitude != "" else default_vals.geo_loc_longitude %}
 		<input type="number" name="location+geo_loc_longitude" 
-											 min="-180" max="180" step="0.1"
-											 value="{{ sample.geo_loc_longitude }}"/>
+											 min="-180" max="180" step="0.01"
+											 value="{{ geo_loc_longitude }}"/>
 	</td>
 	<td>The geographical origin of the sample as defined by longitude. 
 		Minimum value: -180 and maximum value: 180.</td>

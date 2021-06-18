@@ -1,8 +1,9 @@
 <tr>
 	<td> Host {{ marker("gisaid") }} {{ marker("ena") }}</td>
-	<td> {{ select("host+host_id", hosts, selected_id=sample.host_id) }} </td>
+	{% set selected = sample.host_id if sample.host_id != "" else default_vals.host_id %}
+	<td> {{ select("host+host_id", hosts, selected_id=selected) }} </td>
 	<td> You can add more options in the 
-		{#		<a href="{{ url_for('set_options_list') }}">manage options tab</a> #}</td>
+		<a href="{{ url_for('misc_bp.edit') }}">manage options tab</a> </td>
 </tr>
 
 
@@ -45,9 +46,10 @@
 
 <tr>
 	<td> Patient status {{ marker("gisaid") }}</td>
+	{% set selected = sample.patient_status_id if sample.patient_status_id != "" else default_vals.patient_status_id %}
 	<td> {{ select("host+patient_status_id", 
 					patient_statuses, 
-					selected_id=sample.patient_status_id) }} </td>
+					selected_id=selected) }} </td>
 	<td> The status of the patient when the sample was collected. </td>
 </tr>
 
