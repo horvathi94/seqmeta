@@ -84,5 +84,29 @@ CREATE OR REPLACE VIEW `view_default_values` AS
 			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
 			FROM `default_values`
 			WHERE `item_key` = "sample_capture_status_id"
-		) AS sample_capture_status_id
+		) AS sample_capture_status_id,
+		
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "library_selection_id"
+		) AS library_selection_id,
+		
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "library_source_id"
+		) AS library_source_id,
+		
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "library_strategy_id"
+		) AS library_strategy_id,
+		
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "library_layout_paired"
+		) AS library_layout_paired
 

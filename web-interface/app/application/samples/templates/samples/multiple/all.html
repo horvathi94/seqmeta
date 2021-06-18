@@ -335,25 +335,29 @@
 
 
 	<td> 
-		{{ select("library-strategy_id-all", library_strategies, 
+		{{ select("library-strategy_id-all", library_strategies,
+							selected_id=default_vals.library_strategy_id,
 							class="library-strategy",
 							onchange="updateColumnSelect(this);") }} 
 	</td>
 
 	<td> 
 		{{ select("library-source_id-all", library_sources, 
+							selected_id=default_vals.library_source_id,
 							class="library-source",
 							onchange="updateColumnSelect(this);") }} 
 	</td>
 
 	<td> 
 		{{ select("library-selection_id-all", library_selections, 
+							selected_id=default_vals.library_selection_id,
 							class="library-selection",
 							onchange="updateColumnSelect(this);") }} 
 	</td>
 
 	<td> 
 		{{ radio("library-layout_paired-all", library_layouts, 
+						selected_value=default_vals.library_layout_paired,
 						class="library-layout-paired", onchange="updateColumnRadio(this)") }}	
 	</td>
 

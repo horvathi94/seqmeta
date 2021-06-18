@@ -17,6 +17,8 @@ class DefaultValues:
             if values["region"] != None else "";
         values["locality"] = values["locality"] \
             if values["locality"] != None else "";
+        values["library_layout_paired"] = values["library_layout_paired"] \
+            if values["library_layout_paired"] != None else "";
         return values;
 
     @classmethod

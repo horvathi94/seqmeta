@@ -1,4 +1,5 @@
 {% from 'macros/select.j2' import select %}
+{% from 'macros/radio.j2' import radio %}
 
 <form action="{{ url_for('misc_bp.submit_default_values') }}" method="POST">
 
@@ -142,7 +143,46 @@
 			</td>
 		</tr>
 
+		<tr>
+			<td>
+				<label for="library_strategy_id">Library strategy:</label>
+			</td>
+			<td> 
+				{{ select("library_strategy_id", library_strategies, 
+									selected_id=default_vals.library_strategy_id) }}
+			</td>
+		</tr>
 
+		<tr>
+			<td>
+				<label for="library_source_id">Library source:</label>
+			</td>
+			<td> 
+				{{ select("library_source_id", library_sources, 
+									selected_id=default_vals.library_source_id) }}
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<label for="library_selection_id">Library selection:</label>
+			</td>
+			<td> 
+				{{ select("library_selection_id", library_selections, 
+									selected_id=default_vals.library_selection_id) }}
+			</td>
+		</tr>
+
+
+		<tr>
+			<td> 
+				<label for="library_layout_paired">Library layout:</label>
+			</td>
+			<td> 
+				{{ radio("library_layout_paired", library_layouts, 
+						selected_value=default_vals.library_layout_paired) }}	
+			</td>
+		</tr>
 
 
 

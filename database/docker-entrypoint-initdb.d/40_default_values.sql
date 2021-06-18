@@ -55,4 +55,8 @@ CALL upsert_deftab("assembly_method_id", NULL);
 CALL upsert_deftab("sequencing_instrument_id", NULL);
 CALL upsert_deftab("specimen_source_id", NULL);
 CALL upsert_deftab("sample_capture_status_id", NULL);
+CALL upsert_deftab("library_strategy_id", NULL);
+CALL upsert_deftab("library_source_id", NULL);
+CALL upsert_deftab("library_selection_id", NULL);
+CALL upsert_deftab("library_layout_paired", NULL);
 

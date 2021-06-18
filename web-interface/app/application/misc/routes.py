@@ -2,6 +2,8 @@ from flask import Blueprint, render_template, request, redirect, url_for, jsonif
 from application.src.library import LibraryStrategies, \
     LibrarySelections, \
     LibrarySources
+from application.src.samples.extensions.library import Library,\
+    LIBRARY_LAYOUTS
 from application.src.samples.virusname import VirusnameGisaid
 from application.src.forms.form import Form
 from application.src import misc
@@ -75,6 +77,13 @@ def edit_default_values():
         patient_statuses=misc.PatientStatuses.fetch_list(),
         specimen_sources=misc.SpecimenSources.fetch_list(),
         sample_capture_statuses=misc.SampleCaptureStatuses.fetch_list(),
+        library_strategies=LibraryStrategies.fetch_list_labeled(
+            replace_key="item_key"),
+        library_sources=LibrarySources.fetch_list_labeled(
+            replace_key="item_key"),
+        library_selections=LibrarySelections.fetch_list_labeled(
+            replace_key="item_key"),
+        library_layouts=LIBRARY_LAYOUTS,
     );
     html+= render_template("footer.html");
     return html

@@ -11,9 +11,12 @@
 
 <tr>
 	<td> Library strategy {{ marker("ncbi") }} </td>
+	{% set selected = sample.library_strategy_id 
+		if sample.library_strategy_id != ""
+		else default_vals.library_strategy_id %}
 	<td> 
 		{{ select("library+strategy_id", library_strategies, 
-							selected_id=sample.library_strategy_id) }}
+							selected_id=selected) }}
 	</td>
 	<td> Detailed description can be found  
 		<a href="{{ url_for('misc_bp.descript_library')+'#library-strategies' }}" 
@@ -23,9 +26,12 @@
 
 <tr>
 	<td> Library source {{ marker("ncbi") }} </td>
+	{% set selected = sample.library_source_id 
+		if sample.library_source_id != ""
+		else default_vals.library_source_id %}
 	<td> 
 		{{ select("library+source_id", library_sources, 
-							selected_id=sample.library_source_id) }}
+							selected_id=selected) }}
 	</td>
 	<td> Detailed description can be found 
 		<a href="{{ url_for('misc_bp.descript_library')+'#library-sources' }}" 
@@ -35,9 +41,12 @@
 
 <tr>
 	<td> Library selection {{ marker("ncbi") }} </td>
+	{% set selected = sample.library_selection_id 
+		if sample.library_selection_id != ""
+		else default_vals.library_selection_id %}
 	<td> 
 		{{ select("library+selection_id", library_selections, 
-							selected_id=sample.library_selection_id) }}
+							selected_id=selected) }}
 	</td>
 	<td> Detailed description can be found 
 		<a href="{{ url_for('misc_bp.descript_library')+'#library-selections' }}" 
@@ -47,9 +56,12 @@
 
 <tr>
 	<td> Library layout {{ marker("ncbi") }} </td>
+	{% set library_layout = sample.library_layout_paired 
+		if sample.library_layout_paired 
+		else default_vals.library_layout_paired %}
 	<td> 
 		{{ radio("library+layout_paired", library_layouts, 
-				selected_value=sample.library_layout_paired) }}	
+				selected_value=library_layout) }}	
 	</td>
 	<td> Paired-end or Single </td>
 </tr>
