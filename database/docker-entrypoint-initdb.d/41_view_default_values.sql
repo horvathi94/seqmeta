@@ -108,5 +108,23 @@ CREATE OR REPLACE VIEW `view_default_values` AS
 			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
 			FROM `default_values`
 			WHERE `item_key` = "library_layout_paired"
-		) AS library_layout_paired
+		) AS library_layout_paired,
+		
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "originating_lab_id"
+		) AS originating_lab_id,
+		
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "submitting_lab_id"
+		) AS submitting_lab_id,
+		
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "author_group_id"
+		) AS author_group_id
 

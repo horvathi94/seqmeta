@@ -225,6 +225,7 @@
 
 	<td> 
 		{{ select("sampling-originating_lab_id-all", institutions, 
+							selected_id=default_vals.originating_lab_id,
 							class="originating-lab",
 							onchange="updateColumnSelect(this);") }} 
 	</td>
@@ -238,6 +239,7 @@
 
 	<td> 
 		{{ select("sampling-submitting_lab_id-all", institutions, 
+							selected_id=default_vals.submitting_lab_id,
 							class="submitting-lab",
 							onchange="updateColumnSelect(this);") }}
 	</td>
@@ -250,7 +252,8 @@
 	</td>
 
 	<td> 
-		{{ select("sampling-author_group_id-all", author_groups, 
+		{{ select("sampling-author_group_id-all", author_groups,
+							selected_id=default_vals.author_group_id,
 							class="author-group",
 							onchange="updateColumnSelect(this);") }} 
 	</td>

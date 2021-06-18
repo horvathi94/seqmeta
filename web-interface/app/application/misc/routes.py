@@ -8,6 +8,8 @@ from application.src.samples.virusname import VirusnameGisaid
 from application.src.forms.form import Form
 from application.src import misc
 from application.src.defaults import DefaultValues
+from application.src.institutions import Institutions
+from application.src.authors import AuthorGroups
 
 misc_bp = Blueprint("misc_bp", __name__,
                     template_folder="templates",
@@ -84,6 +86,10 @@ def edit_default_values():
         library_selections=LibrarySelections.fetch_list_labeled(
             replace_key="item_key"),
         library_layouts=LIBRARY_LAYOUTS,
+        author_groups=AuthorGroups.fetch_list_labeled(
+            replace_key="group_name",
+            replace_id="group_id"),
+        institutions=Institutions.fetch_list_labeled(),
     );
     html+= render_template("footer.html");
     return html

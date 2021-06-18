@@ -184,6 +184,39 @@
 			</td>
 		</tr>
 
+		<tr>
+			<td>
+				<label for="originating_lab_id">Originating lab:</label>
+			</td>
+			<td> 
+				{{ select("originating_lab_id", institutions, 
+									selected_id=default_vals.originating_lab_id) }}
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<label for="submitting_lab_id">Submitting lab:</label>
+			</td>
+			<td> 
+				{{ select("submitting_lab_id", institutions, 
+									selected_id=default_vals.submitting_lab_id) }}
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<label for="author_group_id">Author group:</label>
+			</td>
+			<td> 
+				{{ select("author_group_id", author_groups, 
+									selected_id=default_vals.author_group_id) }}
+			</td>
+		</tr>
+
+
+
+
 
 
 	</table>

@@ -1,7 +1,10 @@
 <tr>
 	<td> Originating lab {{ marker("gisaid") }}</td>
+	{% set selected = sample.originating_lab_id
+		if sample.originating_lab_id != "" 
+		else default_vals.originating_lab_id %}
 	<td> {{ select("sampling+originating_lab_id", institutions, 
-			selected_id=sample.originating_lab_id) }} </td>
+			selected_id=selected) }} </td>
 	<td> Where the clinical specimen or virus isolate was first obtained. </td>
 </tr>
 
@@ -17,8 +20,11 @@
 
 <tr>
 	<td> Submitting lab {{ marker("gisaid") }}</td>
+	{% set selected = sample.submitting_lab_id
+		if sample.submitting_lab_id != "" 
+		else default_vals.submitting_lab_id %}
 	<td> {{ select("sampling+submitting_lab_id", institutions, 
-			selected_id=sample.originating_lab_id) }} </td>
+			selected_id=selected) }} </td>
 	<td> Where the sequence data have been generated and submitted to GISAID. </td>
 </tr>
 
@@ -34,8 +40,11 @@
 
 <tr>
 	<td> Authors group {{ marker("gisaid") }} </td>
+	{% set selected = sample.author_group_id
+		if sample.author_group_id != "" 
+		else default_vals.author_group_id %}
 	<td> {{ select("sampling+author_group_id", author_groups, 
-		selected_id=sample.author_group_id) }} </td>
+		selected_id=selected) }} </td>
 	<td> Create and edit author groups 
 		<a href="{{ url_for('author_groups_bp.show') }}">here</a> </td>
 </tr>
