@@ -18,10 +18,14 @@ CREATE OR REPLACE VIEW `view_samples_ena` AS
 		location.country AS `geographic location (country and/or sea)`,
 		location.geo_loc_latitude AS `geographic location (latitude)`,
 		location.geo_loc_longitude AS `geographic location (longitude)`,
-		CONCAT( 
-			IF (location.region IS NULL, "", 
-				CONCAT(location.region, ", ") ),
-			location.locality ) AS `geographic location (region and locality)`,
+	
+		IF ( location.region = "" AND location.locality = "", "",
+			IF ( location.region = "", location.locality, 
+				IF ( location.locality = "", location.region, 
+					CONCAT(location.region, ", ", location.locality)
+				)
+			)
+		) `geographic location (region and locality)`,
 
 		sampling.sample_capture_status AS `sample capture status`,
 
@@ -34,7 +38,8 @@ CREATE OR REPLACE VIEW `view_samples_ena` AS
 		health.host_health_state AS `host health state`,
 		hosts.host_scientific_name AS `host scientific name`,
 		
-		collection.collector_abbreviated_middle_name AS `collector name`, 
+		IF (collection.collector_abbreviated_middle_name IS NULL, "not provided",
+			collection.collector_abbreviated_middle_name) AS `collector name`, 
 		CONCAT(sampling.originating_lab_name, ", ", sampling.originating_lab_address) AS `collecting institution`,
 		sampling.sample_storage_conditions AS `sample storage conditions`,
 
