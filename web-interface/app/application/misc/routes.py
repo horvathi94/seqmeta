@@ -4,7 +4,8 @@ from application.src.library import LibraryStrategies, \
     LibrarySources
 from application.src.samples.extensions.library import Library,\
     LIBRARY_LAYOUTS
-from application.src.samples.virusname import VirusnameGisaid
+from application.src.samples.nametemplates.virusname_gisaid import \
+    VirusnameGisaid
 from application.src.forms.form import Form
 from application.src import misc
 from application.src.defaults import DefaultValues
