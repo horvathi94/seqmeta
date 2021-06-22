@@ -67,3 +67,7 @@ td input[type="radio"]{
 }
 
 
+.tooltip {
+	border: 2px solid var(--light-green) !important;
+}
+
