@@ -5,9 +5,7 @@ from application.src.library import LibraryStrategies, \
 from application.src.samples.extensions.library import Library,\
     LIBRARY_LAYOUTS
 from application.src.samples.nametemplates.virusname_gisaid import \
-    VirusnameGisaid
-from application.src.samples.nametemplates.isolate_ena import \
-    IsolateEna
+    VirusnameGisaid, IsolateEna
 from application.src.forms.form import Form
 from application.src import misc
 from application.src.defaults import DefaultValues
@@ -42,9 +40,6 @@ def edit():
     html+= render_template("misc/virusname.html",
                 virusname_format=VirusnameGisaid.fetch_format_string(),
                 available_db_keys=VirusnameGisaid.available_db_keys());
-    html+= render_template("misc/isolate_ena.html",
-                virusname_format=IsolateEna.fetch_format_string(),
-                available_db_keys=IsolateEna.available_db_keys());
     html+= render_template("footer.html");
     return html;
 
@@ -59,7 +54,7 @@ def submit_virusname():
 @misc_bp.route("/misc/submit/isolate-ena", methods=["POST"])
 def submit_isolate_ena():
     virusname = request.form.to_dict()["virusname"];
-    IsolateEna.call_save_procedure(virusname);
+    VirusnameGisaid.call_save_procedure(virusname);
     return redirect(url_for("misc_bp.edit"));
 
 

@@ -23,7 +23,6 @@ class Samples(DBInterface):
             entry = Host.clean_entry(entry);
         if "library_layout_paired" in entry:
             entry = Library.clean_entry(entry);
-
         return entry;
 
 
@@ -64,3 +63,10 @@ class Samples(DBInterface):
     def save(cls, submitted):
         pass;
 
+
+    @classmethod
+    def fetch(cls, table_name, sample_id=0):
+        where_clause = "WHERE `sample_id` = {:d}".format(sample_id);
+        entry, = Cursor.select(table_name, clauses=where_clause);
+        entry = cls.clean_entry(entry);
+        return entry;

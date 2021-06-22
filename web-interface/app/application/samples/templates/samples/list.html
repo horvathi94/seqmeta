@@ -20,6 +20,9 @@
 		<th> Author group </th>
 		<th> Has assembly file </th>
 
+		<th>Virusname GISAID</th>
+		<th>Isolate ENA</th>
+
 		<th> Comment </th>
 		<th> Details </th>
 		<th> Edit </th>
@@ -29,7 +32,9 @@
 
 		<tr>
 			
-			<td> <input type="checkbox" name="selected-samples" value="{{sample.sample_id}}"/>
+			<td> 
+				<input type="checkbox" name="selected-samples" value="{{sample.sample_id}}"/>
+			</td>
 
 			<td> {{ sample.sample_name }} </td>
 			<td> {{ sample.collection_date }} </td>
@@ -45,8 +50,17 @@
 			</td>
 
 			<td>
+				{{ sample.virusname_gisaid }}
+			</td>
+
+			<td>
+				{{ sample.isolate_ena }}
+			</td>
+
+			<td>
 				{{ sample.sample_comment }}
 			</td>
+
 
 			<td> 
 				<input type="button" value="Details" onclick="displayDetails({{ sample.sample_id }})"/>

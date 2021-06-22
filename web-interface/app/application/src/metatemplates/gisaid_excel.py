@@ -1,5 +1,6 @@
 from .base.excel_gen import ExcelGenerator
-from application.src.samples.virusname import VirusnameGisaid
+from application.src.samples.nametemplates.virusname_gisaid import \
+    VirusnameGisaid
 
 class GisaidExcel(ExcelGenerator):
 
@@ -13,7 +14,8 @@ class GisaidExcel(ExcelGenerator):
             i = indx+3;
             ws["A{:d}".format(i)] = "Submitter"          # Submitter
             ws["B{:d}".format(i)] = sample["seqfilename"];
-            ws["C{:d}".format(i)] = VirusnameGisaid.create_name(sample);
+            ws["C{:d}".format(i)] = \
+                VirusnameGisaid.format_name(sample["sample_id"]);
             ws["D{:d}".format(i)] = "betacoronavirus"    # Leave as default
             ws["E{:d}".format(i)] = sample["passage_details"]
             ws["F{:d}".format(i)] = str(sample["collection_date"]);

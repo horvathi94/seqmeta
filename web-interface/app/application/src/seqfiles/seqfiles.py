@@ -1,7 +1,8 @@
 import os.path
 from .db import SeqFile
 from Bio import SeqIO
-from application.src.samples.virusname import VirusnameGisaid
+from application.src.samples.nametemplates.virusname_gisaid import \
+    VirusnameGisaid
 from application.src.samples.samples import Samples
 from application.src.metatemplates.base.tempfile import TempFile
 
@@ -86,9 +87,7 @@ class SeqFilesBunch(TempFile):
     def get_assembly(self):
         if not self.has_assembly_file():
             return "";
-        sample, = Samples.fetch_entries("view_samples_gisaid",
-                                        sample_ids=[self.sample_id]);
-        virusname = VirusnameGisaid.create_name(sample);
+        virusname = VirusnameGisaid.format_name(self.sample_id);
         seq = "> {:s}".format(virusname) + "\n";
         seq+= self.get_assembly_sequence() + "\n";
         return seq;
@@ -97,9 +96,7 @@ class SeqFilesBunch(TempFile):
     def write_gisiad_tempfile(self):
         if not self.has_assembly_file():
             return;
-        sample, = Samples.fetch_entries("view_samples_gisaid",
-                                        sample_ids=[self.sample_id]);
-        virusname = VirusnameGisaid.create_name(sample);
+        virusname = VirusnameGisaid.format_name(self.sample_id);
         seqfile = self.get_assembly_file();
         seqdata = SeqIO.read(seqfile, self.assembly_file["file_type"]);
         seqdata.id = virusname;

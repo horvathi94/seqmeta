@@ -24,6 +24,11 @@ from application.src.seqfiles.db import SeqFileTypes, SeqFile
 from application.src.seqfiles.seqfiles import SeqFilesBunch
 from .save import save
 from application.src.defaults import DefaultValues
+from application.src.samples.nametemplates.virusname_gisaid import \
+    VirusnameGisaid
+from application.src.samples.nametemplates.isolate_ena import \
+    IsolateEna
+
 
 
 samples_bp = Blueprint("samples_bp", __name__,
@@ -42,6 +47,10 @@ def show():
     for sample in samples_list:
         seqbunch = SeqFilesBunch(sample["sample_id"]);
         sample["seqfiles"] = seqbunch.todict();
+        sample["virusname_gisaid"] = \
+            VirusnameGisaid.format_name(sample["sample_id"]);
+        sample["isolate_ena"] = \
+            IsolateEna.format_name(sample["sample_id"]);
     html = render_template("head.html", styles=styles);
     if len(samples_list) == 0:
         html+= render_template("empty_list.html",
