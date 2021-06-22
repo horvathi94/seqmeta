@@ -5,6 +5,8 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		samples.id AS sample_id,
 		samples.name AS sample_name,
 		samples.`comment` AS sample_comment,
+		samples.title AS sample_title,
+		samples.description AS sample_description,
 
 		location.continent_id AS continent_id,
 		location.country_id AS country_id,

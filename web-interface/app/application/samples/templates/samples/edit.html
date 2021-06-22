@@ -30,6 +30,21 @@
 		<td> A comment to more easily identify the sample. This will not be used for any of the uploads. </td>
 	</tr>
 
+	<tr>
+		<td>Title {{ marker("ena") }}</td>
+		<td>
+			<input type="text" name="sample+sample_title" value="{{ sample.sample_title }}">
+			<td>A title for the sample</td>
+		</td>
+	</tr>
+
+	<tr>
+		<td>Description {{ marker("ena", requierement="optional") }}</td>
+		<td>
+			<input type="text" name="sample+sample_description" value="{{ sample.sample_description }}">
+			<td>A short description of the sample.</td>
+		</td>
+	</tr>
 
 
 	{% include('samples/fields/collection.html') %}
