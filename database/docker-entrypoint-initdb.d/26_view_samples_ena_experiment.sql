@@ -13,8 +13,6 @@ CREATE OR REPLACE VIEW `view_samples_ena_experiment` AS
 		library.layout_paired AS is_paired,
 		"contruction" AS library_construction_protocol,
 		library_insert_size AS insert_size,
-		"forward file" AS forward_file_name,
-		"reverse file" AS reverse_file_name,
 
 		sequencing.sequencing_instrument AS instrument_model
 

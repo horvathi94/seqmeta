@@ -26,8 +26,11 @@ CREATE OR REPLACE VIEW `view_seqfiles` AS
 		is_assembly,
 		is_forward_read,
 		IF (is_assembly IS TRUE, 
-			CONCAT(samples.sample_name, ".", exts.item_value), ""
-			) AS filename
+			CONCAT(samples.sample_name, ".", exts.item_value),
+			CONCAT(samples.sample_name, 
+				IF(is_forward_read, "_forward_read", "_reverse_read"),
+				".", exts.item_value)
+		) AS filename
 	
 	FROM seqfiles
 	LEFT JOIN view_samples_base AS samples
