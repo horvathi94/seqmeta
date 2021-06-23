@@ -3,14 +3,14 @@
 mysqldump \
 	--user=$MYSQL_USER \
 	-p$MYSQL_PASSWORD \
-	--skip-add-drop-table	-t \
+	--skip-add-drop-table \
+	-t \
+	--complete-insert \
 	$MYSQL_DATABASE \
 		samples \
-		virusnames \
 		author_groups \
 	 	authors \
 	 	authors_in_group \
-		default_values \
 		ena_studies \
 		institutions \
 		samples_collection \
@@ -22,3 +22,11 @@ mysqldump \
 		samples_sequencing \
 		sampling_strategies \
 		seqfiles
+
+mysqldump \
+	--user=$MYSQL_USER \
+	-p$MYSQL_PASSWORD \
+	--complete-insert \
+	$MYSQL_DATABASE \
+		virusnames \
+		default_values 

@@ -143,6 +143,17 @@
 			</td>
 		</tr>
 
+
+		<tr> 
+			<td>
+				<label for="host_health_state_id">Host health state:</label>
+			</td>
+			<td>
+				{{ select("host_health_state_id", host_health_states, selected_id=default_vals.host_health_state_id) }}
+			</td>
+		</tr>
+
+
 		<tr>
 			<td>
 				<label for="library_strategy_id">Library strategy:</label>

@@ -14,6 +14,7 @@ class EnaTsv(TempFile):
     taxonomy = {
         "tax_id": 2697049,
         "scientific_name": "Severe acute respiratory syndrome coronavirus 2",
+        "common_name": "",
     };
 
 
@@ -30,14 +31,19 @@ class EnaTsv(TempFile):
 
     @classmethod
     def generate_header(cls, sample):
-        head = ["sample_alias", "tax_id", "scientific_name"];
+        head = ["sample_alias",
+                "tax_id",
+                "scientific_name",
+                "common_name"];
         template = ["#template",
-                 "2697049",
-                 "Severe acute respiratory syndrome coronavirus 2"];
-        units = ["#units", "", ""];
+                    cls.taxonomy["tax_id"],
+                    cls.taxonomy["scientific_name"],
+                    cls.taxonomy["common_name"],];
+        units = ["#units", "", "", ""];
         for key in sample:
-            if key == "sample_id":
-                continue;
+            if key == "sample_id": continue;
+            if key == "sample_name": continue;
+            if key == "virus identifier": continue;
             head.append(key);
             if key == "host age":
                 units.append("years");
@@ -59,6 +65,7 @@ class EnaTsv(TempFile):
                 sample["sample_alias"] = sample["sample_name"];
                 sample["tax_id"] = cls.taxonomy["tax_id"];
                 sample["scientific_name"] = cls.taxonomy["scientific_name"];
+                sample["common_name"] = cls.taxonomy["common_name"];
                 sample["isolate"] = \
                     IsolateEna.format_name(sample["sample_id"]);
                 row = [sample[key] for key in head];

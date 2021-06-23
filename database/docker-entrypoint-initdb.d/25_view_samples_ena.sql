@@ -5,6 +5,8 @@ CREATE OR REPLACE VIEW `view_samples_ena` AS
 		samples.sample_id AS sample_id,
 		samples.sample_name AS sample_name,
 		samples.sample_name AS `virus identifier`,
+		samples.sample_title AS sample_title,
+		samples.sample_description AS sample_description,
 
 		health.subject_exposure AS `subject exposure`,
 		health.subject_exposure_duration AS `subject exposure duration`,

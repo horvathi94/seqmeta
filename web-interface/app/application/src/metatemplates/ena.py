@@ -5,6 +5,7 @@ from .base.tempfile import TempFile
 from .ena_sample_set import SampleSet
 from .ena_experiment_set import ExperimentSet
 from .ena_tsv import EnaTsv
+from .ena_experiment import EnaExperiment
 
 class EnaMeta(TempFile):
 
@@ -19,8 +20,14 @@ class EnaMeta(TempFile):
                                         sample_ids=selected);
         EnaTsv.write(samples);
 
+        samples = Samples.fetch_entries("view_samples_ena_experiment",
+                                        sample_ids=selected);
+        EnaExperiment.write(samples);
+
         with ZipFile(cls.get_tempfile(), "w") as zipObj:
             zipObj.write(EnaTsv.get_tempfile(), "samples.tsv");
+            zipObj.write(EnaExperiment.get_tempfile(), "experiments.tsv");
+
 
 #        SampleSet.save_xml(samples);
 #

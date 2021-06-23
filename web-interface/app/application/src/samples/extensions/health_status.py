@@ -2,7 +2,7 @@ from .base import SampleExtension
 
 HOSPITALISATIONS = [
 {
-    "db_value": "",
+    "db_value": None,
     "db_save": None,
     "value": 0,
     "label": "N/A"

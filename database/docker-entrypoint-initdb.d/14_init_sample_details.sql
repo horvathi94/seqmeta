@@ -32,7 +32,8 @@ CREATE TABLE IF NOT EXISTS `samples_library` (
 	source_id								SMALLINT UNSIGNED,
 	selection_id						SMALLINT UNSIGNED,
 	design_description 			VARCHAR(1000),
-	preparation_date				DATE
+	preparation_date				DATE,
+	insert_size							VARCHAR(20)
 
 );
 

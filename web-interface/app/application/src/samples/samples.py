@@ -56,6 +56,10 @@ class Samples(DBInterface):
         del submitted["sample_name"];
         submitted["comment"] = submitted["sample_comment"];
         del submitted["sample_comment"];
+        submitted["title"] = submitted["sample_title"];
+        del submitted["sample_title"];
+        submitted["description"] = submitted["sample_description"];
+        del submitted["sample_description"];
         return submitted;
 
 

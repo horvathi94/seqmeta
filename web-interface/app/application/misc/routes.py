@@ -92,6 +92,7 @@ def edit_default_values():
         patient_statuses=misc.PatientStatuses.fetch_list(),
         specimen_sources=misc.SpecimenSources.fetch_list(),
         sample_capture_statuses=misc.SampleCaptureStatuses.fetch_list(),
+        host_health_states=misc.HostHealthStates.fetch_list(),
         library_strategies=LibraryStrategies.fetch_list_labeled(
             replace_key="item_key"),
         library_sources=LibrarySources.fetch_list_labeled(

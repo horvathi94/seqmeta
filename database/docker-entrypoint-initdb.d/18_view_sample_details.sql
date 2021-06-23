@@ -62,7 +62,8 @@ CREATE OR REPLACE VIEW view_samples_library AS
 		selections.item_key AS library_selection,
 		library.design_description AS library_design_description,
 		IF(library.preparation_date IS NULL, "",
-			DATE_FORMAT(library.preparation_date, "%Y-%m-%d")) AS library_preparation_date
+			DATE_FORMAT(library.preparation_date, "%Y-%m-%d")) AS library_preparation_date,
+		library.insert_size AS library_insert_size
 
 	FROM samples_library AS library
 	LEFT JOIN library_strategies AS strategies

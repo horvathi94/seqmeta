@@ -62,3 +62,4 @@ CALL upsert_deftab("library_layout_paired", NULL);
 CALL upsert_deftab("originating_lab_id", NULL);
 CALL upsert_deftab("submitting_lab_id", NULL);
 CALL upsert_deftab("author_group_id", NULL);
+CALL upsert_deftab("host_health_state_id", NULL);
