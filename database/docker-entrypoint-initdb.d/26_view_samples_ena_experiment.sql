@@ -13,6 +13,10 @@ CREATE OR REPLACE VIEW `view_samples_ena_experiment` AS
 		library.layout_paired AS is_paired,
 		"contruction" AS library_construction_protocol,
 		library_insert_size AS insert_size,
+		( SELECT filename 
+			FROM view_seqfiles AS seqfiles 
+			WHERE seqfiles.sample_id = samples.sample_id
+				AND ) AS forward_file_name,
 
 		sequencing.sequencing_instrument AS instrument_model
 
