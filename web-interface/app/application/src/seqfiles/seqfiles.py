@@ -30,8 +30,7 @@ class SeqFilesBunch(TempFile):
     @staticmethod
     def fetch_assembly_file(files):
         for f in files:
-            if f["is_assembly"]:
-                return f;
+            if f["is_assembly"]: return f;
         return None;
 
 
@@ -40,30 +39,33 @@ class SeqFilesBunch(TempFile):
         reads = [];
         for f in files:
             if not f["is_assembly"]:
-                if f["is_forward_read"] == forward_read:
-                    reads.append(f);
+                if f["is_forward_read"] == forward_read: reads.append(f);
         return reads;
 
 
     @classmethod
     def check_file(cls, fdata):
-        if fdata["is_assembly"] == None:
-            return False;
-        path = "assemblies" if fdata["is_assembly"] else "reads";
+        if fdata["is_assembly"] == None: return False;
+        path = "assemblies" if fdata["is_assembly"] else "raw";
         seqfile = os.path.join(cls.main_dir, path, fdata["filename"]);
         return os.path.isfile(seqfile);
 
 
     def has_assembly_file(self):
-        if self.assembly_file == None:
-            return False;
-        if not self.check_file(self.assembly_file):
-            return False;
+        if self.assembly_file == None: return False;
+        if not self.check_file(self.assembly_file): return False;
         return True;
+
 
     def get_assembly_file(self):
         return os.path.join(self.main_dir, "assemblies",
                                self.assembly_file["filename"]);
+
+
+    def get_reads_file(self, tp="fwread"):
+        if tp == "fwread": f = self.forward_reads[0];
+        if tp == "rvread": f = self.reverse_reads[0];
+        return os.path.join(self.main_dir, "raw", f["filename"]);
 
 
     def todict(self):
@@ -94,8 +96,7 @@ class SeqFilesBunch(TempFile):
 
 
     def write_gisiad_tempfile(self):
-        if not self.has_assembly_file():
-            return;
+        if not self.has_assembly_file(): return;
         virusname = VirusnameGisaid.format_name(self.sample_id);
         seqfile = self.get_assembly_file();
         seqdata = SeqIO.read(seqfile, self.assembly_file["file_type"]);
@@ -105,3 +106,25 @@ class SeqFilesBunch(TempFile):
 
         with open(self.get_tempfile(), "w") as outf:
             SeqIO.write(seqdata, outf, "fasta");
+
+
+    def get_reads(self, tp="fwread"):
+        if tp == "fwread":
+            reads = self.forward_reads;
+        elif tp == "rvread":
+            reads = self.reverse_reads;
+        else:
+            return None;
+
+        if len(reads) == 0: return None;
+        read = reads[0];
+
+        if self.check_file(read):
+            return self.get_reads_file(tp=tp);
+
+        return None;
+#        self.check_file();
+#        fwread = SeqFile.fetch_filename(self.sample_id, ftype="fwread");
+#        rvread = SeqFile.fetch_filename(self.sample_id, ftype="rvread");
+#        return fwread;
+

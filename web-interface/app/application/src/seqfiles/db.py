@@ -23,3 +23,21 @@ class SeqFile(DBInterface):
                       clauses="WHERE sample_id = {:d}".format(sample_id));
         return seqfiles;
 
+
+    @classmethod
+    def fetch_filename(cls, sample_id, ftype="assembly"):
+        where_clause = "WHERE sample_id = {:d}".format(sample_id);
+        if ftype == "assembly":
+            where_clause+= " AND is_assembly IS TRUE";
+        elif ftype == "fwread":
+            where_clause+= " AND is_assembly IS FALSE";
+            where_clause+= " AND is_forward_read IS TRUE";
+        elif ftype == "rvread":
+            where_clause+= " AND is_assembly IS FALSE";
+            where_clause+= " AND is_forward_read IS FALSE";
+        else:
+            return "";
+        raw = Cursor.select(cls.display_table_name,
+                            fields=["filename"], clauses=where_clause);
+        return str(raw[0]["filename"]);
+

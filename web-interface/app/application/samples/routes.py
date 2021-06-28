@@ -18,8 +18,8 @@ from application.src.authors import Authors, AuthorGroups
 from application.src import misc
 from application.src import library as lib
 from application.src.forms.form import Form
-from application.src.metatemplates.gisaid import GisaidMeta
-from application.src.metatemplates.ena import EnaMeta
+from application.src.metatemplates.gisaid.main import GisaidMeta
+from application.src.metatemplates.ena.main import EnaMeta
 from application.src.seqfiles.db import SeqFileTypes, SeqFile
 from application.src.seqfiles.seqfiles import SeqFilesBunch
 from .save import save
@@ -181,10 +181,30 @@ def submit():
                      "is_assembly": True,
                      "is_forward_read": None};
         SeqFile.save(file_data);
-        seqfile, = SeqFile.fetch_entries_by_sample_id(sample_id);
-        filename = seqfile["filename"];
+        filename = SeqFile.fetch_filename(sample_id, ftype="assembly");
         assembly_file.save(os.path.join("/uploads/samples/assemblies",
                                         filename));
+
+    fwread_file = request.files["forward-read-file"];
+    if fwread_file.filename != "":
+        file_data = {"sample_id": sample_id,
+                     "file_type_id": request.form["forward-read-file-type"],
+                     "is_assembly": False,
+                     "is_forward_read": True};
+        SeqFile.save(file_data);
+        filename = SeqFile.fetch_filename(sample_id, ftype="fwread");
+        fwread_file.save(os.path.join("/uploads/samples/raw", filename));
+
+    rvread_file = request.files["reverse-read-file"];
+    if rvread_file.filename != "":
+        file_data = {"sample_id": sample_id,
+                     "file_type_id": request.form["reverse-read-file-type"],
+                     "is_assembly": False,
+                     "is_forward_read": False};
+        SeqFile.save(file_data);
+        filename = SeqFile.fetch_filename(sample_id, ftype="rvread");
+        rvread_file.save(os.path.join("/uploads/samples/raw", filename));
+
     return redirect(url_for('samples_bp.show'));
 
 
@@ -284,6 +304,5 @@ def reg_library_names():
 
 @samples_bp.route("/test")
 def tester():
-#    return str(DefaultValues.fetch());
-    return jsonify(DefaultValues.fetch());
-
+    test = SeqFilesBunch(1);
+    return str(test.get_reads(tp="rvread"));

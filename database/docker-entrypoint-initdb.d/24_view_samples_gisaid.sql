@@ -37,7 +37,10 @@ CREATE OR REPLACE VIEW view_samples_gisaid AS
 		sampling.submitting_lab_sample_name AS submitting_lab_sample_name,
 		sampling.authors_list AS authors_list,
 
-		seqfiles.filename AS seqfilename
+		( SELECT filename 
+			FROM view_seqfiles
+			WHERE sample_id = samples.sample_id
+				AND is_assembly = TRUE ) AS seqfilename
 
 	FROM view_samples_base AS samples
 	LEFT JOIN view_samples_sampling AS sampling
@@ -52,5 +55,3 @@ CREATE OR REPLACE VIEW view_samples_gisaid AS
 		ON samples.sample_id = health.sample_id
 	LEFT JOIN view_samples_sequencing AS sequencing
 		ON samples.sample_id = sequencing.sample_id
-	LEFT JOIN view_seqfiles AS seqfiles
-		ON samples.sample_id = seqfiles.sample_id
