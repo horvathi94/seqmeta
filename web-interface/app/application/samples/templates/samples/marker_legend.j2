@@ -1,0 +1,10 @@
+{% from 'macros/markers.j2' import marker %}
+
+<div class="legend">
+	<p>Field {{	marker("gisaid", requirement='mandatory') }}: the field is mandatory for submission to the GISAID database.</p>
+	<p>Field {{ marker("gisaid", requirement='optional') }}: the field is optional for submission to the GISAID database.</p>
+	<p>Field {{ marker("ena", requirement='mandatory') }}: the field is mandatory for submission to the ENA database.</p>
+	<p>Field {{ marker("ena", requirement='recommended') }}: the field is recommended for submission to the ENA database.</p>
+	<p>Field {{ marker("ena", requirement='optional') }}: the field is optional for submission to the ENA database.</p>
+	<p>Field {{ marker("ncbi", requirement='mandatory') }}: the field is mandatory for submission to the ENA database.</p>
+</div>
