@@ -1,10 +1,11 @@
 CREATE TABLE IF NOT EXISTS `samples_collection` (
 
-	sample_id					INT UNSIGNED NOT NULL PRIMARY KEY,
-	year							SMALLINT UNSIGNED,
-	month							TINYINT UNSIGNED,
-	day								TINYINT UNSIGNED,
-	collector_id			INT UNSIGNED
+	sample_id							INT UNSIGNED NOT NULL PRIMARY KEY,
+	year									SMALLINT UNSIGNED,
+	month									TINYINT UNSIGNED,
+	day										TINYINT UNSIGNED,
+	collector_id					INT UNSIGNED,
+	collection_device_id 	INT UNSIGNED
 
 );
 
@@ -54,6 +55,7 @@ CREATE TABLE IF NOT EXISTS `samples_host` (
 	host_behaviour_id						TINYINT UNSIGNED,
 	host_description						VARCHAR(1000),
 	gravidity										VARCHAR(500)
+	
 
 );
 
@@ -69,7 +71,6 @@ CREATE TABLE IF NOT EXISTS `samples_sampling` (
 	receipt_date													DATE,
 	sampling_strategy_id									INT UNSIGNED,
 	passage_details_id										INT UNSIGNED,
-	isolate																VARCHAR(500),
 	strain																VARCHAR(500),
 	isolation_source_host_associated			VARCHAR(600),
 	isolation_source_non_host_associated	VARCHAR(600),
@@ -77,8 +78,8 @@ CREATE TABLE IF NOT EXISTS `samples_sampling` (
 	specimen_source_id										INT UNSIGNED,
 	sample_storage_conditions							VARCHAR(500),
 	definition_for_seropositive_sample		VARCHAR(500),
-	serotype															VARCHAR(500)
-
+	serotype															VARCHAR(500),
+	
 );
 
 

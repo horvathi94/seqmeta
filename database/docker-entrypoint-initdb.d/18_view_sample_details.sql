@@ -39,12 +39,16 @@ CREATE OR REPLACE VIEW view_samples_collection AS
 					IF (coll.day > 0 AND coll.day IS NOT NULL,
 						CONCAT("-", LPAD(coll.day, 2, 0) ), "" ) ), 
 					"") ) AS collection_date,
-		authors.abbreviated_middle_name AS collector_abbreviated_middle_name
+		authors.abbreviated_middle_name AS collector_abbreviated_middle_name,
+		coll_devices.label AS collection_device
 
 
 		FROM samples_collection AS coll
 		LEFT JOIN view_authors AS authors
-			ON coll.collector_id = authors.id;
+			ON coll.collector_id = authors.id
+		LEFT JOIN view_collection_devices AS coll_devices 
+			ON coll_devices.id = coll.collection_device_id
+
 
 
 
@@ -92,6 +96,9 @@ CREATE OR REPLACE VIEW view_samples_host AS
 		IF (host.patient_gender IS NULL, "not provided", 
 			IF (host.patient_gender IS TRUE, "male", "female")
 		) AS patient_gender_ena,
+		IF (host.patient_gender IS NULL, "missing", 
+			IF (host.patient_gender IS TRUE, "male", "female")
+		) AS patient_gender_ncbi,
 		patient_statuses.label AS patient_status,
 		host.ppe AS ppe,
 		host.last_vaccinated AS last_vaccinated,
@@ -126,7 +133,6 @@ CREATE OR REPLACE VIEW view_samples_sampling AS
 		sampling_strategies.label AS sampling_strategy,
 		author_groups.group_name AS author_group_name,
 		author_groups.abbreviated_middle_names AS authors_list,
-		sampling.isolate AS isolate,
 		sampling.strain AS strain,
 		sampling.isolation_source_host_associated AS isolation_source_host_associated,
 		sampling.isolation_source_non_host_associated AS isolation_source_non_host_associated,

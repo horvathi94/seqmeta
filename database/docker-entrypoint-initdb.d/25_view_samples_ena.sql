@@ -48,7 +48,6 @@ CREATE OR REPLACE VIEW `view_samples_ena` AS
 		sampling.definition_for_seropositive_sample AS `definition for seropositive sample`,
 		sampling.serotype AS `serotype (required for a seropositive sample)`,
 
-		sampling.isolate AS `isolate`,
 		sampling.strain AS `strain`,
 
 		hosts.host_habitat AS `host habitat`,

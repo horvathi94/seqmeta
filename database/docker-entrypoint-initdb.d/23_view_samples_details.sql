@@ -41,7 +41,6 @@ CREATE OR REPLACE VIEW view_samples_details AS
 		sampling.sampling_strategy AS sampling_strategy,
 		sampling.author_group_name AS author_group_name,
 		sampling.authors_list AS authors_list,
-		sampling.isolate AS isolate,
 		sampling.strain AS strain,
 		sampling.sample_capture_status AS sample_capture_status,
 		sampling.specimen_source AS specimen_source,

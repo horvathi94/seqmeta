@@ -50,7 +50,6 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		sampling.receipt_date AS receipt_date,
 		sampling.sampling_strategy_id AS sampling_strategy_id,
 		sampling.passage_details_id AS passage_details_id,
-		sampling.isolate AS isolate,
 		sampling.strain AS strain,
 		sampling.isolation_source_host_associated AS isolation_source_host_associated,
 		sampling.isolation_source_non_host_associated	isolation_source_non_host_associated,
