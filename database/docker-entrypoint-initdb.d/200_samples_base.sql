@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS samples (
 	name								VARCHAR(200) UNIQUE NOT NULL,
 	`comment`						VARCHAR(200),
 	title								VARCHAR(200),
-	description					VARCHAR(1000)
+	description					VARCHAR(1000),
+	gisaid_accession		VARCHAR(200)
 
 );

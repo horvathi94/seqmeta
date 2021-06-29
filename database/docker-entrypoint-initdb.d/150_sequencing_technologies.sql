@@ -1,13 +1,27 @@
-CALL upsert_basic_table("sequencing_platforms", "LS454", 1);
-CALL upsert_basic_table("sequencing_platforms", "ABI_SOLID", 2);
-CALL upsert_basic_table("sequencing_platforms", "BGISEQ", 3);
-CALL upsert_basic_table("sequencing_platforms", "CAPILLARY", 4);
-CALL upsert_basic_table("sequencing_platforms", "COMPLETE_GENOMICS", 5);
-CALL upsert_basic_table("sequencing_platforms", "HELICOS", 6);
-CALL upsert_basic_table("sequencing_platforms", "ILLUMINA", 7);
-CALL upsert_basic_table("sequencing_platforms", "ION_TORRENT", 8);
-CALL upsert_basic_table("sequencing_platforms", "OXFORD_NANOPORE", 9);
-CALL upsert_basic_table("sequencing_platforms", "PACBIO_SMRT", 10);
+SET @table_name := "sequencing_platforms";
+CALL create_basic_table(@table_name);
+
+
+CALL upsert_basic_table(@table_name, "LS454", 1);
+CALL upsert_basic_table(@table_name, "ABI_SOLID", 2);
+CALL upsert_basic_table(@table_name, "BGISEQ", 3);
+CALL upsert_basic_table(@table_name, "CAPILLARY", 4);
+CALL upsert_basic_table(@table_name, "COMPLETE_GENOMICS", 5);
+CALL upsert_basic_table(@table_name, "HELICOS", 6);
+CALL upsert_basic_table(@table_name, "ILLUMINA", 7);
+CALL upsert_basic_table(@table_name, "ION_TORRENT", 8);
+CALL upsert_basic_table(@table_name, "OXFORD_NANOPORE", 9);
+CALL upsert_basic_table(@table_name, "PACBIO_SMRT", 10);
+
+
+
+
+CREATE TABLE IF NOT EXISTS `sequencing_instruments` (
+	id						INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	platform_id		INT UNSIGNED,
+	label					CHAR(200) UNIQUE
+);
+
 
 INSERT INTO `sequencing_instruments` (label, platform_id) VALUES
 	("454 GS", 1),

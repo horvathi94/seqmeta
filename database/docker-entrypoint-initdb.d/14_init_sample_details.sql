@@ -49,13 +49,11 @@ CREATE TABLE IF NOT EXISTS `samples_host` (
 	patient_gender							BIT(1),
 	patient_age									TINYINT UNSIGNED,
 	patient_status_id						INT UNSIGNED,
-	last_vaccinated							VARCHAR(200),
 	ppe													VARCHAR(600),
 	host_habitat_id							TINYINT UNSIGNED,
 	host_behaviour_id						TINYINT UNSIGNED,
 	host_description						VARCHAR(1000),
-	gravidity										VARCHAR(500)
-	
+	gravidity										VARCHAR(500),
 
 );
 
@@ -70,7 +68,8 @@ CREATE TABLE IF NOT EXISTS `samples_sampling` (
 	author_group_id												INT UNSIGNED,
 	receipt_date													DATE,
 	sampling_strategy_id									INT UNSIGNED,
-	passage_details_id										INT UNSIGNED,
+	passage_method												VARCHAR(200),
+	passage_number												TINYINT UNSIGNED,
 	strain																VARCHAR(500),
 	isolation_source_host_associated			VARCHAR(600),
 	isolation_source_non_host_associated	VARCHAR(600),
@@ -94,8 +93,18 @@ CREATE TABLE IF NOT EXISTS `samples_health_status` (
 	ilness_symptoms							VARCHAR(600),
 	host_disease_outcome_id			TINYINT UNSIGNED,
 	host_health_state_id				TINYINT UNSIGNED,
-	treatment										VARCHAR(500),
-	outbreak										VARCHAR(200)
+	outbreak										VARCHAR(200),
+	treatment																VARCHAR(500),
+	date_of_prior_sars_cov_2_vaccination		DATE,
+	prior_sars_cov_2_antiviral_treatment		BIT(1),
+	prior_sars_cov_2_infection							BIT(1),	
+	prior_sars_cov_2_vaccination						TINYINT UNSIGNED,
+	sars_cov_2_diag_gene_name_1							TINYINT UNSIGNED,
+	sars_cov_2_diag_pcr_ct_value_1					TINYINT UNSIGNED,
+	sars_cov_2_diag_gene_name_2							TINYINT UNSIGNED,
+	sars_cov_2_diag_pcr_ct_value_2					TINYINT UNSIGNED,
+	vaccine_received												VARCHAR(100),
+	virus_isolate_of_prior_infection				VARCHAR(200)
 
 );
 
@@ -108,3 +117,4 @@ CREATE TABLE IF NOT EXISTS `samples_sequencing` (
 	coverage											MEDIUMINT UNSIGNED
 
 );
+

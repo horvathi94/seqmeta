@@ -1,53 +1,4 @@
-CREATE OR REPLACE VIEW view_samples_location AS 
 
-	SELECT 
-
-		location.sample_id AS sample_id,
-		CONCAT(
-			IF(continents.label IS NULL OR continents.label = "", "", continents.label),
-			IF(countries.label IS NULL OR countries.label = "", "", CONCAT(" / ", countries.label)), 
-			IF(location.region IS NULL OR location.region = "", "", CONCAT(" / ", location.region)),
-			IF(location.locality IS NULL OR location.locality = "", "", CONCAT(" / ", location.locality))
-			) AS location,
-		IF (continents.label IS NULL, "", continents.label) AS continent,
-		IF (countries.label IS NULL, "", countries.label) AS country,
-		location.region AS region,
-		location.locality AS locality,
-		location.additional_info AS additional_location_info,
-		IF (location.geo_loc_latitude IS NULL, "", location.geo_loc_latitude) AS geo_loc_latitude,
-		IF (location.geo_loc_longitude IS NULL, "", location.geo_loc_longitude) AS geo_loc_longitude
-	
-	FROM samples_location AS location
-	LEFT JOIN continents
-		ON location.continent_id = continents.id
-	LEFT JOIN countries 
-		ON location.country_id = countries.id;
-
-
-
-CREATE OR REPLACE VIEW view_samples_collection AS 
-
-	SELECT 
-	
-		coll.sample_id AS sample_id,
-		coll.year AS collection_year,
-		coll.month AS collection_month,
-		coll.day AS collection_day,
-		CONCAT(coll.year,  
-			IF (coll.month > 0 AND coll.month IS NOT NULL,
-				CONCAT("-", LPAD(coll.month, 2, 0), 
-					IF (coll.day > 0 AND coll.day IS NOT NULL,
-						CONCAT("-", LPAD(coll.day, 2, 0) ), "" ) ), 
-					"") ) AS collection_date,
-		authors.abbreviated_middle_name AS collector_abbreviated_middle_name,
-		coll_devices.label AS collection_device
-
-
-		FROM samples_collection AS coll
-		LEFT JOIN view_authors AS authors
-			ON coll.collector_id = authors.id
-		LEFT JOIN view_collection_devices AS coll_devices 
-			ON coll_devices.id = coll.collection_device_id
 
 
 
@@ -78,44 +29,6 @@ CREATE OR REPLACE VIEW view_samples_library AS
 		ON library.selection_id = selections.id;
 	
 
-
-CREATE OR REPLACE VIEW view_samples_host AS 
-
-	SELECT 
-
-		host.sample_id AS sample_id,
-		hosts.label AS host_common_name,
-		hosts.latin AS host_scientific_name,
-		CONCAT(hosts.label, " (", hosts.latin, ")") AS host_name,
-		host.host_subject_id AS host_subject_id,
-		host.additional_host_info AS additional_host_info,
-		host.patient_age AS patient_age,
-		IF (host.patient_gender IS NULL, "unknown", 
-			IF (host.patient_gender IS TRUE, "Male", "Female")
-		) AS patient_gender,
-		IF (host.patient_gender IS NULL, "not provided", 
-			IF (host.patient_gender IS TRUE, "male", "female")
-		) AS patient_gender_ena,
-		IF (host.patient_gender IS NULL, "missing", 
-			IF (host.patient_gender IS TRUE, "male", "female")
-		) AS patient_gender_ncbi,
-		patient_statuses.label AS patient_status,
-		host.ppe AS ppe,
-		host.last_vaccinated AS last_vaccinated,
-		habitats.label AS host_habitat,
-		behaviours.label AS host_behaviour,
-		host.host_description AS host_description,
-		host.gravidity AS host_gravidity
-
-	FROM samples_host AS host
-	LEFT JOIN hosts
-		ON host.host_id = hosts.id
-	LEFT JOIN patient_statuses
-		ON host.patient_status_id = patient_statuses.id
-	LEFT JOIN host_habitats AS habitats
-		ON host.host_habitat_id = habitats.id
-	LEFT JOIN host_behaviours AS behaviours
-		ON host.host_behaviour_id = behaviours.id;
 
 
 CREATE OR REPLACE VIEW view_samples_sampling AS
@@ -158,33 +71,6 @@ CREATE OR REPLACE VIEW view_samples_sampling AS
 	LEFT JOIN view_specimen_sources AS specimen_sources
 		ON sampling.specimen_source_id = specimen_sources.id;
 
-
-CREATE OR REPLACE VIEW view_samples_health_status AS 
-
-	SELECT 
-
-		health.sample_id AS sample_id,
-		health.subject_exposure AS subject_exposure ,
-		health.subject_exposure_duration AS subject_exposure_duration,
-		health.type_exposure AS type_exposure,
-		IF (health.hospitalization IS NULL, "",
-			IF(health.hospitalization IS TRUE, "yes", "no")) AS hospitalization,
-		health.ilness_duration AS ilness_duration,
-		IF(health.ilness_duration IS NULL, "",
-			CONCAT(health.ilness_duration, " days")) AS ilness_duration_days,
-		health.ilness_symptoms AS ilness_symptoms,
-		outcome.label AS host_disease_outcome,
-		health_states.label AS host_health_state,
-		health.treatment AS treatment,
-		health.outbreak AS outbreak
-
-
-	FROM samples_health_status AS health
-	LEFT JOIN host_health_states AS health_states
-		ON health.host_health_state_id = health_states.id 
-	LEFT JOIN host_disease_outcome AS outcome
-		ON health.host_disease_outcome_id = outcome.id;
-	
 
 CREATE OR REPLACE VIEW view_samples_sequencing AS 
 
