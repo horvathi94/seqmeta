@@ -1,4 +1,4 @@
-{% from "samples/form/base/text.j2" import inptext %}
+{% from "samples/form/base/number.j2" import inpnumber %}
 {% from "macros/markers.j2" import marker %}
 
 <tr>
@@ -7,7 +7,7 @@
 			{{ marker(req.type, requirement=req.level) }}
 		{% endfor %}
 	</td>
-	<td> {{ inptext(info.input, type="single") }} </td>
+	<td> {{ inpnumber(info.input, type="single") }} </td>
 	<td> {{ info.description }} </td>
 </tr>
 

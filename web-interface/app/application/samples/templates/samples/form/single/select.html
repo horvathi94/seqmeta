@@ -1,5 +1,6 @@
-{% from "samples/form/base/text.j2" import inptext %}
+{% from "macros/select.j2" import select %}
 {% from "macros/markers.j2" import marker %}
+
 
 <tr>
 	<td> {{ info.field_name }} 
@@ -7,7 +8,9 @@
 			{{ marker(req.type, requirement=req.level) }}
 		{% endfor %}
 	</td>
-	<td> {{ inptext(info.input, type="single") }} </td>
-	<td> {{ info.description }} </td>
+	<td> {{ select(info.input.name_single,
+					list,
+					selected_id=info.input.value) }} </td>
+	<td> {{ info.description|safe }} </td>
 </tr>
 

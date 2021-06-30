@@ -1,0 +1,12 @@
+<form action="{{ url_for('samples_bp.tester_submit') }}" method="POST">
+
+	<input type="hidden" name="sample+sample_id" value="{{ sample_id }}" />
+
+	<table>
+
+		<tr>
+			<th>Field name</th>
+			<th>Input</th>
+			<th>Description</th>
+		</tr>
+			

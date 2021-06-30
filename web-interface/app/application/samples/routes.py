@@ -302,19 +302,106 @@ def reg_library_names():
     return jsonify(lib_ids);
 
 
+
+from application.src.fields import Field
+
+
+
+def render_single(handle, value, dlist=[]):
+    field = Field.fetch(handle);
+    field["input"]["value"] = value;
+    return render_template(
+        "samples/form/single/{:s}.html".format(field["field_type"]),
+        info=field, list=dlist);
+
+
 @samples_bp.route("/test")
 def tester():
-   test = {
-        "field_name": "Test",
-        "requirement": [{"type": "ena", "level": "optional"},
-                       {"type": "ncbi", "level": "mandatory"}],
-        "input": {
-            "name": "test-name",
-            "class": "test-class",
-            "maxlength": 101,
-            "onchange": "testfunc(this);",
-            },
-        "description": "This is a test field."
-       };
 
-    return render_template("samples/single/text.html", info=test);
+    sample_id = 1;
+    sample,=Samples.fetch_entry_edit(id=sample_id, id_key="sample_id"),
+
+    styles = [{"filename": "edit.css", "prefix": "samples"},
+              {"filename": "markers.css"}];
+    scripts = [{"filename": "validate-sample-name.js", "prefix": "samples"},
+               {"filename": "edit-sample.js", "prefix": "samples"}];
+    html = render_template("head.html", styles=styles);
+    html+= render_template("samples/form/single/head.html",
+                           sample_id=sample_id);
+
+
+
+    html+= render_single("sample_name", sample["sample_name"]);
+    html+= render_single("sample_comment", sample["sample_comment"]);
+    html+= render_single("sample_title", sample["sample_title"]);
+    html+= render_single("sample_description", sample["sample_description"]);
+
+    html+= render_single("collection_year", sample["collection_year"]);
+    html+= render_single("collection_month", sample["collection_month"]);
+    html+= render_single("collection_day", sample["collection_day"]);
+    html+= render_single("collector_name", sample["collector_id"],
+                            dlist=Authors.fetch_list_labeled(
+                                replace_key="abbreviated_middle_name"));
+
+
+    html+= render_single("location_continent", sample["continent_id"],
+                            dlist=misc.Continents.fetch_list());
+    html+= render_single("location_country", sample["country_id"],
+                            dlist=misc.Countries.fetch_list());
+
+
+    html+= render_template("samples/form/single/tail.html");
+    return html;
+
+
+
+@samples_bp.route("/test/submit", methods=["POST"])
+def tester_submit():
+    save_data = {};
+    save_data["sample"] = Form.parse_simple(request.form, "sample");
+    save_data["collection"] = Form.parse_simple(request.form, "collection");
+    sample_ids = save([save_data]);
+
+    return jsonify(save_data);
+    save_data["location"] = Form.parse_simple(request.form, "location");
+    save_data["library"] = Form.parse_simple(request.form, "library");
+    save_data["host"] = Form.parse_simple(request.form, "host");
+    save_data["sampling"] = Form.parse_simple(request.form, "sampling");
+    save_data["health"] = Form.parse_simple(request.form, "health");
+    save_data["sequencing"] = Form.parse_simple(request.form, "sequencing");
+    sample_ids = save([save_data]);
+    sample_id = sample_ids[0];
+
+    assembly_file = request.files["assembly-file"];
+    if assembly_file.filename != "":
+        file_data = {"sample_id": sample_id,
+                     "file_type_id": request.form["assembly-file-type"],
+                     "is_assembly": True,
+                     "is_forward_read": None};
+        SeqFile.save(file_data);
+        filename = SeqFile.fetch_filename(sample_id, ftype="assembly");
+        assembly_file.save(os.path.join("/uploads/samples/assemblies",
+                                        filename));
+
+    fwread_file = request.files["forward-read-file"];
+    if fwread_file.filename != "":
+        file_data = {"sample_id": sample_id,
+                     "file_type_id": request.form["forward-read-file-type"],
+                     "is_assembly": False,
+                     "is_forward_read": True};
+        SeqFile.save(file_data);
+        filename = SeqFile.fetch_filename(sample_id, ftype="fwread");
+        fwread_file.save(os.path.join("/uploads/samples/raw", filename));
+
+    rvread_file = request.files["reverse-read-file"];
+    if rvread_file.filename != "":
+        file_data = {"sample_id": sample_id,
+                     "file_type_id": request.form["reverse-read-file-type"],
+                     "is_assembly": False,
+                     "is_forward_read": False};
+        SeqFile.save(file_data);
+        filename = SeqFile.fetch_filename(sample_id, ftype="rvread");
+        rvread_file.save(os.path.join("/uploads/samples/raw", filename));
+
+    return redirect(url_for('samples_bp.show'));
+
