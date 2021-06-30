@@ -86,7 +86,6 @@ def edit_default_values():
         countries=misc.Countries.fetch_list(),
         hosts=misc.Hosts.fetch_list(),
         sampling_strategies=misc.SamplingStrategies.fetch_list(),
-        passage_details=misc.PassageDetails.fetch_list(),
         assembly_methods=misc.AssemblyMethods.fetch_list(),
         sequencing_instruments=misc.SequencingInstruments.fetch_list(),
         patient_statuses=misc.PatientStatuses.fetch_list(),

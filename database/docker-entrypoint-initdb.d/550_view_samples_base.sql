@@ -16,9 +16,9 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		location.geo_loc_longitude AS geo_loc_longitude,
 		location.additional_info AS additional_location_info,
 
-		collection.year AS collection_year,
-		collection.month AS collection_month,
-		collection.day AS collection_day,
+		collection.collection_year AS collection_year,
+		collection.collection_month AS collection_month,
+		collection.collection_day AS collection_day,
 		collection.collector_id AS collector_id,
 
 		library.lib_id AS library_id,

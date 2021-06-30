@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS fields (
 	ena						TINYINT UNSIGNED,
 	ncbi					TINYINT UNSIGNED,
 	
-	name					VARCHAR(100),
+	db_key				VARCHAR(100),
 	class					VARCHAR(100),
 	min_val				INT,
 	max_val				INT,
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS fields (
 INSERT INTO fields 
 	(	`handle`,
 		`field_name`, `field_type`, `gisaid`, `ena`, `ncbi`,
-		`name`, `class`, `min_val`, `max_val`, `step`,
+		`db_key`, `class`, `min_val`, `max_val`, `step`,
 		`prefix`, 
 		`description`)
 	VALUES
@@ -61,19 +61,19 @@ INSERT INTO fields
 	/* --- Collection data --- */
 	("collection_year",
 		"Collection year", "number", 3, 2, NULL,
-		"year", "collection-year", 2019, NULL, 1,
+		"collection_year", "collection-year", 2019, NULL, 1,
 		"collection",
 		"Collection date of the sample."
 	),
 	("collection_month",
 		"Collection month", "number", 3, 2, NULL,
-		"month", "collection-month", 0, 12, 1,
+		"collection_month", "collection-month", 0, 12, 1,
 		"collection",
 		"Collection date of the sample."
 	),
 	("collection_day",
 		"Collection day", "number", 3, 2, NULL,
-		"day", "collection-day", 0, 31, 1,
+		"collection_day", "collection-day", 0, 31, 1,
 		"collection",
 		"Collection date of the sample."
 	),
@@ -111,9 +111,9 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"location",
 		"The geographical location of the sample as defined by the locality."
 	),
-	("location_additional_info",
+	("additional_location_info",
 		"Additional location informatio", "text", 1, NULL, NULL,
-		"additional_info", "location-additional-info", NULL, 1000, NULL,
+		"additional_location_info", "location-additional-info", NULL, 1000, NULL,
 		"location",
 		"<em> e.g. Cruise ship, Convention, Live animal market </em>"
 	),
@@ -128,7 +128,22 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"geo_loc_longitude", "geo-loc-longitude", -180, 180, 0.01,
 		"location",
 		"The geographical origin of the sample as defined by the longitude. Minimum value: -180 and maximum value: 180."
+	),
+
+	/* --- Host information --- */
+	("host",
+		"Host", "select", 3, 3, 3,
+		"host_id", "host", NULL, NULL, NULL,
+		"host",
+		"You can add more options in the <a target='_blank' href='/misc/edit'>manage options tab</a>"
+	),
+	("host_subject_id",
+		"Host subject ID", "text", NULL, 3, 1,
+		"host_subject_id", "host-subject-id", NULL, 200, NULL,
+		"host",
+		"A unique identifier by which each subject can be referred to, de-identified, <em>e.g. #131</em>"
 	)
+
 
 
 ;

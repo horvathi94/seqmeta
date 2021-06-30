@@ -21,12 +21,12 @@ def save(submitted_samples):
         location = submitted["location"];
         location["sample_id"] = sample_id;
         Location.save_entry(location);
+        host = submitted["host"];
+        host["sample_id"] = sample_id;
+        Host.save_entry(host);
 #        library = submitted["library"];
 #        library["sample_id"] = sample_id;
 #        Library.save_entry(library);
-#        host = submitted["host"];
-#        host["sample_id"] = sample_id;
-#        Host.save_entry(host);
 #        sampling = submitted["sampling"];
 #        sampling["sample_id"] = sample_id;
 #        Sampling.save_entry(sampling);

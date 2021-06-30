@@ -303,23 +303,15 @@ def reg_library_names():
 
 
 
-from application.src.fields import Field
-
-
-
-def render_single(handle, value, dlist=[]):
-    field = Field.fetch(handle);
-    field["input"]["value"] = value;
-    return render_template(
-        "samples/form/single/{:s}.html".format(field["field_type"]),
-        info=field, list=dlist);
+from .editor import Editor
 
 
 @samples_bp.route("/test")
 def tester():
 
-    sample_id = 1;
-    sample,=Samples.fetch_entry_edit(id=sample_id, id_key="sample_id"),
+    sample_id = 0;
+    editor = Editor(sample_id);
+
 
     styles = [{"filename": "edit.css", "prefix": "samples"},
               {"filename": "markers.css"}];
@@ -330,32 +322,32 @@ def tester():
                            sample_id=sample_id);
 
 
+    html+= editor.single("sample_name");
+    html+= editor.single("sample_comment");
+    html+= editor.single("sample_title");
+    html+= editor.single("sample_description");
 
-    html+= render_single("sample_name", sample["sample_name"]);
-    html+= render_single("sample_comment", sample["sample_comment"]);
-    html+= render_single("sample_title", sample["sample_title"]);
-    html+= render_single("sample_description", sample["sample_description"]);
-
-    html+= render_single("collection_year", sample["collection_year"]);
-    html+= render_single("collection_month", sample["collection_month"]);
-    html+= render_single("collection_day", sample["collection_day"]);
-    html+= render_single("collector_name", sample["collector_id"],
-                            dlist=Authors.fetch_list_labeled(
-                                replace_key="abbreviated_middle_name"));
+    html+= editor.single("collection_year");
+    html+= editor.single("collection_month");
+    html+= editor.single("collection_day");
+    html+= editor.single("collector_name",
+                         dlist=Authors.fetch_list_labeled(
+                             replace_key="abbreviated_middle_name"));
 
 
-    html+= render_single("location_continent", sample["continent_id"],
-                            dlist=misc.Continents.fetch_list());
-    html+= render_single("location_country", sample["country_id"],
-                            dlist=misc.Countries.fetch_list());
+    html+= editor.single("location_continent",
+                         dlist=misc.Continents.fetch_list());
+    html+= editor.single("location_country",
+                         dlist=misc.Countries.fetch_list());
 
-    html+= render_single("location_region", sample["region"]);
-    html+= render_single("location_locality", sample["locality"]);
-    html+= render_single("location_additional_info",
-                         sample["additional_location_info"]);
-    html+= render_single("geo_loc_latitude", sample["geo_loc_latitude"]);
-    html+= render_single("geo_loc_longitude", sample["geo_loc_longitude"]);
+    html+= editor.single("location_region");
+    html+= editor.single("location_locality");
+    html+= editor.single("additional_location_info");
+    html+= editor.single("geo_loc_latitude");
+    html+= editor.single("geo_loc_longitude");
 
+    html+= editor.single("host", dlist=misc.Hosts.fetch_list());
+    html+= editor.single("host_subject_id");
 
     html+= render_template("samples/form/single/tail.html");
     return html;
@@ -364,15 +356,17 @@ def tester():
 
 @samples_bp.route("/test/submit", methods=["POST"])
 def tester_submit():
+
+#    return jsonify(request.form);
     save_data = {};
     save_data["sample"] = Form.parse_simple(request.form, "sample");
     save_data["collection"] = Form.parse_simple(request.form, "collection");
     save_data["location"] = Form.parse_simple(request.form, "location");
+    save_data["host"] = Form.parse_simple(request.form, "host");
     sample_ids = save([save_data]);
 
     return jsonify(save_data);
     save_data["library"] = Form.parse_simple(request.form, "library");
-    save_data["host"] = Form.parse_simple(request.form, "host");
     save_data["sampling"] = Form.parse_simple(request.form, "sampling");
     save_data["health"] = Form.parse_simple(request.form, "health");
     save_data["sequencing"] = Form.parse_simple(request.form, "sequencing");

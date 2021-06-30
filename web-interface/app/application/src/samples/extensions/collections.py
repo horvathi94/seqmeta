@@ -8,12 +8,12 @@ class Collection(SampleExtension):
     @classmethod
     def clean_submit(cls, entry):
         entry["sample_id"] = int(entry["sample_id"]);
-        if entry["year"] == "":
-            entry["year"] = None;
-        if entry["month"] == "":
-            entry["month"] = None;
-        if entry["day"] == "":
-            entry["day"] = None;
+        if entry["collection_year"] == "":
+            entry["collection_year"] = None;
+        if entry["collection_month"] == "":
+            entry["collection_month"] = None;
+        if entry["collection_day"] == "":
+            entry["collection_day"] = None;
         if entry["collector_id"] == "":
             entry["collector_id"] = None;
         return entry;

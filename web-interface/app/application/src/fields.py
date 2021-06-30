@@ -31,6 +31,7 @@ class Field(DBInterface):
         field = {};
         field["field_name"] = raw["field_name"].strip();
         field["field_type"] = raw["field_type"].strip();
+        field["db_key"] = raw["db_key"];
         field["requirement"] = [];
         gisaid = cls.parse_req(raw, "gisaid");
         if gisaid != None:
@@ -42,7 +43,7 @@ class Field(DBInterface):
         if ncbi != None:
             field["requirement"].append(ncbi);
         field["input"] = {};
-        field["input"]["name_single"] = raw["prefix"] + "+" + raw["name"];
+        field["input"]["name_single"] = raw["prefix"] + "+" + raw["db_key"];
         field["input"]["class"] = raw["class"];
         if raw["field_type"] == "text":
             field["input"]["maxlength"] = raw["max_val"] \
