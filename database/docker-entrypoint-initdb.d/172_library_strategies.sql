@@ -1,0 +1,40 @@
+SET @table_name := "library_strategies";
+CALL create_dict_table(@table_name);
+
+
+CALL upsert_dict_table(@table_name, 1, "WGA", "Random sequencing of the whole genome following non-pcr amplification");
+CALL upsert_dict_table(@table_name, 2, "WGS", "Random sequencing of the whole genome");
+CALL upsert_dict_table(@table_name, 3, "WXS", "Random sequencing of exonic regions selected from the genome");
+CALL upsert_dict_table(@table_name, 4, "RNA-Seq", "Random sequencing of whole transcriptome");
+CALL upsert_dict_table(@table_name, 5, "miRNA-Seq", "Random sequencing of small miRNAs");
+CALL upsert_dict_table(@table_name, 6, "WCS", "Random sequencing of a whole chromosome or other replicon isolated from a genome");
+CALL upsert_dict_table(@table_name, 7, "CLONE", "Genomic clone based (hierarchical) sequencing");
+CALL upsert_dict_table(@table_name, 8, "POOLCLONE", "Shotgun of pooled clones (usually BACs and Fosmids)");
+CALL upsert_dict_table(@table_name, 9, "AMPLICON", "Sequencing of overlapping or distinct PCR or RT-PCR products");
+CALL upsert_dict_table(@table_name, 10, "CLONEEND", "Clone end (5`, 3`, or both) sequencing");
+CALL upsert_dict_table(@table_name, 11, "FINISHING", "Sequencing intended to finish (close) gaps in existing coverage");
+CALL upsert_dict_table(@table_name, 12, "ChIP-Seq", "Direct sequencing of chromatin immunoprecipitates");
+CALL upsert_dict_table(@table_name, 13, "MNase-Seq", "Direct sequencing following MNase digestion");
+CALL upsert_dict_table(@table_name, 14, "DNase-Hypersensitivity", "Sequencing of hypersensitive sites, or segments of open chromatin that are more readily cleaved by DNaseI");
+CALL upsert_dict_table(@table_name, 15, "Bisulfite-Seq", "Sequencing following treatment of DNA with bisulfite to convert cytosine residues to uracil depending on methylation status");
+CALL upsert_dict_table(@table_name, 16, "Tn-Seq", "Sequencing from transposon insertion sites");
+CALL upsert_dict_table(@table_name, 17, "EST", "Single pass sequencing of cDNA templates");
+CALL upsert_dict_table(@table_name, 18, "FL-cDNA", "Full-length sequencing of cDNA templates");
+CALL upsert_dict_table(@table_name, 19, "CTS", "Concatenated Tag Sequencing");
+CALL upsert_dict_table(@table_name, 20, "MRE-Seq", "Methylation-Sensitive Restriction Enzyme Sequencing strategy");
+CALL upsert_dict_table(@table_name, 21, "MeDIP-Seq", "Methylated DNA Immunoprecipitation Sequencing strategy");
+CALL upsert_dict_table(@table_name, 22, "MBD-Seq", "Direct sequencing of methylated fractions sequencing strategy");
+CALL upsert_dict_table(@table_name, 23, "Synthetic-Long-Read", "");
+CALL upsert_dict_table(@table_name, 24, "ATAC-seq", "Assay for Transposase-Accessible Chromatin (ATAC) strategy is used to study genome-wide chromatin accessibility. alternative method to DNase-seq that uses an engineered Tn5 transposase to cleave DNA and to integrate primer DNA sequences into the cleaved genomic DNA");
+CALL upsert_dict_table(@table_name, 25, "ChIA-PET", "Direct sequencing of proximity-ligated chromatin immunoprecipitates.");
+CALL upsert_dict_table(@table_name, 26, "FAIRE-seq", "Formaldehyde Assisted Isolation of Regulatory Elements. reveals regions of open chromatin");
+CALL upsert_dict_table(@table_name, 27, "Hi-C", "Chromosome Conformation Capture technique where a biotin-labeled nucleotide is incorporated at the ligation junction, enabling selective purification of chimeric DNA ligation junctions followed by deep sequencing");
+CALL upsert_dict_table(@table_name, 28, "ncRNA-Seq", "Capture of other non-coding RNA types, including post-translation modification types such as snRNA (small nuclear RNA) or snoRNA (small nucleolar RNA), or expression regulation types such as siRNA (small interfering RNA) or piRNA/piwi/RNA (piwi-interacting RNA).");
+CALL upsert_dict_table(@table_name, 29, "RAD-Seq", "");
+CALL upsert_dict_table(@table_name, 30, "RIP-Seq", "Direct sequencing of RNA immunoprecipitates (includes CLIP-Seq, HITS-CLIP and PAR-CLIP).");
+CALL upsert_dict_table(@table_name, 31, "SELEX", "Systematic Evolution of Ligands by EXponential enrichment");
+CALL upsert_dict_table(@table_name, 32, "ssRNA-seq", "strand-specific RNA sequencing");
+CALL upsert_dict_table(@table_name, 33, "Targeted-Capture", "");
+CALL upsert_dict_table(@table_name, 34, "Tethered Chromatin Conformation Capture", "");
+CALL upsert_dict_table(@table_name, 35, "OTHER", "Library strategy not listed (please include additional info in the ` description`)");
+

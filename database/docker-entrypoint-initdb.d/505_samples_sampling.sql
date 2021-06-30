@@ -1,33 +1,25 @@
+CREATE TABLE IF NOT EXISTS `samples_sampling` (
 
-
-
-
-
-CREATE OR REPLACE VIEW view_samples_library AS 
-
-	SELECT
-
-		library.sample_id AS sample_id,
-		library.lib_id AS library_id,
-		library.layout_paired AS layout_paired,
-		IF( library.layout_paired	IS NULL, "",
-			IF (library.layout_paired IS TRUE, "Paired-End", "Single") ) AS library_layout,
-		strategies.item_key AS library_strategy,
-		sources.item_key AS library_source,
-		selections.item_key AS library_selection,
-		library.design_description AS library_design_description,
-		IF(library.preparation_date IS NULL, "",
-			DATE_FORMAT(library.preparation_date, "%Y-%m-%d")) AS library_preparation_date,
-		library.insert_size AS library_insert_size
-
-	FROM samples_library AS library
-	LEFT JOIN library_strategies AS strategies
-		ON library.strategy_id = strategies.id
-	LEFT JOIN library_sources AS sources
-		ON library.source_id = sources.id
-	LEFT JOIN library_selections AS selections
-		ON library.selection_id = selections.id;
+	sample_id															INT UNSIGNED NOT NULL PRIMARY KEY,
+	originating_lab_id										INT UNSIGNED,
+	originating_lab_sample_name						CHAR(200),
+	submitting_lab_id											INT UNSIGNED,
+	submitting_lab_sample_name						CHAR(200),
+	author_group_id												INT UNSIGNED,
+	receipt_date													DATE,
+	sampling_strategy_id									INT UNSIGNED,
+	passage_method												VARCHAR(200),
+	passage_number												TINYINT UNSIGNED,
+	strain																VARCHAR(500),
+	isolation_source_host_associated			VARCHAR(600),
+	isolation_source_non_host_associated	VARCHAR(600),
+	sample_capture_status_id 							TINYINT UNSIGNED,
+	specimen_source_id										INT UNSIGNED,
+	sample_storage_conditions							VARCHAR(500),
+	definition_for_seropositive_sample		VARCHAR(500),
+	serotype															VARCHAR(500),
 	
+);
 
 
 
@@ -70,26 +62,3 @@ CREATE OR REPLACE VIEW view_samples_sampling AS
 		ON sampling.sample_capture_status_id = capture_statuses.id
 	LEFT JOIN view_specimen_sources AS specimen_sources
 		ON sampling.specimen_source_id = specimen_sources.id;
-
-
-CREATE OR REPLACE VIEW view_samples_sequencing AS 
-
-	SELECT 
-
-		sequencing.sample_id AS sample_id,
-		instruments.label AS sequencing_instrument,
-		platforms.label AS sequencing_platform,
-		assembly.label AS assembly_method,
-		sequencing.coverage AS coverage,
-		IF (sequencing.coverage IS NULL, "",
-			CONCAT(sequencing.coverage, "x")) AS coverage_x
-
-	FROM samples_sequencing AS sequencing
-	LEFT JOIN assembly_methods AS assembly
-		ON sequencing.assembly_method_id = assembly.id
-	LEFT JOIN sequencing_instruments AS instruments
-		ON sequencing.sequencing_instrument_id = instruments.id
-	LEFT JOIN sequencing_platforms AS platforms
-		ON instruments.platform_id = platforms.id;
-	
-	
