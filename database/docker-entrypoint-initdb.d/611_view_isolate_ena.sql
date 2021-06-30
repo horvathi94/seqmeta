@@ -49,7 +49,6 @@ CREATE OR REPLACE VIEW `view_isolate_ena` AS
 
 		sampling.sample_storage_conditions AS `sample_storage_conditions`,
 
-		sampling.isolate AS `isolate`,
 		sampling.strain AS `strain`,
 
 		hosts.host_habitat AS `host_habitat`,

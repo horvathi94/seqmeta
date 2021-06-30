@@ -59,12 +59,6 @@ CREATE OR REPLACE VIEW `view_default_values` AS
 		(SELECT 
 			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
 			FROM `default_values`
-			WHERE `item_key` = "passage_details_id"
-		) AS passage_details_id,
-
-		(SELECT 
-			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
-			FROM `default_values`
 			WHERE `item_key` = "assembly_method_id"
 		) AS assembly_method_id,
 

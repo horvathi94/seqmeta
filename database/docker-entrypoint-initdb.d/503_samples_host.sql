@@ -15,9 +15,9 @@ CREATE TABLE IF NOT EXISTS `samples_host` (
 	prior_sars_cov_2_antiviral_treatment		BIT(1),
 	prior_sars_cov_2_infection							BIT(1),	
 	prior_sars_cov_2_vaccination_id					TINYINT UNSIGNED,
-	virus_isolate_of_prior_infection				VARCHAR(200)
+	virus_isolate_of_prior_infection				VARCHAR(200),
 	vaccine_received												VARCHAR(100),
-	date_of_prior_sars_cov_2_vaccination		DATE,
+	date_of_prior_sars_cov_2_vaccination		DATE
 
 );
 
@@ -44,7 +44,6 @@ CREATE OR REPLACE VIEW view_samples_host AS
 		) AS patient_gender_ncbi,
 		patient_statuses.label AS patient_status,
 		host.ppe AS ppe,
-		host.last_vaccinated AS last_vaccinated,
 		habitats.label AS host_habitat,
 		behaviours.label AS host_behaviour,
 		host.host_description AS host_description,

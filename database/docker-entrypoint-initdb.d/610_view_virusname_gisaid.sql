@@ -5,7 +5,6 @@ CREATE OR REPLACE VIEW view_virusname_gisaid AS
 		samples.sample_id AS sample_id,
 		samples.sample_name AS sample_name,
 
-		sampling.passage_details AS passage_details,
 		IF (collection.collection_year IS NULL, "", 
 			collection.collection_year) AS collection_year,
 		IF (collection.collection_month IS NULL, "", 
@@ -30,7 +29,6 @@ CREATE OR REPLACE VIEW view_virusname_gisaid AS
 		hosts.patient_status AS patient_status,
 		sampling.specimen_source AS specimen_source,
 		health.outbreak AS outbreak,
-		hosts.last_vaccinated AS last_vaccinated,
 		health.treatment AS treatment,
 		sequencing.sequencing_instrument AS sequencing_technology,
 		sequencing.assembly_method AS assembly_method,

@@ -50,7 +50,6 @@ CALL upsert_deftab("geo_loc_longitude", NULL);
 CALL upsert_deftab("host_id", NULL);
 CALL upsert_deftab("patient_status_id", NULL);
 CALL upsert_deftab("sampling_strategy_id", NULL);
-CALL upsert_deftab("passage_details_id", NULL);
 CALL upsert_deftab("assembly_method_id", NULL);
 CALL upsert_deftab("sequencing_instrument_id", NULL);
 CALL upsert_deftab("specimen_source_id", NULL);

@@ -1,0 +1,17 @@
+{% macro inptext(dets) %}
+
+{% set maxlen="maxlength='"+dets.maxlength+"'" 
+	if maxlength > 0 else "" %}
+{% set onhangefunc="onchange='"+dets.onchange+"'" 
+	if onchange else "" %}
+
+
+<input type="text"
+				name="{{ dets.name }}"
+			 	class="{{ dets.class }}"
+				value="{{ dets.value }}"
+				{{ dets.maxlen }} 
+				{{ dets.onchangefunc }}/>
+
+
+{% endmacro %}

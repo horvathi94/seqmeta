@@ -304,5 +304,17 @@ def reg_library_names():
 
 @samples_bp.route("/test")
 def tester():
-    test = SeqFilesBunch(1);
-    return str(test.get_reads(tp="rvread"));
+   test = {
+        "field_name": "Test",
+        "requirement": [{"type": "ena", "level": "optional"},
+                       {"type": "ncbi", "level": "mandatory"}],
+        "input": {
+            "name": "test-name",
+            "class": "test-class",
+            "maxlength": 101,
+            "onchange": "testfunc(this);",
+            },
+        "description": "This is a test field."
+       };
+
+    return render_template("samples/single/text.html", info=test);

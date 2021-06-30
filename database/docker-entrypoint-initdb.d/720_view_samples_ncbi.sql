@@ -10,21 +10,21 @@ CREATE OR REPLACE VIEW `view_samples_ncbi` AS
 		collection.collection_date AS collection_date,
 		CONCAT(location.continent, 
 			IF (location.region IS NULL, "",
-				CONCAT(": " location.region,
+				CONCAT(": ", location.region,
 					IF (location.locality IS NULL, "", 
-					 ", ", location.locality)
+					 CONCAT(", ", location.locality))
 				) 
 			)
 		) AS geo_loc_name,
-		hosts.scientific_name AS host,
+		hosts.host_scientific_name AS host,
 		"COVID-19" AS host_disease,
-		sampling.isolation_source_non_host_assiociated AS isolation_source,
+		sampling.isolation_source_non_host_associated AS isolation_source,
 		health.treatment AS antiviral_treatment_agent,
 		collection.collection_device AS collection_device,
 		sampling.specimen_source AS collection_method,
 		"date_of_prior_sars_cov_2_infection" AS date_of_prior_sars_cov_2_infection,
 		"date_of_sars_cov_2_vaccination" AS date_of_sars_cov_2_vaccination,
-		health.outbreak AS exposure_evenet
+		health.outbreak AS exposure_evenet,
 		"geo_loc_exposure" AS geo_loc_exposure,
 		"gisaid_accession" AS gisaid_accession,
 		CONCAT(hosts.patient_age, " years") AS host_age,
@@ -39,10 +39,10 @@ CREATE OR REPLACE VIEW `view_samples_ncbi` AS
 		"host_specimen_voucher" AS host_specimen_voucher,
 		hosts.host_subject_id AS host_subject_id,
 		IF ( 
-			location.geo_loc_latitdue = "" OR location.geo_loc_longitude = "", "",
+			location.geo_loc_latitude = "" OR location.geo_loc_longitude = "", "",
 			CONCAT(
 				ABS(location.geo_loc_latitude),
-				IF(SIGN(location.geo_loc_latitdue) = 1, " N ", " S "),
+				IF(SIGN(location.geo_loc_latitude) = 1, " N ", " S "),
 				ABS(location.geo_loc_longitude),
 				IF(SIGN(location.geo_loc_longitude) = 1, " W", " E")
 			)
@@ -61,16 +61,16 @@ CREATE OR REPLACE VIEW `view_samples_ncbi` AS
 		"sequenced_by" AS sequenced_by,
 		"vaccine_receive" AS vaccine_received,
 		"virus_isolate_of_prior_infection" AS virus_isolate_of_prior_infection,
-		samples.description AS description
+		samples.sample_description AS description
 
 
 
 	FROM view_samples_base AS samples
 	LEFT JOIN view_samples_host AS hosts
 		ON samples.sample_id = hosts.sample_id
-	LEFT JOIN view_sample_collection AS collection
+	LEFT JOIN view_samples_collection AS collection
 		ON samples.sample_id = collection.sample_id
-	LEFT JOIN view_sample_location AS location
+	LEFT JOIN view_samples_location AS location
 		ON samples.sample_id = location.sample_id
 	LEFT JOIN view_samples_sampling AS sampling
 		ON samples.sample_id = sampling.sample_id

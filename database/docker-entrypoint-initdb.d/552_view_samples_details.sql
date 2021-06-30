@@ -29,7 +29,6 @@ CREATE OR REPLACE VIEW view_samples_details AS
 			CONCAT(host.patient_age, " years")) AS patient_age,
 		host.patient_gender AS patient_gender,
 		host.patient_status AS patient_status,
-		host.last_vaccinated AS last_vaccinated,
 		host.host_habitat AS host_habitat,
 		host.host_behaviour AS host_behaviour,
 		host.host_description AS host_decription,
@@ -37,7 +36,6 @@ CREATE OR REPLACE VIEW view_samples_details AS
 
 		sampling.originating_lab_name AS originating_lab_name,
 		sampling.submitting_lab_name AS submitting_lab_name,
-		sampling.passage_details AS passage_details,
 		sampling.sampling_strategy AS sampling_strategy,
 		sampling.author_group_name AS author_group_name,
 		sampling.authors_list AS authors_list,
