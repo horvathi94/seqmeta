@@ -18,9 +18,9 @@ def save(submitted_samples):
         collection = submitted["collection"];
         collection["sample_id"] = sample_id;
         Collection.save_entry(collection);
-#        location = submitted["location"];
-#        location["sample_id"] = sample_id;
-#        Location.save_entry(location);
+        location = submitted["location"];
+        location["sample_id"] = sample_id;
+        Location.save_entry(location);
 #        library = submitted["library"];
 #        library["sample_id"] = sample_id;
 #        Library.save_entry(library);

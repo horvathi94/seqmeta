@@ -98,4 +98,37 @@ INSERT INTO fields
 		"location",
 		"The geographical origin of the sample as defined by the country or sea. 
 ntry or sea names should be chosen from the <a target='_blank' href='http://insdc.org/country.html'>INSDC country list</a>"
+	),
+	("location_region",
+		"Region", "text", 1, 2, NULL,
+		"region", "region", NULL, 200, NULL,
+		"location",
+		"The geographical location of the sample as defined by the region."
+	),
+	("location_locality",
+		"Locality", "text", 1, 2, NULL,
+		"locality", "locality", NULL, 200, NULL,
+		"location",
+		"The geographical location of the sample as defined by the locality."
+	),
+	("location_additional_info",
+		"Additional location informatio", "text", 1, NULL, NULL,
+		"additional_info", "location-additional-info", NULL, 1000, NULL,
+		"location",
+		"<em> e.g. Cruise ship, Convention, Live animal market </em>"
+	),
+	("geo_loc_latitude",
+		"Geographic location (latitude) (DD)", "number", NULL, 2, NULL,
+		"geo_loc_latitude", "geo-loc-latitude", -90, 90, 0.01,
+		"location",
+		"The geographical origin of the sample as defined by the latitude. Minimum value: -90 and maximum value: 90."
+	),
+	("geo_loc_longitude",
+		"Geographic location (longitude) (DD)", "number", NULL, 2, NULL,
+		"geo_loc_longitude", "geo-loc-longitude", -180, 180, 0.01,
+		"location",
+		"The geographical origin of the sample as defined by the longitude. Minimum value: -180 and maximum value: 180."
 	)
+
+
+;

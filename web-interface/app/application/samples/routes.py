@@ -349,6 +349,13 @@ def tester():
     html+= render_single("location_country", sample["country_id"],
                             dlist=misc.Countries.fetch_list());
 
+    html+= render_single("location_region", sample["region"]);
+    html+= render_single("location_locality", sample["locality"]);
+    html+= render_single("location_additional_info",
+                         sample["additional_location_info"]);
+    html+= render_single("geo_loc_latitude", sample["geo_loc_latitude"]);
+    html+= render_single("geo_loc_longitude", sample["geo_loc_longitude"]);
+
 
     html+= render_template("samples/form/single/tail.html");
     return html;
@@ -360,10 +367,10 @@ def tester_submit():
     save_data = {};
     save_data["sample"] = Form.parse_simple(request.form, "sample");
     save_data["collection"] = Form.parse_simple(request.form, "collection");
+    save_data["location"] = Form.parse_simple(request.form, "location");
     sample_ids = save([save_data]);
 
     return jsonify(save_data);
-    save_data["location"] = Form.parse_simple(request.form, "location");
     save_data["library"] = Form.parse_simple(request.form, "library");
     save_data["host"] = Form.parse_simple(request.form, "host");
     save_data["sampling"] = Form.parse_simple(request.form, "sampling");

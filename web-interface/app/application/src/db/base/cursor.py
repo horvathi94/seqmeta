@@ -215,6 +215,7 @@ class CursorBase:
         cls.close(conn, cursor);
         return res;
 
+
     @classmethod
     def last_insert_id(cls, table_name, cursor=None):
         no_cursor = False;

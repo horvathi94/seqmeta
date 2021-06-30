@@ -8,6 +8,6 @@
 		{% endfor %}
 	</td>
 	<td> {{ inptext(info.input, type="single") }} </td>
-	<td> {{ info.description }} </td>
+	<td> {{ info.description|safe }} </td>
 </tr>
 
