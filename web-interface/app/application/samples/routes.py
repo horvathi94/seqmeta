@@ -304,7 +304,9 @@ def reg_library_names():
 
 
 from .editor import Editor
-from application.src.samples.extensions.treatment import ANTIVIRAL_TREAT
+from application.src.samples.extensions.treatment import \
+    ANTIVIRAL_TREAT, \
+    PRIOR_INFECTION
 
 from application.src.fields import Field
 
@@ -369,6 +371,17 @@ def tester():
     html+= editor.single("prior_sars_cov_2_antiviral_treat",
                          dlist=ANTIVIRAL_TREAT);
     html+= editor.single("date_of_prior_antiviral_treat");
+    html+= editor.single("prior_sars_cov_2_infection",
+                         dlist=PRIOR_INFECTION);
+    html+= editor.single("date_of_prior_sars_cov_2_infection");
+    html+= editor.single("virus_isolate_of_prior_infection");
+
+    html+= editor.single("prior_sars_cov_2_vaccination",
+                         dlist=misc.HasVaccine.fetch_list());
+    html+= editor.single("vaccine_received");
+    html+= editor.single("date_of_prior_sars_cov_2_vaccination");
+
+
 
 
     html+= render_template("samples/form/single/tail.html");
@@ -385,6 +398,7 @@ def tester_submit():
     save_data["collection"] = Form.parse_simple(request.form, "collection");
     save_data["location"] = Form.parse_simple(request.form, "location");
     save_data["host"] = Form.parse_simple(request.form, "host");
+    save_data["treatment"] = Form.parse_simple(request.form, "treatment");
     sample_ids = save([save_data]);
 
     return jsonify(save_data);

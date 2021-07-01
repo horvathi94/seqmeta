@@ -27,6 +27,9 @@ def save(submitted_samples):
         host = submitted["host"];
         host["sample_id"] = sample_id;
         Host.save_entry(host);
+        treatment = submitted["treatment"];
+        treatment["sample_id"] = sample_id;
+        PatientTreatment.save_entry(treatment);
 #        library = submitted["library"];
 #        library["sample_id"] = sample_id;
 #        Library.save_entry(library);

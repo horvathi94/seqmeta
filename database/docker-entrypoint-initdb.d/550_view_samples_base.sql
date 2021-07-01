@@ -23,6 +23,12 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 
 		treatment.prior_sars_cov_2_antiviral_treat AS prior_sars_cov_2_antiviral_treat,
 		treatment.date_of_prior_antiviral_treat AS date_of_prior_antiviral_treat,
+		treatment.prior_sars_cov_2_infection AS prior_sars_cov_2_infection,
+		treatment.date_of_prior_sars_cov_2_infection AS date_of_prior_sars_cov_2_infection,
+		treatment.prior_sars_cov_2_vaccination_id AS prior_sars_cov_2_vaccination_id,
+		treatment.date_of_prior_sars_cov_2_vaccination AS date_of_prior_sars_cov_2_vaccination,
+		treatment.virus_isolate_of_prior_infection AS virus_isolate_of_prior_infection,
+		treatment.vaccine_received AS vaccine_received,
 
 		host.host_id AS host_id,
 		host.host_subject_id AS	host_subject_id,

@@ -212,8 +212,43 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"date_of_prior_antiviral_treat", "date-of-prior-antiviral-treat", NULL, NULL, NULL, "2019-01-01", NULL,
 		"treatment",
 		"Date of the SARS-CoV-2 antiviral treatment." 
+	),
+	("prior_sars_cov_2_infection",
+		"Prior SARS-CoV-2 infection", "radio", NULL, NULL, 1,
+		"prior_sars_cov_2_infection", "prior-sars-cov-2-infection", NULL, NULL, NULL, NULL, NULL,
+		"treatment",
+		"Did the host have a prior SARS-CoV-2 infection?" 
+	),
+	("date_of_prior_sars_cov_2_infection",
+		"Date of prior SARS-CoV-2 infection", "date", NULL, NULL, 1,
+		"date_of_prior_sars_cov_2_infection", "date-of-prior-sars-cov-2-infection", NULL, NULL, NULL, "2019-01-01", NULL,
+		"treatment",
+		"Date of the SARS-CoV-2 infection." 
+	),
+	("virus_isolate_of_prior_infection",
+		"Virus isolate of prior infection", "text", NULL, NULL, 1,
+		"virus_isolate_of_prior_infection", "virus-isolate-of-prior-infection", NULL, 200, NULL, NULL, NULL,
+		"treatment",
+		"Specific isolate of SARS-CoV-2 in prior infection (if known), <em>e.g., SARS-CoV-2/human/USA/CA-CDPH-001/2020 </em>." 
+	),
+	("prior_sars_cov_2_vaccination",
+		"Prior SARS-CoV-2 vaccination", "select", NULL, NULL, 1,
+		"prior_sars_cov_2_vaccination_id", "prior-sars-cov-2-vaccination-id", NULL, NULL, NULL, NULL, NULL,
+		"treatment",
+		"Has the host received a SARS-CoV-2 vaccination?" 
+	),
+	("vaccine_received",
+		"Received SARS-CoV-2 vaccine", "text", NULL, NULL, 1,
+		"vaccine_received", "vaccine-received", NULL, 100, NULL, NULL, NULL,
+		"treatment",
+		"Which vaccine did the host receive, e.g., Pfizer-BioNTech COVID-19 vaccine" 
+	),
+	("date_of_prior_sars_cov_2_vaccination",
+		"Date of prior SARS-CoV-2 vaccination", "date", NULL, NULL, 1,
+		"date_of_prior_sars_cov_2_vaccination", "date-of-prior-sars-cov-2-vaccination", NULL, NULL, NULL, "2019-01-01", NULL,
+		"treatment",
+		"Date of the 1st dose of the SARS-CoV-2 vaccine, <em>e.g., 2021-03-30</em>." 
 	)
-
 
 
 ;

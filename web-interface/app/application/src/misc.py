@@ -101,3 +101,7 @@ class HostBehaviours(DBInterface):
 class SequencingInstruments(DBInterface):
 
     display_table_name = "sequencing_instruments";
+
+
+class HasVaccine(DBInterface):
+    display_table_name = "has_received_vaccine";
