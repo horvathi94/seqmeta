@@ -400,6 +400,41 @@ def tester():
     html+= editor.single("sars_cov_2_diag_pcr_ct_value_2");
 
 
+    html+= editor.single("originating_lab",
+                         dlist=Institutions.fetch_list_labeled());
+    html+= editor.single("originating_lab_sample_name");
+    html+= editor.single("submitting_lab",
+                         dlist=Institutions.fetch_list_labeled());
+    html+= editor.single("submitting_lab_sample_name");
+    html+= editor.single("author_group",
+                         dlist=AuthorGroups.fetch_list_labeled(
+                                replace_key="group_name",
+                                replace_id="group_id"));
+
+
+    html+= editor.single("sampling_strategy",
+                         dlist=misc.SamplingStrategies.fetch_list());
+    html+= editor.single("strain");
+    html+= editor.single("isolation_source_host_associated");
+    html+= editor.single("isolation_source_non_host_associated");
+
+    html+= editor.single("sample_capture_status",
+                         dlist=misc.SampleCaptureStatuses.fetch_list());
+    html+= editor.single("specimen_source",
+                         dlist=misc.SpecimenSources.fetch_list());
+    html+= editor.single("sample_storage_condition");
+    html+= editor.single("passage_number");
+    html+= editor.single("passage_method");
+    html+= editor.single("definition_for_seropositive_sample");
+    html+= editor.single("serotype");
+
+    html+= editor.single("sequencing_instrument",
+                         dlist=misc.SequencingInstruments.fetch_list());
+    html+= editor.single("assembly_method",
+                         dlist=misc.AssemblyMethods.fetch_list());
+    html+= editor.single("coverage");
+
+
     html+= render_template("samples/form/single/tail.html");
     return html;
 
@@ -416,12 +451,12 @@ def tester_submit():
     save_data["host"] = Form.parse_simple(request.form, "host");
     save_data["treatment"] = Form.parse_simple(request.form, "treatment");
     save_data["health"] = Form.parse_simple(request.form, "health");
+    save_data["sampling"] = Form.parse_simple(request.form, "sampling");
+    save_data["sequencing"] = Form.parse_simple(request.form, "sequencing");
     sample_ids = save([save_data]);
 
     return jsonify(save_data);
     save_data["library"] = Form.parse_simple(request.form, "library");
-    save_data["sampling"] = Form.parse_simple(request.form, "sampling");
-    save_data["sequencing"] = Form.parse_simple(request.form, "sequencing");
     sample_ids = save([save_data]);
     sample_id = sample_ids[0];
 

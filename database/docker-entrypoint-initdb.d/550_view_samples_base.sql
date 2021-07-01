@@ -12,6 +12,11 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		collection.collection_month AS collection_month,
 		collection.collection_day AS collection_day,
 		collection.collector_id AS collector_id,
+		collection.originating_lab_id AS originating_lab_id,
+		collection.originating_lab_sample_name AS originating_lab_sample_name,
+		collection.submitting_lab_id AS submitting_lab_id,
+		collection.submitting_lab_sample_name AS submitting_lab_sample_name,
+		collection.author_group_id AS author_group_id,
 		
 		location.continent_id AS continent_id,
 		location.country_id AS country_id,
@@ -42,11 +47,6 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		host.host_description	AS host_description,
 		host.gravidity AS	gravidity,
 
-		sampling.originating_lab_id AS originating_lab_id,
-		sampling.originating_lab_sample_name AS originating_lab_sample_name,
-		sampling.submitting_lab_id AS submitting_lab_id,
-		sampling.submitting_lab_sample_name AS submitting_lab_sample_name,
-		sampling.author_group_id AS author_group_id,
 		sampling.receipt_date AS receipt_date,
 		sampling.sampling_strategy_id AS sampling_strategy_id,
 		sampling.strain AS strain,
@@ -57,6 +57,9 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		sampling.sample_storage_conditions AS sample_storage_conditions,
 		sampling.definition_for_seropositive_sample AS definition_for_seropositive_sample,
 		sampling.serotype AS serotype,
+		sampling.passage_method AS passage_method,
+		sampling.passage_number AS passage_number,
+
 
 		health.subject_exposure AS subject_exposure,
 		health.subject_exposure_duration AS subject_exposure_duration,	

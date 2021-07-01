@@ -33,14 +33,14 @@ def save(submitted_samples):
         health = submitted["health"];
         health["sample_id"] = sample_id;
         HealthStatus.save_entry(health);
+        sampling = submitted["sampling"];
+        sampling["sample_id"] = sample_id;
+        Sampling.save_entry(sampling);
+        sequencing = submitted["sequencing"];
+        sequencing["sample_id"] = sample_id;
+        Sequencing.save_entry(sequencing);
 #        library = submitted["library"];
 #        library["sample_id"] = sample_id;
 #        Library.save_entry(library);
-#        sampling = submitted["sampling"];
-#        sampling["sample_id"] = sample_id;
-#        Sampling.save_entry(sampling);
-#        sequencing = submitted["sequencing"];
-#        sequencing["sample_id"] = sample_id;
-#        Sequencing.save_entry(sequencing);
 
     return sample_ids;

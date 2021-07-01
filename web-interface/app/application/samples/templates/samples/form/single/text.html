@@ -2,7 +2,7 @@
 {% from "macros/markers.j2" import marker %}
 
 <tr>
-	<td> {{ info.field_name }} 
+	<td> {{ info.field_name|safe }} 
 		{% for req in info.requirement %}
 			{{ marker(req.type, requirement=req.level) }}
 		{% endfor %}

@@ -333,7 +333,133 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"sars_cov_2_diag_pcr_ct_value_2", "sars-cov-2-diag-pcr-ct-value-2", NULL, 45, 1, NULL, NULL,
 		"health",
 		"The cycle threshold (CT) value result from the second diagnostic SARS-CoV-2 RT-PCR test, <em>e.g., 36</em>"
+	),
+
+
+	/* --- Collection --- */
+	("originating_lab",
+		"Originating lab", "select", 3, NULL, NULL,
+		"originating_lab_id", "originating-lab", NULL, NULL, NULL, NULL, NULL,
+		"collection",
+		"Where the clinical specimen or virus isolate was first obtained."
+	),
+	("submitting_lab",
+		"Submitting lab", "select", 3, NULL, NULL,
+		"submitting_lab_id", "submitting-lab", NULL, NULL, NULL, NULL, NULL,
+		"collection",
+		"Where the sequence data have been generated and submitted to GISAID."
+	),
+	("originating_lab_sample_name",
+		"Sample ID given by the originating lab", "text", 1, NULL, NULL,
+		"originating_lab_sample_name", "originating-lab-sample-name", NULL, 200, NULL, NULL, NULL,
+		"collection",
+		""
+	),
+	("submitting_lab_sample_name",
+		"Sample ID given by the submitting lab", "text", 1, NULL, NULL,
+		"submitting_lab_sample_name", "submitting-lab-sample-name", NULL, 200, NULL, NULL, NULL,
+		"collection",
+		""
+	),
+	("author_group",
+		"Author group", "select", 3, NULL, NULL,
+		"author_group_id", "author-group", NULL, NULL, NULL, NULL, NULL,
+		"collection",
+		"Create and edit author groups <a href='/author-groups/view'>here</a>"
+	),
+
+
+	/*--- Sampling ---*/
+	("sampling_strategy",
+		"Sampling strategy", "select", 1, NULL, NULL,
+		"sampling_strategy_id", "sampling-strategy", NULL, NULL, NULL, NULL, NULL,
+		"sampling",
+		"The sampling strategy used to select the sample. 
+		Edit and add options <a href='/misc/edit/#specimen-sources-editor' target='_blank'>here</a>"
+	),
+	("strain",
+		"Strain", "text", NULL, 1, NULL,
+		"strain", "strain", NULL, 500, NULL, NULL, NULL,
+		"sampling",
+		"Name of the strain from which the sample was obtained."
+	),
+	("isolation_source_host_associated",
+		"Isolation source host-associated", "text", NULL, 1, NULL,
+		"isolation_source_host_associated", "isolation-source-host-associated", NULL, 600, NULL, NULL, NULL,
+		"sampling",
+		"Name of host tissue or organ sampled for analysis. <em>Example: tracheal tissue</em>"
+	),
+	("isolation_source_non_host_associated",
+		"Isolation source non-host-associated", "text", NULL, 1, NULL,
+		"isolation_source_non_host_associated", "isolation-source-non-host-associated", NULL, 600, NULL, NULL, NULL,
+		"sampling",
+		"Describes the physical, environmental and/or local geographical source of the biological sample from which the sample was derived. <em>Example: soil</em>"
+	),
+	("sample_capture_status",
+		"Sample capture status", "select", NULL, 2, NULL,
+		"sample_capture_status_id", "sample-capture-status", NULL, NULL, NULL, NULL, NULL,
+		"sampling",
+		"Reason for the sample collection."
+	),
+	("specimen_source",
+		"Specimen source", "select", 1, NULL, NULL,
+		"specimen_source_id", "specimen-source", NULL, NULL, NULL, NULL, NULL,
+		"sampling",
+		"Source of the specimen."
+	),
+	("sample_storage_condition",
+		"Sample storage condoition", "text", NULL, 1, NULL,
+		"sample_storage_conditions", "sample-storage-conditions", NULL, NULL, NULL, NULL, NULL,
+		"sampling",
+		"Conditions at which sample was stored, usually storage temperature, duration and location."
+	),
+	("passage_method",
+		"Passage method", "text", 1, NULL, 1,
+		"passage_method", "passage-method", NULL, 200, NULL, NULL, NULL,
+		"sampling",
+		"Description of how the organism was passaged. Provide a short description, e.g., AVL buffer+30%EtOH lysate received from Respiratory Lab. P3 passage in Vero-1 via bioreactor large-scale batch passage. P3 batch derived from the SP-2/reference lab strain. If not passaged, put 'not applicable'."
+	),
+	("passage_number",
+		"Passage number", "number", 3, NULL, 1,
+		"passage_number", "passage-number", 0, 200, 1, NULL, NULL,
+		"sampling",
+		"The number of known passages, e.g., 3. For origianl passsage use: 0."
+	),
+	("definition_for_seropositive_sample",
+		"Definition for seropositive sample", "text", NULL, 2, NULL,
+		"definition_for_seropositive_sample", "definition_for_seropositive_sample", NULL, 500, NULL, NULL, NULL,
+		"sampling",
+		"The cut off value used by an investigatior in determining that a sample was seropositive."
+	),
+	("serotype",
+		"Serotype (<em>required for a seropositive sample</em>)", "text", NULL, 2, NULL,
+		"serotype", "serotype", NULL, 500, NULL, NULL, NULL,
+		"sampling",
+		"Serological variety of a species characterised by its antigenic properties. For Influenza, HA subtype should be the letter H followed by a number between 1-16 unless novel subtype is identified and the NA subtype should be the letter N followed by a number between 1-9 unless novel subtype is identified. If only one of the subtypes have been tested then use the format H5Nx or HxN1. <em>Example: H1N1.</em>"
+	),
+
+
+	/* --- Sequencing --- */
+	("sequencing_instrument",
+		"Sequencing instrument", "select", 3, 3, 3,
+		"sequencing_instrument_id", "sequencing-instrument", NULL, NULL, NULL, NULL, NULL,
+		"sequencing",
+		"Apparatus with which the sequencing was done."
+	),
+	("assembly_method",
+		"Sequencing method", "select", 3, 3, 3,
+		"assembly_method_id", "assembly-method", NULL, NULL, NULL, NULL, NULL,
+		"sequencing",
+		"Program name and version with which the assembly of the sequence was performed. 
+	Edit and add options: <a href='/misc/edit#assembly-methods-editor' target='_blank'>here</a>"
+	),
+	("coverage",
+		"Coverage", "number", 1, NULL, NULL,
+		"coverage", "coverage", 0, NULL, 1, NULL, NULL,
+		"sequencing",
+		"The average coverage of the sample."
 	)
 
-
 ;
+
+
