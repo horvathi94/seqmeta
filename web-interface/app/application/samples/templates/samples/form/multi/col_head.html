@@ -1,0 +1,19 @@
+{% from "macros/markers.j2" import marker %}
+
+
+{% set has_tooltip = "class='has-tooltip'" 
+	if info.description != "" else "" %}
+
+<th {{ has_tooltip }}>
+	{{ info.field_name }}
+
+	{% for req in info.requirement %}
+		{{ marker(req.type, requirement=req.level) }}
+	{% endfor %}
+
+	{% if info.description != "" %}
+		<div class="tooltip">
+			{{ info.description }}
+		</div>
+	{% endif %}
+</th>

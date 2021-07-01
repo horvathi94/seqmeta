@@ -31,6 +31,7 @@ class Editor:
             "samples/form/single/{:s}.html".format(field["field_type"]),
             info=field, list=dlist);
 
+
     def single_files(self):
         seqfiles=SeqFilesBunch(self.sample_id);
         seqfile_types=SeqFileTypes.fetch_list_labeled(
@@ -38,3 +39,31 @@ class Editor:
         return render_template("samples/form/single/files.html",
                                seqfiles=seqfiles,
                                seqfile_types=seqfile_types);
+
+
+
+class MultiEditor:
+
+    def __init__(self):
+        self.head = [];
+        self.all = [];
+        self.template = [];
+
+
+    @classmethod
+    def header_col(cls, info):
+       return render_template("samples/form/multi/col_head.html", info=info);
+
+
+    def add_field(self, handle):
+        field = Field.fetch(handle);
+        self.head.append(self.header_col(field));
+
+
+    def get_html(self):
+        html = "<tr>";
+        for col in self.head:
+            html+= col;
+        html+= "</tr>";
+        return html;
+

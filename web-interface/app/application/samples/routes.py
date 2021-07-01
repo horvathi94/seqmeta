@@ -28,6 +28,12 @@ from application.src.samples.nametemplates.virusname_gisaid import \
     VirusnameGisaid
 from application.src.samples.nametemplates.isolate_ena import \
     IsolateEna
+from .editor import Editor
+from application.src.samples.extensions.treatment import \
+    ANTIVIRAL_TREAT, \
+    PRIOR_INFECTION
+
+from application.src.fields import Field
 
 
 
@@ -63,54 +69,6 @@ def show():
     return html;
 
 
-def old_edit():
-    styles = [{"filename": "edit.css", "prefix": "samples"},
-              {"filename": "markers.css"}];
-    scripts = [{"filename": "validate-sample-name.js", "prefix": "samples"},
-               {"filename": "edit-sample.js", "prefix": "samples"}];
-    sample_id = int(request.args["id"]) if "id" in request.args else 0;
-    seqfiles=SeqFilesBunch(sample_id);
-    sample=Samples.fetch_entry_edit(id=sample_id, id_key="sample_id");
-    html = render_template("head.html", styles=styles);
-    html+= render_template(
-        "samples/edit.html",
-        sample=Samples.fetch_entry_edit(id=sample_id, id_key="sample_id"),
-        seqfiles=seqfiles.todict(),
-        authors=Authors.fetch_list_labeled(
-            replace_key="abbreviated_middle_name"),
-        author_groups=AuthorGroups.fetch_list_labeled(
-            replace_key="group_name",
-            replace_id="group_id"),
-        institutions=Institutions.fetch_list_labeled(),
-        hosts=misc.Hosts.fetch_list(),
-        sampling_strategies=misc.SamplingStrategies.fetch_list(),
-        passage_details=misc.PassageDetails.fetch_list(),
-        assembly_methods=misc.AssemblyMethods.fetch_list(),
-        sequencing_instruments=misc.SequencingInstruments.fetch_list(),
-        patient_statuses=misc.PatientStatuses.fetch_list(),
-        specimen_sources=misc.SpecimenSources.fetch_list(),
-        countries=misc.Countries.fetch_list(),
-        continents=misc.Continents.fetch_list(),
-        sample_capture_statuses=misc.SampleCaptureStatuses.fetch_list(),
-        host_disease_outcomes=misc.HostDiseaseOutcomes.fetch_list(),
-        host_health_states=misc.HostHealthStates.fetch_list(),
-        host_habitats=misc.HostHabitats.fetch_list(),
-        host_behaviours=misc.HostBehaviours.fetch_list(),
-        library_strategies=lib.LibraryStrategies.fetch_list_labeled(
-            replace_key="item_key"),
-        library_sources=lib.LibrarySources.fetch_list_labeled(
-            replace_key="item_key"),
-        library_selections=lib.LibrarySelections.fetch_list_labeled(
-            replace_key="item_key"),
-        seqfile_types=SeqFileTypes.fetch_list_labeled(
-            replace_key="item_key"),
-        library_layouts=LIBRARY_LAYOUTS,
-        genders=PATIENT_GENDERS,
-        hospitalisations=HOSPITALISATIONS,
-        default_vals=DefaultValues.fetch(),
-        );
-    html+= render_template("footer.html", scripts=scripts);
-    return html;
 
 
 @samples_bp.route("/samples/add-multiple", methods=["GET"])
@@ -303,12 +261,6 @@ def reg_library_names():
 
 
 
-from .editor import Editor
-from application.src.samples.extensions.treatment import \
-    ANTIVIRAL_TREAT, \
-    PRIOR_INFECTION
-
-from application.src.fields import Field
 
 
 @samples_bp.route("/samples/edit")
@@ -452,5 +404,34 @@ def edit():
     html+= editor.single_files();
 
     html+= render_template("samples/form/single/tail.html");
+    html+= render_template("footer.html", scripts=scripts);
     return html;
 
+
+
+from .editor import MultiEditor
+
+@samples_bp.route("/test")
+def test():
+
+    styles = [{"filename": "add-multiple.css", "prefix": "samples"},
+              {"filename": "markers.css"},
+              {"filename": "tooltips.css"}];
+    scripts = [{"filename": "edit-multiple.js", "prefix": "samples"},
+               {"filename": "validate-samples.js", "prefix": "samples"}];
+
+    html = "";
+    html+= render_template("head.html", styles=styles);
+    html+= render_template("samples/form/multi/head.html");
+
+
+    editor = MultiEditor();
+    editor.add_field("sample_name");
+    editor.add_field("sample_comment");
+    editor.add_field("sample_description");
+
+    html+= editor.get_html();
+
+    html+= render_template("samples/form/multi/tail.html");
+    html+= render_template("footer.html", scripts=scripts);
+    return html;
