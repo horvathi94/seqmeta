@@ -42,10 +42,10 @@ CREATE OR REPLACE VIEW `view_isolate_ena` AS
 		health.host_health_state AS `host_health_state`,
 		
 		collection.collector_abbreviated_middle_name AS `collector_name`, 
-		sampling.originating_lab_name AS originating_lab_name,
-		sampling.originating_lab_sample_name AS originating_lab_sample_name,
-		sampling.submitting_lab_name AS submitting_lab_name,
-		sampling.submitting_lab_sample_name AS submitting_lab_sample_name,
+		collection.originating_lab_name AS originating_lab_name,
+		collection.originating_lab_sample_name AS originating_lab_sample_name,
+		collection.submitting_lab_name AS submitting_lab_name,
+		collection.submitting_lab_sample_name AS submitting_lab_sample_name,
 
 		sampling.sample_storage_conditions AS `sample_storage_conditions`,
 

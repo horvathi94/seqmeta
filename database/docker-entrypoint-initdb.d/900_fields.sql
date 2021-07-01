@@ -207,6 +207,12 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"treatment",
 		"Has the host received SARS-CoV-2 antiviral treatment?" 
 	),
+	("antiviral_treatment_agent",
+		"Prior SARS-CoV-2 antiviral tretment agent", "text", 1, NULL, 1,
+		"antiviral_treatment_agent", "antiviral-treatment-agent", NULL, 200, NULL, NULL, NULL,
+		"treatment",
+		"What was the antiviral treatment agent?"
+	),
 	("date_of_prior_antiviral_treat",
 		"Date of prior SARS-CoV-2 antiviral tretment", "date", 1, NULL, 1,
 		"date_of_prior_antiviral_treat", "date-of-prior-antiviral-treat", NULL, NULL, NULL, "2019-01-01", NULL,
@@ -270,8 +276,7 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"Type exposure", "text", NULL, 1, NULL,
 		"type_exposure", "type-exposure", NULL, 600, NULL, NULL, NULL,
 		"health",
-		"Setting within which the subject is exposed to animals, such as farm, slaughterhouse, food preparation. 
-		If multiple exposures are applicable, please state their type in the same order in which you reported the exposure in the field 'subject exposure'. 
+		"Setting within which the subject is exposed to animals, such as farm, slaughterhouse, food preparation. If multiple exposures are applicable, please state their type in the same order in which you reported the exposure in the field 'subject exposure'. 
 		<em>Example: backyard flock; confined animal feeding operation</em>"
 	),
 	("outbreak",
@@ -458,8 +463,62 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"coverage", "coverage", 0, NULL, 1, NULL, NULL,
 		"sequencing",
 		"The average coverage of the sample."
+	),
+	
+
+	/* --- Library --- */
+	("library_id",
+		"Library ID", "text", NULL, NULL, 3,
+		"library_id", "library-id", NULL, 200, NULL, NULL, NULL,
+		"library",
+		"Short unique identifier for the sequencing library. Each library ID must be unique."
+	),
+	("library_layout",
+		"Library layout", "radio", NULL, NULL, 3,
+		"library_layout_paired", "library-layout", NULL, NULL, NULL, NULL, NULL,
+		"library",
+		"Paired-end or Single."
+	),
+	("library_source",
+		"Library source", "select", NULL, NULL, 3,
+		"library_source_id", "library-source", NULL, NULL, NULL, NULL, NULL,
+		"library",
+		"Detailed description can be found <a href='/descriptions/#library-sources' target='_blank'>here</a>"
+	),
+	("library_strategy",
+		"Library strategy", "select", NULL, NULL, 3,
+		"library_strategy_id", "library-strategy", NULL, NULL, NULL, NULL, NULL,
+		"library",
+		"Detailed description can be found 
+		<a href='/description/#library-strategies' target='_blank'>here</a>"
+	),
+	("library_selection",
+		"Library selection", "select", NULL, NULL, 3,
+		"library_selection_id", "library-selection", NULL, NULL, NULL, NULL, NULL,
+		"library",
+		"Detailed description can be found 
+			<a href='/descriptions/#library-selections'	target='_blank'>here</a>"
+	),
+	("library_preparation_date",
+		"Library preparation date", "date", NULL, 1, NULL,
+		"library_preparation_date", "library-preparation-date", NULL, NULL, NULL, "2019-01-01", NULL,
+		"library",
+		"Date when the library was prepared."
+	),
+	("library_design_description",
+		"Library design description", "text", NULL, NULL, 1,
+		"library_design_description", "library-design-description", NULL, 1000, NULL, NULL, NULL,
+		"library",
+		"Free-form description of the methods used to create the sequencing library a brief 'material and methods' section."
+	),
+	("insert_size",
+		"Insert size", "text", NULL, NULL, 1,
+		"insert_size", "insert-size", NULL, 20, NULL, NULL, NULL,
+		"library",
+		""
 	)
 
-;
 
+
+;
 

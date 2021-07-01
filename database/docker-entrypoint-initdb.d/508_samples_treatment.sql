@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS samples_patient_treatment (
 	prior_sars_cov_2_vaccination_id					TINYINT UNSIGNED,
 	date_of_prior_sars_cov_2_vaccination		DATE,
 	virus_isolate_of_prior_infection				VARCHAR(200),
-	vaccine_received												VARCHAR(100)
+	vaccine_received												VARCHAR(100),
+	antiviral_treatment_agent								VARCHAR(200)
 
 );
 
@@ -25,7 +26,8 @@ CREATE OR REPLACE VIEW view_samples_patient_treatment AS
 		has_vaccine.label AS prior_sars_cov_2_vaccination,
 		treatment.date_of_prior_sars_cov_2_vaccination AS date_of_prior_sars_cov_2_vaccination,
 		treatment.virus_isolate_of_prior_infection AS virus_isolate_of_prior_infection,
-		treatment.vaccine_received AS vaccine_received
+		treatment.vaccine_received AS vaccine_received,
+		treatment.antiviral_treatment_agent AS antiviral_treatment_agent
 
 	FROM samples_patient_treatment AS treatment
 	LEFT JOIN has_received_vaccine AS has_vaccine

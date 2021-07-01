@@ -34,6 +34,7 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		treatment.date_of_prior_sars_cov_2_vaccination AS date_of_prior_sars_cov_2_vaccination,
 		treatment.virus_isolate_of_prior_infection AS virus_isolate_of_prior_infection,
 		treatment.vaccine_received AS vaccine_received,
+		treatment.antiviral_treatment_agent AS antiviral_treatment_agent,
 
 		host.host_id AS host_id,
 		host.host_subject_id AS	host_subject_id,
@@ -79,13 +80,14 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		sequencing.assembly_method_id AS assembly_method_id,
 		sequencing.coverage AS coverage,
 
-		library.lib_id AS library_id,
-		library.layout_paired AS library_layout_paired,
-		library.strategy_id AS library_strategy_id,
-		library.source_id AS library_source_id,
-		library.selection_id AS library_selection_id,
-		library.design_description AS library_design_description,
-		library.preparation_date AS library_preparation_date
+		library.library_id AS library_id,
+		library.library_layout_paired AS library_layout_paired,
+		library.library_strategy_id AS library_strategy_id,
+		library.library_source_id AS library_source_id,
+		library.library_selection_id AS library_selection_id,
+		library.library_design_description AS library_design_description,
+		library.library_preparation_date AS library_preparation_date,
+		library.insert_size AS insert_size
 
 		FROM samples
 		LEFT JOIN samples_location AS location

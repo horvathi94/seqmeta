@@ -39,8 +39,8 @@ def save(submitted_samples):
         sequencing = submitted["sequencing"];
         sequencing["sample_id"] = sample_id;
         Sequencing.save_entry(sequencing);
-#        library = submitted["library"];
-#        library["sample_id"] = sample_id;
-#        Library.save_entry(library);
+        library = submitted["library"];
+        library["sample_id"] = sample_id;
+        Library.save_entry(library);
 
     return sample_ids;

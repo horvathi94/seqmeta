@@ -30,15 +30,15 @@ class Library(SampleExtension):
 
     @classmethod
     def clean_submit(cls, entry):
-        if "layout_paired" in entry:
+        if "library_layout_paired" in entry:
             for layout in LIBRARY_LAYOUTS:
-                if layout["value"] == int(entry["layout_paired"]):
-                    entry["layout_paired"] = layout["db_save"];
+                if layout["value"] == int(entry["library_layout_paired"]):
+                    entry["library_layout_paired"] = layout["db_save"];
                     break;
-        if entry["preparation_date"] == "":
-            entry["preparation_date"] = None;
-        if entry["lib_id"] == "":
-            entry["lib_id"] = None;
+        if entry["library_preparation_date"] == "":
+            entry["library_preparation_date"] = None;
+        if entry["library_id"] == "":
+            entry["library_id"] = None;
         return entry;
 
 

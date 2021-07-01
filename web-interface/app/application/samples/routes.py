@@ -370,6 +370,7 @@ def tester():
 
     html+= editor.single("prior_sars_cov_2_antiviral_treat",
                          dlist=ANTIVIRAL_TREAT);
+    html+= editor.single("antiviral_treatment_agent");
     html+= editor.single("date_of_prior_antiviral_treat");
     html+= editor.single("prior_sars_cov_2_infection",
                          dlist=PRIOR_INFECTION);
@@ -435,6 +436,25 @@ def tester():
     html+= editor.single("coverage");
 
 
+    html+= editor.single("library_id");
+    html+= editor.single("library_layout",
+                         dlist=LIBRARY_LAYOUTS);
+    html+= editor.single("library_source",
+                         dlist=lib.LibrarySources.fetch_list_labeled(
+                             replace_key="item_key"));
+    html+= editor.single("library_selection",
+                         dlist=lib.LibrarySelections.fetch_list_labeled(
+                             replace_key="item_key"));
+    html+= editor.single("library_strategy",
+                         dlist=lib.LibraryStrategies.fetch_list_labeled(
+                             replace_key="item_key"));
+    html+= editor.single("library_preparation_date");
+    html+= editor.single("library_design_description");
+    html+= editor.single("insert_size");
+
+
+
+
     html+= render_template("samples/form/single/tail.html");
     return html;
 
@@ -453,10 +473,10 @@ def tester_submit():
     save_data["health"] = Form.parse_simple(request.form, "health");
     save_data["sampling"] = Form.parse_simple(request.form, "sampling");
     save_data["sequencing"] = Form.parse_simple(request.form, "sequencing");
+    save_data["library"] = Form.parse_simple(request.form, "library");
     sample_ids = save([save_data]);
 
     return jsonify(save_data);
-    save_data["library"] = Form.parse_simple(request.form, "library");
     sample_ids = save([save_data]);
     sample_id = sample_ids[0];
 

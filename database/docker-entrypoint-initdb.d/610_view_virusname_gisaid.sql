@@ -29,14 +29,15 @@ CREATE OR REPLACE VIEW view_virusname_gisaid AS
 		hosts.patient_status AS patient_status,
 		sampling.specimen_source AS specimen_source,
 		health.outbreak AS outbreak,
-		health.treatment AS treatment,
+		treatment.antiviral_treatment_agent AS treatment,
 		sequencing.sequencing_instrument AS sequencing_technology,
 		sequencing.assembly_method AS assembly_method,
 		sequencing.coverage_x AS coverage,
-		sampling.originating_lab_name AS originating_lab_name,
-		sampling.originating_lab_sample_name AS originating_lab_sample_name,
-		sampling.submitting_lab_name AS submitting_lab_name,
-		sampling.submitting_lab_sample_name AS submitting_lab_sample_name
+		collection.originating_lab_name AS originating_lab_name,
+		collection.originating_lab_sample_name AS originating_lab_sample_name,
+		collection.submitting_lab_name AS submitting_lab_name,
+		collection.submitting_lab_sample_name AS submitting_lab_sample_name,
+		sampling.passage_number AS passage_number
 
 
 	FROM view_samples_base AS samples
@@ -52,3 +53,5 @@ CREATE OR REPLACE VIEW view_virusname_gisaid AS
 		ON samples.sample_id = health.sample_id
 	LEFT JOIN view_samples_sequencing AS sequencing
 		ON samples.sample_id = sequencing.sample_id
+	LEFT JOIN view_samples_patient_treatment AS treatment
+		ON samples.sample_id = treatment.sample_id
