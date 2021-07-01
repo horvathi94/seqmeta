@@ -248,6 +248,91 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"date_of_prior_sars_cov_2_vaccination", "date-of-prior-sars-cov-2-vaccination", NULL, NULL, NULL, "2019-01-01", NULL,
 		"treatment",
 		"Date of the 1st dose of the SARS-CoV-2 vaccine, <em>e.g., 2021-03-30</em>." 
+	),
+
+	/*--- Health status ---*/
+	("subject_exposure",
+		"Subject exposure", "text", NULL, 1, NULL,
+		"subject_exposure", "subject-exposure", NULL, 600, NULL, NULL, NULL,
+		"health",
+		"Exposure of the subject to infected human or animals, such as poultry, wild bird or swine. 
+		If multiple exposures are applicable, please state them separated by semicolon. <em>Example: poultry; wild bird. </em>"
+	),
+	("subject_exposure_duration",
+		"Subject exposure duration", "text", NULL, 1, NULL,
+		"subject_exposure_duration", "subject-exposure-duration", NULL, 600, NULL, NULL, NULL,
+		"health",
+		"Duration of the exposure of the subject to an infected human or animal. 
+		If multiple exposures are applicable, please state their duration in the same order in which you reported the exposure in the field 'subject exposure'. 
+		<em>Example: 1 day; 0.33 days.</em>"
+	),
+	("type_exposure",
+		"Type exposure", "text", NULL, 1, NULL,
+		"type_exposure", "type-exposure", NULL, 600, NULL, NULL, NULL,
+		"health",
+		"Setting within which the subject is exposed to animals, such as farm, slaughterhouse, food preparation. 
+		If multiple exposures are applicable, please state their type in the same order in which you reported the exposure in the field 'subject exposure'. 
+		<em>Example: backyard flock; confined animal feeding operation</em>"
+	),
+	("outbreak",
+		"Outbreak", "text", 1, NULL, NULL,
+		"outbreak", "outbreak", NULL, 200, NULL, NULL, NULL,
+		"health",
+		"Date, location <em> e.g. type of gathering, family cluster etc. </em>"
+	),
+	("host_health_state",
+		"Host health state", "select", NULL, 3, NULL,
+		"host_health_state_id", "host-health-state", NULL, NULL, NULL, NULL, NULL,
+		"health",
+		"Health status of the host at the time of sample collection."
+	),
+	("hospitalisation",
+		"Hospitalisation", "radio", NULL, 1, NULL,
+		"hospitalization", "hospitalisation", NULL, NULL, NULL, NULL, NULL,
+		"health",
+		"Was the subject confined to a hospital as a result of virus infection or problems occurring secondary to virus infection?"
+	),
+	("ilness_symptoms",
+		"Ilness symptoms", "text", NULL, 1, NULL,
+		"ilness_symptoms", "ilness-symptoms", NULL, 600, NULL, NULL, NULL,
+		"health",
+		"The symptoms that have been reported in relation to the illness, such as cough, diarrhea, fever, headache, malaise, myalgia, nausea, runny_nose, shortness_of_breath, sore_throat. If multiple exposures are applicable, please state them separated by semicolon."
+	),
+	("ilness_duration",
+		"Ilness duration", "number", NULL, 1, NULL,
+		"ilness_duration", "ilness-duration", 0, NULL, NULL, NULL, NULL,
+		"health",
+		"The number of days the illness lasted. <em>Example: 4</em>."
+	),
+	("host_disease_outcome",
+		"Host disease outcome", "select", 1, NULL, NULL,
+		"host_disease_outcome_id", "ilness-disease-outcome", NULL, NULL, NULL, NULL, NULL,
+		"health",
+		"Disease outcome in the host."
+	),
+	("sars_cov_2_diag_gene_name_1",
+		"Name of the gene used in the first diagnostic SARS-CoV-2 RT-PCR test", "select", NULL, NULL, 1,
+		"sars_cov_2_diag_gene_name_1_id", "sars-cov-2-diag-gene-name-1", NULL, NULL, NULL, NULL, NULL,
+		"health",
+		"The name of the gene used in the first diagnostic SARS-CoV-2 RT-PCR test."
+	),
+	("sars_cov_2_diag_pcr_ct_value_1",
+		"The cycle treshold of the first diagnostic SARS-CoV-2 RT-PCR test", "number", NULL, NULL, 1,
+		"sars_cov_2_diag_pcr_ct_value_1", "sars-cov-2-diag-pcr-ct-value-1", NULL, 45, 1, NULL, NULL,
+		"health",
+		"The cycle threshold (CT) value result from the first diagnostic SARS-CoV-2 RT-PCR test, <em>e.g., 21</em>"
+	),
+	("sars_cov_2_diag_gene_name_2",
+		"Name of the gene used in the second diagnostic SARS-CoV-2 RT-PCR test", "select", NULL, NULL, 1,
+		"sars_cov_2_diag_gene_name_2_id", "sars-cov-2-diag-gene-name-2", NULL, NULL, NULL, NULL, NULL,
+		"health",
+		"The name of the gene used in the second diagnostic SARS-CoV-2 RT-PCR test."
+	),
+	("sars_cov_2_diag_pcr_ct_value_2",
+		"The cycle treshold of the second diagnostic SARS-CoV-2 RT-PCR test", "number", NULL, NULL, 1,
+		"sars_cov_2_diag_pcr_ct_value_2", "sars-cov-2-diag-pcr-ct-value-2", NULL, 45, 1, NULL, NULL,
+		"health",
+		"The cycle threshold (CT) value result from the second diagnostic SARS-CoV-2 RT-PCR test, <em>e.g., 36</em>"
 	)
 
 

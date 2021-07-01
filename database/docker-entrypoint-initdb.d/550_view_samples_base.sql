@@ -66,8 +66,11 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		health.ilness_symptoms AS ilness_symptoms,
 		health.host_disease_outcome_id AS host_disease_outcome_id,
 		health.host_health_state_id AS host_health_state_id,
-		health.treatment AS treatment,
 		health.outbreak AS outbreak,
+		health.sars_cov_2_diag_gene_name_1_id AS sars_cov_2_diag_gene_name_1_id,
+		health.sars_cov_2_diag_pcr_ct_value_1 AS sars_cov_2_diag_pcr_ct_value_1,
+		health.sars_cov_2_diag_gene_name_2_id AS sars_cov_2_diag_gene_name_2_id,
+		health.sars_cov_2_diag_pcr_ct_value_2 AS sars_cov_2_diag_pcr_ct_value_2,
 	
 		sequencing.sequencing_instrument_id AS sequencing_instrument_id,
 		sequencing.assembly_method_id AS assembly_method_id,

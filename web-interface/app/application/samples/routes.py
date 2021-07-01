@@ -381,7 +381,23 @@ def tester():
     html+= editor.single("vaccine_received");
     html+= editor.single("date_of_prior_sars_cov_2_vaccination");
 
+    html+= editor.single("subject_exposure");
+    html+= editor.single("subject_exposure_duration");
+    html+= editor.single("type_exposure");
+    html+= editor.single("outbreak");
+    html+= editor.single("host_health_state",
+                         dlist=misc.HostHealthStates.fetch_list());
+    html+= editor.single("hospitalisation",
+                         dlist=HOSPITALISATIONS);
+    html+= editor.single("ilness_symptoms");
+    html+= editor.single("ilness_duration");
 
+    html+= editor.single("sars_cov_2_diag_gene_name_1",
+                         dlist=misc.SarsCovGenes.fetch_list());
+    html+= editor.single("sars_cov_2_diag_pcr_ct_value_1");
+    html+= editor.single("sars_cov_2_diag_gene_name_2",
+                         dlist=misc.SarsCovGenes.fetch_list());
+    html+= editor.single("sars_cov_2_diag_pcr_ct_value_2");
 
 
     html+= render_template("samples/form/single/tail.html");
@@ -399,12 +415,12 @@ def tester_submit():
     save_data["location"] = Form.parse_simple(request.form, "location");
     save_data["host"] = Form.parse_simple(request.form, "host");
     save_data["treatment"] = Form.parse_simple(request.form, "treatment");
+    save_data["health"] = Form.parse_simple(request.form, "health");
     sample_ids = save([save_data]);
 
     return jsonify(save_data);
     save_data["library"] = Form.parse_simple(request.form, "library");
     save_data["sampling"] = Form.parse_simple(request.form, "sampling");
-    save_data["health"] = Form.parse_simple(request.form, "health");
     save_data["sequencing"] = Form.parse_simple(request.form, "sequencing");
     sample_ids = save([save_data]);
     sample_id = sample_ids[0];

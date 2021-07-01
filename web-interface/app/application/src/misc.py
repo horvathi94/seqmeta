@@ -105,3 +105,9 @@ class SequencingInstruments(DBInterface):
 
 class HasVaccine(DBInterface):
     display_table_name = "has_received_vaccine";
+
+
+class SarsCovGenes(DBInterface):
+    display_table_name = "sars_cov_2_genes";
+
+
