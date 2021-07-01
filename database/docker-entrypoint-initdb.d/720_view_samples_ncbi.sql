@@ -19,11 +19,11 @@ CREATE OR REPLACE VIEW `view_samples_ncbi` AS
 		hosts.host_scientific_name AS host,
 		"COVID-19" AS host_disease,
 		sampling.isolation_source_non_host_associated AS isolation_source,
-		health.treatment AS antiviral_treatment_agent,
+		treatment.antiviral_treatment_agent AS antiviral_treatment_agent,
 		collection.collection_device AS collection_device,
 		sampling.specimen_source AS collection_method,
-		"date_of_prior_sars_cov_2_infection" AS date_of_prior_sars_cov_2_infection,
-		"date_of_sars_cov_2_vaccination" AS date_of_sars_cov_2_vaccination,
+		treatment.date_of_prior_sars_cov_2_infection AS date_of_prior_sars_cov_2_infection,
+		treatment.date_of_prior_sars_cov_2_vaccination AS date_of_sars_cov_2_vaccination,
 		health.outbreak AS exposure_evenet,
 		"geo_loc_exposure" AS geo_loc_exposure,
 		"gisaid_accession" AS gisaid_accession,
@@ -47,20 +47,20 @@ CREATE OR REPLACE VIEW `view_samples_ncbi` AS
 				IF(SIGN(location.geo_loc_longitude) = 1, " W", " E")
 			)
 		) AS lat_lon,
-		"passage_method" AS passage_method,
-		"passage_number" AS passage_number,
-		"prior_sars_cov_2_antiviral_treatment" AS prior_sars_cov_2_antiviral_treatment,
-		"prior_sars_cov_2_infection" AS prior_sars_cov_2_infection,
-		"prior_sars_cov_2vaccination" AS prior_sars_cov_2_vaccination,
+		sampling.passage_method AS passage_method,
+		sampling.passage_number AS passage_number,
+		treatment.prior_sars_cov_2_antiviral_treat AS prior_sars_cov_2_antiviral_treat,
+		treatment.prior_sars_cov_2_infection AS prior_sars_cov_2_infection,
+		treatment.prior_sars_cov_2_vaccination AS prior_sars_cov_2_vaccination,
 		"purpose_of_sampling" AS purpose_of_sampling,
 		"purpose_of_sequencing" AS purpose_of_sequencing,
-		"sars_cov_2_diag_gene_name_1" AS sars_cov_2_diag_gene_name_1,
-		"sars_cov_2_diag_pcr_ct_value_1" AS sars_cov_2_diag_pcr_ct_value_1,
-		"sars_cov_2_diag_gene_name_2" AS sars_cov_2_diag_gene_name_2,
-		"sars_cov_2_diag_pcr_ct_value_2" AS sars_cov_2_diag_pcr_ct_value_2,
+		health.sars_cov_2_diag_gene_name_1 AS sars_cov_2_diag_gene_name_1,
+		health.sars_cov_2_diag_pcr_ct_value_1 AS sars_cov_2_diag_pcr_ct_value_1,
+		health.sars_cov_2_diag_gene_name_2 AS sars_cov_2_diag_gene_name_2,
+		health.sars_cov_2_diag_pcr_ct_value_2 AS sars_cov_2_diag_pcr_ct_value_2,
 		"sequenced_by" AS sequenced_by,
-		"vaccine_receive" AS vaccine_received,
-		"virus_isolate_of_prior_infection" AS virus_isolate_of_prior_infection,
+		treatment.vaccine_received AS vaccine_received,
+		treatment.virus_isolate_of_prior_infection AS virus_isolate_of_prior_infection,
 		samples.sample_description AS description
 
 
@@ -76,3 +76,5 @@ CREATE OR REPLACE VIEW `view_samples_ncbi` AS
 		ON samples.sample_id = sampling.sample_id
 	LEFT JOIN view_samples_health_status AS health
 		ON samples.sample_id = health.sample_id
+	LEFT JOIN view_samples_patient_treatment AS treatment
+		ON samples.sample_id = treatment.sample_id

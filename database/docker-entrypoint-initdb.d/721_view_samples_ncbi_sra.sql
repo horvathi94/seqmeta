@@ -8,8 +8,7 @@ CREATE OR REPLACE VIEW `view_samples_ncbi_sra` AS
 		library.library_strategy AS library_strategy,
 		library.library_source AS library_source,
 		library.library_selection AS library_selection,
-		IF (library.layout_paired IS NULL, "", 
-			IF(library.layout_paired IS TRUE, "Paired-End", "Single")) AS library_layout,
+		library.library_layout AS library_layout,
 		library.library_design_description AS library_design_description,
 
 		CONCAT(library.library_strategy, 

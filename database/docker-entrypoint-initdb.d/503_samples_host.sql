@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `samples_host` (
 	host_habitat_id													TINYINT UNSIGNED,
 	host_behaviour_id												TINYINT UNSIGNED,
 	host_description												VARCHAR(1000),
-	gravidity																VARCHAR(500),
+	gravidity																VARCHAR(500)
 
 );
 
@@ -41,8 +41,7 @@ CREATE OR REPLACE VIEW view_samples_host AS
 		habitats.label AS host_habitat,
 		behaviours.label AS host_behaviour,
 		host.host_description AS host_description,
-		host.gravidity AS host_gravidity,
-		has_vaccinated.label AS	prior_sars_cov_2_vaccination
+		host.gravidity AS host_gravidity
 
 	FROM samples_host AS host
 	LEFT JOIN hosts
@@ -52,7 +51,5 @@ CREATE OR REPLACE VIEW view_samples_host AS
 	LEFT JOIN host_habitats AS habitats
 		ON host.host_habitat_id = habitats.id
 	LEFT JOIN host_behaviours AS behaviours
-		ON host.host_behaviour_id = behaviours.id
-	LEFT JOIN has_received_vaccine AS has_vaccinated
-		ON host.prior_sars_cov_2_vaccination_id = has_vaccinated.id;
+		ON host.host_behaviour_id = behaviours.id;
 

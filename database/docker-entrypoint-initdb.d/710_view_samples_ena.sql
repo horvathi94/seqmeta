@@ -42,7 +42,7 @@ CREATE OR REPLACE VIEW `view_samples_ena` AS
 		
 		IF (collection.collector_abbreviated_middle_name IS NULL, "not provided",
 			collection.collector_abbreviated_middle_name) AS `collector name`, 
-		CONCAT(sampling.originating_lab_name, ", ", sampling.originating_lab_address) AS `collecting institution`,
+		CONCAT(collection.originating_lab_name, ", ", collection.originating_lab_address) AS `collecting institution`,
 		sampling.sample_storage_conditions AS `sample storage conditions`,
 
 		sampling.definition_for_seropositive_sample AS `definition for seropositive sample`,

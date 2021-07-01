@@ -34,11 +34,11 @@ CREATE OR REPLACE VIEW view_samples_details AS
 		host.host_description AS host_decription,
 		host.host_gravidity AS host_gravidity,
 
-		sampling.originating_lab_name AS originating_lab_name,
-		sampling.submitting_lab_name AS submitting_lab_name,
+		coll.originating_lab_name AS originating_lab_name,
+		coll.submitting_lab_name AS submitting_lab_name,
+		coll.author_group_name AS author_group_name,
+		coll.authors_list AS authors_list,
 		sampling.sampling_strategy AS sampling_strategy,
-		sampling.author_group_name AS author_group_name,
-		sampling.authors_list AS authors_list,
 		sampling.strain AS strain,
 		sampling.sample_capture_status AS sample_capture_status,
 		sampling.specimen_source AS specimen_source,
@@ -50,7 +50,7 @@ CREATE OR REPLACE VIEW view_samples_details AS
 		health.ilness_duration_days AS ilness_duration,
 		health.ilness_symptoms AS ilness_symptoms,
 		health.host_disease_outcome AS host_disease_outcome,
-		health.treatment AS treatment,
+		treatment.antiviral_treatment_agent AS treatment,
 		health.outbreak AS outbreak,
 
 		sequencing.sequencing_instrument AS sequencing_instrument,
@@ -74,3 +74,5 @@ CREATE OR REPLACE VIEW view_samples_details AS
 		ON samples.sample_id = health.sample_id
 	LEFT JOIN view_samples_sequencing AS sequencing
 		ON samples.sample_id = sequencing.sample_id
+	LEFT JOIN view_samples_patient_treatment AS treatment
+		ON samples.sample_id = treatment.sample_id
