@@ -2,6 +2,8 @@ from flask import render_template
 from application.src.samples.samples import Samples
 from application.src.fields import Field
 from application.src.defaults import DefaultValues
+from application.src.seqfiles.seqfiles import SeqFilesBunch
+from application.src.seqfiles.db import SeqFileTypes
 
 
 class Editor:
@@ -29,3 +31,10 @@ class Editor:
             "samples/form/single/{:s}.html".format(field["field_type"]),
             info=field, list=dlist);
 
+    def single_files(self):
+        seqfiles=SeqFilesBunch(self.sample_id);
+        seqfile_types=SeqFileTypes.fetch_list_labeled(
+                            replace_key="item_key");
+        return render_template("samples/form/single/files.html",
+                               seqfiles=seqfiles,
+                               seqfile_types=seqfile_types);

@@ -63,8 +63,7 @@ def show():
     return html;
 
 
-@samples_bp.route("/samples/edit")
-def edit():
+def old_edit():
     styles = [{"filename": "edit.css", "prefix": "samples"},
               {"filename": "markers.css"}];
     scripts = [{"filename": "validate-sample-name.js", "prefix": "samples"},
@@ -171,6 +170,7 @@ def submit():
     save_data["sampling"] = Form.parse_simple(request.form, "sampling");
     save_data["health"] = Form.parse_simple(request.form, "health");
     save_data["sequencing"] = Form.parse_simple(request.form, "sequencing");
+    save_data["treatment"] = Form.parse_simple(request.form, "treatment");
     sample_ids = save([save_data]);
     sample_id = sample_ids[0];
 
@@ -311,14 +311,11 @@ from application.src.samples.extensions.treatment import \
 from application.src.fields import Field
 
 
-@samples_bp.route("/test")
-def tester():
+@samples_bp.route("/samples/edit")
+def edit():
 
-    sample_id = 1;
+    sample_id = int(request.args["id"]) if "id" in request.args else 0;
     editor = Editor(sample_id);
-
-
-#    return jsonify(Field.fetch("date_of_prior_antiviral_treat"));
 
     styles = [{"filename": "edit.css", "prefix": "samples"},
               {"filename": "markers.css"}];
@@ -452,64 +449,8 @@ def tester():
     html+= editor.single("library_design_description");
     html+= editor.single("insert_size");
 
-
-
+    html+= editor.single_files();
 
     html+= render_template("samples/form/single/tail.html");
     return html;
-
-
-
-@samples_bp.route("/test/submit", methods=["POST"])
-def tester_submit():
-
-#    return jsonify(request.form);
-    save_data = {};
-    save_data["sample"] = Form.parse_simple(request.form, "sample");
-    save_data["collection"] = Form.parse_simple(request.form, "collection");
-    save_data["location"] = Form.parse_simple(request.form, "location");
-    save_data["host"] = Form.parse_simple(request.form, "host");
-    save_data["treatment"] = Form.parse_simple(request.form, "treatment");
-    save_data["health"] = Form.parse_simple(request.form, "health");
-    save_data["sampling"] = Form.parse_simple(request.form, "sampling");
-    save_data["sequencing"] = Form.parse_simple(request.form, "sequencing");
-    save_data["library"] = Form.parse_simple(request.form, "library");
-    sample_ids = save([save_data]);
-
-    return jsonify(save_data);
-    sample_ids = save([save_data]);
-    sample_id = sample_ids[0];
-
-    assembly_file = request.files["assembly-file"];
-    if assembly_file.filename != "":
-        file_data = {"sample_id": sample_id,
-                     "file_type_id": request.form["assembly-file-type"],
-                     "is_assembly": True,
-                     "is_forward_read": None};
-        SeqFile.save(file_data);
-        filename = SeqFile.fetch_filename(sample_id, ftype="assembly");
-        assembly_file.save(os.path.join("/uploads/samples/assemblies",
-                                        filename));
-
-    fwread_file = request.files["forward-read-file"];
-    if fwread_file.filename != "":
-        file_data = {"sample_id": sample_id,
-                     "file_type_id": request.form["forward-read-file-type"],
-                     "is_assembly": False,
-                     "is_forward_read": True};
-        SeqFile.save(file_data);
-        filename = SeqFile.fetch_filename(sample_id, ftype="fwread");
-        fwread_file.save(os.path.join("/uploads/samples/raw", filename));
-
-    rvread_file = request.files["reverse-read-file"];
-    if rvread_file.filename != "":
-        file_data = {"sample_id": sample_id,
-                     "file_type_id": request.form["reverse-read-file-type"],
-                     "is_assembly": False,
-                     "is_forward_read": False};
-        SeqFile.save(file_data);
-        filename = SeqFile.fetch_filename(sample_id, ftype="rvread");
-        rvread_file.save(os.path.join("/uploads/samples/raw", filename));
-
-    return redirect(url_for('samples_bp.show'));
 

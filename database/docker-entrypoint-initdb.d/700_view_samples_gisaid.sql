@@ -23,17 +23,33 @@ CREATE OR REPLACE VIEW view_samples_gisaid AS
 		hosts.patient_status AS patient_status,
 		sampling.specimen_source AS specimen_source,
 		health.outbreak AS outbreak,
-		health.treatment AS treatment,
+		treatment.antiviral_treatment_agent AS treatment,
 		sequencing.sequencing_instrument AS sequencing_technology,
 		sequencing.assembly_method AS assembly_method,
 		sequencing.coverage_x AS coverage,
-		sampling.originating_lab_name AS originating_lab_name,
-		sampling.originating_lab_address AS originating_lab_address,
-		sampling.originating_lab_sample_name AS originating_lab_sample_name,
-		sampling.submitting_lab_name AS submitting_lab_name,
-		sampling.submitting_lab_address AS submitting_lab_address,
-		sampling.submitting_lab_sample_name AS submitting_lab_sample_name,
-		sampling.authors_list AS authors_list,
+		collection.originating_lab_name AS originating_lab_name,
+		collection.originating_lab_address AS originating_lab_address,
+		collection.originating_lab_sample_name AS originating_lab_sample_name,
+		collection.submitting_lab_name AS submitting_lab_name,
+		collection.submitting_lab_address AS submitting_lab_address,
+		collection.submitting_lab_sample_name AS submitting_lab_sample_name,
+		collection.authors_list AS authors_list,
+		IF (sampling.passage_number IS NULL, "",
+			IF (sampling.passage_number = 0, "Original",
+				CONCAT(sampling.passage_method, " passage number: ", sampling.passage_method)
+			)
+		) AS passage_details,
+		IF (treatment.prior_sars_cov_2_vaccination IS NULL, "unknown",
+			IF (treatment.prior_sars_cov_2_vaccination = "no", "Not vaccinated",
+				CONCAT(
+					treatment.prior_sars_cov_2_vaccination, " ", 
+					IF (treatment.vaccine_received IS NULL OR treatment.vaccine_received = "", "",
+						treatment.vaccine_received ),
+					IF (treatment.date_of_prior_sars_cov_2_vaccination IS NULL, "",
+						CONCAT("first dose received on: ", treatment.date_of_prior_sars_cov_2_vaccination))
+				)
+			)
+		) AS last_vaccinated,
 
 		( SELECT filename 
 			FROM view_seqfiles
@@ -53,3 +69,5 @@ CREATE OR REPLACE VIEW view_samples_gisaid AS
 		ON samples.sample_id = health.sample_id
 	LEFT JOIN view_samples_sequencing AS sequencing
 		ON samples.sample_id = sequencing.sample_id
+	LEFT JOIN view_samples_patient_treatment AS treatment
+		ON samples.sample_id = treatment.sample_id
