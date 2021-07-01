@@ -1,7 +1,9 @@
-{% macro inptext(dets, type="single") %}
+{% macro inpdate(dets, type="single") %}
 
-{% set maxlen="maxlength='"+dets.maxlength|string+"'" 
-	if dets.maxlength > 0 else "" %}
+{% set minval="min='"+dets.min|string+"'" 
+	if dets.min != "" else "" %}
+{% set maxval="max='"+dets.max|string+"'" 
+	if dets.max != "" else "" %}
 {% set onhangefunc="onchange='"+dets.onchange+"'" 
 	if dets.onchange else "" %}
 
@@ -10,11 +12,12 @@
 	{% set name = dets.name_single %}
 {% endif %}
 
-<input type="text"
+<input type="date"
 			 name="{{ name }}"
 			 	class="{{ dets.class }}"
 				value="{{ dets.value }}"
-				{{ maxlen }} 
+				{{ minval }} 
+				{{ maxval }} 
 				{{ dets.onchangefunc }}/>
 
 

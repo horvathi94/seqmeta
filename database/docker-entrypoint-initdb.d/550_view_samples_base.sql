@@ -8,26 +8,21 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		samples.title AS sample_title,
 		samples.description AS sample_description,
 
+		collection.collection_year AS collection_year,
+		collection.collection_month AS collection_month,
+		collection.collection_day AS collection_day,
+		collection.collector_id AS collector_id,
+		
 		location.continent_id AS continent_id,
 		location.country_id AS country_id,
 		location.region AS region,
 		location.locality AS locality,
 		location.geo_loc_latitude AS geo_loc_latitude,
 		location.geo_loc_longitude AS geo_loc_longitude,
-		location.additional_info AS additional_location_info,
+		location.additional_location_info AS additional_location_info,
 
-		collection.collection_year AS collection_year,
-		collection.collection_month AS collection_month,
-		collection.collection_day AS collection_day,
-		collection.collector_id AS collector_id,
-
-		library.lib_id AS library_id,
-		library.layout_paired AS library_layout_paired,
-		library.strategy_id AS library_strategy_id,
-		library.source_id AS library_source_id,
-		library.selection_id AS library_selection_id,
-		library.design_description AS library_design_description,
-		library.preparation_date AS library_preparation_date,
+		treatment.prior_sars_cov_2_antiviral_treat AS prior_sars_cov_2_antiviral_treat,
+		treatment.date_of_prior_antiviral_treat AS date_of_prior_antiviral_treat,
 
 		host.host_id AS host_id,
 		host.host_subject_id AS	host_subject_id,
@@ -70,8 +65,15 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 	
 		sequencing.sequencing_instrument_id AS sequencing_instrument_id,
 		sequencing.assembly_method_id AS assembly_method_id,
-		sequencing.coverage AS coverage
+		sequencing.coverage AS coverage,
 
+		library.lib_id AS library_id,
+		library.layout_paired AS library_layout_paired,
+		library.strategy_id AS library_strategy_id,
+		library.source_id AS library_source_id,
+		library.selection_id AS library_selection_id,
+		library.design_description AS library_design_description,
+		library.preparation_date AS library_preparation_date
 
 		FROM samples
 		LEFT JOIN samples_location AS location
@@ -88,3 +90,5 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 			ON samples.id = health.sample_id
 		LEFT JOIN samples_sequencing AS sequencing
 			ON samples.id = sequencing.sample_id
+		LEFT JOIN samples_patient_treatment AS treatment
+			ON samples.id = treatment.sample_id

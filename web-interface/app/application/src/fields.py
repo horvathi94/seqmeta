@@ -1,3 +1,4 @@
+from datetime import datetime
 from application.src.db.interface import DBInterface
 from application.src.db.cursor import Cursor
 
@@ -56,6 +57,16 @@ class Field(DBInterface):
                 if raw["max_val"] != None else "";
             field["input"]["step"] = float(raw["step"]) \
                 if raw["step"] != None else 1;
+            field["value"] = "";
+        if raw["field_type"] == "date":
+            date = "";
+            if raw["min_date"] != None:
+                date = raw["min_date"].strftime("%Y-%m-%d");
+            field["input"]["min"] = date;
+            date = "";
+            if raw["max_date"] != None:
+                date = raw["max_date"].strftime("%Y-%m-%d");
+            field["input"]["max"] = date;
             field["value"] = "";
         field["description"] = str(raw["description"].strip());
         return field;

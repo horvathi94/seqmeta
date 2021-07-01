@@ -8,6 +8,9 @@ from application.src.samples.extensions.sampling import Sampling
 from application.src.samples.extensions.sequencing import Sequencing
 
 
+from application.src.samples.extensions.treatment import PatientTreatment
+
+
 def save(submitted_samples):
 
     sample_ids = [];

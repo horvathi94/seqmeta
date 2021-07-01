@@ -304,14 +304,19 @@ def reg_library_names():
 
 
 from .editor import Editor
+from application.src.samples.extensions.treatment import ANTIVIRAL_TREAT
+
+from application.src.fields import Field
 
 
 @samples_bp.route("/test")
 def tester():
 
-    sample_id = 0;
+    sample_id = 1;
     editor = Editor(sample_id);
 
+
+#    return jsonify(Field.fetch("date_of_prior_antiviral_treat"));
 
     styles = [{"filename": "edit.css", "prefix": "samples"},
               {"filename": "markers.css"}];
@@ -348,6 +353,23 @@ def tester():
 
     html+= editor.single("host", dlist=misc.Hosts.fetch_list());
     html+= editor.single("host_subject_id");
+    html+= editor.single("additional_host_info");
+    html+= editor.single("patient_gender", dlist=PATIENT_GENDERS);
+    html+= editor.single("patient_age");
+    html+= editor.single("patient_status",
+                         dlist=misc.PatientStatuses.fetch_list());
+    html+= editor.single("ppe");
+    html+= editor.single("host_habitat",
+                         dlist=misc.HostHabitats.fetch_list());
+    html+= editor.single("host_behaviour",
+                         dlist=misc.HostBehaviours.fetch_list());
+    html+= editor.single("host_description");
+    html+= editor.single("host_gravidity");
+
+    html+= editor.single("prior_sars_cov_2_antiviral_treat",
+                         dlist=ANTIVIRAL_TREAT);
+    html+= editor.single("date_of_prior_antiviral_treat");
+
 
     html+= render_template("samples/form/single/tail.html");
     return html;

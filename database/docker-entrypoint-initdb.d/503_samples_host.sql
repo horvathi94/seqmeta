@@ -12,12 +12,6 @@ CREATE TABLE IF NOT EXISTS `samples_host` (
 	host_behaviour_id												TINYINT UNSIGNED,
 	host_description												VARCHAR(1000),
 	gravidity																VARCHAR(500),
-	prior_sars_cov_2_antiviral_treatment		BIT(1),
-	prior_sars_cov_2_infection							BIT(1),	
-	prior_sars_cov_2_vaccination_id					TINYINT UNSIGNED,
-	virus_isolate_of_prior_infection				VARCHAR(200),
-	vaccine_received												VARCHAR(100),
-	date_of_prior_sars_cov_2_vaccination		DATE
 
 );
 

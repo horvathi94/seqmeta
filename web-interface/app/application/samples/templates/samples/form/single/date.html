@@ -1,0 +1,13 @@
+{% from "samples/form/base/date.j2" import inpdate %}
+{% from "macros/markers.j2" import marker %}
+
+<tr>
+	<td> {{ info.field_name }} 
+		{% for req in info.requirement %}
+			{{ marker(req.type, requirement=req.level) }}
+		{% endfor %}
+	</td>
+	<td> {{ inpdate(info.input, type="single") }} </td>
+	<td> {{ info.description|safe }} </td>
+</tr>
+

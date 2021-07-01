@@ -1,0 +1,15 @@
+{% from "macros/radio.j2" import radio %}
+{% from "macros/markers.j2" import marker %}
+
+<tr>
+	<td> {{ info.field_name }} 
+		{% for req in info.requirement %}
+			{{ marker(req.type, requirement=req.level) }}
+		{% endfor %}
+	</td>
+	<td> {{ radio(info.input.name_single,
+					list,
+					selected_value=info.input.value) }} </td>
+	<td> {{ info.description|safe }} </td>
+</tr>
+
