@@ -2,12 +2,16 @@
 
 {% set maxlen="maxlength='"+dets.maxlength|string+"'" 
 	if dets.maxlength > 0 else "" %}
-{% set onhangefunc="onchange='"+dets.onchange+"'" 
-	if dets.onchange else "" %}
+{% set onchangefunc="onchange='"+dets.onchange|string+"'" 
+	if dets.onchange != "" else "" %}
 
 {% set name = "" %}
 {% if type == "single" %}
 	{% set name = dets.name_single %}
+{% elif type == "multi_all" %}
+	{% set name = dets.multi_all %}
+{% elif type == "multi_template" %}
+	{% set name = dets.multi_template %}
 {% endif %}
 
 <input type="text"
@@ -15,7 +19,7 @@
 			 	class="{{ dets.class }}"
 				value="{{ dets.value }}"
 				{{ maxlen }} 
-				{{ dets.onchangefunc }}/>
+				{{ onchangefunc }}/>
 
 
 {% endmacro %}

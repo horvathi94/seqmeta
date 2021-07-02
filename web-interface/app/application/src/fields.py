@@ -30,9 +30,10 @@ class Field(DBInterface):
         raw ,= Cursor.select(cls.display_table_name,
                       clauses=where_clause);
         field = {};
-        field["field_name"] = raw["field_name"].strip();
+        field["field_name"] = str(raw["field_name"].strip());
         field["field_type"] = raw["field_type"].strip();
         field["db_key"] = raw["db_key"];
+        field["edit_all"] = raw["edit_all"];
         field["requirement"] = [];
         gisaid = cls.parse_req(raw, "gisaid");
         if gisaid != None:
@@ -45,7 +46,10 @@ class Field(DBInterface):
             field["requirement"].append(ncbi);
         field["input"] = {};
         field["input"]["name_single"] = raw["prefix"] + "+" + raw["db_key"];
+        field["input"]["multi_all"] = raw["prefix"]+"-"+raw["db_key"]+"-all";
+        field["input"]["multi_template"] = raw["prefix"]+"+0+"+raw["db_key"];
         field["input"]["class"] = raw["class"];
+        field["input"]["onchange"] = "";
         if raw["field_type"] == "text":
             field["input"]["maxlength"] = raw["max_val"] \
                 if raw["max_val"] != None else 0;

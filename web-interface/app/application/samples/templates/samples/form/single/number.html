@@ -2,12 +2,12 @@
 {% from "macros/markers.j2" import marker %}
 
 <tr>
-	<td> {{ info.field_name }} 
+	<td> {{ info.field_name|safe }} 
 		{% for req in info.requirement %}
 			{{ marker(req.type, requirement=req.level) }}
 		{% endfor %}
 	</td>
 	<td> {{ inpnumber(info.input, type="single") }} </td>
-	<td> {{ info.description }} </td>
+	<td> {{ info.description|safe }} </td>
 </tr>
 

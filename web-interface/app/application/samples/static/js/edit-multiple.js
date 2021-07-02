@@ -10,6 +10,7 @@ function addNewRow(){
 	Array.from(cloned.cells).forEach( (cell) => {
 		Array.from(cell.querySelectorAll("input, select")).forEach( (inp) => {
 			newName = inp.getAttribute("name").replace("0", newIndx);
+			console.log(newName);
 			inp.setAttribute("name", newName);
 		});
 	});

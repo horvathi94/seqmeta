@@ -1,3 +1,12 @@
+{% from "samples/form/base/text.j2" import inptext %}
+
+
 <td>
-	All
+	{% if info.edit_all %}
+		{% if info.field_type == "text" %}
+			{{ inptext(info.input, type="multi_all") }}
+		{% endif %}
+	{% else %}
+		<strong> Must be unique </strong>
+	{% endif %}
 </td>

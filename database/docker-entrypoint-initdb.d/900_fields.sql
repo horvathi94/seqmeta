@@ -20,7 +20,9 @@ CREATE TABLE IF NOT EXISTS fields (
 
 	prefix				VARCHAR(100),
 
-	description		VARCHAR(2000)
+	description		VARCHAR(2000),
+
+	edit_all			BIT(1) DEFAULT TRUE
 
 );
 
@@ -518,7 +520,9 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		""
 	)
 
-
-
 ;
+
+UPDATE `fields` 
+	SET `edit_all` = FALSE
+	WHERE `handle` = "sample_name"
 

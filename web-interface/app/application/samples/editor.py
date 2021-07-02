@@ -55,14 +55,38 @@ class MultiEditor:
        return render_template("samples/form/multi/col_head.html", info=info);
 
 
+    @classmethod
+    def all_col(cls, info):
+        if info["field_type"] == "text":
+            info["input"]["onchange"] = "updateColumn(this);";
+        return render_template("samples/form/multi/col_all.html", info=info);
+
+
+    @classmethod
+    def template_col(cls, info):
+        return render_template("samples/form/multi/col_template.html",
+                               info=info);
+
+
     def add_field(self, handle):
         field = Field.fetch(handle);
         self.head.append(self.header_col(field));
+        self.all.append(self.all_col(field));
+        self.template.append(self.template_col(field));
 
 
     def get_html(self):
         html = "<tr>";
         for col in self.head:
+            html+= col;
+        html+= "</tr>";
+        html+= "<tr class='editor row all'>";
+        for col in self.all:
+            html+= col;
+        html+= "</tr>";
+        html+= "<tr class='editor row template' \
+            style='visibility: collapse;'>";
+        for col in self.template:
             html+= col;
         html+= "</tr>";
         return html;
