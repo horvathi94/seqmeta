@@ -2,6 +2,7 @@
 {% from "samples/form/base/number.j2" import inpnumber %}
 {% from "samples/form/base/date.j2" import inpdate %}
 {% from "macros/select.j2" import select %}
+{% from "macros/radio.j2" import radio %}
 
 
 <td>
@@ -14,11 +15,17 @@
 		{% elif info.field_type == "date" %}
 			{{ inpdate(info.input, type="multi_all") }}
 		{% elif info.field_type == "select" %}
-			{{ select(info.input.name_single ,
+			{{ select(info.input.multi_all,
 						dlist,
 						class=info.input.class,
 						selected_id=info.input.value,
 						onchange="updateColumnSelect(this);") }}
+		{% elif info.field_type == "radio" %}
+			{{ radio(info.input.multi_all,
+						dlist,
+						class=info.input.class,
+						selected_value=info.input.value,
+						onchange="updateColumnRadio(this);") }}
 		{% endif %}
 	{% else %}
 		<strong> Must be unique </strong>

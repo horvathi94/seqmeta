@@ -71,8 +71,7 @@ def show():
 
 
 
-@samples_bp.route("/samples/add-multiple", methods=["GET"])
-def add_multiple():
+def old_add_multiple():
     styles = [{"filename": "add-multiple.css", "prefix": "samples"},
               {"filename": "markers.css"},
               {"filename": "tooltips.css"}];
@@ -192,6 +191,7 @@ def submit_multiple():
     save(samples);
     return redirect(url_for('samples_bp.show'));
 
+
 @samples_bp.route("/samples/details")
 def sample_details():
     sample_id = int(request.args["id"]) if "id" in request.args else 0;
@@ -261,6 +261,7 @@ def reg_library_names():
 
 
 
+from .editor_fields import FIELDS_LIST
 
 
 @samples_bp.route("/samples/edit")
@@ -278,128 +279,9 @@ def edit():
                            sample_id=sample_id);
 
 
-    html+= editor.single("sample_name");
-    html+= editor.single("sample_comment");
-    html+= editor.single("sample_title");
-    html+= editor.single("sample_description");
+    for fd in FIELDS_LIST:
+        html+= editor.single(fd);
 
-    html+= editor.single("collection_year");
-    html+= editor.single("collection_month");
-    html+= editor.single("collection_day");
-    html+= editor.single("collector_name",
-                         dlist=Authors.fetch_list_labeled(
-                             replace_key="abbreviated_middle_name"));
-
-
-    html+= editor.single("location_continent",
-                         dlist=misc.Continents.fetch_list());
-    html+= editor.single("location_country",
-                         dlist=misc.Countries.fetch_list());
-
-    html+= editor.single("location_region");
-    html+= editor.single("location_locality");
-    html+= editor.single("additional_location_info");
-    html+= editor.single("geo_loc_latitude");
-    html+= editor.single("geo_loc_longitude");
-
-    html+= editor.single("host", dlist=misc.Hosts.fetch_list());
-    html+= editor.single("host_subject_id");
-    html+= editor.single("additional_host_info");
-    html+= editor.single("patient_gender", dlist=PATIENT_GENDERS);
-    html+= editor.single("patient_age");
-    html+= editor.single("patient_status",
-                         dlist=misc.PatientStatuses.fetch_list());
-    html+= editor.single("ppe");
-    html+= editor.single("host_habitat",
-                         dlist=misc.HostHabitats.fetch_list());
-    html+= editor.single("host_behaviour",
-                         dlist=misc.HostBehaviours.fetch_list());
-    html+= editor.single("host_description");
-    html+= editor.single("host_gravidity");
-
-    html+= editor.single("prior_sars_cov_2_antiviral_treat",
-                         dlist=ANTIVIRAL_TREAT);
-    html+= editor.single("antiviral_treatment_agent");
-    html+= editor.single("date_of_prior_antiviral_treat");
-    html+= editor.single("prior_sars_cov_2_infection",
-                         dlist=PRIOR_INFECTION);
-    html+= editor.single("date_of_prior_sars_cov_2_infection");
-    html+= editor.single("virus_isolate_of_prior_infection");
-
-    html+= editor.single("prior_sars_cov_2_vaccination",
-                         dlist=misc.HasVaccine.fetch_list());
-    html+= editor.single("vaccine_received");
-    html+= editor.single("date_of_prior_sars_cov_2_vaccination");
-
-    html+= editor.single("subject_exposure");
-    html+= editor.single("subject_exposure_duration");
-    html+= editor.single("type_exposure");
-    html+= editor.single("outbreak");
-    html+= editor.single("host_health_state",
-                         dlist=misc.HostHealthStates.fetch_list());
-    html+= editor.single("hospitalisation",
-                         dlist=HOSPITALISATIONS);
-    html+= editor.single("ilness_symptoms");
-    html+= editor.single("ilness_duration");
-
-    html+= editor.single("sars_cov_2_diag_gene_name_1",
-                         dlist=misc.SarsCovGenes.fetch_list());
-    html+= editor.single("sars_cov_2_diag_pcr_ct_value_1");
-    html+= editor.single("sars_cov_2_diag_gene_name_2",
-                         dlist=misc.SarsCovGenes.fetch_list());
-    html+= editor.single("sars_cov_2_diag_pcr_ct_value_2");
-
-
-    html+= editor.single("originating_lab",
-                         dlist=Institutions.fetch_list_labeled());
-    html+= editor.single("originating_lab_sample_name");
-    html+= editor.single("submitting_lab",
-                         dlist=Institutions.fetch_list_labeled());
-    html+= editor.single("submitting_lab_sample_name");
-    html+= editor.single("author_group",
-                         dlist=AuthorGroups.fetch_list_labeled(
-                                replace_key="group_name",
-                                replace_id="group_id"));
-
-
-    html+= editor.single("sampling_strategy",
-                         dlist=misc.SamplingStrategies.fetch_list());
-    html+= editor.single("strain");
-    html+= editor.single("isolation_source_host_associated");
-    html+= editor.single("isolation_source_non_host_associated");
-
-    html+= editor.single("sample_capture_status",
-                         dlist=misc.SampleCaptureStatuses.fetch_list());
-    html+= editor.single("specimen_source",
-                         dlist=misc.SpecimenSources.fetch_list());
-    html+= editor.single("sample_storage_condition");
-    html+= editor.single("passage_number");
-    html+= editor.single("passage_method");
-    html+= editor.single("definition_for_seropositive_sample");
-    html+= editor.single("serotype");
-
-    html+= editor.single("sequencing_instrument",
-                         dlist=misc.SequencingInstruments.fetch_list());
-    html+= editor.single("assembly_method",
-                         dlist=misc.AssemblyMethods.fetch_list());
-    html+= editor.single("coverage");
-
-
-    html+= editor.single("library_id");
-    html+= editor.single("library_layout",
-                         dlist=LIBRARY_LAYOUTS);
-    html+= editor.single("library_source",
-                         dlist=lib.LibrarySources.fetch_list_labeled(
-                             replace_key="item_key"));
-    html+= editor.single("library_selection",
-                         dlist=lib.LibrarySelections.fetch_list_labeled(
-                             replace_key="item_key"));
-    html+= editor.single("library_strategy",
-                         dlist=lib.LibraryStrategies.fetch_list_labeled(
-                             replace_key="item_key"));
-    html+= editor.single("library_preparation_date");
-    html+= editor.single("library_design_description");
-    html+= editor.single("insert_size");
 
     html+= editor.single_files();
 
@@ -410,10 +292,9 @@ def edit():
 
 
 from .editor import MultiEditor
-from .editor_fields import FIELDS_LIST
 
-@samples_bp.route("/test")
-def test():
+@samples_bp.route("/samples/add-multiple", methods=["GET"])
+def add_multiple():
 
     styles = [{"filename": "add-multiple.css", "prefix": "samples"},
               {"filename": "markers.css"},
@@ -435,3 +316,5 @@ def test():
     html+= render_template("samples/form/multi/tail.html");
     html+= render_template("footer.html", scripts=scripts);
     return html;
+
+

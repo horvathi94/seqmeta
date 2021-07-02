@@ -1,5 +1,6 @@
 <input type="button" value="Add" onclick="addNewRow();"/>
 
+<form action=" {{ url_for('samples_bp.submit_multiple') }} " method="POST" enctype="multipart/form-data">
 
 <div class="table-wrap">
 

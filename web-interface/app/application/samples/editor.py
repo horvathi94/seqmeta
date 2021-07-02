@@ -4,6 +4,7 @@ from application.src.fields import Field
 from application.src.defaults import DefaultValues
 from application.src.seqfiles.seqfiles import SeqFilesBunch
 from application.src.seqfiles.db import SeqFileTypes
+from .editor_fields import DLIST
 
 
 class Editor:
@@ -24,7 +25,8 @@ class Editor:
         return "";
 
 
-    def single(self, handle, dlist=[]):
+    def single(self, handle):
+        dlist = DLIST[handle] if handle in DLIST else [];
         field = Field.fetch(handle);
         field["input"]["value"] = self.get_value(field);
         return render_template(
@@ -42,7 +44,6 @@ class Editor:
 
 
 
-from .editor_fields import DLIST
 
 class MultiEditor:
 
@@ -50,6 +51,15 @@ class MultiEditor:
         self.head = [];
         self.all = [];
         self.template = [];
+
+
+    @classmethod
+    def get_value(cls, field):
+        defs = DefaultValues.fetch();
+        if field["db_key"] in defs:
+            if defs[field["db_key"]] != None:
+                return defs[field["db_key"]];
+        return "";
 
 
     @classmethod
@@ -62,8 +72,9 @@ class MultiEditor:
         dlist = [];
         if info["field_type"] in ["text", "number"]:
             info["input"]["onchange"] = "updateColumn(this);";
-        elif info["field_type"] == "select":
+        elif info["field_type"] in ["select", "radio"]:
             dlist = DLIST[info["handle"]];
+        info["input"]["value"] = cls.get_value(info);
         return render_template("samples/form/multi/col_all.html",
                                info=info, dlist=dlist);
 
@@ -71,8 +82,10 @@ class MultiEditor:
     @classmethod
     def template_col(cls, info):
         dlist = [];
-        if info["field_type"] == "select":
+        info["input"]["onchange"] = "";
+        if info["field_type"] in ["select", "radio"]:
             dlist = DLIST[info["handle"]];
+        info["input"]["value"] = cls.get_value(info);
         return render_template("samples/form/multi/col_template.html",
                                info=info, dlist=dlist);
 

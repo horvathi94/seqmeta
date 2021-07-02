@@ -116,7 +116,7 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"The geographical location of the sample as defined by the locality."
 	),
 	("additional_location_info",
-		"Additional location informatio", "text", 1, NULL, NULL,
+		"Additional location information", "text", 1, NULL, NULL,
 		"additional_location_info", "location-additional-info", NULL, 1000, NULL, NULL, NULL,
 		"location",
 		"<em> e.g. Cruise ship, Convention, Live animal market </em>"
@@ -524,5 +524,10 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 
 UPDATE `fields` 
 	SET `edit_all` = FALSE
-	WHERE `handle` = "sample_name"
+	WHERE `handle` = "sample_name";
+
+UPDATE `fields` 
+	SET `edit_all` = FALSE
+	WHERE `handle` = "library_id";
+
 
