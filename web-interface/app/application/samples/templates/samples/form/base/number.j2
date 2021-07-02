@@ -4,12 +4,16 @@
 	if dets.min != "" else "" %}
 {% set max="max='"+dets.max|string+"'" 
 	if dets.max != "" else "" %}
-{% set onhangefunc="onchange='"+dets.onchange+"'" 
-	if dets.onchange else "" %}
+{% set onchangefunc="onchange='"+dets.onchange+"'" 
+	if dets.onchange != "" else "" %}
 
 {% set name = "" %}
 {% if type == "single" %}
 	{% set name = dets.name_single %}
+{% elif type == "multi_all" %}
+	{% set name = dets.multi_all %}
+{% elif type == "multi_template" %}
+	{% set name = dets.multi_template %}
 {% endif %}
 
 <input type="number"
@@ -19,7 +23,7 @@
 				value="{{ dets.value }}"
 				{{ min }} 
 				{{ max }} 
-				{{ dets.onchangefunc }}/>
+				{{ onchangefunc }}/>
 
 
 {% endmacro %}

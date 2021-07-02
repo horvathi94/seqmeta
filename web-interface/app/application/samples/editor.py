@@ -42,6 +42,8 @@ class Editor:
 
 
 
+from .editor_fields import DLIST
+
 class MultiEditor:
 
     def __init__(self):
@@ -57,15 +59,22 @@ class MultiEditor:
 
     @classmethod
     def all_col(cls, info):
-        if info["field_type"] == "text":
+        dlist = [];
+        if info["field_type"] in ["text", "number"]:
             info["input"]["onchange"] = "updateColumn(this);";
-        return render_template("samples/form/multi/col_all.html", info=info);
+        elif info["field_type"] == "select":
+            dlist = DLIST[info["handle"]];
+        return render_template("samples/form/multi/col_all.html",
+                               info=info, dlist=dlist);
 
 
     @classmethod
     def template_col(cls, info):
+        dlist = [];
+        if info["field_type"] == "select":
+            dlist = DLIST[info["handle"]];
         return render_template("samples/form/multi/col_template.html",
-                               info=info);
+                               info=info, dlist=dlist);
 
 
     def add_field(self, handle):

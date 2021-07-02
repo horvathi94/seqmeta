@@ -1,10 +1,24 @@
 {% from "samples/form/base/text.j2" import inptext %}
+{% from "samples/form/base/number.j2" import inpnumber %}
+{% from "samples/form/base/date.j2" import inpdate %}
+{% from "macros/select.j2" import select %}
 
 
 <td>
+	
 	{% if info.edit_all %}
 		{% if info.field_type == "text" %}
 			{{ inptext(info.input, type="multi_all") }}
+		{% elif info.field_type == "number" %}
+			{{ inpnumber(info.input, type="multi_all") }}
+		{% elif info.field_type == "date" %}
+			{{ inpdate(info.input, type="multi_all") }}
+		{% elif info.field_type == "select" %}
+			{{ select(info.input.name_single ,
+						dlist,
+						class=info.input.class,
+						selected_id=info.input.value,
+						onchange="updateColumnSelect(this);") }}
 		{% endif %}
 	{% else %}
 		<strong> Must be unique </strong>

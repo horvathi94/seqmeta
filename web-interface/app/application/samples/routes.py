@@ -410,6 +410,7 @@ def edit():
 
 
 from .editor import MultiEditor
+from .editor_fields import FIELDS_LIST
 
 @samples_bp.route("/test")
 def test():
@@ -426,9 +427,8 @@ def test():
 
 
     editor = MultiEditor();
-    editor.add_field("sample_name");
-    editor.add_field("sample_comment");
-    editor.add_field("sample_description");
+    for fd in FIELDS_LIST:
+        editor.add_field(fd);
 
     html+= editor.get_html();
 

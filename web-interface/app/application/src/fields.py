@@ -33,6 +33,7 @@ class Field(DBInterface):
         field["field_name"] = str(raw["field_name"].strip());
         field["field_type"] = raw["field_type"].strip();
         field["db_key"] = raw["db_key"];
+        field["handle"] = raw["handle"];
         field["edit_all"] = raw["edit_all"];
         field["requirement"] = [];
         gisaid = cls.parse_req(raw, "gisaid");
