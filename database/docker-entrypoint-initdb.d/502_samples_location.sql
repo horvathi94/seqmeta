@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS `samples_location` (
 	locality									VARCHAR(150),
 	additional_location_info	VARCHAR(1000),
 	geo_loc_latitude					DECIMAL(5,2),
-	geo_loc_longitude					DECIMAL(5,2)
+	geo_loc_longitude					DECIMAL(5,2),
+	geo_loc_exposure_id				SMALLINT UNSIGNED
 
 );
 
@@ -30,11 +31,15 @@ CREATE OR REPLACE VIEW view_samples_location AS
 		location.locality AS locality,
 		location.additional_location_info AS additional_location_info,
 		IF (location.geo_loc_latitude IS NULL, "", location.geo_loc_latitude) AS geo_loc_latitude,
-		IF (location.geo_loc_longitude IS NULL, "", location.geo_loc_longitude) AS geo_loc_longitude
+		IF (location.geo_loc_longitude IS NULL, "", location.geo_loc_longitude) AS geo_loc_longitude,
+		exposure_country.label AS geo_loc_exposure
+
 	
 	FROM samples_location AS location
 	LEFT JOIN continents
 		ON location.continent_id = continents.id
 	LEFT JOIN countries 
-		ON location.country_id = countries.id;
+		ON location.country_id = countries.id
+	LEFT JOIN countries AS exposure_country
+		ON location.geo_loc_exposure_id = exposure_country.id;
 

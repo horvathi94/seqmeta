@@ -32,6 +32,7 @@ FIELDS_LIST = [
     "additional_location_info",
     "geo_loc_latitude",
     "geo_loc_longitude",
+    "geo_loc_exposure",
     "host",
     "host_subject_id",
     "additional_host_info",
@@ -133,6 +134,7 @@ DLIST = {
         lib.LibrarySelections.fetch_list_labeled(replace_key="item_key"),
     "library_strategy": \
         lib.LibraryStrategies.fetch_list_labeled(replace_key="item_key"),
+    "geo_loc_exposure": misc.Countries.fetch_list(),
 
 }
 

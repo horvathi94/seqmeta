@@ -545,6 +545,15 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"host_recent_travel_return_date", "host-recent-travel-return-date", NULL, NULL, NULL, "2019-01-01", NULL,
 		"host",
 		"The date of a person's most recent return to some residence from a journey originating at that residence, <em>e.g., 2021-03-30</em>"
+	),
+
+
+	/* --- Location extra --- */
+	("geo_loc_exposure",
+		"Country of exposure", "select", NULL, NULL, 1,
+		"geo_loc_exposure_id", "geo-loc-exposure", NULL, NULL, NULL, NULL, NULL,
+		"location",
+		"The country where the host was likely exposed to the causative agent of the illness. This location pertains to the country the host was believed to be exposed, and may not be the same as the host's country of residence, <em>e.g., Canada</em>"
 	)
 
 

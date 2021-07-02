@@ -26,6 +26,7 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		location.geo_loc_latitude AS geo_loc_latitude,
 		location.geo_loc_longitude AS geo_loc_longitude,
 		location.additional_location_info AS additional_location_info,
+		location.geo_loc_exposure_id AS geo_loc_exposure_id,
 
 		treatment.prior_sars_cov_2_antiviral_treat AS prior_sars_cov_2_antiviral_treat,
 		treatment.date_of_prior_antiviral_treat AS date_of_prior_antiviral_treat,
