@@ -57,9 +57,15 @@ INSERT INTO fields
 	),
 	("sample_description",
 		"Sample description", "text", NULL, 2, NULL,
-		"sample_description", "sample-description", 0, 200, 1, NULL, NULL,
+		"sample_description", "sample-description", 0, 200, NULL, NULL, NULL,
 		"sample",
 		"A short description of the sample."
+	),
+	("gisaid_accession",
+		"GISAID accession", "text", NULL, NULL, 1,
+		"gisaid_accession", "gisaid-accession", 0, 200, NULL, NULL, NULL,
+		"sample",
+		"The GISAID accession assigned to the sequence. GISAID Accession Numbers are used as unique and permanent identifiers for each virus beginning with the letters EPI and followed by numbers, to identify viruses and/or segments; https://www.gisaid.org/; <em>e.g., EPI_ISL_1091361.</em>"
 	),
 
 	/* --- Collection data --- */
@@ -514,11 +520,36 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"Free-form description of the methods used to create the sequencing library a brief 'material and methods' section."
 	),
 	("insert_size",
-		"Insert size", "text", NULL, NULL, 1,
-		"insert_size", "insert-size", NULL, 20, NULL, NULL, NULL,
+		"Insert size", "number", NULL, NULL, 1,
+		"insert_size", "insert-size", 0, NULL, 1, NULL, NULL,
 		"library",
-		""
+		"The insert size of the library."
+	),
+	("library_construction_protcol",
+		"Library construction protocol", "text", NULL, NULL, 1,
+		"library_construction_protocol", "library-construction-protocol", NULL, 500, NULL, NULL, NULL,
+		"library",
+		"Describes the protocol by which the sequencing library was constructed."
+	),
+
+
+	/* --- Host extra --- */
+	("host_recent_travel_loc",
+		"Host recent travel loc", "text", NULL, NULL, 1,
+		"host_recent_travel_loc", "host-recent-travel-loc", NULL, 500, NULL, NULL, NULL,
+		"host",
+		"The name of the country that was the destination of most recent travel. Specify the countries (and more granular locations if known) travelled, <em>e.g., United Kingdom </em>. Can include multiple travels; separate multiple travel events with a semicolon."
+	),
+	("host_recent_travel_return_date",
+		"Host recent travel return date", "date", NULL, NULL, 1,
+		"host_recent_travel_return_date", "host-recent-travel-return-date", NULL, NULL, NULL, "2019-01-01", NULL,
+		"host",
+		"The date of a person's most recent return to some residence from a journey originating at that residence, <em>e.g., 2021-03-30</em>"
 	)
+
+
+
+
 
 ;
 

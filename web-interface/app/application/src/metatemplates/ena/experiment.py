@@ -25,7 +25,9 @@ class EnaExperiment(TempFile):
         if is_paired:
             header += [
                 "forward_file_name",
-                "reverse_file_name"];
+                "forward_file_md5",
+                "reverse_file_name",
+                "reverse_file_md5"];
         return header;
 
     @classmethod

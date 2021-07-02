@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS `samples_library` (
 	library_selection_id						SMALLINT UNSIGNED,
 	library_design_description 			VARCHAR(1000),
 	library_preparation_date				DATE,
-	insert_size											VARCHAR(20)
+	insert_size											MEDIUMINT UNSIGNED,
+	library_construction_protocol		VARCHAR(500)
 
 );
 
@@ -29,7 +30,8 @@ CREATE OR REPLACE VIEW view_samples_library AS
 		library.library_design_description AS library_design_description,
 		IF(library.library_preparation_date IS NULL, "",
 			DATE_FORMAT(library.library_preparation_date, "%Y-%m-%d")) AS library_preparation_date,
-		library.insert_size AS library_insert_size
+		library.insert_size AS library_insert_size,
+		library.library_construction_protocol AS library_construction_protocol
 
 	FROM samples_library AS library
 	LEFT JOIN library_strategies AS strategies

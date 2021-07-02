@@ -36,7 +36,7 @@ CREATE OR REPLACE VIEW view_samples_gisaid AS
 		collection.authors_list AS authors_list,
 		IF (sampling.passage_number IS NULL, "",
 			IF (sampling.passage_number = 0, "Original",
-				CONCAT(sampling.passage_method, " passage number: ", sampling.passage_method)
+				CONCAT(sampling.passage_method, " passage number: ", sampling.passage_number)
 			)
 		) AS passage_details,
 		IF (treatment.prior_sars_cov_2_vaccination IS NULL, "unknown",

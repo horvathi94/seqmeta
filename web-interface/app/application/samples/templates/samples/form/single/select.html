@@ -9,8 +9,9 @@
 		{% endfor %}
 	</td>
 	<td> {{ select(info.input.name_single,
-					list,
+					dlist,
 					selected_id=info.input.value) }} </td>
 	<td> {{ info.description|safe }} </td>
+
 </tr>
 

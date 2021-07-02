@@ -11,7 +11,7 @@ CREATE OR REPLACE VIEW `view_samples_ena_experiment` AS
 		library.library_selection AS library_selection,
 		library.library_design_description AS design_description,
 		library.library_layout_paired AS is_paired,
-		"contruction" AS library_construction_protocol,
+		library.library_construction_protocol AS library_construction_protocol,
 		library.library_insert_size AS insert_size,
 		( SELECT filename 
 			FROM view_seqfiles AS seqfiles 
@@ -19,12 +19,14 @@ CREATE OR REPLACE VIEW `view_samples_ena_experiment` AS
 				AND is_assembly IS FALSE
 				AND is_forward_read IS TRUE
 			) AS forward_file_name,
+		"" AS forward_file_md5,
 		( SELECT filename 
 			FROM view_seqfiles AS seqfiles 
 			WHERE seqfiles.sample_id = samples.sample_id
 				AND is_assembly IS FALSE
 				AND is_forward_read IS FALSE
 			) AS reverse_file_name,
+		"" AS reverse_file_md5,
 
 		sequencing.sequencing_instrument AS instrument_model
 

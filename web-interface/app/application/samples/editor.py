@@ -33,7 +33,7 @@ class Editor:
         field["input"]["value"] = self.get_value(field);
         return render_template(
             "samples/form/single/{:s}.html".format(field["field_type"]),
-            info=field, list=dlist);
+            info=field, dlist=dlist);
 
 
     def single_files(self):

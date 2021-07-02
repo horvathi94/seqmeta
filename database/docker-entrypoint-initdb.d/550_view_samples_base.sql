@@ -7,6 +7,7 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		samples.`comment` AS sample_comment,
 		samples.title AS sample_title,
 		samples.description AS sample_description,
+		samples.gisaid_Accession AS gisaid_accession,
 
 		collection.collection_year AS collection_year,
 		collection.collection_month AS collection_month,
@@ -47,6 +48,8 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		host.host_behaviour_id AS	host_behaviour_id,
 		host.host_description	AS host_description,
 		host.gravidity AS	gravidity,
+		host.host_recent_travel_loc	AS host_recent_travel_loc,			
+		host.host_recent_travel_return_date AS host_recent_travel_return_date,
 
 		sampling.receipt_date AS receipt_date,
 		sampling.sampling_strategy_id AS sampling_strategy_id,
@@ -60,7 +63,6 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		sampling.serotype AS serotype,
 		sampling.passage_method AS passage_method,
 		sampling.passage_number AS passage_number,
-
 
 		health.subject_exposure AS subject_exposure,
 		health.subject_exposure_duration AS subject_exposure_duration,	
@@ -87,7 +89,8 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		library.library_selection_id AS library_selection_id,
 		library.library_design_description AS library_design_description,
 		library.library_preparation_date AS library_preparation_date,
-		library.insert_size AS insert_size
+		library.insert_size AS insert_size,
+		library.library_construction_protocol AS library_construction_protocol
 
 		FROM samples
 		LEFT JOIN samples_location AS location

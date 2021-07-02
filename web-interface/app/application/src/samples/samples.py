@@ -5,6 +5,7 @@ from application.src.db.interface import DBInterface
 from .extensions.library import Library
 from .extensions.host import Host
 from .extensions.health_status import HealthStatus
+from .extensions.treatment import PatientTreatment
 
 class Samples(DBInterface):
 
@@ -23,6 +24,8 @@ class Samples(DBInterface):
             entry = Host.clean_entry(entry);
         if "library_layout_paired" in entry:
             entry = Library.clean_entry(entry);
+        if "prior_sars_cov_2_antiviral_treat" in entry:
+            entry = PatientTreatment.clean_entry(entry);
         return entry;
 
 

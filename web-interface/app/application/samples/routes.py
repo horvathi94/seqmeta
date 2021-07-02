@@ -13,6 +13,7 @@ from application.src.samples.extensions.library import Library,\
 from application.src.samples.extensions.location import Location
 from application.src.samples.extensions.sampling import Sampling
 from application.src.samples.extensions.sequencing import Sequencing
+from application.src.samples.extensions.treatment import PatientTreatment
 from application.src.institutions import Institutions
 from application.src.authors import Authors, AuthorGroups
 from application.src import misc
@@ -120,7 +121,6 @@ def submit():
     return redirect(url_for('samples_bp.show'));
 
 
-from application.src.samples.extensions.health_status import HealthStatus
 
 @samples_bp.route("/samples/submit-multiple", methods=["POST"])
 def submit_multiple():
@@ -223,7 +223,6 @@ def reg_library_names():
 
 from .editor_fields import FIELDS_LIST
 
-
 @samples_bp.route("/samples/edit")
 def edit():
 
@@ -241,7 +240,6 @@ def edit():
 
     for fd in FIELDS_LIST:
         html+= editor.single(fd);
-
 
     html+= editor.single_files();
 

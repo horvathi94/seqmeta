@@ -36,6 +36,8 @@ class Host(SampleExtension):
             if genders["value"] == int(entry["patient_gender"]):
                 entry["patient_gender"] = genders["db_save"];
                 break;
+        if entry["host_recent_travel_return_date"] == "":
+            entry["host_recent_travel_return_date"] = None;
         return entry;
 
 
@@ -45,4 +47,7 @@ class Host(SampleExtension):
             if layout["db_value"] == entry["patient_gender"]:
                 entry["patient_gender"] = layout["value"];
                 break;
+        if "host_recent_travel_return_date" in entry:
+            if entry["host_recent_travel_return_date"] == None:
+                entry["host_recent_travel_return_date"] = "";
         return entry;

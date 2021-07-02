@@ -26,7 +26,7 @@ CREATE OR REPLACE VIEW `view_samples_ncbi` AS
 		treatment.date_of_prior_sars_cov_2_vaccination AS date_of_sars_cov_2_vaccination,
 		health.outbreak AS exposure_evenet,
 		"geo_loc_exposure" AS geo_loc_exposure,
-		"gisaid_accession" AS gisaid_accession,
+		samples.gisaid_accession AS gisaid_accession,
 		CONCAT(hosts.patient_age, " years") AS host_age,
 		"host_anatomical_material" AS host_anatomical_material,
 		sampling.isolation_source_host_associated AS host_anatomical_part,

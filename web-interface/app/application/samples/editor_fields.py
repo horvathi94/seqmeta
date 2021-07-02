@@ -20,6 +20,7 @@ FIELDS_LIST = [
     "sample_comment",
     "sample_title",
     "sample_description",
+    "gisaid_accession",
     "collection_year",
     "collection_month",
     "collection_day",
@@ -42,6 +43,8 @@ FIELDS_LIST = [
     "host_behaviour",
     "host_description",
     "host_gravidity",
+    "host_recent_travel_loc",
+    "host_recent_travel_return_date",
 
     "prior_sars_cov_2_antiviral_treat",
     "antiviral_treatment_agent",
@@ -91,6 +94,7 @@ FIELDS_LIST = [
     "library_preparation_date",
     "library_design_description",
     "insert_size",
+    "library_construction_protcol",
 
 ];
 

@@ -11,7 +11,9 @@ CREATE TABLE IF NOT EXISTS `samples_host` (
 	host_habitat_id													TINYINT UNSIGNED,
 	host_behaviour_id												TINYINT UNSIGNED,
 	host_description												VARCHAR(1000),
-	gravidity																VARCHAR(500)
+	gravidity																VARCHAR(500),
+	host_recent_travel_loc									VARCHAR(500),
+	host_recent_travel_return_date					DATE
 
 );
 
@@ -41,7 +43,9 @@ CREATE OR REPLACE VIEW view_samples_host AS
 		habitats.label AS host_habitat,
 		behaviours.label AS host_behaviour,
 		host.host_description AS host_description,
-		host.gravidity AS host_gravidity
+		host.gravidity AS host_gravidity,
+		host.host_recent_travel_loc	AS host_recent_travel_loc,			
+		host.host_recent_travel_return_date AS host_recent_travel_return_date
 
 	FROM samples_host AS host
 	LEFT JOIN hosts

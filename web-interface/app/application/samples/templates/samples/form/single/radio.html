@@ -8,8 +8,9 @@
 		{% endfor %}
 	</td>
 	<td> {{ radio(info.input.name_single,
-					list,
-					selected_value=info.input.value) }} </td>
+					dlist,
+					selected_value=info.input.value) }} 
+	</td>
 	<td> {{ info.description|safe }} </td>
 </tr>
 
