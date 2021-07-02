@@ -1,7 +1,7 @@
 {% macro radio(name, options, selected_value=0, class="", onchange="") %}
 
 	{% for option in options %}
-		
+
 		<input type="radio" name="{{ name }}" 
 				{{ "checked='checked'" if option.value|string == selected_value|string }} 
 				{{ "class="+class if class else "" }}

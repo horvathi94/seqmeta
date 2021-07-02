@@ -35,6 +35,12 @@ class HealthStatus(SampleExtension):
                 break;
         if entry["ilness_duration"] == "":
             entry["ilness_duration"] = None;
+        if "sars_cov_2_diag_pcr_ct_value_1" in entry:
+            if entry["sars_cov_2_diag_pcr_ct_value_1"] == "":
+                entry["sars_cov_2_diag_pcr_ct_value_1"] = None;
+        if "sars_cov_2_diag_pcr_ct_value_2" in entry:
+            if entry["sars_cov_2_diag_pcr_ct_value_2"] == "":
+                entry["sars_cov_2_diag_pcr_ct_value_2"] = None;
         return entry;
 
 

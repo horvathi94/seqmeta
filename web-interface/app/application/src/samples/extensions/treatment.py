@@ -55,10 +55,19 @@ class PatientTreatment(SampleExtension):
             if item["value"] == int(entry["prior_sars_cov_2_antiviral_treat"]):
                 entry["prior_sars_cov_2_antiviral_treat"] = item["db_save"];
                 break;
-        for item in ANTIVIRAL_TREAT:
+        for item in PRIOR_INFECTION:
             if item["value"] == int(entry["prior_sars_cov_2_infection"]):
                 entry["prior_sars_cov_2_infection"] = item["db_save"];
                 break;
+        if "date_of_prior_antiviral_treat" in entry:
+            if entry["date_of_prior_antiviral_treat"] == "":
+                entry["date_of_prior_antiviral_treat"] = None;
+        if "date_of_prior_sars_cov_2_infection" in entry:
+            if entry["date_of_prior_sars_cov_2_infection"] == "":
+                entry["date_of_prior_sars_cov_2_infection"] = None;
+        if "date_of_prior_sars_cov_2_vaccination" in entry:
+            if entry["date_of_prior_sars_cov_2_vaccination"] == "":
+                entry["date_of_prior_sars_cov_2_vaccination"] = None;
         return entry;
 
 

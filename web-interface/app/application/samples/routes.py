@@ -71,51 +71,6 @@ def show():
 
 
 
-def old_add_multiple():
-    styles = [{"filename": "add-multiple.css", "prefix": "samples"},
-              {"filename": "markers.css"},
-              {"filename": "tooltips.css"}];
-    scripts = [{"filename": "edit-multiple.js", "prefix": "samples"},
-               {"filename": "validate-samples.js", "prefix": "samples"}];
-    html = render_template("head.html", styles=styles);
-    html+= render_template("samples/add_multiple.html",
-        authors=Authors.fetch_list_labeled(
-            replace_key="abbreviated_middle_name"),
-        author_groups=AuthorGroups.fetch_list_labeled(
-            replace_key="group_name",
-            replace_id="group_id"),
-        institutions=Institutions.fetch_list_labeled(),
-        hosts=misc.Hosts.fetch_list(),
-        sampling_strategies=misc.SamplingStrategies.fetch_list(),
-        passage_details=misc.PassageDetails.fetch_list(),
-        assembly_methods=misc.AssemblyMethods.fetch_list(),
-        sequencing_instruments=misc.SequencingInstruments.fetch_list(),
-        patient_statuses=misc.PatientStatuses.fetch_list(),
-        specimen_sources=misc.SpecimenSources.fetch_list(),
-        countries=misc.Countries.fetch_list(),
-        continents=misc.Continents.fetch_list(),
-        sample_capture_statuses=misc.SampleCaptureStatuses.fetch_list(),
-        host_disease_outcomes=misc.HostDiseaseOutcomes.fetch_list(),
-        host_health_states=misc.HostHealthStates.fetch_list(),
-        host_habitats=misc.HostHabitats.fetch_list(),
-        host_behaviours=misc.HostBehaviours.fetch_list(),
-        library_strategies=lib.LibraryStrategies.fetch_list_labeled(
-            replace_key="item_key"),
-        library_sources=lib.LibrarySources.fetch_list_labeled(
-            replace_key="item_key"),
-        library_selections=lib.LibrarySelections.fetch_list_labeled(
-            replace_key="item_key"),
-        seqfile_types=SeqFileTypes.fetch_list_labeled(
-            replace_key="item_key"),
-        library_layouts=LIBRARY_LAYOUTS,
-        genders=PATIENT_GENDERS,
-        hospitalisations=HOSPITALISATIONS,
-        default_vals=DefaultValues.fetch(),
-        );
-    html+= render_template("footer.html", scripts=scripts);
-    return html;
-
-
 @samples_bp.route("/samples/submit", methods=["POST"])
 def submit():
     save_data = {};
@@ -165,16 +120,20 @@ def submit():
     return redirect(url_for('samples_bp.show'));
 
 
+from application.src.samples.extensions.health_status import HealthStatus
+
 @samples_bp.route("/samples/submit-multiple", methods=["POST"])
 def submit_multiple():
     sample_data = Form.parse_list(request.form, "sample")[1:];
     collection = Form.parse_list(request.form, "collection")[1:];
     location = Form.parse_list(request.form, "location")[1:];
     host = Form.parse_list(request.form, "host")[1:];
+    treatment = Form.parse_list(request.form, "treatment")[1:];
     health = Form.parse_list(request.form, "health")[1:];
     sequencing = Form.parse_list(request.form, "sequencing")[1:];
     sampling = Form.parse_list(request.form, "sampling")[1:];
     library = Form.parse_list(request.form, "library")[1:];
+
     samples = [];
     for i, sd in enumerate(sample_data):
         save_data = {};
@@ -187,6 +146,7 @@ def submit_multiple():
         save_data["sequencing"] = sequencing[i];
         save_data["sampling"] = sampling[i];
         save_data["library"] = library[i];
+        save_data["treatment"] = treatment[i];
         samples.append(save_data);
     save(samples);
     return redirect(url_for('samples_bp.show'));
@@ -305,7 +265,6 @@ def add_multiple():
     html = "";
     html+= render_template("head.html", styles=styles);
     html+= render_template("samples/form/multi/head.html");
-
 
     editor = MultiEditor();
     for fd in FIELDS_LIST:

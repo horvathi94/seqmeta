@@ -22,6 +22,8 @@ class Editor:
         if field["db_key"] in defs:
             if defs[field["db_key"]] != None:
                 return defs[field["db_key"]];
+        if field["field_type"] in ["select", "radio"]:
+            return 0;
         return "";
 
 
@@ -70,11 +72,13 @@ class MultiEditor:
     @classmethod
     def all_col(cls, info):
         dlist = [];
+        val = cls.get_value(info);
         if info["field_type"] in ["text", "number"]:
             info["input"]["onchange"] = "updateColumn(this);";
         elif info["field_type"] in ["select", "radio"]:
             dlist = DLIST[info["handle"]];
-        info["input"]["value"] = cls.get_value(info);
+            if val == "": val = 0;
+        info["input"]["value"] = val;
         return render_template("samples/form/multi/col_all.html",
                                info=info, dlist=dlist);
 
@@ -82,10 +86,12 @@ class MultiEditor:
     @classmethod
     def template_col(cls, info):
         dlist = [];
+        val = cls.get_value(info);
         info["input"]["onchange"] = "";
         if info["field_type"] in ["select", "radio"]:
             dlist = DLIST[info["handle"]];
-        info["input"]["value"] = cls.get_value(info);
+            if val == "": val = 0;
+        info["input"]["value"] = val;
         return render_template("samples/form/multi/col_template.html",
                                info=info, dlist=dlist);
 
