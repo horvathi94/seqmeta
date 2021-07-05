@@ -554,9 +554,16 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"geo_loc_exposure_id", "geo-loc-exposure", NULL, NULL, NULL, NULL, NULL,
 		"location",
 		"The country where the host was likely exposed to the causative agent of the illness. This location pertains to the country the host was believed to be exposed, and may not be the same as the host's country of residence, <em>e.g., Canada</em>"
+	),
+
+
+	/* --- Sequencing extra --- */
+	("sequencing_lab",
+		"Sequencing lab", "select", NULL, NULL, 1,
+		"sequencing_lab_id", "sequencing-lab", NULL, NULL, NULL, NULL, NULL,
+		"sequencing",
+		"The name of the agency that generated the sequence, <em>e.g., Centers for Disease Control and Prevention</em>."
 	)
-
-
 
 
 

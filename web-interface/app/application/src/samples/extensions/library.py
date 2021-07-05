@@ -39,6 +39,8 @@ class Library(SampleExtension):
             entry["library_preparation_date"] = None;
         if entry["library_id"] == "":
             entry["library_id"] = None;
+        if entry["insert_size"] == "":
+            entry["insert_size"] = None;
         return entry;
 
 
@@ -49,4 +51,6 @@ class Library(SampleExtension):
                 if layout["db_value"] == entry["library_layout_paired"]:
                     entry["library_layout_paired"] = layout["value"];
                     break;
+        if entry["insert_size"] == None:
+            entry["insert_size"] = "";
         return entry;

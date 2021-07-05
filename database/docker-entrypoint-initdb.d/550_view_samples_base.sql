@@ -82,6 +82,7 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		sequencing.sequencing_instrument_id AS sequencing_instrument_id,
 		sequencing.assembly_method_id AS assembly_method_id,
 		sequencing.coverage AS coverage,
+		sequencing.sequencing_lab_id AS sequencing_lab_id,
 
 		library.library_id AS library_id,
 		library.library_layout_paired AS library_layout_paired,

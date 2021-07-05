@@ -112,3 +112,27 @@ def edit_default_values():
 def submit_default_values():
     DefaultValues.save(request.form.to_dict());
     return redirect(url_for("misc_bp.edit_default_values"));
+
+
+@misc_bp.route("/workflows/basic")
+def workflow_basic():
+    html = render_template("head.html");
+    html+= render_template("workflow/basic.html");
+    html+= render_template("footer.html");
+    return html;
+
+
+@misc_bp.route("/workflows/gisaid")
+def workflow_gisaid():
+    html = render_template("head.html");
+    html+= render_template("workflow/gisaid.html");
+    html+= render_template("footer.html");
+    return html
+
+
+@misc_bp.route("/workflows/ena")
+def workflow_ena():
+    html = render_template("head.html");
+    html+= render_template("workflow/ena.html");
+    html+= render_template("footer.html");
+    return html

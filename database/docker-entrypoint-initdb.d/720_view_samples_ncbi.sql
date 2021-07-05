@@ -25,7 +25,7 @@ CREATE OR REPLACE VIEW `view_samples_ncbi` AS
 		treatment.date_of_prior_sars_cov_2_infection AS date_of_prior_sars_cov_2_infection,
 		treatment.date_of_prior_sars_cov_2_vaccination AS date_of_sars_cov_2_vaccination,
 		health.outbreak AS exposure_evenet,
-		"geo_loc_exposure" AS geo_loc_exposure,
+		location.geo_loc_exposure AS geo_loc_exposure,
 		samples.gisaid_accession AS gisaid_accession,
 		CONCAT(hosts.patient_age, " years") AS host_age,
 		"host_anatomical_material" AS host_anatomical_material,
@@ -58,7 +58,7 @@ CREATE OR REPLACE VIEW `view_samples_ncbi` AS
 		health.sars_cov_2_diag_pcr_ct_value_1 AS sars_cov_2_diag_pcr_ct_value_1,
 		health.sars_cov_2_diag_gene_name_2 AS sars_cov_2_diag_gene_name_2,
 		health.sars_cov_2_diag_pcr_ct_value_2 AS sars_cov_2_diag_pcr_ct_value_2,
-		"sequenced_by" AS sequenced_by,
+		sequencing.sequencing_lab_name AS sequenced_by,
 		treatment.vaccine_received AS vaccine_received,
 		treatment.virus_isolate_of_prior_infection AS virus_isolate_of_prior_infection,
 		samples.sample_description AS description
@@ -78,3 +78,5 @@ CREATE OR REPLACE VIEW `view_samples_ncbi` AS
 		ON samples.sample_id = health.sample_id
 	LEFT JOIN view_samples_patient_treatment AS treatment
 		ON samples.sample_id = treatment.sample_id
+	LEFT JOIN view_samples_sequencing AS sequencing
+		ON samples.sample_id = sequencing.sample_id

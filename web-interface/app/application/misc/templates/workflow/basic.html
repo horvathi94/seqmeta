@@ -1,0 +1,79 @@
+<h1>Basic</h1>
+
+<p>This application is designed to manage sequencing metadata and format it for
+upload to GISAID, ENA and NCBI databases.</p>
+
+<p>To start the workflow, first please register:</p>
+<ol>
+	<li>
+		<a href="{{ url_for('authors_bp.show') }}" target="_blank">
+			Authors,
+		</a> 
+		people who worked on sequencing the sample and people who collected the samples.
+	</li>
+	<li>
+		<a href="{{ url_for('author_groups_bp.show') }}" target="_blank">
+			Author groups,
+		</a>
+		which are formed by the authors, who contributed to the sequencing. 
+		These groups may only contain authors registered in the first step.
+	</li>
+	<li>
+		<a href="{{ url_for('institutions_bp.show') }}" target="_blank">
+			Institutions,
+		</a>
+		the names and addresses of the institutions or organizations, which collected,
+		sequenced or submitted the samples.
+	</li>
+	<li>
+		<a href="{{ url_for('misc_bp.edit') }}" target="_blank">
+			Add needed extra values,
+		</a>
+		the fields needed for metadata upload are initialised with general values or values
+		found in examples of the, but you may need to add some custom values, specific to
+		your workflow.
+	</li>
+	<li>
+		<a href="{{ url_for('misc_bp.edit_default_values') }}" target="_blank">
+			Edit the default values,
+		</a>
+		For an easier and faster editing experience it is recommanded that you
+		edit these values to fit your workflow.
+	</li>
+	<li>
+		<a href="{{ url_for('misc_bp.edit') }}">
+			Edit virusname and isolate name,
+		</a>
+		if you haven't already edited the virsuname (required GISAID) and the 
+		isolate name (required by ENA and NCBI) please do so. These values are
+		meant to speed up your editing, by programatically generating the virus and
+		isolate names for the samples.
+	</li>
+
+	<p><strong> You are now ready to add your first samples! </strong></p>
+
+	<p><em>Note: When adding or editing samples be carefull to complete all fields that are 
+	required for the desired submission. The requirement levels are represented
+	with superscript markers.</em></p>
+
+	<p>
+	After you are finished with adding the samples, select the samples wich 
+	you wish to upload and select the button, which represents the upload server
+	and download the zip file, which contains all the files needed to submit the 
+	samples. The upload workflow of these files are described in more detail on
+	these pages:
+	<ul>
+		<li><a href="{{ url_for('misc_bp.workflow_gisaid') }}">GISAID</a></li>
+		<li><a href="{{ url_for('misc_bp.workflow_ena') }}">ENA</a></li>
+		<li><a href="">NCBI</a></li>
+	</ul>
+	</p>
+
+<p><em>
+	Note: Before uploading the raw read data clean any human identifiable reads. 
+	For this you can use 
+	<a href="https://github.com/alakob/Metagen-FastQC-Docker">this</a>
+	program.
+</em></p>
+
+</ol>
