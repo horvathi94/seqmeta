@@ -415,7 +415,7 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"Name of host tissue or organ sampled for analysis. <em>Example: tracheal tissue</em>"
 	),
 	("isolation_source_non_host_associated",
-		"Isolation source non-host-associated", "text", NULL, 1, NULL,
+		"Isolation source non-host-associated", "text", NULL, 1, 3,
 		"isolation_source_non_host_associated", "isolation-source-non-host-associated", NULL, 600, NULL, NULL, NULL,
 		"sampling",
 		"Describes the physical, environmental and/or local geographical source of the biological sample from which the sample was derived. <em>Example: soil</em>"
@@ -526,7 +526,7 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"Date when the library was prepared."
 	),
 	("library_design_description",
-		"Library design description", "text", NULL, NULL, 1,
+		"Library design description", "text", NULL, NULL, 3,
 		"library_design_description", "library-design-description", NULL, 1000, NULL, NULL, NULL,
 		"library",
 		"Free-form description of the methods used to create the sequencing library a brief 'material and methods' section."
@@ -575,6 +575,33 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"sequencing_lab_id", "sequencing-lab", NULL, NULL, NULL, NULL, NULL,
 		"sequencing",
 		"The name of the agency that generated the sequence, <em>e.g., Centers for Disease Control and Prevention</em>."
+	),
+
+
+	/* --- Sampling extra --- */
+	("host_anatomical_material",
+		"Host anatomical material", "select", NULL, NULL, 1,
+		"host_anatomical_material_id", "host-anatomical-material", NULL, NULL, NULL, NULL, NULL,
+		"sampling",
+		"Host anatomical material or substance produced by the body where the sample was obtained, <em>e.g., stool, mucus, saliva</em>"
+	),
+	("host_body_product",
+		"Host body product", "select", NULL, NULL, 1,
+		"host_body_product_id", "host-body-product", NULL, NULL, NULL, NULL, NULL,
+		"sampling",
+		"Substance produced by the host, <em>e.g. stool, mucus</em>, where the sample was obtained from	"
+	),
+	("purpose_of_sampling",
+		"Purpose of sampling", "select", NULL, NULL, 1,
+		"purpose_of_sampling_id", "purpose-of-sampling", NULL, NULL, NULL, NULL, NULL,
+		"sampling",
+		"The reason the sample was collected, <em>e.g., diagnostic testing</em>"
+	),
+	("purpose_of_sequencing",
+		"Purpose of sequencing", "select", NULL, NULL, 1,
+		"purpose_of_sequencing_id", "purpose-of-sequencing", NULL, NULL, NULL, NULL, NULL,
+		"sampling",
+		"The reason the sample was sequenced, <em>e.g., baseline surveillance (random sampling)</em>"
 	)
 
 

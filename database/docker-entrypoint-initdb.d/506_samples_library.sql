@@ -24,6 +24,8 @@ CREATE OR REPLACE VIEW view_samples_library AS
 		library.library_layout_paired AS library_layout_paired,
 		IF( library.library_layout_paired	IS NULL, "",
 			IF (library.library_layout_paired IS TRUE, "Paired-End", "Single") ) AS library_layout,
+		IF( library.library_layout_paired	IS NULL, "",
+			IF (library.library_layout_paired IS TRUE, "paired", "single") ) AS library_layout_ncbi,
 		strategies.item_key AS library_strategy,
 		sources.item_key AS library_source,
 		selections.item_key AS library_selection,

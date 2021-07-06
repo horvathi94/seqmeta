@@ -111,3 +111,18 @@ class SarsCovGenes(DBInterface):
     display_table_name = "sars_cov_2_genes";
 
 
+class HostAnatomicalMaterials(DBInterface):
+    display_table_name = "host_anatomical_materials";
+
+
+class HostBodyProducts(DBInterface):
+    display_table_name = "host_body_products";
+
+
+class PurposesOfSampling(DBInterface):
+    display_table_name = "purposes_of_sampling";
+
+
+class PurposesOfSequencing(DBInterface):
+    display_table_name = "purposes_of_sequencing";
+

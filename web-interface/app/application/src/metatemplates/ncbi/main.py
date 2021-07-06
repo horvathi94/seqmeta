@@ -4,6 +4,7 @@ from ..base.tempfile import TempFile
 from application.src.samples.samples import Samples
 from application.src.seqfiles.seqfiles import SeqFilesBunch
 from .samples import NcbiSample
+from .experiment import NcbiExperiment
 
 
 class NcbiMeta(TempFile):
@@ -20,5 +21,11 @@ class NcbiMeta(TempFile):
                                         sample_ids=selected);
         NcbiSample.write(samples);
 
+        samples = Samples.fetch_entries("view_samples_ncbi_experiment",
+                                        sample_ids=selected);
+
+        NcbiExperiment.write(samples);
+
         with ZipFile(cls.get_tempfile(), "w") as zipObj:
             zipObj.write(NcbiSample.get_tempfile(), "samples.xlsx");
+            zipObj.write(NcbiExperiment.get_tempfile(), "sra.xlsx");

@@ -48,6 +48,8 @@ FIELDS_LIST = [
     "host_gravidity",
     "host_recent_travel_loc",
     "host_recent_travel_return_date",
+    "host_anatomical_material",
+    "host_body_product",
 
     "prior_sars_cov_2_antiviral_treat",
     "antiviral_treatment_agent",
@@ -77,6 +79,8 @@ FIELDS_LIST = [
     "originating_lab",
     "author_group",
     "sampling_strategy",
+    "purpose_of_sampling",
+    "purpose_of_sequencing",
     "strain",
     "isolation_source_host_associated",
     "isolation_source_non_host_associated",
@@ -139,6 +143,12 @@ DLIST = {
     "library_strategy": \
         lib.LibraryStrategies.fetch_list_labeled(replace_key="item_key"),
     "geo_loc_exposure": misc.Countries.fetch_list(),
+
+    "host_anatomical_material": misc.HostAnatomicalMaterials.fetch_list(),
+    "host_body_product": misc.HostBodyProducts.fetch_list(),
+
+    "purpose_of_sampling": misc.PurposesOfSampling.fetch_list(),
+    "purpose_of_sequencing": misc.PurposesOfSequencing.fetch_list(),
 
 }
 

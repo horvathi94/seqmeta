@@ -12,8 +12,14 @@ CREATE TABLE IF NOT EXISTS `samples_sampling` (
 	specimen_source_id										INT UNSIGNED,
 	sample_storage_conditions							VARCHAR(500),
 	definition_for_seropositive_sample		VARCHAR(500),
-	serotype															VARCHAR(500)
-	
+	serotype															VARCHAR(500),
+
+	host_anatomical_material_id						INT UNSIGNED,
+	host_body_product_id									INT UNSIGNED,
+
+	purpose_of_sampling_id								INT UNSIGNED,
+	purpose_of_sequencing_id							INT UNSIGNED
+
 );
 
 
@@ -33,7 +39,11 @@ CREATE OR REPLACE VIEW view_samples_sampling AS
 		sampling.definition_for_seropositive_sample AS definition_for_seropositive_sample,
 		sampling.serotype AS serotype,
 		sampling.passage_method AS passage_method,
-		sampling.passage_number AS passage_number
+		sampling.passage_number AS passage_number,
+		anatomical_materials.label AS host_anatomical_material,
+		body_products.label AS host_body_product,
+		purposes_of_sampling.label AS purpose_of_sampling,
+		purposes_of_sequencing.label AS purpose_of_sequencing
 
 	FROM samples_sampling AS sampling
 	LEFT JOIN view_sampling_strategies AS sampling_strategies
@@ -41,4 +51,12 @@ CREATE OR REPLACE VIEW view_samples_sampling AS
 	LEFT JOIN sample_capture_status AS capture_statuses
 		ON sampling.sample_capture_status_id = capture_statuses.id
 	LEFT JOIN view_specimen_sources AS specimen_sources
-		ON sampling.specimen_source_id = specimen_sources.id;
+		ON sampling.specimen_source_id = specimen_sources.id
+	LEFT JOIN host_anatomical_materials AS anatomical_materials
+		ON sampling.host_anatomical_material_id = anatomical_materials.id
+	LEFT JOIN host_body_products AS body_products
+		ON sampling.host_body_product_id = body_products.id
+	LEFT JOIN purposes_of_sampling
+		ON sampling.purpose_of_sampling_id = purposes_of_sampling.id
+	LEFT JOIN purposes_of_sequencing
+		ON sampling.purpose_of_sequencing_id = purposes_of_sequencing.id

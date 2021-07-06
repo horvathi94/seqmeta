@@ -66,6 +66,10 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		sampling.serotype AS serotype,
 		sampling.passage_method AS passage_method,
 		sampling.passage_number AS passage_number,
+		sampling.host_anatomical_material_id AS host_anatomical_material_id,
+		sampling.host_body_product_id AS host_body_product_id,	
+		sampling.purpose_of_sampling_id AS purpose_of_sampling_id,
+		sampling.purpose_of_sequencing_id AS purpose_of_sequencing_id,
 
 		health.subject_exposure AS subject_exposure,
 		health.subject_exposure_duration AS subject_exposure_duration,	
