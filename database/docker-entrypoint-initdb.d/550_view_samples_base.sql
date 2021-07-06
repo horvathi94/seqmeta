@@ -7,7 +7,9 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		samples.`comment` AS sample_comment,
 		samples.title AS sample_title,
 		samples.description AS sample_description,
-		samples.gisaid_Accession AS gisaid_accession,
+		samples.gisaid_accession AS gisaid_accession,
+		samples.gisaid_virusname AS gisaid_virusname,
+		samples.isolate AS isolate,
 
 		collection.collection_year AS collection_year,
 		collection.collection_month AS collection_month,

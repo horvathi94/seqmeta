@@ -14,8 +14,7 @@ class GisaidExcel(ExcelGenerator):
             i = indx+3;
             ws["A{:d}".format(i)] = "Submitter"          # Submitter
             ws["B{:d}".format(i)] = sample["seqfilename"];
-            ws["C{:d}".format(i)] = \
-                VirusnameGisaid.format_name(sample["sample_id"]);
+            ws["C{:d}".format(i)] = sample["gisaid_virusname"];
             ws["D{:d}".format(i)] = "betacoronavirus"    # Leave as default
             ws["E{:d}".format(i)] = sample["passage_details"]
             ws["F{:d}".format(i)] = str(sample["collection_date"]);

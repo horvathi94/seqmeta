@@ -19,9 +19,13 @@ CREATE OR REPLACE VIEW view_samples_patient_treatment AS
 	SELECT 
 
 		treatment.sample_id AS sample_id,
-		treatment.prior_sars_cov_2_antiviral_treat AS prior_sars_cov_2_antiviral_treat,
+		IF( treatment.prior_sars_cov_2_antiviral_treat IS NULL, "",
+			IF ( treatment.prior_sars_cov_2_antiviral_treat IS TRUE, "yes", "no" )
+		) AS prior_sars_cov_2_antiviral_treat,
 		treatment.date_of_prior_antiviral_treat AS date_of_prior_antiviral_treat,
-		treatment.prior_sars_cov_2_infection AS prior_sars_cov_2_infection,
+		IF( treatment.prior_sars_cov_2_infection IS NULL, "",
+			IF ( treatment.prior_sars_cov_2_infection IS TRUE, "yes", "no")
+		) AS prior_sars_cov_2_infection,
 		treatment.date_of_prior_sars_cov_2_infection AS date_of_prior_sars_cov_2_infection,
 		has_vaccine.label AS prior_sars_cov_2_vaccination,
 		treatment.date_of_prior_sars_cov_2_vaccination AS date_of_prior_sars_cov_2_vaccination,

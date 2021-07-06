@@ -1,8 +1,6 @@
 import csv
 from ..base.excel_gen import ExcelGenerator
 from ..base.tempfile import TempFile
-from application.src.samples.nametemplates.isolate_ena import \
-    IsolateEna
 
 
 class EnaTsv(TempFile):
@@ -66,8 +64,6 @@ class EnaTsv(TempFile):
                 sample["tax_id"] = cls.taxonomy["tax_id"];
                 sample["scientific_name"] = cls.taxonomy["scientific_name"];
                 sample["common_name"] = cls.taxonomy["common_name"];
-                sample["isolate"] = \
-                    IsolateEna.format_name(sample["sample_id"]);
                 row = [sample[key] for key in head];
                 tsv_writer.writerow(row);
 

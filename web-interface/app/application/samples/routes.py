@@ -3,37 +3,15 @@ from datetime import datetime
 from flask import Blueprint, render_template, request, redirect, url_for, \
     jsonify, send_file, Response
 from application.src.samples.samples import Samples
-from application.src.samples.extensions.collections import Collection
-from application.src.samples.extensions.host import Host,\
-    PATIENT_GENDERS
-from application.src.samples.extensions.health_status import HealthStatus,\
-    HOSPITALISATIONS
-from application.src.samples.extensions.library import Library,\
-    LIBRARY_LAYOUTS
-from application.src.samples.extensions.location import Location
-from application.src.samples.extensions.sampling import Sampling
-from application.src.samples.extensions.sequencing import Sequencing
-from application.src.samples.extensions.treatment import PatientTreatment
-from application.src.institutions import Institutions
-from application.src.authors import Authors, AuthorGroups
-from application.src import misc
-from application.src import library as lib
 from application.src.forms.form import Form
 from application.src.metatemplates.gisaid.main import GisaidMeta
 from application.src.metatemplates.ena.main import EnaMeta
+from application.src.metatemplates.ncbi.main import NcbiMeta
 from application.src.seqfiles.db import SeqFileTypes, SeqFile
 from application.src.seqfiles.seqfiles import SeqFilesBunch
 from .save import save
 from application.src.defaults import DefaultValues
-from application.src.samples.nametemplates.virusname_gisaid import \
-    VirusnameGisaid
-from application.src.samples.nametemplates.isolate_ena import \
-    IsolateEna
 from .editor import Editor
-from application.src.samples.extensions.treatment import \
-    ANTIVIRAL_TREAT, \
-    PRIOR_INFECTION
-
 from application.src.fields import Field
 
 
@@ -54,10 +32,6 @@ def show():
     for sample in samples_list:
         seqbunch = SeqFilesBunch(sample["sample_id"]);
         sample["seqfiles"] = seqbunch.todict();
-        sample["virusname_gisaid"] = \
-            VirusnameGisaid.format_name(sample["sample_id"]);
-        sample["isolate_ena"] = \
-            IsolateEna.format_name(sample["sample_id"]);
     html = render_template("head.html", styles=styles);
     if len(samples_list) == 0:
         html+= render_template("empty_list.html",
@@ -181,9 +155,10 @@ def gen_ncbi_meta():
     selected = [int(i) for i in request.form.getlist("selected-samples")];
     if len(selected) == 0:
         return "Nothing selected";
-    test = Samples.fetch_entries("view_samples_ncbi_sra",
-                                 sample_ids=selected);
-    return jsonify(test);
+    NcbiMeta.write_zip(selected);
+    filename = NcbiMeta.get_attachment_filename();
+    zip_file = NcbiMeta.get_tempfile();
+    return send_file(zip_file, attachment_filename=filename);
 
 
 @samples_bp.route("/samples/generate/ena", methods=["POST"])

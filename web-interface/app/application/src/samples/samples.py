@@ -53,16 +53,21 @@ class Samples(DBInterface):
 
     @classmethod
     def clean_submit(cls, submitted):
-        submitted["id"] = int(submitted["sample_id"]);
-        del submitted["sample_id"];
-        submitted["name"] = submitted["sample_name"];
-        del submitted["sample_name"];
-        submitted["comment"] = submitted["sample_comment"];
-        del submitted["sample_comment"];
-        submitted["title"] = submitted["sample_title"];
-        del submitted["sample_title"];
-        submitted["description"] = submitted["sample_description"];
-        del submitted["sample_description"];
+        if "sample_id" in submitted:
+            submitted["id"] = int(submitted["sample_id"]);
+            del submitted["sample_id"];
+        if "sample_name" in submitted:
+            submitted["name"] = submitted["sample_name"];
+            del submitted["sample_name"];
+        if "sample_comment" in submitted:
+            submitted["comment"] = submitted["sample_comment"];
+            del submitted["sample_comment"];
+        if "sample_title" in submitted:
+            submitted["title"] = submitted["sample_title"];
+            del submitted["sample_title"];
+        if "sample_description" in submitted:
+            submitted["description"] = submitted["sample_description"];
+            del submitted["sample_description"];
         return submitted;
 
 

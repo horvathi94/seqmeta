@@ -67,6 +67,18 @@ INSERT INTO fields
 		"sample",
 		"The GISAID accession assigned to the sequence. GISAID Accession Numbers are used as unique and permanent identifiers for each virus beginning with the letters EPI and followed by numbers, to identify viruses and/or segments; https://www.gisaid.org/; <em>e.g., EPI_ISL_1091361.</em>"
 	),
+	("gisaid_virusname",
+		"GISAID virusname", "text", 3, NULL, 1,
+		"gisaid_virusname", "gisaid-virusname", 0, 300, NULL, NULL, NULL,
+		"sample",
+		"Leave this field empty to generate programatically."
+	),
+	("isolate",
+		"Isolate name", "text", NULL, 3, 3,
+		"isolate", "isolate-name", 0, 300, NULL, NULL, NULL,
+		"sample",
+		"Leave this field empty to generate programatically."
+	),
 
 	/* --- Collection data --- */
 	("collection_year",

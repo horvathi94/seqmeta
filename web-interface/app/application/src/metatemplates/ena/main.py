@@ -48,6 +48,8 @@ class EnaMeta(TempFile):
                 EnaManifest.write(manifest_sample);
                 zipObj.write(EnaManifest.get_tempfile(),
                              "assemblies/manifest_"+sample["sample_name"]+".txt");
-                if not rvread is None:
-                    zipObj.write(rvread,
+
+                assembly = seqbunch.get_assembly_file();
+                if not assembly is None:
+                    zipObj.write(assembly,
                             "assemblies/"+seqbunch.assembly_file["filename"]);

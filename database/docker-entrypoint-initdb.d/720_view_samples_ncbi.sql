@@ -8,7 +8,7 @@ CREATE OR REPLACE VIEW `view_samples_ncbi` AS
 		"SARS-CoV-2" AS organism,
 		collection.collector_abbreviated_middle_name AS collected_by,
 		collection.collection_date AS collection_date,
-		CONCAT(location.continent, 
+		CONCAT(location.country, 
 			IF (location.region IS NULL, "",
 				CONCAT(": ", location.region,
 					IF (location.locality IS NULL, "", 
@@ -22,9 +22,10 @@ CREATE OR REPLACE VIEW `view_samples_ncbi` AS
 		treatment.antiviral_treatment_agent AS antiviral_treatment_agent,
 		collection.collection_device AS collection_device,
 		sampling.specimen_source AS collection_method,
+		treatment.date_of_prior_antiviral_treat AS date_of_prior_antiviral_treat,
 		treatment.date_of_prior_sars_cov_2_infection AS date_of_prior_sars_cov_2_infection,
-		treatment.date_of_prior_sars_cov_2_vaccination AS date_of_sars_cov_2_vaccination,
-		health.outbreak AS exposure_evenet,
+		treatment.date_of_prior_sars_cov_2_vaccination AS date_of_prior_sars_cov_2_vaccination,
+		health.outbreak AS exposure_event,
 		location.geo_loc_exposure AS geo_loc_exposure,
 		samples.gisaid_accession AS gisaid_accession,
 		CONCAT(hosts.patient_age, " years") AS host_age,
@@ -33,10 +34,9 @@ CREATE OR REPLACE VIEW `view_samples_ncbi` AS
 		"host_body_product" AS host_body_product,
 		health.host_disease_outcome AS host_disease_outcome,
 		health.host_health_state AS host_health_state,
-		"host_recent_travel_loc" AS host_recent_travel_loc,
-		"host_recent_travel_return_date" AS host_recent_travel_return_date,
+		hosts.host_recent_travel_loc AS host_recent_travel_loc,
+		hosts.host_recent_travel_return_date AS host_recent_travel_return_date,
 		hosts.patient_gender_ncbi AS host_sex,
-		"host_specimen_voucher" AS host_specimen_voucher,
 		hosts.host_subject_id AS host_subject_id,
 		IF ( 
 			location.geo_loc_latitude = "" OR location.geo_loc_longitude = "", "",
@@ -61,8 +61,9 @@ CREATE OR REPLACE VIEW `view_samples_ncbi` AS
 		sequencing.sequencing_lab_name AS sequenced_by,
 		treatment.vaccine_received AS vaccine_received,
 		treatment.virus_isolate_of_prior_infection AS virus_isolate_of_prior_infection,
-		samples.sample_description AS description
-
+		samples.sample_description AS description,
+		samples.gisaid_virusname AS gisaid_virusname,
+		samples.isolate AS isolate
 
 
 	FROM view_samples_base AS samples

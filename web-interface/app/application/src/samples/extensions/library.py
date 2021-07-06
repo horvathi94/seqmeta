@@ -3,7 +3,7 @@ from .base import SampleExtension
 
 LIBRARY_LAYOUTS = [
     {
-        "db_value": "",
+        "db_value": None,
         "db_save": None,
         "value": 0,
         "label": "N/A"

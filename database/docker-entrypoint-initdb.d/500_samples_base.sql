@@ -5,6 +5,8 @@ CREATE TABLE IF NOT EXISTS samples (
 	`comment`						VARCHAR(200),
 	title								VARCHAR(200),
 	description					VARCHAR(1000),
-	gisaid_accession		VARCHAR(200)
+	gisaid_accession		VARCHAR(200),
+	gisaid_virusname		VARCHAR(300),
+	isolate							VARCHAR(300)
 
 );

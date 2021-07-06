@@ -6,9 +6,11 @@ from application.src.samples.extensions.library import Library
 from application.src.samples.extensions.location import Location
 from application.src.samples.extensions.sampling import Sampling
 from application.src.samples.extensions.sequencing import Sequencing
-
-
 from application.src.samples.extensions.treatment import PatientTreatment
+from application.src.samples.nametemplates.virusname_gisaid import \
+    VirusnameGisaid
+from application.src.samples.nametemplates.isolate_ena import \
+    IsolateEna
 
 
 def save(submitted_samples):
@@ -42,5 +44,14 @@ def save(submitted_samples):
         library = submitted["library"];
         library["sample_id"] = sample_id;
         Library.save_entry(library);
+        sample_data["sample_id"] = sample_id;
+        if sample_data["gisaid_virusname"] == "":
+            sample_data["gisaid_virusname"] = \
+                VirusnameGisaid.format_name(sample_id);
+            sample_id = Samples.save_entry(sample_data);
+        if sample_data["isolate"] == "":
+            sample_data["isolate"] = \
+                IsolateEna.format_name(sample_id);
+            sample_id = Samples.save_entry(sample_data);
 
     return sample_ids;

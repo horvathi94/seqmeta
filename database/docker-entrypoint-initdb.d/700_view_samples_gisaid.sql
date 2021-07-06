@@ -4,6 +4,7 @@ CREATE OR REPLACE VIEW view_samples_gisaid AS
 
 		samples.sample_id AS sample_id,
 		samples.sample_name AS sample_name,
+		samples.gisaid_virusname AS gisaid_virusname,
 
 		collection.collection_date AS collection_date,
 		collection.collection_year AS collection_year,

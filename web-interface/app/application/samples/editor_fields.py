@@ -21,6 +21,8 @@ FIELDS_LIST = [
     "sample_title",
     "sample_description",
     "gisaid_accession",
+    "gisaid_virusname",
+    "isolate",
     "collection_year",
     "collection_month",
     "collection_day",
