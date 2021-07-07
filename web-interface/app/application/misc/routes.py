@@ -14,7 +14,8 @@ from application.src.defaults import DefaultValues
 from application.src.institutions import Institutions
 from application.src.authors import AuthorGroups
 from .editors import defaults
-
+from application.src.fields import Field
+from . import basic_editors
 
 misc_bp = Blueprint("misc_bp", __name__,
                     template_folder="templates",
@@ -36,18 +37,41 @@ def descript_library():
 
 @misc_bp.route("/misc/edit")
 def edit():
+
+    scripts = [{"filename": "add_hosts.js", "prefix":"misc"}];
+
     html = render_template("head.html");
-    html+= render_template("misc/specimen_sources.html",
-                           items=misc.SpecimenSources.fetch_list());
-    html+= render_template("misc/assembly_methods.html",
-                           items=misc.AssemblyMethods.fetch_list());
+
+    html+= render_template("misc/hosts.html",
+                           hosts=misc.Hosts.fetch_list());
+
+    html+= render_template("misc/basic_options.html",
+                           info=basic_editors.ASSEMBLY_METHODS,
+                           vals=misc.AssemblyMethods.fetch_list());
+    html+= render_template("misc/basic_options.html",
+                           info=basic_editors.SAMPLING_STRATEGIES,
+                           vasls=misc.SamplingStrategies.fetch_list());
+    html+= render_template("misc/basic_options.html",
+                           info=basic_editors.SPECIMEN_SOURCES,
+                           vals=misc.SpecimenSources.fetch_list());
+    html+= render_template("misc/basic_options.html",
+                           info=basic_editors.COLLECTION_DEVICES,
+                           vals=misc.CollectionDevices.fetch_list());
+    html+= render_template("misc/basic_options.html",
+                           info=basic_editors.HOST_ANATOMICAL_MATERIALS,
+                           vals=misc.HostAnatomicalMaterials.fetch_list());
+    html+= render_template("misc/basic_options.html",
+                           info=basic_editors.HOST_BODY_PRODUCTS,
+                           vals=misc.HostBodyProducts.fetch_list());
+
+
     html+= render_template("misc/virusname.html",
                 virusname_format=VirusnameGisaid.fetch_format_string(),
                 available_db_keys=VirusnameGisaid.available_db_keys());
     html+= render_template("misc/isolate_ena.html",
                 virusname_format=IsolateEna.fetch_format_string(),
                 available_db_keys=IsolateEna.available_db_keys());
-    html+= render_template("footer.html");
+    html+= render_template("footer.html", scripts=scripts);
     return html;
 
 
@@ -65,9 +89,16 @@ def submit_isolate_ena():
     return redirect(url_for("misc_bp.edit"));
 
 
+@misc_bp.route("/misc/submit/hosts", methods=["POST"])
+def submit_hosts():
+    parsed = Form.parse_list(request.form, "hosts")[1:];
+    misc.Hosts.save_by_procedure(parsed);
+    return redirect(url_for("misc_bp.edit"));
+
+
 @misc_bp.route("/misc/submit/specimen-sources", methods=["POST"])
 def submit_specimen_sources():
-    parsed = Form.parse_list(request.form, "specimen_source")[1:];
+    parsed = Form.parse_list(request.form, "specimen_sources")[1:];
     misc.SpecimenSources.save_by_procedure(parsed);
     return redirect(url_for("misc_bp.edit"));
 
@@ -79,10 +110,38 @@ def submit_assembly_methods():
     return redirect(url_for("misc_bp.edit"));
 
 
+@misc_bp.route("/misc/submit/sampling-strategies", methods=["POST"])
+def submit_sampling_strategies():
+    parsed = Form.parse_list(request.form, "sampling_strategies")[1:];
+    misc.SamplingStrategies.save_by_procedure(parsed);
+    return redirect(url_for("misc_bp.edit"));
+
+
+@misc_bp.route("/misc/submit/collection-devices", methods=["POST"])
+def submit_collection_devices():
+    parsed = Form.parse_list(request.form, "collection_devices")[1:];
+    misc.CollectionDevices.save_by_procedure(parsed);
+    return redirect(url_for("misc_bp.edit"));
+
+
+@misc_bp.route("/misc/submit/host-anatomical-materials", methods=["POST"])
+def submit_host_anatomical_materials():
+    parsed = Form.parse_list(request.form, "host_anatomical_materials")[1:];
+    misc.HostAnatomicalMaterials.save_by_procedure(parsed);
+    return redirect(url_for("misc_bp.edit"));
+
+
+@misc_bp.route("/misc/submit/host-body-products", methods=["POST"])
+def submit_host_body_products():
+    parsed = Form.parse_list(request.form, "host_body_products")[1:];
+    misc.HostBodyProducts.save_by_procedure(parsed);
+    return redirect(url_for("misc_bp.edit"));
+
+
+
 from application.src.defaults import DefaultValues
 @misc_bp.route("/default-values")
 def edit_default_values():
-#    return jsonify(DefaultValues.fetch());
     styles = [{"filename": "markers.css"}];
     html = render_template("head.html", styles=styles);
     html+= defaults.Editor.show();
@@ -92,7 +151,6 @@ def edit_default_values():
 
 @misc_bp.route("/default-values/submit", methods=["POST"])
 def submit_default_values():
-#    return jsonify(request.form);
     DefaultValues.save(request.form.to_dict());
     return redirect(url_for("misc_bp.edit_default_values"));
 

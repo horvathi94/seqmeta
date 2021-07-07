@@ -448,7 +448,7 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"Passage method", "text", 1, NULL, 1,
 		"passage_method", "passage-method", NULL, 200, NULL, NULL, NULL,
 		"sampling",
-		"Description of how the organism was passaged. Provide a short description, e.g., AVL buffer+30%EtOH lysate received from Respiratory Lab. P3 passage in Vero-1 via bioreactor large-scale batch passage. P3 batch derived from the SP-2/reference lab strain. If not passaged, put 'not applicable'."
+		"Description of how the organism was passaged. Provide a short description, <em>e.g., AVL buffer+30%EtOH lysate received from Respiratory Lab. P3 passage in Vero-1 via bioreactor large-scale batch passage. P3 batch derived from the SP-2/reference lab strain. </em>If not passaged, put 'not applicable'."
 	),
 	("passage_number",
 		"Passage number", "number", 3, NULL, 1,

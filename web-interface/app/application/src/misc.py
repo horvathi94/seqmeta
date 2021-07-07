@@ -21,8 +21,7 @@ class Hosts(DBInterface):
     @classmethod
     def save_by_procedure(cls, items):
         for item in items:
-            args = (int(item["id"]),
-                    str(item["label"]),
+            args = (str(item["label"]),
                     str(item["latin"]),
                     int(item["indx"]));
             Cursor.call_procedure(cls.save_procedure, args=args, commit=True);
@@ -112,11 +111,17 @@ class SarsCovGenes(DBInterface):
 
 
 class HostAnatomicalMaterials(DBInterface):
-    display_table_name = "host_anatomical_materials";
+    display_table_name = "view_host_anatomical_materials";
+    edit_table_name = "view_host_anatomical_materials";
+    submit_table_name = "host_anatomical_materials";
+    save_procedure = "upsert_basic_table";
 
 
 class HostBodyProducts(DBInterface):
-    display_table_name = "host_body_products";
+    display_table_name = "view_host_body_products";
+    edit_table_name = "view_host_body_products";
+    submit_table_name = "host_body_products";
+    save_procedure = "upsert_basic_table";
 
 
 class PurposesOfSampling(DBInterface):
@@ -128,5 +133,8 @@ class PurposesOfSequencing(DBInterface):
 
 
 class CollectionDevices(DBInterface):
-    display_table_name = "collection_devices";
+    display_table_name = "view_collection_devices";
+    edit_table_name = "view_collection_devices";
+    submit_table_name = "collection_devices";
+    save_procedure = "upsert_basic_table";
 

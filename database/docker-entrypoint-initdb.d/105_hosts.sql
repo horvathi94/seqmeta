@@ -15,39 +15,39 @@ CREATE OR REPLACE VIEW `view_hosts` AS
 		CONCAT(`label`, " (", `latin`, ")" ) AS display_label,
 		`indx`
 		FROM `hosts`
-		WHERE id <> 0
+		WHERE indx <> 0
 		ORDER BY indx ASC, label ASC;
 
 
 DELIMITER $$
 
 CREATE PROCEDURE upsert_hosts(
-	IN label 	CHAR(200),
-	IN latin	CHAR(200),
-	IN indx		INT UNSIGNED
+	IN inlabel 	CHAR(200),
+	IN inlatin	CHAR(200),
+	IN inindx		INT UNSIGNED
 )
 
 	BEGIN
 
-		IF ( label <> "" AND label IS NOT NULL ) THEN
+		IF ( inlabel <> "" AND inlabel IS NOT NULL ) THEN
 
 			SET @id = 0;
 			SELECT @id := id
 				FROM hosts
-				WHERE label = label;
+				WHERE `label` = inlabel;
 
 			IF ( @id = 0 ) THEN
 
-				INSERT INTO `hosts` (label, latin, indx)
-					VALUES (label, latin, indx);
+				INSERT INTO `hosts` (`label`, `latin`, `indx`)
+					VALUES (inlabel, inlatin, inindx);
 
 			ELSE
 			
 				UPDATE `hosts`
-					SET label = label,
-						latin = latin,
-						indx = indx
-					WHERE id = @select_id;
+					SET `label` = inlabel,
+						`latin` = inlatin,
+						`indx` = inindx
+					WHERE id = @id;
 
 			END IF;
 

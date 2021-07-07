@@ -12,6 +12,7 @@ from application.src.seqfiles.seqfiles import SeqFilesBunch
 from .save import save
 from application.src.defaults import DefaultValues
 from .editor import Editor
+from .editor_fields import FIELDS_LIST
 from application.src.fields import Field
 
 
@@ -196,7 +197,6 @@ def reg_library_names():
 
 
 
-from .editor_fields import FIELDS_LIST
 
 @samples_bp.route("/samples/edit")
 def edit():

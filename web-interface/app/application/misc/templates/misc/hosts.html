@@ -1,0 +1,69 @@
+<div class="option edit">
+	<h3>Hosts</h3>
+
+	<input type="button" value="+" onclick="addNewHost();"/>
+
+	<form action="{{ url_for('misc_bp.submit_hosts') }}" method="POST">
+
+	<table id="hosts-table">
+	
+		<tr>
+			<th>Index</th>
+			<th>Common name</th>
+			<th>Scientific name</th>
+		</tr>
+
+		<tr class="template" style="visibility: hidden;">
+			
+			<td><input type="number" name="hosts+0+indx"></td>
+			<td><input type="text" name="hosts+0+label"></td>
+			<td><input type="text" name="hosts+0+latin"></td>
+
+		</tr>
+
+		{% for host in hosts %}
+		
+			<tr>
+				<td> 
+					<input type="number"
+								 name="hosts+{{ loop.index }}+indx"
+								 value="{{ host.indx }}"/>
+				</td>
+				<td> 
+					<input type="text"
+								 name="hosts+{{ loop.index }}+label"
+								 value="{{ host.label }}"/>
+				</td>
+				<td> 
+					<input type="text"
+								 name="hosts+{{ loop.index }}+latin"
+								 value="{{ host.latin }}"/>
+				</td>
+
+			</tr>
+		{% endfor %}
+
+
+	</table>
+
+	<input type="submit" value="Save">
+
+	</form>
+
+</div>
+
+
+<div class="option description">
+	
+	<p>
+		
+	</p>
+
+
+	<p>
+		Add new options with the "+" button.
+		Edit the <em>index</em> values to order the records.
+		Set the <em>index</em> value to 0 to remove the entry.
+	</p>
+
+</div>
