@@ -88,7 +88,9 @@ FIELDS_LIST = [
     "library_preparation_date",
     "library_design_description",
     "insert_size",
-    "library_construction_protcol",
+    "library_construction_protocol",
+
+    "assembly_file",
 
 ];
 

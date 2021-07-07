@@ -608,6 +608,15 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"purpose_of_sequencing_id", "purpose-of-sequencing", NULL, NULL, NULL, NULL, NULL,
 		"sampling",
 		"The reason the sample was sequenced, <em>e.g., baseline surveillance (random sampling)</em>"
+	),
+
+
+
+	("assembly_file",
+		"Assembly file", "seqfile", 3, 1, 1,
+		"assembly_file", "assembly-file", NULL, NULL, NULL, NULL, NULL,
+		"seqfile",
+		"Assembly file."
 	)
 
 

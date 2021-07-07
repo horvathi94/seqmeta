@@ -26,6 +26,8 @@
 						class=info.input.class,
 						selected_value=info.input.value,
 						onchange="updateColumnRadio(this);") }}
+		{% elif info.field_type == "seqfile" %}
+			SEQFILE
 		{% endif %}
 	{% else %}
 		<strong> Must be unique </strong>

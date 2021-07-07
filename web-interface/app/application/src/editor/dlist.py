@@ -11,7 +11,7 @@ from application.src.samples.extensions.library import Library,\
 from application.src.samples.extensions.treatment import \
     ANTIVIRAL_TREAT, \
     PRIOR_INFECTION
-
+from application.src.seqfiles.db import SeqFileTypes
 
 
 DLIST = {
@@ -59,6 +59,8 @@ DLIST = {
 
     "collection_device": misc.CollectionDevices.fetch_list(),
 
+    "assembly_file": SeqFileTypes.fetch_list_labeled(
+                            replace_key="item_key"),
 
 }
 

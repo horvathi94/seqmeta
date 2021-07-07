@@ -3,7 +3,7 @@
 {% from "macros/forms/date.j2" import inpdate %}
 {% from "macros/select.j2" import select %}
 {% from "macros/radio.j2" import radio %}
-
+{% from "samples/form/seqfiles.j2" import seqfile %}
 
 <td>
 
@@ -23,6 +23,10 @@
 					dlist,
 					class=info.input.class,
 					selected_value=info.input.value) }}
+	{% elif info.field_type == "seqfile" %}
+		{{ seqfile(info.input.multi_template,
+							"sdtest",
+							dlist) }}
 	{% endif %}
 
 </td>

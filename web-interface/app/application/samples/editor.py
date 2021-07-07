@@ -103,6 +103,7 @@ class MultiEditor:
         self.template.append(self.template_col(field));
 
 
+
     def get_html(self):
         html = "<tr>";
         for col in self.head:
