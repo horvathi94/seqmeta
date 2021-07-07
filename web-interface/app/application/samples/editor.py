@@ -4,7 +4,7 @@ from application.src.fields import Field
 from application.src.defaults import DefaultValues
 from application.src.seqfiles.seqfiles import SeqFilesBunch
 from application.src.seqfiles.db import SeqFileTypes
-from .editor_fields import DLIST
+from application.src.editor.dlist import DLIST
 
 
 class Editor:
@@ -32,7 +32,7 @@ class Editor:
         field = Field.fetch(handle);
         field["input"]["value"] = self.get_value(field);
         return render_template(
-            "samples/form/single/{:s}.html".format(field["field_type"]),
+            "samples/form/single/field.html",
             info=field, dlist=dlist);
 
 

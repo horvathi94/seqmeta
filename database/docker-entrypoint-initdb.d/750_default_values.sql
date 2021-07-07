@@ -62,3 +62,20 @@ CALL upsert_deftab("originating_lab_id", NULL);
 CALL upsert_deftab("submitting_lab_id", NULL);
 CALL upsert_deftab("author_group_id", NULL);
 CALL upsert_deftab("host_health_state_id", NULL);
+
+CALL upsert_deftab("host_anatomical_material_id", NULL);
+CALL upsert_deftab("host_body_product_id", NULL);
+CALL upsert_deftab("collection_device_id", NULL);
+
+
+CALL upsert_deftab("host_health_state_id", NULL);
+CALL upsert_deftab("sars_cov_2_diag_gene_name_1_id", NULL);
+CALL upsert_deftab("sars_cov_2_diag_gene_name_2_id", NULL);
+CALL upsert_deftab("sequencing_lab_id", NULL);
+CALL upsert_deftab("purpose_of_sampling_id", NULL);
+CALL upsert_deftab("purpose_of_sequencing_id", NULL);
+CALL upsert_deftab("sample_storage_conditions", NULL);
+CALL upsert_deftab("passage_number", NULL);
+CALL upsert_deftab("passage_method", NULL);
+CALL upsert_deftab("insert_size", NULL);
+CALL upsert_deftab("library_construction_protocol", NULL);

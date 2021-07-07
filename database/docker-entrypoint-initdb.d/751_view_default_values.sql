@@ -120,5 +120,91 @@ CREATE OR REPLACE VIEW `view_default_values` AS
 			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
 			FROM `default_values`
 			WHERE `item_key` = "author_group_id"
-		) AS author_group_id
+		) AS author_group_id,
 
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "host_anatomical_material_id"
+		) AS host_anatomical_material_id,
+
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "host_body_product_id"
+		) AS host_body_product_id,
+		
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "collection_device_id"
+		) AS collection_device_id,
+
+
+
+
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "host_health_state_id"
+		) AS host_health_state_id,
+
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "sars_cov_2_diag_gene_name_1_id"
+		) AS sars_cov_2_diag_gene_name_1_id,
+
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "sars_cov_2_diag_gene_name_2_id"
+		) AS sars_cov_2_diag_gene_name_2_id,
+
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "sequencing_lab_id"
+		) AS sequencing_lab_id,
+
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "purpose_of_sampling_id"
+		) AS purpose_of_sampling_id,
+
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "purpose_of_sequencing_id"
+		) AS purpose_of_sequencing_id,
+
+		(SELECT 
+			IF (`item_value` IS NULL, "", `item_value`) 
+			FROM `default_values`
+			WHERE `item_key` = "sample_storage_conditions"
+		) AS sample_storage_conditions,
+
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "passage_number"
+		) AS passage_number,
+
+		(SELECT 
+			IF (`item_value` IS NULL, "", `item_value`) 
+			FROM `default_values`
+			WHERE `item_key` = "passage_method"
+		) AS passage_method,
+
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "insert_size"
+		) AS insert_size,
+
+		(SELECT 
+			IF (`item_value` IS NULL, "", `item_value`) 
+			FROM `default_values`
+			WHERE `item_key` = "library_construction_protocol"
+		) AS library_construction_protocol;

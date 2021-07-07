@@ -126,3 +126,7 @@ class PurposesOfSampling(DBInterface):
 class PurposesOfSequencing(DBInterface):
     display_table_name = "purposes_of_sequencing";
 
+
+class CollectionDevices(DBInterface):
+    display_table_name = "collection_devices";
+

@@ -105,6 +105,12 @@ INSERT INTO fields
 		"collection",
 		"Person who collected the sample."
 	),
+	("collection_device",
+		"Collection device", "select", NULL, NULL, 1,
+		"collection_device_id", "collection-device", NULL, NULL, NULL, NULL, NULL,
+		"collection",
+		"Instrument or container used to collect sample, <em>e.g., swab</em>."
+	),
 
 
 	/* --- Location data --- */
@@ -432,8 +438,8 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"sampling",
 		"Source of the specimen."
 	),
-	("sample_storage_condition",
-		"Sample storage condoition", "text", NULL, 1, NULL,
+	("sample_storage_conditions",
+		"Sample storage condoitions", "text", NULL, 1, NULL,
 		"sample_storage_conditions", "sample-storage-conditions", NULL, NULL, NULL, NULL, NULL,
 		"sampling",
 		"Conditions at which sample was stored, usually storage temperature, duration and location."
@@ -472,7 +478,7 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"Apparatus with which the sequencing was done."
 	),
 	("assembly_method",
-		"Sequencing method", "select", 3, 3, 3,
+		"Assembly method", "select", 3, 3, 3,
 		"assembly_method_id", "assembly-method", NULL, NULL, NULL, NULL, NULL,
 		"sequencing",
 		"Program name and version with which the assembly of the sequence was performed. 
@@ -537,7 +543,7 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"library",
 		"The insert size of the library."
 	),
-	("library_construction_protcol",
+	("library_construction_protocol",
 		"Library construction protocol", "text", NULL, NULL, 1,
 		"library_construction_protocol", "library-construction-protocol", NULL, 500, NULL, NULL, NULL,
 		"library",

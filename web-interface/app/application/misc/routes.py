@@ -13,6 +13,8 @@ from application.src import misc
 from application.src.defaults import DefaultValues
 from application.src.institutions import Institutions
 from application.src.authors import AuthorGroups
+from .editors import defaults
+
 
 misc_bp = Blueprint("misc_bp", __name__,
                     template_folder="templates",
@@ -77,39 +79,20 @@ def submit_assembly_methods():
     return redirect(url_for("misc_bp.edit"));
 
 
+from application.src.defaults import DefaultValues
 @misc_bp.route("/default-values")
 def edit_default_values():
-    html = render_template("head.html");
-    html+= render_template("defaults/edit.html",
-        default_vals=DefaultValues.fetch(),
-        continents=misc.Continents.fetch_list(),
-        countries=misc.Countries.fetch_list(),
-        hosts=misc.Hosts.fetch_list(),
-        sampling_strategies=misc.SamplingStrategies.fetch_list(),
-        assembly_methods=misc.AssemblyMethods.fetch_list(),
-        sequencing_instruments=misc.SequencingInstruments.fetch_list(),
-        patient_statuses=misc.PatientStatuses.fetch_list(),
-        specimen_sources=misc.SpecimenSources.fetch_list(),
-        sample_capture_statuses=misc.SampleCaptureStatuses.fetch_list(),
-        host_health_states=misc.HostHealthStates.fetch_list(),
-        library_strategies=LibraryStrategies.fetch_list_labeled(
-            replace_key="item_key"),
-        library_sources=LibrarySources.fetch_list_labeled(
-            replace_key="item_key"),
-        library_selections=LibrarySelections.fetch_list_labeled(
-            replace_key="item_key"),
-        library_layouts=LIBRARY_LAYOUTS,
-        author_groups=AuthorGroups.fetch_list_labeled(
-            replace_key="group_name",
-            replace_id="group_id"),
-        institutions=Institutions.fetch_list_labeled(),
-    );
+#    return jsonify(DefaultValues.fetch());
+    styles = [{"filename": "markers.css"}];
+    html = render_template("head.html", styles=styles);
+    html+= defaults.Editor.show();
     html+= render_template("footer.html");
-    return html
+    return html;
 
 
 @misc_bp.route("/default-values/submit", methods=["POST"])
 def submit_default_values():
+#    return jsonify(request.form);
     DefaultValues.save(request.form.to_dict());
     return redirect(url_for("misc_bp.edit_default_values"));
 

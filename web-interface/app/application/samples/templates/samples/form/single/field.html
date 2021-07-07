@@ -1,0 +1,35 @@
+{% from "macros/markers.j2" import marker %}
+{% from "macros/forms/text.j2" import inptext %}
+{% from "macros/forms/number.j2" import inpnumber %}
+{% from "macros/forms/date.j2" import inpdate %}
+{% from "macros/select.j2" import select %}
+{% from "macros/radio.j2" import radio %}
+
+
+
+<tr>
+	<td> {{ info.field_name|safe }} 
+		{% for req in info.requirement %}
+			{{ marker(req.type, requirement=req.level) }}
+		{% endfor %}
+	</td>
+	<td> 
+		{% if info.field_type == "text" %}
+			{{ inptext(info.input, type="single") }} 
+		{% elif info.field_type == "number" %}
+			{{ inpnumber(info.input, type="single") }}
+		{% elif info.field_type == "date" %}
+			{{ inpdate(info.input, type="single") }}
+		{% elif info.field_type == "select" %}
+			{{ select(info.input.name_single,
+					dlist,
+					selected_id=info.input.value) }}
+		{% elif info.field_type == "radio" %}
+			{{ radio(info.input.name_single,
+					dlist,
+					selected_value=info.input.value) }} 
+		{% endif %}
+	</td>
+	<td> {{ info.description|safe }} </td>
+</tr>
+

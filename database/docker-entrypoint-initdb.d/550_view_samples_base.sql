@@ -20,6 +20,7 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		collection.submitting_lab_id AS submitting_lab_id,
 		collection.submitting_lab_sample_name AS submitting_lab_sample_name,
 		collection.author_group_id AS author_group_id,
+		collection.collection_device_id AS collection_device_id,
 		
 		location.continent_id AS continent_id,
 		location.country_id AS country_id,

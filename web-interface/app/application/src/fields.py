@@ -49,6 +49,7 @@ class Field(DBInterface):
         field["input"]["name_single"] = raw["prefix"] + "+" + raw["db_key"];
         field["input"]["multi_all"] = raw["prefix"]+"-"+raw["db_key"]+"-all";
         field["input"]["multi_template"] = raw["prefix"]+"+0+"+raw["db_key"];
+        field["input"]["defaults"] = raw["db_key"];
         field["input"]["class"] = raw["class"];
         field["input"]["onchange"] = "";
         if raw["field_type"] == "text":

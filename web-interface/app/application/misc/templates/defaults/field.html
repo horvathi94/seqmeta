@@ -1,0 +1,33 @@
+{% from "macros/markers.j2" import marker %}
+{% from "macros/select.j2" import select %}
+{% from "macros/radio.j2" import radio %}
+{% from "macros/forms/text.j2" import inptext %}
+{% from "macros/forms/number.j2" import inpnumber %}
+
+<tr>
+	<td>
+		<label for="{{ info.field_name|safe }}">
+			{{ info.field_name|safe }}
+			{% for req in info.requirement %}
+				{{ marker(req.type, requirement=req.level) }}
+			{% endfor %}
+		</label>
+	</td>
+	<td>
+		{% if info.field_type == "text" %}
+			{{ inptext(info.input, type="defaults") }}
+		{% elif info.field_type == "number" %}
+			{{ inpnumber(info.input, type="defaults") }}
+		{% elif info.field_type == "select" %}
+			{{ select(info.input.defaults,
+					dlist,
+					selected_id=info.input.value) }} </td>
+		{% elif info.field_type == "radio" %}
+			{{ radio(info.input.defaults,
+					dlist,
+					selected_value=info.input.value) }} 
+		{% endif %}
+	</td>
+	<td> {{ info.description|safe }} </td>
+</tr>
+

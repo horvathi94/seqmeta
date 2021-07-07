@@ -1,8 +1,10 @@
-{% macro inptext(dets, type="single") %}
+{% macro inpnumber(dets, type="single") %}
 
-{% set maxlen="maxlength='"+dets.maxlength|string+"'" 
-	if dets.maxlength > 0 else "" %}
-{% set onchangefunc="onchange='"+dets.onchange|string+"'" 
+{% set min="min='"+dets.min|string+"'" 
+	if dets.min != "" else "" %}
+{% set max="max='"+dets.max|string+"'" 
+	if dets.max != "" else "" %}
+{% set onchangefunc="onchange='"+dets.onchange+"'" 
 	if dets.onchange != "" else "" %}
 
 {% set name = "" %}
@@ -12,13 +14,17 @@
 	{% set name = dets.multi_all %}
 {% elif type == "multi_template" %}
 	{% set name = dets.multi_template %}
+{% elif type == "defaults" %}
+	{% set name = dets.defaults %}
 {% endif %}
 
-<input type="text"
+<input type="number"
 			 name="{{ name }}"
+			 step="{{ dets.step }}"
 			 	class="{{ dets.class }}"
 				value="{{ dets.value }}"
-				{{ maxlen }} 
+				{{ min }} 
+				{{ max }} 
 				{{ onchangefunc }}/>
 
 
