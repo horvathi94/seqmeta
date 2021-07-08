@@ -24,9 +24,7 @@
 					class=info.input.class,
 					selected_value=info.input.value) }}
 	{% elif info.field_type == "seqfile" %}
-		{{ seqfile(info.input.multi_template,
-							"sdtest",
-							dlist) }}
+		{{ seqfile(info, dlist) }}
 	{% endif %}
 
 </td>

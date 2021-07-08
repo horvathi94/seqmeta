@@ -1,3 +1,4 @@
+import os
 from application.src.samples.samples import Samples
 from application.src.samples.extensions.collections import Collection
 from application.src.samples.extensions.host import Host
@@ -11,6 +12,45 @@ from application.src.samples.nametemplates.virusname_gisaid import \
     VirusnameGisaid
 from application.src.samples.nametemplates.isolate_ena import \
     IsolateEna
+from application.src.seqfiles.db import SeqFile
+
+
+def save_files(seqfiles, sample_id):
+
+    if "assembly_file" in seqfiles and \
+            seqfiles["assembly_file"]["filename"] != "":
+        fd = seqfiles["assembly_file"];
+        info = {"sample_id": sample_id,
+                 "file_type_id": int(fd["type"]),
+                 "is_assembly": True,
+                 "is_forward_read": None};
+        SeqFile.save(info);
+        filename = SeqFile.fetch_filename(sample_id, ftype="assembly");
+        fd["filedata"].save(os.path.join("/uploads/samples/assemblies",
+                                        filename));
+
+    if "fwread_file" in seqfiles and \
+            seqfiles["fwread_file"]["filename"] != "":
+        fd = seqfiles["fwread_file"];
+        info = {"sample_id": sample_id,
+                     "file_type_id": int(fd["type"]),
+                     "is_assembly": False,
+                     "is_forward_read": True};
+        SeqFile.save(info);
+        filename = SeqFile.fetch_filename(sample_id, ftype="fwread");
+        fd["filedata"].save(os.path.join("/uploads/samples/raw", filename));
+
+
+    if "rvread_file" in seqfiles and \
+            seqfiles["rvread_file"]["filename"] != "":
+        fd = seqfiles["rvread_file"];
+        info = {"sample_id": sample_id,
+                     "file_type_id": int(fd["type"]),
+                     "is_assembly": False,
+                     "is_forward_read": False};
+        SeqFile.save(info);
+        filename = SeqFile.fetch_filename(sample_id, ftype="rvread");
+        fd["filedata"].save(os.path.join("/uploads/samples/raw", filename));
 
 
 def save(submitted_samples):
@@ -53,5 +93,11 @@ def save(submitted_samples):
             sample_data["isolate"] = \
                 IsolateEna.format_name(sample_id);
             sample_id = Samples.save_entry(sample_data);
+        if "seqfiles" in submitted:
+            seqfiles = submitted["seqfiles"];
+            save_files(seqfiles, sample_id);
 
     return sample_ids;
+
+
+

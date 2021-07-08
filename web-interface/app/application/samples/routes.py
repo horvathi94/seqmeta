@@ -11,7 +11,7 @@ from application.src.seqfiles.db import SeqFileTypes, SeqFile
 from application.src.seqfiles.seqfiles import SeqFilesBunch
 from .save import save
 from application.src.defaults import DefaultValues
-from .editor import Editor
+from .editor import Editor, MultiEditor
 from .editor_fields import FIELDS_LIST
 from application.src.fields import Field
 
@@ -35,6 +35,7 @@ def show():
         sample["seqfiles"] = seqbunch.todict();
     html = render_template("head.html", styles=styles);
     if len(samples_list) == 0:
+        html+= render_template("samples/add_multiple_button.html");
         html+= render_template("empty_list.html",
                                name_plural="samples",
                                link="samples_bp.edit");
@@ -59,42 +60,27 @@ def submit():
     save_data["health"] = Form.parse_simple(request.form, "health");
     save_data["sequencing"] = Form.parse_simple(request.form, "sequencing");
     save_data["treatment"] = Form.parse_simple(request.form, "treatment");
+    save_data["seqfiles"] = parse_files_multiple(request)[0];
     sample_ids = save([save_data]);
     sample_id = sample_ids[0];
-
-    assembly_file = request.files["assembly-file"];
-    if assembly_file.filename != "":
-        file_data = {"sample_id": sample_id,
-                     "file_type_id": request.form["assembly-file-type"],
-                     "is_assembly": True,
-                     "is_forward_read": None};
-        SeqFile.save(file_data);
-        filename = SeqFile.fetch_filename(sample_id, ftype="assembly");
-        assembly_file.save(os.path.join("/uploads/samples/assemblies",
-                                        filename));
-
-    fwread_file = request.files["forward-read-file"];
-    if fwread_file.filename != "":
-        file_data = {"sample_id": sample_id,
-                     "file_type_id": request.form["forward-read-file-type"],
-                     "is_assembly": False,
-                     "is_forward_read": True};
-        SeqFile.save(file_data);
-        filename = SeqFile.fetch_filename(sample_id, ftype="fwread");
-        fwread_file.save(os.path.join("/uploads/samples/raw", filename));
-
-    rvread_file = request.files["reverse-read-file"];
-    if rvread_file.filename != "":
-        file_data = {"sample_id": sample_id,
-                     "file_type_id": request.form["reverse-read-file-type"],
-                     "is_assembly": False,
-                     "is_forward_read": False};
-        SeqFile.save(file_data);
-        filename = SeqFile.fetch_filename(sample_id, ftype="rvread");
-        rvread_file.save(os.path.join("/uploads/samples/raw", filename));
-
     return redirect(url_for('samples_bp.show'));
 
+
+
+def parse_files_multiple(request):
+    seqfile_types = Form.parse_list(request.form, "seqfile");
+    seqfiles = Form.parse_list(request.files, "seqfile");
+
+    fdata = [];
+    FTYPES = ["assembly_file", "fwread_file", "rvread_file"];
+    for f, ftype in zip(seqfiles, seqfile_types):
+        d = {"id": ftype["id"]};
+        for handle in FTYPES:
+            d[handle] = {"type": ftype[handle],
+                        "filename": f[handle].filename,
+                        "filedata": f[handle]};
+        fdata.append(d);
+    return fdata;
 
 
 @samples_bp.route("/samples/submit-multiple", methods=["POST"])
@@ -108,6 +94,7 @@ def submit_multiple():
     sequencing = Form.parse_list(request.form, "sequencing")[1:];
     sampling = Form.parse_list(request.form, "sampling")[1:];
     library = Form.parse_list(request.form, "library")[1:];
+    fs = parse_files_multiple(request)[1:];
 
     samples = [];
     for i, sd in enumerate(sample_data):
@@ -122,6 +109,7 @@ def submit_multiple():
         save_data["sampling"] = sampling[i];
         save_data["library"] = library[i];
         save_data["treatment"] = treatment[i];
+        save_data["seqfiles"] = fs[i];
         samples.append(save_data);
     save(samples);
     return redirect(url_for('samples_bp.show'));
@@ -209,22 +197,12 @@ def edit():
     scripts = [{"filename": "validate-sample-name.js", "prefix": "samples"},
                {"filename": "edit-sample.js", "prefix": "samples"}];
     html = render_template("head.html", styles=styles);
-    html+= render_template("samples/form/single/head.html",
-                           sample_id=sample_id);
-
-
-    for fd in FIELDS_LIST:
-        html+= editor.single(fd);
-
-    html+= editor.single_files();
-
-    html+= render_template("samples/form/single/tail.html");
+    html+= editor.show();
     html+= render_template("footer.html", scripts=scripts);
     return html;
 
 
 
-from .editor import MultiEditor
 
 @samples_bp.route("/samples/add-multiple", methods=["GET"])
 def add_multiple():
@@ -237,15 +215,10 @@ def add_multiple():
 
     html = "";
     html+= render_template("head.html", styles=styles);
-    html+= render_template("samples/form/multi/head.html");
 
     editor = MultiEditor();
-    for fd in FIELDS_LIST:
-        editor.add_field(fd);
+    html+= editor.show();
 
-    html+= editor.get_html();
-
-    html+= render_template("samples/form/multi/tail.html");
     html+= render_template("footer.html", scripts=scripts);
     return html;
 

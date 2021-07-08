@@ -1,11 +1,15 @@
 {% from 'macros/select.j2' import select %}
 
 
-{% macro seqfile(file_name, select_name, dlist) %}
 
-	<input type="file" name="{{ name }}">
+{% macro seqfile(info, dlist) %}
 
-	{{ select(select_name, dlist) }}
+	<input type="file" name="{{ info.input.multi_template }}">
 
+	{{ select(info.input.multi_template, dlist) }}
+
+	{% if info.input.value != "" and info.input.value != 0 %}
+		<p> Has file: {{ info.input.value }} </p>
+	{% endif %}
 
 {% endmacro %}

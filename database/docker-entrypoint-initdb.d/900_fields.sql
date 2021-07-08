@@ -617,6 +617,18 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"assembly_file", "assembly-file", NULL, NULL, NULL, NULL, NULL,
 		"seqfile",
 		"Assembly file."
+	),
+	("fwread_file",
+		"Forward read", "seqfile", 0, 1, 1,
+		"fwread_file", "fwread-file", NULL, NULL, NULL, NULL, NULL,
+		"seqfile",
+		"Forward read file (the first one the machine returns)."
+	),
+	("rvread_file",
+		"Reverse read", "seqfile", 0, 1, 1,
+		"rvread_file", "rvread-file", NULL, NULL, NULL, NULL, NULL,
+		"seqfile",
+		"Reverse read file (the second one the machine returns)."
 	)
 
 

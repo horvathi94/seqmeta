@@ -91,6 +91,8 @@ FIELDS_LIST = [
     "library_construction_protocol",
 
     "assembly_file",
+    "fwread_file",
+    "rvread_file",
 
 ];
 

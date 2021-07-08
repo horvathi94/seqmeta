@@ -62,5 +62,10 @@ DLIST = {
     "assembly_file": SeqFileTypes.fetch_list_labeled(
                             replace_key="item_key"),
 
+    "fwread_file": SeqFileTypes.fetch_list_labeled(
+                            replace_key="item_key"),
+    "rvread_file": SeqFileTypes.fetch_list_labeled(
+                            replace_key="item_key"),
+
 }
 

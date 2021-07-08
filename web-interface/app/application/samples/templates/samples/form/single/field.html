@@ -4,6 +4,7 @@
 {% from "macros/forms/date.j2" import inpdate %}
 {% from "macros/select.j2" import select %}
 {% from "macros/radio.j2" import radio %}
+{% from "samples/form/seqfiles.j2" import seqfile %}
 
 
 
@@ -27,7 +28,9 @@
 		{% elif info.field_type == "radio" %}
 			{{ radio(info.input.name_single,
 					dlist,
-					selected_value=info.input.value) }} 
+					selected_value=info.input.value) }}
+		{% elif info.field_type == "seqfile" %}
+			{{ seqfile(info, dlist) }}
 		{% endif %}
 	</td>
 	<td> {{ info.description|safe }} </td>

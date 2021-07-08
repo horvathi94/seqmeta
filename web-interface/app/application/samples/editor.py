@@ -3,8 +3,9 @@ from application.src.samples.samples import Samples
 from application.src.fields import Field
 from application.src.defaults import DefaultValues
 from application.src.seqfiles.seqfiles import SeqFilesBunch
-from application.src.seqfiles.db import SeqFileTypes
+from application.src.seqfiles.db import SeqFileTypes, SeqFile
 from application.src.editor.dlist import DLIST
+from .editor_fields import FIELDS_LIST
 
 
 class Editor:
@@ -16,6 +17,9 @@ class Editor:
 
 
     def get_value(self, field):
+        if field["field_type"] == "seqfile":
+            ftype = field["db_key"].replace("_file", "");
+            return SeqFile.fetch_filename(self.sample_id, ftype=ftype);
         if self.sample_id != 0:
             return self.sample[field["db_key"]];
         defs = DefaultValues.fetch();
@@ -44,6 +48,15 @@ class Editor:
                                seqfiles=seqfiles,
                                seqfile_types=seqfile_types);
 
+
+    def show(self):
+        html = render_template("samples/form/single/head.html",
+                           sample_id=self.sample_id);
+        for fd in FIELDS_LIST:
+            html+= self.single(fd);
+        #html+= self.single_files();
+        html+= render_template("samples/form/single/tail.html");
+        return html;
 
 
 
@@ -88,7 +101,7 @@ class MultiEditor:
         dlist = [];
         val = cls.get_value(info);
         info["input"]["onchange"] = "";
-        if info["field_type"] in ["select", "radio"]:
+        if info["field_type"] in ["select", "radio", "seqfile"]:
             dlist = DLIST[info["handle"]];
             if val == "": val = 0;
         info["input"]["value"] = val;
@@ -101,7 +114,6 @@ class MultiEditor:
         self.head.append(self.header_col(field));
         self.all.append(self.all_col(field));
         self.template.append(self.template_col(field));
-
 
 
     def get_html(self):
@@ -118,5 +130,14 @@ class MultiEditor:
         for col in self.template:
             html+= col;
         html+= "</tr>";
+        return html;
+
+
+    def show(self):
+        html = render_template("samples/form/multi/head.html");
+        for fd in FIELDS_LIST:
+            self.add_field(fd);
+        html+= self.get_html();
+        html+= render_template("samples/form/single/tail.html");
         return html;
 

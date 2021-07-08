@@ -101,6 +101,7 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		library.insert_size AS insert_size,
 		library.library_construction_protocol AS library_construction_protocol
 
+
 		FROM samples
 		LEFT JOIN samples_location AS location
 			ON samples.id = location.sample_id

@@ -74,5 +74,9 @@ class Field(DBInterface):
                 date = raw["max_date"].strftime("%Y-%m-%d");
             field["input"]["max"] = date;
             field["value"] = "";
+        if raw["field_type"] == "seqfile":
+            field["input"]["multi_template"] = \
+                raw["prefix"]+"+0+"+raw["db_key"];
+            field["file_type"] = raw["db_key"];
         field["description"] = str(raw["description"].strip());
         return field;
