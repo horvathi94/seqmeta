@@ -50,7 +50,7 @@ def edit():
                            vals=misc.AssemblyMethods.fetch_list());
     html+= render_template("misc/basic_options.html",
                            info=basic_editors.SAMPLING_STRATEGIES,
-                           vasls=misc.SamplingStrategies.fetch_list());
+                           vals=misc.SamplingStrategies.fetch_list());
     html+= render_template("misc/basic_options.html",
                            info=basic_editors.SPECIMEN_SOURCES,
                            vals=misc.SpecimenSources.fetch_list());
