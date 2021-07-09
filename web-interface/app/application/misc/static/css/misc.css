@@ -10,3 +10,7 @@
 .option.editor h3{
 	color: var(--dark-green);
 }
+
+.option.edit input[type="submit"]{
+	margin-top: 2em;
+}

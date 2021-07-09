@@ -1,3 +1,5 @@
+{% from "popup.j2" import popup %}
+
 <input type="button"
 			 onclick="location.href='{{ url_for('samples_bp.edit') }}'"
 			 value="Add"/>
@@ -89,7 +91,8 @@
 		<h4> Generate metadata for upload: </h4>
 
 		<input type="submit" value="GISAID" 
-						formaction="{{ url_for( 'samples_bp.gen_gisaid_meta' ) }}"/>
+						formaction="{{ url_for( 'samples_bp.gen_gisaid_meta' ) }}"
+						onclick="submitGuide();"/>
 
 		<input type="submit" value="ENA" 
 						formaction="{{ url_for( 'samples_bp.gen_ena_meta' ) }}"/>
@@ -121,3 +124,7 @@
 	</div>
 
 </div>
+
+{#
+{% popup(wrap_class="submiting guide") %}
+#}

@@ -29,7 +29,8 @@ samples_bp = Blueprint("samples_bp", __name__,
 def show():
     styles = [{"filename":"prompt.css"},
               {"filename": "samples.css", "prefix":"samples"}];
-    scripts = [{"filename": "details.js", "prefix":"samples"}];
+    scripts = [{"filename": "details.js", "prefix":"samples"},
+               {"filename": "submitguide.js", "prefix": "samples"}];
     samples_list = Samples.fetch_list();
     for sample in samples_list:
         seqbunch = SeqFilesBunch(sample["sample_id"]);
