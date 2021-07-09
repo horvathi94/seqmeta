@@ -4,7 +4,7 @@ from application.src.fields import Field
 from application.src.defaults import DefaultValues
 from application.src.seqfiles.seqfiles import SeqFilesBunch
 from application.src.seqfiles.db import SeqFileTypes, SeqFile
-from application.src.editor.dlist import DLIST
+from application.src.editor.dlist import get_dlist
 from .editor_fields import FIELDS_LIST
 
 
@@ -32,7 +32,7 @@ class Editor:
 
 
     def single(self, handle):
-        dlist = DLIST[handle] if handle in DLIST else [];
+        dlist = get_dlist(handle);
         field = Field.fetch(handle);
         field["input"]["value"] = self.get_value(field);
         return render_template(
@@ -89,7 +89,7 @@ class MultiEditor:
         if info["field_type"] in ["text", "number"]:
             info["input"]["onchange"] = "updateColumn(this);";
         elif info["field_type"] in ["select", "radio"]:
-            dlist = DLIST[info["handle"]];
+            dlist = get_dlist(info["handle"]);
             if val == "": val = 0;
         info["input"]["value"] = val;
         return render_template("samples/form/multi/col_all.html",
@@ -102,7 +102,7 @@ class MultiEditor:
         val = cls.get_value(info);
         info["input"]["onchange"] = "";
         if info["field_type"] in ["select", "radio", "seqfile"]:
-            dlist = DLIST[info["handle"]];
+            dlist = get_dlist(info["handle"]);
             if val == "": val = 0;
         info["input"]["value"] = val;
         return render_template("samples/form/multi/col_template.html",

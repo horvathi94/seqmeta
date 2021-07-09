@@ -1,7 +1,7 @@
 from flask import render_template
 from application.src.defaults import DefaultValues
 from application.src.fields import Field
-from application.src.editor.dlist import DLIST
+from application.src.editor.dlist import get_dlist
 
 
 FIELDS = [
@@ -54,7 +54,7 @@ class Editor:
 
     @classmethod
     def field(cls, handle):
-        dlist = DLIST[handle] if handle in DLIST else [];
+        dlist = get_dlist(handle);
         field = Field.fetch(handle);
         field["input"]["value"] = DefaultValues.fetch()[field["db_key"]];
         return render_template("defaults/field.html",
