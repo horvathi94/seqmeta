@@ -38,11 +38,10 @@ def edit():
                            scripts=scripts);
     return html;
 
-
 @author_groups_bp.route("/author-groups/submit", methods=["POST"])
 def submit():
     form_data = request.form.to_dict();
-    authors_list = Form.parse_list(form_data, "author");
+    authors_list = Form.parse_list(form_data, "author")[1:];
     group = Form.parse_simple(form_data, "group");
     AuthorGroups.save(group, authors_list);
     return redirect(url_for('author_groups_bp.show'));

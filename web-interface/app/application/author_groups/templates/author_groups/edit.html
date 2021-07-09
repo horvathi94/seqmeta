@@ -11,56 +11,64 @@
 
 	<div id="editor">
 
-		<div class="editor-head">
-			<span> Order </span>
-			<span> Name </span>
-		</div>
 
 		<input type="button" 
 					 onclick="addAuthorToGroup()"
 					 value="Add"/>
 
+
+		<table id="author-group-editor">
+			<tr>
+				<th> Order </th>
+				<th> Name </th>
+			</tr>
+			
+
+			<tr class="editor template" style="visibility: collapse;">
+
+				<td>
+					<input type="number" 
+						name="author+0+order_index"
+						class="orderindx"
+						value="0"/>
+				</td>
+
+				<td>
+					<select class="authorid template" name="author+0+auhtor_id">
+						{% for a in authors_list %}
+							<option value="{{ a.id }}"> {{ a.abbreviated_middle_name }} </option>
+						{% endfor %}
+					</select>
+				</td>
+
+			</tr>
+
+
 		{% for author in group.authors %}
 
-			<div class="editor-entry">
 
-				<input type="number" 
-					class="order"
-					name="author+{{ loop.index }}+order_index"
-					value="{{ author.order_index }}"/>
-
+				<td>
+					<input type="number" 
+						class="orderindx"
+						name="author+{{ loop.index }}+order_index"
+						value="{{ author.order_index }}"/>
+				</td>
+			
 				<input type="hidden" 
 					class="authorid"
 					name="author+{{ loop.index }}+author_id"
 					value="{{ author.author_id }}"/> 
 
-				<span> {{ author.abbreviated_middle_name }} </span>
+				<td> {{ author.abbreviated_middle_name }} </td>
 
-			</div>
+			</tr>
 
 		{% endfor %}
 
 
 
-		<div id="editor-empty" style="display: none;">
-			<input type="number" 
-				class="order empty"
-				value="0"/>
 
-
-			<select class="authorid empty" name="name_tag">
-
-				{% for a in authors_list %}
-
-					<option value="{{ a.id }}"> {{ a.abbreviated_middle_name }} </option>
-
-				{% endfor %}
-
-			</select>
-
-		</div>
-
-	</div>
+	</table>
 
 	<input type="submit" value="Save"/>
 
