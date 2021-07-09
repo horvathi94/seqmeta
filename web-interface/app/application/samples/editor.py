@@ -54,7 +54,6 @@ class Editor:
                            sample_id=self.sample_id);
         for fd in FIELDS_LIST:
             html+= self.single(fd);
-        #html+= self.single_files();
         html+= render_template("samples/form/single/tail.html");
         return html;
 
@@ -104,6 +103,8 @@ class MultiEditor:
         if info["field_type"] in ["select", "radio", "seqfile"]:
             dlist = get_dlist(info["handle"]);
             if val == "": val = 0;
+        if info["handle"] == "sample_name":
+            info["input"]["onchange"] = "checkSampleNames();";
         info["input"]["value"] = val;
         return render_template("samples/form/multi/col_template.html",
                                info=info, dlist=dlist);

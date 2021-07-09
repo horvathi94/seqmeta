@@ -14,7 +14,8 @@ function disableSave(inps, names, ommits=[], emptyAllowed=false){
 	const subButton = document.querySelectorAll("input[type=submit]")[0];
 
 	disabled = false;
-	Array.from(inps).forEach( (inp, i) => {
+
+	inps.forEach( (inp, i) => {
 		errorCode = "";
 		if (names.includes(inp.value)) {
 			disabled = true;
@@ -31,15 +32,18 @@ function disableSave(inps, names, ommits=[], emptyAllowed=false){
 			});
 		}
 				
-		let err = inp.parentElement.getElementsByClassName("error")[0];
-		err.style.visibility = "visible";
 
 		if (errorCode) {
 			inp.style.backgroundColor = "orangeRed";
+			let err = document.createElement("p");
+			err.classList.add("error-box");
 			err.innerHTML = errorCode;
+			err.style.fontWeight = "bold";
+			inp.parentNode.appendChild(err);
 		} else {
 			inp.style.backgroundColor = "#fff";
-			err.innerHTML = "";
+			let err = inp.parentNode.getElementsByClassName("error-box")[0];
+			if ( err ) { err.remove(); }
 		}
 		subButton.disabled = disabled;
 
@@ -50,8 +54,8 @@ function disableSave(inps, names, ommits=[], emptyAllowed=false){
 
 function checkSampleNames(){
 
-	const inps = document.getElementsByClassName("sample-name");
-	
+	const inps = Array.from(document.getElementsByClassName("sample-name")).slice(1);
+
 	fetchNamesList("sample-names").then( (names) => {
 		disableSave(inps, names);
 	});
@@ -61,7 +65,7 @@ function checkSampleNames(){
 
 function checkLibraryNames(){
 
-	const inps = document.getElementsByClassName("library-id");
+	const inps = Array.from(document.getElementsByClassName("library-id")).slice(1);
 	
 	fetchNamesList("library-names").then( (names) => {
 		disableSave(inps, names, ommits=[""], emptyAllowed=true);
