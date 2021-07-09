@@ -105,6 +105,8 @@ class MultiEditor:
             if val == "": val = 0;
         if info["handle"] == "sample_name":
             info["input"]["onchange"] = "checkSampleNames();";
+        if info["handle"] == "library_id":
+            info["input"]["onchange"] = "checkLibraryNames();";
         info["input"]["value"] = val;
         return render_template("samples/form/multi/col_template.html",
                                info=info, dlist=dlist);

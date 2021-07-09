@@ -1,3 +1,4 @@
+from application.src.db.cursor import Cursor
 from .base import SampleExtension
 
 
@@ -51,6 +52,12 @@ class Library(SampleExtension):
                 if layout["db_value"] == entry["library_layout_paired"]:
                     entry["library_layout_paired"] = layout["value"];
                     break;
-        if entry["insert_size"] == None:
-            entry["insert_size"] = "";
+        if "insert_size" in entry:
+            if entry["insert_size"] == None:
+                entry["insert_size"] = "";
         return entry;
+
+    @classmethod
+    def select_library_ids(cls):
+        return \
+            Cursor.select(cls.display_table_name, fields=["library_id"]);

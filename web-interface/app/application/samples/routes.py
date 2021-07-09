@@ -9,6 +9,7 @@ from application.src.metatemplates.ena.main import EnaMeta
 from application.src.metatemplates.ncbi.main import NcbiMeta
 from application.src.seqfiles.db import SeqFileTypes, SeqFile
 from application.src.seqfiles.seqfiles import SeqFilesBunch
+from application.src.samples.extensions.library import Library
 from .save import save
 from application.src.defaults import DefaultValues
 from .editor import Editor, MultiEditor
@@ -179,8 +180,8 @@ def reg_sample_names():
 
 @samples_bp.route("/samples/registered/library-names", methods=["GET"])
 def reg_library_names():
-    lib_ids = [l["library_id"] for l in Library.fetch_list()
-               if l["library_id"] != ""];
+    lids = Library.select_library_ids();
+    lib_ids = [lid["library_id"] for lid in lids];
     return jsonify(lib_ids);
 
 
