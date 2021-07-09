@@ -77,6 +77,11 @@
 	{% endfor %}
 
 
+	<input type="submit"
+				 class="edit multiple"
+				 formaction="{{ url_for("samples_bp.edit_multiple") }}"
+				 value="Edit selected"/>
+
 </table>
 
 	<div class="filegen wrap">

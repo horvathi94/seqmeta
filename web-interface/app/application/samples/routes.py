@@ -116,6 +116,38 @@ def submit_multiple():
     return redirect(url_for('samples_bp.show'));
 
 
+@samples_bp.route("/samples/submit-edit-multiple", methods=["POST"])
+def submit_edit_multiple():
+    sample_data = Form.parse_list(request.form, "sample")[1:];
+    collection = Form.parse_list(request.form, "collection")[1:];
+    location = Form.parse_list(request.form, "location")[1:];
+    host = Form.parse_list(request.form, "host")[1:];
+    treatment = Form.parse_list(request.form, "treatment")[1:];
+    health = Form.parse_list(request.form, "health")[1:];
+    sequencing = Form.parse_list(request.form, "sequencing")[1:];
+    sampling = Form.parse_list(request.form, "sampling")[1:];
+    library = Form.parse_list(request.form, "library")[1:];
+    fs = parse_files_multiple(request)[1:];
+
+    samples = [];
+    for i, sd in enumerate(sample_data):
+        save_data = {};
+        save_data["sample"] = sd;
+        save_data["sample"]["sample_id"] = int(sd["id"]);
+        save_data["location"] = location[i];
+        save_data["collection"] = collection[i];
+        save_data["host"] = host[i];
+        save_data["health"] = health[i];
+        save_data["sequencing"] = sequencing[i];
+        save_data["sampling"] = sampling[i];
+        save_data["library"] = library[i];
+        save_data["treatment"] = treatment[i];
+        save_data["seqfiles"] = fs[i];
+        samples.append(save_data);
+    save(samples);
+    return redirect(url_for('samples_bp.show'));
+
+
 @samples_bp.route("/samples/details")
 def sample_details():
     sample_id = int(request.args["id"]) if "id" in request.args else 0;
@@ -218,7 +250,31 @@ def add_multiple():
     html+= render_template("head.html", styles=styles);
 
     editor = MultiEditor();
-    html+= editor.show();
+    html+= editor.show(tp="add");
+
+    html+= render_template("footer.html", scripts=scripts);
+    return html;
+
+
+
+@samples_bp.route("/samples/edit-multiple", methods=["POST"])
+def edit_multiple():
+
+    styles = [{"filename": "add-multiple.css", "prefix": "samples"},
+              {"filename": "markers.css"},
+              {"filename": "tooltips.css"}];
+    scripts = [{"filename": "edit-multiple.js", "prefix": "samples"},
+               {"filename": "validate-samples.js", "prefix": "samples"}];
+
+
+    selected = [int(i) for i in request.form.getlist("selected-samples")];
+    if len(selected) == 0: return "Nothing selected";
+
+    html = "";
+    html+= render_template("head.html", styles=styles);
+
+    editor = MultiEditor(sample_ids=selected);
+    html+= editor.show(tp="edit");
 
     html+= render_template("footer.html", scripts=scripts);
     return html;

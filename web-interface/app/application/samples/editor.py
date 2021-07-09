@@ -6,6 +6,8 @@ from application.src.seqfiles.seqfiles import SeqFilesBunch
 from application.src.seqfiles.db import SeqFileTypes, SeqFile
 from application.src.editor.dlist import get_dlist
 from .editor_fields import FIELDS_LIST
+from application.src.samples.samples import Samples
+
 
 
 class Editor:
@@ -35,9 +37,8 @@ class Editor:
         dlist = get_dlist(handle);
         field = Field.fetch(handle);
         field["input"]["value"] = self.get_value(field);
-        return render_template(
-            "samples/form/single/field.html",
-            info=field, dlist=dlist);
+        return render_template("samples/form/single/field.html",
+                               info=field, dlist=dlist);
 
 
     def single_files(self):
@@ -51,7 +52,7 @@ class Editor:
 
     def show(self):
         html = render_template("samples/form/single/head.html",
-                           sample_id=self.sample_id);
+                               sample_id=self.sample_id);
         for fd in FIELDS_LIST:
             html+= self.single(fd);
         html+= render_template("samples/form/single/tail.html");
@@ -61,10 +62,12 @@ class Editor:
 
 class MultiEditor:
 
-    def __init__(self):
+    def __init__(self, sample_ids=[]):
         self.head = [];
         self.all = [];
         self.template = [];
+        self.sample_ids = sample_ids;
+        self.sample_rows = [];
 
 
     @classmethod
@@ -112,6 +115,33 @@ class MultiEditor:
                                info=info, dlist=dlist);
 
 
+    @classmethod
+    def sample_col(cls, info, sample):
+        dlist = [];
+        if info["db_key"] not in ["assembly_file", "fwread_file", "rvread_file"]:
+            val = sample[info["db_key"]];
+        else:
+            seqfiles = SeqFilesBunch(sample["sample_id"]);
+            seqfile_types = SeqFileTypes.fetch_list_labeled(
+                replace_key="item_key");
+            ftype = info["db_key"].replace("_file", "");
+            val = SeqFile.fetch_filename(sample["sample_id"], ftype=ftype);
+        info["input"]["multi_template"] = \
+            info["input"]["multi_template"].replace(
+                "+0+", "+"+str(sample["sample_id"])+"+")
+        info["input"]["onchange"] = "";
+        if info["field_type"] in ["select", "radio", "seqfile"]:
+            dlist = get_dlist(info["handle"]);
+            if val == "": val = 0;
+        if info["handle"] == "sample_name":
+            info["input"]["onchange"] = "checkSampleNames();";
+        if info["handle"] == "library_id":
+            info["input"]["onchange"] = "checkLibraryNames();";
+        info["input"]["value"] = val;
+        return render_template("samples/form/multi/col_sample.html",
+                               info=info, dlist=dlist);
+
+
     def add_field(self, handle):
         field = Field.fetch(handle);
         self.head.append(self.header_col(field));
@@ -133,13 +163,27 @@ class MultiEditor:
         for col in self.template:
             html+= col;
         html+= "</tr>";
+        for row in self.sample_rows:
+            html+= "<tr>";
+            for col in row:
+                html+= col;
+            html+= "</tr>";
         return html;
 
 
-    def show(self):
-        html = render_template("samples/form/multi/head.html");
+    def show(self, tp="add"):
+        html = render_template("samples/form/multi/head.html", form_type=tp);
         for fd in FIELDS_LIST:
             self.add_field(fd);
+
+        for sample_id in self.sample_ids:
+            new_row = [];
+            sample = Samples.fetch("view_samples_base", sample_id);
+            for handle in FIELDS_LIST:
+                field = Field.fetch(handle);
+                new_row.append(self.sample_col(field, sample));
+            self.sample_rows.append(new_row);
+
         html+= self.get_html();
         html+= render_template("samples/form/single/tail.html");
         return html;

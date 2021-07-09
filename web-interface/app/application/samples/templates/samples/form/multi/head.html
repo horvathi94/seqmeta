@@ -1,6 +1,10 @@
-<input type="button" value="Add" onclick="addNewRow();"/>
+{% if form_type == "add" %}
+	<input type="button" value="Add" onclick="addNewRow();"/>
+	<form action=" {{ url_for('samples_bp.submit_multiple') }} " method="POST" enctype="multipart/form-data">
+{% elif form_type == "edit" %}
+	<form action=" {{ url_for('samples_bp.submit_edit_multiple') }} " method="POST" enctype="multipart/form-data">
+{% endif %}
 
-<form action=" {{ url_for('samples_bp.submit_multiple') }} " method="POST" enctype="multipart/form-data">
 
 <div class="table-wrap">
 

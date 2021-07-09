@@ -509,21 +509,19 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"Library source", "select", NULL, NULL, 3,
 		"library_source_id", "library-source", NULL, NULL, NULL, NULL, NULL,
 		"library",
-		"Detailed description can be found <a href='/descriptions/#library-sources' target='_blank'>here</a>"
+		"Detailed description can be found <a href='/descriptions/library#library-sources' target='_blank'>here</a>"
 	),
 	("library_strategy",
 		"Library strategy", "select", NULL, NULL, 3,
 		"library_strategy_id", "library-strategy", NULL, NULL, NULL, NULL, NULL,
 		"library",
-		"Detailed description can be found 
-		<a href='/description/#library-strategies' target='_blank'>here</a>"
+		"Detailed description can be found <a href='/descriptions/library#library-strategies' target='_blank'>here</a>"
 	),
 	("library_selection",
 		"Library selection", "select", NULL, NULL, 3,
 		"library_selection_id", "library-selection", NULL, NULL, NULL, NULL, NULL,
 		"library",
-		"Detailed description can be found 
-			<a href='/descriptions/#library-selections'	target='_blank'>here</a>"
+		"Detailed description can be found <a href='/descriptions/library#library-selections'	target='_blank'>here</a>"
 	),
 	("library_preparation_date",
 		"Library preparation date", "date", NULL, 1, NULL,

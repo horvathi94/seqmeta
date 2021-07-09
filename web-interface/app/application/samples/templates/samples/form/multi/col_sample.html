@@ -1,0 +1,31 @@
+{% from "macros/forms/text.j2" import inptext %}
+{% from "macros/forms/number.j2" import inpnumber %}
+{% from "macros/forms/date.j2" import inpdate %}
+{% from "macros/select.j2" import select %}
+{% from "macros/radio.j2" import radio %}
+{% from "samples/form/seqfiles.j2" import seqfile %}
+
+<td>
+
+	{% if info.field_type == "text" %}
+		{{ inptext(info.input, type="multi_template") }}
+	{% elif info.field_type == "number" %}
+		{{ inpnumber(info.input, type="multi_template") }}
+	{% elif info.field_type == "date" %}
+		{{ inpdate(info.input, type="multi_template") }}
+	{% elif info.field_type == "select" %}
+		{{ select(info.input.multi_template ,
+					dlist,
+					class=info.input.class,
+					selected_id=info.input.value) }}
+	{% elif info.field_type == "radio" %}
+		{{ radio(info.input.multi_template,
+					dlist,
+					class=info.input.class,
+					selected_value=info.input.value) }}
+	{% elif info.field_type == "seqfile" %}
+		{{ seqfile(info, dlist) }}
+	{% endif %}
+
+</td>
+
