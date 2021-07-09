@@ -29,3 +29,16 @@ class NcbiMeta(TempFile):
         with ZipFile(cls.get_tempfile(), "w") as zipObj:
             zipObj.write(NcbiSample.get_tempfile(), "samples.xlsx");
             zipObj.write(NcbiExperiment.get_tempfile(), "sra.xlsx");
+
+            for sample in samples:
+                seqbunch = SeqFilesBunch(sample["sample_id"]);
+
+                if seqbunch.has_fwreads_file():
+                    fwread = seqbunch.get_reads(tp="fwread");
+                    zipObj.write(fwread,
+                            "reads/"+seqbunch.forward_reads[0]["filename"]);
+
+                if seqbunch.has_rvreads_file():
+                    rvread = seqbunch.get_reads(tp="rvread");
+                    zipObj.write(rvread,
+                            "reads/"+seqbunch.reverse_reads[0]["filename"]);

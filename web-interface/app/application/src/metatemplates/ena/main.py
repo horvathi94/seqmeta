@@ -33,12 +33,14 @@ class EnaMeta(TempFile):
 
             for sample in samples:
                 seqbunch = SeqFilesBunch(sample["sample_id"]);
-                fwread = seqbunch.get_reads(tp="fwread");
-                if not fwread is None:
+
+                if seqbunch.has_fwreads_file():
+                    fwread = seqbunch.get_reads(tp="fwread");
                     zipObj.write(fwread,
                             "reads/"+seqbunch.forward_reads[0]["filename"]);
-                rvread = seqbunch.get_reads(tp="rvread");
-                if not rvread is None:
+
+                if seqbunch.has_rvreads_file():
+                    rvread = seqbunch.get_reads(tp="rvread");
                     zipObj.write(rvread,
                             "reads/"+seqbunch.reverse_reads[0]["filename"]);
 

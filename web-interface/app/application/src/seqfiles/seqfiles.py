@@ -55,6 +55,22 @@ class SeqFilesBunch(TempFile):
         return True;
 
 
+    def has_fwreads_file(self):
+        if len(self.forward_reads) == 0: return False;
+        fwread = self.forward_reads[0];
+        if fwread == None: return False;
+        if not self.check_file(fwread): return False;
+        return True;
+
+
+    def has_rvreads_file(self):
+        if len(self.reverse_reads) == 0: return False;
+        rvread = self.reverse_reads[0];
+        if rvread == None: return False;
+        if not self.check_file(rvread): return False;
+        return True;
+
+
     def get_assembly_file(self):
         return os.path.join(self.main_dir, "assemblies",
                                self.assembly_file["filename"]);
