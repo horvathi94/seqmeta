@@ -1,0 +1,5 @@
+.info {
+	border: 2px solid var(--light-green);
+	border-radius: 5px;
+	padding: 1em 2em;
+}

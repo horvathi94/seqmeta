@@ -1,0 +1,12 @@
+.option.editor {
+	border: 2px solid var(--dark-green);
+	border-radius: 5px;
+	padding: 2%;
+	display: grid;
+	grid-template-columns: 40% 60%; 
+	margin-bottom: 2em;
+}
+
+.option.editor h3{
+	color: var(--dark-green);
+}

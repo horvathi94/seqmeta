@@ -1,25 +1,28 @@
 {% from "macros/basic_table_editor.j2" import basic_table_editor as bt_editor %}
 
+<div class="option editor">
 
-<div id="{{ info.id }}" class="option edit">
-
-
-	<h3> {{ info.name }} </h3>
-	{{ bt_editor(info.id, vals, info.link) }}
-
-</div>
+	<div id="{{ info.id }}" class="option edit">
 
 
-<div class="option description"> 
+		<h3> {{ info.name }} </h3>
+		{{ bt_editor(info.id, vals, info.link) }}
 
-	<p>
-		{{ info.description|safe }}
-	</p>
+	</div>
 
-	<p>
-		Add new options with the "+" button.
-		Edit the <em>index</em> values to order the records.
-		Set the <em>index</em> value to 0 to remove the entry.
-	</p>
+
+	<div class="option info"> 
+
+		<p>
+			{{ info.description|safe }}
+		</p>
+
+		<p>
+			Add new options with the "+" button.
+			Edit the <em>index</em> values to order the records.
+			Set the <em>index</em> value to 0 to remove the entry.
+		</p>
+
+	</div>
 
 </div>

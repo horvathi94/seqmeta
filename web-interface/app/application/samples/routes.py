@@ -242,7 +242,8 @@ def add_multiple():
 
     styles = [{"filename": "add-multiple.css", "prefix": "samples"},
               {"filename": "markers.css"},
-              {"filename": "tooltips.css"}];
+              {"filename": "tooltips.css"},
+              {"filename": "info.css"}];
     scripts = [{"filename": "edit-multiple.js", "prefix": "samples"},
                {"filename": "validate-samples.js", "prefix": "samples"}];
 
@@ -262,7 +263,8 @@ def edit_multiple():
 
     styles = [{"filename": "add-multiple.css", "prefix": "samples"},
               {"filename": "markers.css"},
-              {"filename": "tooltips.css"}];
+              {"filename": "tooltips.css"},
+              {"filename": "info.css"}];
     scripts = [{"filename": "edit-multiple.js", "prefix": "samples"},
                {"filename": "validate-samples.js", "prefix": "samples"}];
 

@@ -38,13 +38,14 @@ def descript_library():
 @misc_bp.route("/misc/edit")
 def edit():
 
+    styles = [{"filename": "info.css"},
+              {"filename": "misc.css", "prefix": "misc"}];
     scripts = [{"filename": "add_hosts.js", "prefix":"misc"}];
 
-    html = render_template("head.html");
+    html = render_template("head.html", styles=styles);
 
     html+= render_template("misc/hosts.html",
                            hosts=misc.Hosts.fetch_list());
-
     html+= render_template("misc/basic_options.html",
                            info=basic_editors.ASSEMBLY_METHODS,
                            vals=misc.AssemblyMethods.fetch_list());
@@ -63,7 +64,6 @@ def edit():
     html+= render_template("misc/basic_options.html",
                            info=basic_editors.HOST_BODY_PRODUCTS,
                            vals=misc.HostBodyProducts.fetch_list());
-
 
     html+= render_template("misc/virusname.html",
                 virusname_format=VirusnameGisaid.fetch_format_string(),

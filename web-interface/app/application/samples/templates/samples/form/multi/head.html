@@ -1,3 +1,32 @@
+<div class=info>
+
+	{% if form_type == "add" %}
+		<h3>Add samples</h3>
+	{% elif form_type == "edit" %}
+		<h3>Edit samples</h3>
+	{% endif %}
+
+	<p>
+		The first row of the editor is the header, it contains the names and descriptions of the fields.
+	To see the description hover over the <em>??</em> symbols.
+	</p>
+	{% if form_type == "add" %}
+		<p>To add a new sample press the <em>Add</em> button, this will add a new row to the editor.</p>
+	{% endif %}
+
+	<p>
+		Edit one attribute of all the samples by editing the column in the <strong style="color: var(--orange);">orange row</strong>.
+	</p>
+
+	<p>
+		Once you are finished with the editing, you can save the samples by pressing the <em>Save</em> button.
+	</p>
+	{% if form_type == "add" %}
+		<p><em>Note:</em> please make sure that the <em>Sample name</em> and <em>Library ID</em> columns are unique in your database.</p>
+	{% endif %}
+
+</div>
+
 {% if form_type == "add" %}
 	<input type="button" value="Add" onclick="addNewRow();"/>
 	<form action=" {{ url_for('samples_bp.submit_multiple') }} " method="POST" enctype="multipart/form-data">

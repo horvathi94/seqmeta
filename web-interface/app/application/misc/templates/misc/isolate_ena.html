@@ -1,3 +1,5 @@
+<div class="option editor">
+
 <div class="option edit">
 	
 	<h3>
@@ -12,13 +14,27 @@
 </div>
 
 
-<div class="option description">
+<div class="option info">
 	<p>
-		Available db. entries:
+		Define template for the sample virusnames requiered by <em>GISAID</em>.
+		The templator engine is Jinja2. 
+		Specify database keys between the {{'{{ }}'}} symbols, like {{'{{ dbkey }}'}},
+		these will be rendered from the metadata corresponding to the sample.
+		Characters outside these symbols will be rendered as is.
+		<em>Notice:</em> be carefull to use the exact keys specified in the following list,
+		as any misspeled elements will be rendered as an empty string.
+	</p>
+	<p>
+		<strong>
+			Available database entries:
+		</strong>
 	</p>
 	<ul>
 		{% for item in available_db_keys %}
-		<li> {{ item }} </li>
+			<li> {{ item }} </li>
 		{% endfor %}
 	</ul>
+</div>
+
+
 </div>
