@@ -228,19 +228,19 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 	
 	/* --- Patient treatment ---*/
 	("prior_sars_cov_2_antiviral_treat",
-		"Prior SARS-CoV-2 antiviral tretment", "radio", 1, NULL, 1,
+		"Prior SARS-CoV-2 antiviral treatment", "radio", 1, NULL, 1,
 		"prior_sars_cov_2_antiviral_treat", "prior-sars-cov-2-antiviral-treat", NULL, NULL, NULL, NULL, NULL,
 		"treatment",
 		"Has the host received SARS-CoV-2 antiviral treatment?" 
 	),
 	("antiviral_treatment_agent",
-		"Prior SARS-CoV-2 antiviral tretment agent", "text", 1, NULL, 1,
+		"Prior SARS-CoV-2 antiviral treatment agent", "text", 1, NULL, 1,
 		"antiviral_treatment_agent", "antiviral-treatment-agent", NULL, 200, NULL, NULL, NULL,
 		"treatment",
 		"What was the antiviral treatment agent?"
 	),
 	("date_of_prior_antiviral_treat",
-		"Date of prior SARS-CoV-2 antiviral tretment", "date", 1, NULL, 1,
+		"Date of prior SARS-CoV-2 antiviral treatment", "date", 1, NULL, 1,
 		"date_of_prior_antiviral_treat", "date-of-prior-antiviral-treat", NULL, NULL, NULL, "2019-01-01", NULL,
 		"treatment",
 		"Date of the SARS-CoV-2 antiviral treatment." 
@@ -270,7 +270,7 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"Has the host received a SARS-CoV-2 vaccination?" 
 	),
 	("vaccine_received",
-		"Received SARS-CoV-2 vaccine", "text", NULL, NULL, 1,
+		"Name of received SARS-CoV-2 vaccine", "text", NULL, NULL, 1,
 		"vaccine_received", "vaccine-received", NULL, 100, NULL, NULL, NULL,
 		"treatment",
 		"Which vaccine did the host receive, e.g., Pfizer-BioNTech COVID-19 vaccine" 
@@ -439,7 +439,7 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"Source of the specimen."
 	),
 	("sample_storage_conditions",
-		"Sample storage condoitions", "text", NULL, 1, NULL,
+		"Sample storage conditions", "text", NULL, 1, NULL,
 		"sample_storage_conditions", "sample-storage-conditions", NULL, NULL, NULL, NULL, NULL,
 		"sampling",
 		"Conditions at which sample was stored, usually storage temperature, duration and location."
