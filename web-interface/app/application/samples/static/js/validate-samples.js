@@ -32,6 +32,8 @@ function disableSave(inps, names, ommits=[], emptyAllowed=false){
 			});
 		}
 				
+		let err = inp.parentNode.getElementsByClassName("error-box")[0];
+		if ( err ) { err.remove(); }
 
 		if (errorCode) {
 			inp.style.backgroundColor = "orangeRed";
@@ -42,8 +44,6 @@ function disableSave(inps, names, ommits=[], emptyAllowed=false){
 			inp.parentNode.appendChild(err);
 		} else {
 			inp.style.backgroundColor = "#fff";
-			let err = inp.parentNode.getElementsByClassName("error-box")[0];
-			if ( err ) { err.remove(); }
 		}
 		subButton.disabled = disabled;
 

@@ -7,6 +7,14 @@
 
 <td>
 
+	{% if info.handle == "sample_name" %}
+		<input type="button"
+					 name="rm+0+field"
+					 class="rmfield"
+					 onclick="removeRow(this);"
+					 value="Remove" />
+	{% endif %}
+
 	{% if info.field_type == "text" %}
 		{{ inptext(info.input, type="multi_template") }}
 	{% elif info.field_type == "number" %}
