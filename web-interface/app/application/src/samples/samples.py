@@ -6,6 +6,7 @@ from .extensions.library import Library
 from .extensions.host import Host
 from .extensions.health_status import HealthStatus
 from .extensions.treatment import PatientTreatment
+from .extensions.location import Location
 
 class Samples(DBInterface):
 
@@ -26,6 +27,8 @@ class Samples(DBInterface):
             entry = Library.clean_entry(entry);
         if "prior_sars_cov_2_antiviral_treat" in entry:
             entry = PatientTreatment.clean_entry(entry);
+        if "geo-loc-longitude" in entry:
+            entry = Location.clean_entry(entry);
         return entry;
 
 

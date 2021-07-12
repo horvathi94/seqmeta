@@ -349,7 +349,7 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 	),
 	("sars_cov_2_diag_pcr_ct_value_1",
 		"The cycle treshold of the first diagnostic SARS-CoV-2 RT-PCR test", "number", NULL, NULL, 1,
-		"sars_cov_2_diag_pcr_ct_value_1", "sars-cov-2-diag-pcr-ct-value-1", NULL, 45, 1, NULL, NULL,
+		"sars_cov_2_diag_pcr_ct_value_1", "sars-cov-2-diag-pcr-ct-value-1", 0, 45, 1, NULL, NULL,
 		"health",
 		"The cycle threshold (CT) value result from the first diagnostic SARS-CoV-2 RT-PCR test, <em>e.g., 21</em>"
 	),
@@ -361,7 +361,7 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 	),
 	("sars_cov_2_diag_pcr_ct_value_2",
 		"The cycle treshold of the second diagnostic SARS-CoV-2 RT-PCR test", "number", NULL, NULL, 1,
-		"sars_cov_2_diag_pcr_ct_value_2", "sars-cov-2-diag-pcr-ct-value-2", NULL, 45, 1, NULL, NULL,
+		"sars_cov_2_diag_pcr_ct_value_2", "sars-cov-2-diag-pcr-ct-value-2", 0, 45, 1, NULL, NULL,
 		"health",
 		"The cycle threshold (CT) value result from the second diagnostic SARS-CoV-2 RT-PCR test, <em>e.g., 36</em>"
 	),

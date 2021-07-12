@@ -5,6 +5,7 @@ const templateRow = editor.getElementsByClassName("template")[0];
 function addNewRow(){
 	let newIndx = editor.rows.length - 2;
 	let cloned = templateRow.cloneNode(true);
+	cloned.classList.remove("template");
 	cloned.style.visibility = "visible";
 	let inp;
 	Array.from(cloned.cells).forEach( (cell) => {

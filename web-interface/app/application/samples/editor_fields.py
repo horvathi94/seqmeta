@@ -54,6 +54,7 @@ FIELDS_LIST = [
     "hospitalisation",
     "ilness_symptoms",
     "ilness_duration",
+    "host_disease_outcome",
     "sars_cov_2_diag_gene_name_1",
     "sars_cov_2_diag_pcr_ct_value_1",
     "sars_cov_2_diag_gene_name_2",

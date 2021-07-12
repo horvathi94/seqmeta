@@ -9,6 +9,8 @@ from .editor_fields import FIELDS_LIST
 from application.src.samples.samples import Samples
 
 
+from flask import jsonify
+
 
 class Editor:
 
@@ -172,7 +174,10 @@ class MultiEditor:
 
 
     def show(self, tp="add"):
-        html = render_template("samples/form/multi/head.html", form_type=tp);
+        reg_samples = Samples.fetch_list();
+        html = render_template("samples/form/multi/head.html",
+                               form_type=tp,
+                               reg_samples=reg_samples);
         for fd in FIELDS_LIST:
             self.add_field(fd);
 

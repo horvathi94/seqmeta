@@ -101,4 +101,7 @@ def get_dlist(handle):
     if handle == "rvread_file":
         return SeqFileTypes.fetch_list_labeled(replace_key="item_key");
 
+    if handle == "host_disease_outcome":
+        return misc.HostDiseaseOutcomes.fetch_list();
+
     return [];

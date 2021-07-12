@@ -156,6 +156,20 @@ def sample_details():
     return jsonify(sample_details);
 
 
+@samples_bp.route("/samples/view/base")
+def samples_view_base():
+    sample_id = int(request.args["id"]) if "id" in request.args else 0;
+    sample_details = Samples.fetch("view_samples_base", sample_id=sample_id);
+    return jsonify(sample_details);
+
+
+@samples_bp.route("/samples/view/import")
+def samples_view_import():
+    sample_id = int(request.args["id"]) if "id" in request.args else 0;
+    sample_details = Samples.fetch("view_samples_import", sample_id=sample_id);
+    return jsonify(sample_details);
+
+
 @samples_bp.route("/samples/generate")
 def generate():
     return "Generate"
@@ -246,7 +260,8 @@ def add_multiple():
               {"filename": "tooltips.css"},
               {"filename": "info.css"}];
     scripts = [{"filename": "edit-multiple.js", "prefix": "samples"},
-               {"filename": "validate-samples.js", "prefix": "samples"}];
+               {"filename": "validate-samples.js", "prefix": "samples"},
+               {"filename": "import-data.js", "prefix": "samples"}];
 
     html = "";
     html+= render_template("head.html", styles=styles);

@@ -1,0 +1,19 @@
+{% macro import_from_other(samples) %}
+
+</br>
+
+<select id="import-from-sample">
+
+	{% for sample in samples %}
+		<option value="{{ sample.sample_id }}">
+			{{ sample.sample_name }} : {{ sample.sample_comment }}
+		</option>
+	{% endfor %}
+</select>
+
+<input type="button" value="Import from" onclick="importDataFromOtherSample();"/>
+
+
+</br>
+
+{% endmacro %}
