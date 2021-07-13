@@ -44,6 +44,7 @@ FIELDS = [
     "library_selection",
     "library_layout",
     "library_construction_protocol",
+    "library_design_description",
     "insert_size",
 
     ];

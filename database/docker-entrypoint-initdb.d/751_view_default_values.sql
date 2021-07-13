@@ -207,4 +207,10 @@ CREATE OR REPLACE VIEW `view_default_values` AS
 			IF (`item_value` IS NULL, "", `item_value`) 
 			FROM `default_values`
 			WHERE `item_key` = "library_construction_protocol"
-		) AS library_construction_protocol;
+		) AS library_construction_protocol,
+
+		(SELECT 
+			IF (`item_value` IS NULL, "", `item_value`) 
+			FROM `default_values`
+			WHERE `item_key` = "library_design_description"
+		) AS library_design_description;
