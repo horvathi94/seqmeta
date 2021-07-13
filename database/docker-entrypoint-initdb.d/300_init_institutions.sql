@@ -3,21 +3,25 @@ CREATE TABLE IF NOT EXISTS `institutions` (
 	name						CHAR(200),
 	street_address	TEXT(200) NOT NULL,
 	postal_code			MEDIUMINT UNSIGNED,
-	county					CHAR(100),
-	country					CHAR(100),
-	city						CHAR(100)
+	country_id			INT UNSIGNED,
+	region					CHAR(100),
+	locality				CHAR(100),
+	symbol					VARCHAR(20)
 );
 
 
-CREATE VIEW view_institutions AS
+CREATE OR REPLACE VIEW view_institutions AS
 
 	SELECT 
-		id,
+		institutions.id AS id,
 		name,
 		CONCAT(street_address, ", ",
-						city, " ",
+						locality, " ",
 						postal_code, ", ",
-						county, ", ",
-						country
-					) AS address
-		FROM institutions;
+						region, ", ",
+						countries.label
+					) AS address,
+		symbol AS symbol
+		FROM institutions
+		LEFT JOIN view_countries AS countries
+			ON institutions.country_id = countries.id;

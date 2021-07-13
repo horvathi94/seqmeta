@@ -58,7 +58,9 @@ CREATE OR REPLACE VIEW `view_isolate_ena` AS
 		hosts.host_gravidity AS `gravidity`,
 		hosts.host_behaviour AS `host behaviour`,
 
-		sampling.isolation_source_non_host_associated AS `isolation_source_non-host-associated`
+		sampling.isolation_source_non_host_associated AS `isolation_source_non-host-associated`,
+		originating_lab.symbol AS `originating_lab_symbol`,
+		submitting_lab.symbol AS `submitting_lab_symbol`
 
 	FROM view_samples_base AS samples
 	LEFT JOIN view_samples_health_status AS health
@@ -70,7 +72,11 @@ CREATE OR REPLACE VIEW `view_isolate_ena` AS
 	LEFT JOIN view_samples_location AS location
 		ON samples.sample_id = location.sample_id
 	LEFT JOIN view_samples_sampling AS sampling
-		ON samples.sample_id = sampling.sample_id;
+		ON samples.sample_id = sampling.sample_id
+	LEFT JOIN view_institutions AS originating_lab
+		ON samples.originating_lab_id = originating_lab.id
+	LEFT JOIN view_institutions AS submitting_lab
+		ON samples.submitting_lab_id = submitting_lab.id;
 
 
 

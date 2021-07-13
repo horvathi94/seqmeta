@@ -37,7 +37,9 @@ CREATE OR REPLACE VIEW view_virusname_gisaid AS
 		collection.originating_lab_sample_name AS originating_lab_sample_name,
 		collection.submitting_lab_name AS submitting_lab_name,
 		collection.submitting_lab_sample_name AS submitting_lab_sample_name,
-		sampling.passage_number AS passage_number
+		sampling.passage_number AS passage_number,
+		originating_lab.symbol AS originating_lab_symbol,
+		submitting_lab.symbol AS submitting_lab_symbol
 
 
 	FROM view_samples_base AS samples
@@ -55,3 +57,7 @@ CREATE OR REPLACE VIEW view_virusname_gisaid AS
 		ON samples.sample_id = sequencing.sample_id
 	LEFT JOIN view_samples_patient_treatment AS treatment
 		ON samples.sample_id = treatment.sample_id
+	LEFT JOIN view_institutions AS originating_lab
+		ON samples.originating_lab_id = originating_lab.id
+	LEFT JOIN view_institutions AS submitting_lab
+		ON samples.submitting_lab_id = submitting_lab.id
