@@ -298,3 +298,14 @@ def edit_multiple():
     return html;
 
 
+from application.src.seqfiles.seqfiles import SeqFilesBunch
+from application.src.seqfiles.db import SeqFile
+@samples_bp.route("/test")
+def test():
+    sample_id = 2;
+    bunch = SeqFilesBunch(sample_id);
+    test = bunch.has_fwreads_file();
+    test = bunch.forward_reads;
+    test = SeqFile.fetch_filename(sample_id);
+    return str(test)
+

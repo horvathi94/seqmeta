@@ -11,7 +11,8 @@ from application.src.samples.extensions.library import Library,\
 from application.src.samples.extensions.treatment import \
     ANTIVIRAL_TREAT, \
     PRIOR_INFECTION
-from application.src.seqfiles.db import SeqFileTypes
+from application.src.seqfiles.db import SeqFileTypes, \
+    AssemblyFileTypes, ReadFileTypes
 
 
 
@@ -94,12 +95,12 @@ def get_dlist(handle):
         return misc.CollectionDevices.fetch_list();
 
     if handle == "assembly_file":
-        return SeqFileTypes.fetch_list_labeled(replace_key="item_key");
+        return AssemblyFileTypes.fetch_list_labeled(replace_key="item_key");
 
     if handle == "fwread_file":
-        return SeqFileTypes.fetch_list_labeled(replace_key="item_key");
+        return ReadFileTypes.fetch_list_labeled(replace_key="item_key");
     if handle == "rvread_file":
-        return SeqFileTypes.fetch_list_labeled(replace_key="item_key");
+        return ReadFileTypes.fetch_list_labeled(replace_key="item_key");
 
     if handle == "host_disease_outcome":
         return misc.HostDiseaseOutcomes.fetch_list();

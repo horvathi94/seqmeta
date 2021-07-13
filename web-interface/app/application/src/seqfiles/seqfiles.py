@@ -87,9 +87,7 @@ class SeqFilesBunch(TempFile):
         if assembly["exists"]:
             assembly["filename"] = self.assembly_file["filename"];
             assembly["file_type"] = self.assembly_file["file_type"];
-        return {
-            "assembly_file": assembly,
-            };
+        return {"assembly_file": assembly,};
 
 
     def get_assembly_sequence(self):
@@ -141,8 +139,3 @@ class SeqFilesBunch(TempFile):
             return self.get_reads_file(tp=tp);
 
         return None;
-#        self.check_file();
-#        fwread = SeqFile.fetch_filename(self.sample_id, ftype="fwread");
-#        rvread = SeqFile.fetch_filename(self.sample_id, ftype="rvread");
-#        return fwread;
-

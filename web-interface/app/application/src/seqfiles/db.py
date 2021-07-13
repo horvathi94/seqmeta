@@ -6,6 +6,17 @@ class SeqFileTypes(DBInterface):
     display_table_name = "seqfile_extensions";
 
 
+class AssemblyFileTypes(DBInterface):
+
+    display_table_name = "assembly_files";
+
+
+class ReadFileTypes(DBInterface):
+
+    display_table_name = "reads_files";
+
+
+
 class SeqFile(DBInterface):
 
     display_table_name = "view_seqfiles";
