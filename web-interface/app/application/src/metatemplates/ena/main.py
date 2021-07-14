@@ -6,6 +6,7 @@ from ..base.tempfile import TempFile
 from .samples import EnaTsv
 from .experiment import EnaExperiment
 from .manifest import EnaManifest
+from .runs_manifest import EnaManifestRun
 
 class EnaMeta(TempFile):
 
@@ -20,18 +21,26 @@ class EnaMeta(TempFile):
                                         sample_ids=selected);
         EnaTsv.write(samples);
 
-        samples = Samples.fetch_entries("view_samples_ena_experiment",
+        run_samples = Samples.fetch_entries("view_samples_ena_experiment",
                                         sample_ids=selected);
-        EnaExperiment.write(samples);
+        EnaExperiment.write(run_samples);
 
         samples = Samples.fetch_entries("view_samples_base",
                                         sample_ids=selected);
+
 
         with ZipFile(cls.get_tempfile(), "w") as zipObj:
             zipObj.write(EnaTsv.get_tempfile(), "samples.tsv");
             zipObj.write(EnaExperiment.get_tempfile(), "experiments.tsv");
 
+            for sample in run_samples:
+                EnaManifestRun.write(sample);
+                zipObj.write(EnaManifestRun.get_tempfile(),
+                            f"reads/{sample['sample_alias']}_manifest.txt");
+
+
             for sample in samples:
+
                 seqbunch = SeqFilesBunch(sample["sample_id"]);
 
                 if seqbunch.has_fwreads_file():

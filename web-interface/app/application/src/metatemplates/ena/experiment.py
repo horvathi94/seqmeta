@@ -30,6 +30,7 @@ class EnaExperiment(TempFile):
                 "reverse_file_md5"];
         return header;
 
+
     @classmethod
     def write(cls, samples):
         template_sample = samples[0]
