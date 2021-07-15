@@ -74,7 +74,8 @@ def parse_files_multiple(request):
     seqfiles = Form.parse_list(request.files, "seqfile");
 
     fdata = [];
-    FTYPES = ["assembly_file", "fwread_file", "rvread_file"];
+    FTYPES = ["assembly_file", "fwread_file", "rvread_file",
+              "contigs_file", "scaffolds_file"];
     for f, ftype in zip(seqfiles, seqfile_types):
         d = {"id": ftype["id"]};
         for handle in FTYPES:
@@ -300,8 +301,11 @@ def edit_multiple():
 
 from application.src.seqfiles.seqfiles import SeqFilesBunch
 from application.src.seqfiles.db import SeqFile
+from application.src.metatemplates.ena.assemblies_manifest import EnaManifestAssembly
 @samples_bp.route("/test")
 def test():
+    return jsonify(Samples.fetch_entries("view_samples_ena_manifest_assembly",
+                                         sample_ids=[1,2]));
     sample_id = 2;
     bunch = SeqFilesBunch(sample_id);
     test = bunch.has_fwreads_file();

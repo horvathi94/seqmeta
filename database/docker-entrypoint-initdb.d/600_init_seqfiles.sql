@@ -9,35 +9,80 @@ CALL create_dict_table(@table_name);
 CALL upsert_dict_table(@table_name, 0, "FASTQ", "fastq.gz");
 
 
-CREATE OR REPLACE VIEW `view_seqfiles` AS 
-
-	SELECT 
-
-		samples.sample_id AS sample_id,
-		seqfiles.is_assembly AS is_assembly,
-		seqfiles.is_forward_read AS is_forward_read,
-		IF (seqfiles.is_assembly IS TRUE, 
-			assembly_files.item_key,
-			reads_files.item_key) AS file_type,
-		IF (seqfiles.is_assembly IS TRUE, 
-			assembly_files.item_value,
-			reads_files.item_value) AS file_extension,
-		CONCAT(samples.sample_name, 
-			IF (seqfiles.is_assembly IS TRUE, 
-				CONCAT(".", assembly_files.item_value),
-				CONCAT(
-					IF (seqfiles.is_forward_read,
-						"_fw_read.", "_rv_read."),
-						reads_files.item_value
-				)
-			) 
-		) AS filename
+SET @table_name := "assembly_levels";
+CALL create_basic_table(@table_name);
+CALL upsert_basic_table(@table_name, "contigs", 1);
+CALL upsert_basic_table(@table_name, "scaffolds", 2);
+CALL upsert_basic_table(@table_name, "consensus", 3);
 
 
-	FROM seqfiles
-	LEFT JOIN view_samples_base AS samples
-		ON seqfiles.sample_id = samples.sample_id
-	LEFT JOIN assembly_files 
-		ON seqfiles.file_type_id = assembly_files.id
-	LEFT JOIN reads_files 
-		ON seqfiles.file_type_id = reads_files.id
+
+CREATE TABLE IF NOT EXISTS `seqfiles` (
+
+	id 								INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	sample_id					INT UNSIGNED NOT NULL,
+	file_type_id			INT UNSIGNED,
+	is_assembly				BIT(1),
+	is_forward_read		BIT(1),
+	assembly_level		TINYINT UNSIGNED
+
+);
+
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE upsert_seqfiles (
+	IN sample_id 				INT UNSIGNED,
+	IN file_type_id 		INT UNSIGNED,
+	IN is_assembly			BIT(1),
+	IN is_forward_read	BIT(1),
+	IN assembly_level		INT UNSIGNED
+)
+
+	BEGIN
+
+		SET @working_id := 0;
+
+
+		IF ( is_forward_read IS NULL ) THEN
+
+			SELECT @working_id := id
+				FROM seqfiles
+				WHERE seqfiles.sample_id = sample_id
+					AND seqfiles.is_assembly = is_assembly
+					AND seqfiles.assembly_level = assembly_level;
+
+		ELSE
+
+			SELECT @working_id := id
+				FROM seqfiles
+				WHERE seqfiles.sample_id = sample_id
+					AND seqfiles.is_assembly = is_assembly
+					AND seqfiles.is_forward_read = is_forward_read;
+
+		END IF;
+
+		IF ( @working_id = 0 ) THEN
+
+			INSERT INTO seqfiles (sample_id, file_type_id, is_assembly, is_forward_read, assembly_level)
+				VALUES (sample_id, file_type_id, is_assembly, is_forward_read, assembly_level);
+
+		ELSE
+
+			UPDATE seqfiles
+				SET file_type_id = file_type_id,
+					is_assembly = is_assembly,
+					is_forward_read = is_forward_read,
+					assembly_level = assembly_level
+				WHERE id = @working_id;
+
+		END IF;
+
+	END $$
+
+
+DELIMITER ;
+
+

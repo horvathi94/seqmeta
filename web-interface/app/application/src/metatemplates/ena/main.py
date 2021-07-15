@@ -1,5 +1,6 @@
 import os.path
 from zipfile import ZipFile
+import gzip
 from application.src.samples.samples import Samples
 from application.src.seqfiles.seqfiles import SeqFilesBunch
 from ..base.tempfile import TempFile
@@ -7,6 +8,7 @@ from .samples import EnaTsv
 from .experiment import EnaExperiment
 from .manifest import EnaManifest
 from .runs_manifest import EnaManifestRun
+from .assemblies_manifest import EnaManifestAssembly
 
 class EnaMeta(TempFile):
 
@@ -23,6 +25,9 @@ class EnaMeta(TempFile):
 
         run_samples = Samples.fetch_entries("view_samples_ena_experiment",
                                         sample_ids=selected);
+
+        assembly_samples = Samples.fetch_entries(
+            "view_samples_ena_manifest_assembly", sample_ids=selected);
         EnaExperiment.write(run_samples);
 
         samples = Samples.fetch_entries("view_samples_base",
@@ -38,6 +43,15 @@ class EnaMeta(TempFile):
                 zipObj.write(EnaManifestRun.get_tempfile(),
                             f"reads/{sample['sample_alias']}_manifest.txt");
 
+            for sample in assembly_samples:
+                EnaManifestAssembly.write(sample, "contigs");
+                zipObj.write(EnaManifestAssembly.get_tempfile(),
+                  f"assemblies/contigs/{sample['sample_name']}_manifest.txt");
+
+            for sample in assembly_samples:
+                EnaManifestAssembly.write(sample, "scaffolds");
+                zipObj.write(EnaManifestAssembly.get_tempfile(),
+                  f"assemblies/scaffolds/{sample['sample_name']}_manifest.txt");
 
             for sample in samples:
 
@@ -53,12 +67,12 @@ class EnaMeta(TempFile):
                     zipObj.write(rvread,
                             "reads/"+seqbunch.reverse_reads[0]["filename"]);
 
-                manifest_sample ,= Samples.fetch_entries(
-                    "view_samples_ena_manifest",
-                    sample_ids=[sample["sample_id"]]);
-                EnaManifest.write(manifest_sample);
-                zipObj.write(EnaManifest.get_tempfile(),
-                             "assemblies/manifest_"+sample["sample_name"]+".txt");
+#                manifest_sample ,= Samples.fetch_entries(
+#                    "view_samples_ena_manifest",
+#                    sample_ids=[sample["sample_id"]]);
+#                EnaManifest.write(manifest_sample);
+#                zipObj.write(EnaManifest.get_tempfile(),
+#                        "assemblies/manifest_"+sample["sample_name"]+".txt");
 
                 if seqbunch.has_assembly_file():
                     assembly = seqbunch.get_assembly_file();

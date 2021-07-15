@@ -24,7 +24,8 @@ class SeqFile(DBInterface):
     @classmethod
     def save(cls, data):
         args = (data["sample_id"], int(data["file_type_id"]),
-                data["is_assembly"], data["is_forward_read"]);
+                data["is_assembly"], data["is_forward_read"],
+                data["assembly_level"]);
         Cursor.call_procedure("upsert_seqfiles", args=args, commit=True);
 
 
@@ -40,12 +41,19 @@ class SeqFile(DBInterface):
         where_clause = "WHERE sample_id = {:d}".format(sample_id);
         if ftype == "assembly":
             where_clause+= " AND is_assembly IS TRUE";
+            where_clause+= " AND assembly_level_string = 'consensus'";
         elif ftype == "fwread":
             where_clause+= " AND is_assembly IS FALSE";
             where_clause+= " AND is_forward_read IS TRUE";
         elif ftype == "rvread":
             where_clause+= " AND is_assembly IS FALSE";
             where_clause+= " AND is_forward_read IS FALSE";
+        elif ftype == "contigs":
+            where_clause+= " AND is_assembly IS TRUE";
+            where_clause+= " AND assembly_level_string = 'contigs'";
+        elif ftype == "scaffolds":
+            where_clause+= " AND is_assembly IS TRUE";
+            where_clause+= " AND assembly_level_string = 'scaffolds'";
         else:
             return "";
         raw = Cursor.select(cls.display_table_name,

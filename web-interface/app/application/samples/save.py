@@ -29,6 +29,33 @@ def save_files(seqfiles, sample_id):
         fd["filedata"].save(os.path.join("/uploads/samples/assemblies",
                                         filename));
 
+    if "contigs_file" in seqfiles and \
+            seqfiles["contigs_file"]["filename"] != "":
+        fd = seqfiles["contigs_file"];
+        info = {"sample_id": sample_id,
+                 "file_type_id": int(fd["type"]),
+                 "is_assembly": True,
+                 "is_forward_read": None,
+                 "assembly_level": 1};
+        SeqFile.save(info);
+        filename = SeqFile.fetch_filename(sample_id, ftype="contigs");
+        fd["filedata"].save(os.path.join(
+            "/uploads/samples/assemblies", filename));
+
+
+    if "scaffolds_file" in seqfiles and \
+            seqfiles["scaffolds_file"]["filename"] != "":
+        fd = seqfiles["scaffolds_file"];
+        info = {"sample_id": sample_id,
+                 "file_type_id": int(fd["type"]),
+                 "is_assembly": True,
+                 "is_forward_read": None,
+                 "assembly_level": 2};
+        SeqFile.save(info);
+        filename = SeqFile.fetch_filename(sample_id, ftype="scaffolds");
+        fd["filedata"].save(os.path.join(
+            "/uploads/samples/assemblies", filename));
+
     if "fwread_file" in seqfiles and \
             seqfiles["fwread_file"]["filename"] != "":
         fd = seqfiles["fwread_file"];

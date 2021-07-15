@@ -96,6 +96,10 @@ def get_dlist(handle):
 
     if handle == "assembly_file":
         return AssemblyFileTypes.fetch_list_labeled(replace_key="item_key");
+    if handle == "contigs_file":
+        return AssemblyFileTypes.fetch_list_labeled(replace_key="item_key");
+    if handle == "scaffolds_file":
+        return AssemblyFileTypes.fetch_list_labeled(replace_key="item_key");
 
     if handle == "fwread_file":
         return ReadFileTypes.fetch_list_labeled(replace_key="item_key");

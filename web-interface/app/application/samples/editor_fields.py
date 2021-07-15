@@ -92,6 +92,8 @@ FIELDS_LIST = [
     "library_construction_protocol",
 
     "assembly_file",
+    "contigs_file",
+    "scaffolds_file",
     "fwread_file",
     "rvread_file",
 
