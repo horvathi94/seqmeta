@@ -8,6 +8,7 @@ following files:
 	<li>
 		<strong>samples.tsv</strong>, this file contains the metadata of the samples.
 	</li>
+	{#
 	<li>
 		<strong>experiments.tsv</strong>, this file contains the metadata of the 
 		sequencing library.
@@ -16,13 +17,18 @@ following files:
 		<strong>manifest.txt</strong>, this file contains the metadata of the assembled
 		sequences.
 	</li>
+	#}
 	<li>
 		<strong>reads directory</strong>, this direcotry contains the sequencing reads
 		of the samples.
 	</li>
 	<li>
-		<strong>assemblies directory</strong>, this directory contains the assembly files
-		of the samples.
+		<strong>assemblies/contigs directory</strong>, this directory contains the contigs assemblies 
+		and the manifest files of these.
+	</li>
+	<li>
+		<strong>assemblies/scaffolds directory</strong>, this directory contains the scaffolds assemblies 
+		and the manifest files of these.
 	</li>
 </ul>
 
@@ -30,16 +36,55 @@ following files:
 <p>Submitting files to ENA:</p>
 <p>(It is assumed that you have already have a Webin account.)</p>
 <ol>
-	<li>Upload the raw read files to ENA (<a href="https://ena-docs.readthedocs.io/en/latest/submit/reads/interactive.html" target="_blank">guide</a>)</li>
-	<li>
-		Submit the samples.tsv in the next step, check for any errors.
-	</li>
-	<li>
-		Submit the experiments.tsv file in the next step, check for any errors.
-	</li>
-	<li>
-		
-	</li>
-	<li></li>
+	<li>Register a study (project) trough the web interface. Skip this step if you have already registered the study with which you would like to associate the samples.</li>
+
+	<li>Register the samples trough the web interface by uploading the <strong>samples.tsv</strong> file. Check for errors and correct them. The validation of the samples is
+	done against the ERC000033 checklist.</li>
+	
+	<li>Use any <em>webin-cli</em> program to submit the reads and assemblies. We recommend the use of the <a href="https://github.com/enasequence/webin-cli">docker image</a> 
+	as this is much easier to install and manage.</li>
+	
+	<ol>
+		<li>Navigate to the <strong>reads directory</strong> and modify the manifest files, by copying the studies accession number in the place of the "<em>&ltcopy study name here!&gt</em>"</li>
+		<li>Submit all read files trough the webin-cli using the manifest files. (For docker version yu can find more details at the end).</li>
+		<li>Navigate to the <strong>assemblies/contigs directory</strong> and modify the manifest files, by copying the accession number of the study you wish to associate to the assembly
+		in the place of the "<em>&ltcopy study name here!&gt</em>", also replace the "<em>&ltRUN_REF&gt</em>" with the run accession numbers of the samples. The <em>RUN_REF</em> field
+		is not mandatory so you can even skip this by deleting this row, but this is not recommended.</li>
+		<li>Submit the contigs assemblies with the webin-cli.</li>
+		<li>Repeat the last two steps for the scaffolds assemblies, located in the <em>assemblies/scaffolds</em> directory.</li>
+	</ol>
+
+
+<h4>Using the enasequence/webin-cli docker image for uploading</h4>
+
+<p>
+	Install docker if you haven't already (https://docs.docker.com/get-docker/).
+</p>
+
+<p>
+	Use the following command to get the docker image for the webin-cli: 
+</p>
+<code>
+	docker pull enasequence/webin-cli
+</code>
+
+<p>A basic command for uploading:</p>
+<code>docker run --rm --name=ena-upload -v $(pwd):/data enasequence/webin-cli [options]</code>
+
+<p>Explanations:</p>
+<ul>
+	<li>The <code>docker run</code> command starts the docker container.</li>
+	<li>The <code>--rm</code> option tells docker to remove the container after finishing its job.</li>
+	<li>The <code>--name</code> option names the container. This is optional, but it helps keep track of the containers you are running on your machine.</li>
+	<li>The <code>-v</code> option mounts volumes into the container, which basicly means that the container and the host machine will share anything stored in the mounted directory.
+	The first part defines the absolute path to the directory on the host machine (here marked by <code>$(pwd)</code>, which is a Linux command, which returns the aboslute path of the 
+	current directory, on other machines you may need to manually type this in or find another command). The second part, after the <em>:</em> marks where this directory will be mounted inside the container, do not modify this part, as the image of the container is configured to run with files inside the <em>/data</em> directory.</li>
+	<li>The <code>enasequence/webin-cli</code> is the name of the docker image from which the container will be created. Do not modify this.</li>
+	<li>In the <code>[options]</code> part you can specify the command specific to your upload. More information about the webin-cli can be found <a href="https://ena-docs.readthedocs.io/en/latest/submit/general-guide/webin-cli.html">here</a>. Or use the <code>-help</code> option to display a help screen.</li>
+</ul>
+
+
+
+
 </ol>
 
