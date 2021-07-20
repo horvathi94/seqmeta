@@ -1,13 +1,20 @@
 {% from "popup.j2" import popup %}
 
-<input type="button"
-			 onclick="location.href='{{ url_for('samples_bp.edit') }}'"
-			 value="Add"/>
+<h1>Samples</h1>
 
-<input type="button"
-			 onclick="location.href='{{ url_for('samples_bp.add_multiple') }}'"
-			 value="Add multiple"/>
+<div class="add-buttons">
 
+	<input type="button"
+				 class="smbutton"
+				 onclick="location.href='{{ url_for('samples_bp.edit') }}'"
+				 value="Add"/>
+
+	<input type="button"
+				 class="smbutton"
+				 onclick="location.href='{{ url_for('samples_bp.add_multiple') }}'"
+				 value="Add multiple"/>
+
+</div>
 
 
 <form action="{{ url_for('samples_bp.generate') }}" method="POST">
@@ -65,11 +72,13 @@
 
 
 			<td> 
-				<input type="button" value="Details" onclick="displayDetails({{ sample.sample_id }})"/>
+				<input type="button" class="smbutton"
+				value="Details" onclick="displayDetails({{ sample.sample_id }})"/>
 			</td>
 
 			<td> 
 				<input type="button" 
+							 class="smbutton"
 							 onclick="location.href='{{ url_for('samples_bp.edit') }}?id={{sample.sample_id}}'"
 							 value="Edit"/>
 			</td>
@@ -79,29 +88,41 @@
 	{% endfor %}
 
 
+
+</table>
+
 	<input type="submit"
-				 class="edit multiple"
+				 class="edit multiple smbutton"
 				 formaction="{{ url_for("samples_bp.edit_multiple") }}"
 				 value="Edit selected"/>
 
-</table>
 
 	<div class="filegen wrap">
 
 		<h4> Generate metadata for upload: </h4>
 
-		<input type="submit" value="GISAID" 
+		<input type="submit" value="GISAID" class="smbutton"
 						formaction="{{ url_for( 'samples_bp.gen_gisaid_meta' ) }}"
 						onclick="submitGuide();"/>
 
-		<input type="submit" value="ENA" 
+		<input type="submit" value="ENA" class="smbutton"
 						formaction="{{ url_for( 'samples_bp.gen_ena_meta' ) }}"/>
 
-		<input type="submit" value="NCBI" 
+		<input type="submit" value="NCBI" class="smbutton"
 						formaction="{{ url_for( 'samples_bp.gen_ncbi_meta' ) }}"/>
 
-		<input type="submit" value="Concat Fasta files"
+		<input type="submit" value="Concat consensus fasta files" class="smbutton"
 						 formaction="{{ url_for( 'samples_bp.gen_concat_assemblies' ) }}"/>
+
+		<h4>Workflows</h4>
+		<div class="workflows">
+			<input type="button" value="GISAID workflow" class="smbutton"
+				onclick="location.href='{{ url_for('misc_bp.workflow_gisaid') }}';">
+			<input type="button" value="ENA workflow" class="smbutton"
+				onclick="location.href='{{ url_for('misc_bp.workflow_ena') }}';">
+			<input type="button" value="NCBI workflow" class="smbutton"
+				onclick="location.href='{{ url_for('misc_bp.workflow_ncbi') }}';">
+		</div>
 
 	</div>
 
@@ -124,6 +145,8 @@
 	</div>
 
 </div>
+
+
 
 {#
 {% popup(wrap_class="submiting guide") %}

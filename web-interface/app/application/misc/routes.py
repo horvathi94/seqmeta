@@ -176,4 +176,12 @@ def workflow_ena():
     html = render_template("head.html");
     html+= render_template("workflow/ena.html");
     html+= render_template("footer.html");
-    return html
+    return html;
+
+
+@misc_bp.route("/workflows/ncbi")
+def workflow_ncbi():
+    html = render_template("head.html");
+    html+= render_template("workflow/ncbi.html");
+    html+= render_template("footer.html");
+    return html;
