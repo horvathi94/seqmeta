@@ -1,12 +1,13 @@
 {% from "samples/import_samples.j2" import import_from_other%}
 
+{% if form_type == "add" %}
+	<h1>Add samples</h1>
+{% elif form_type == "edit" %}
+	<h1>Edit samples</h1>
+{% endif %}
+
 <div class=info>
 
-	{% if form_type == "add" %}
-		<h3>Add samples</h3>
-	{% elif form_type == "edit" %}
-		<h3>Edit samples</h3>
-	{% endif %}
 
 	<p>
 		The first row of the editor is the header, it contains the names and descriptions of the fields.
@@ -30,8 +31,12 @@
 </div>
 
 {% if form_type == "add" %}
-	<input type="button" value="Add" onclick="addNewRow();"/>
 	{{ import_from_other(reg_samples) }}
+	<input type="button" 
+				 id="add-new-sample"
+				 class="smbutton"
+				 value="Add sample"
+				 onclick="addNewRow();"/>
 	<form action=" {{ url_for('samples_bp.submit_multiple') }} " method="POST" enctype="multipart/form-data">
 {% elif form_type == "edit" %}
 	<form action=" {{ url_for('samples_bp.submit_edit_multiple') }} " method="POST" enctype="multipart/form-data">

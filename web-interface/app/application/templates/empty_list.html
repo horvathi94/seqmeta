@@ -1,3 +1,9 @@
+<h1> {{ name_plural[0]|upper }}{{ name_plural[1:] }} </h1>
+
+<div class="description">
+	{{ description }}
+</div>
+
 <p>
 	There are no {{ name_plural }} registered.
 	Click <a href="{{ url_for(link) }}">here</a> to add a new one.

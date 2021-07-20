@@ -3,7 +3,7 @@
 <div class="option edit">
 	<h3>Hosts</h3>
 
-	<input type="button" value="+" onclick="addNewHost();"/>
+	<input type="button" class="smbutton" value="+" onclick="addNewHost();"/>
 
 	<form action="{{ url_for('misc_bp.submit_hosts') }}" method="POST">
 
@@ -48,7 +48,7 @@
 
 	</table>
 
-	<input type="submit" value="Save">
+	<input type="submit" class="smbutton" value="Save">
 
 	</form>
 

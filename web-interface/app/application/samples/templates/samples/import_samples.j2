@@ -2,17 +2,23 @@
 
 </br>
 
-<select id="import-from-sample">
+{% if samples|length == 0 %}
+	<p>No samples available to import data from.</p>
+{% else %}
+	<select id="import-from-sample">
 
-	{% for sample in samples %}
-		<option value="{{ sample.sample_id }}">
-			{{ sample.sample_name }} : {{ sample.sample_comment }}
-		</option>
-	{% endfor %}
-</select>
 
-<input type="button" value="Import from" onclick="importDataFromOtherSample();"/>
+			{% for sample in samples %}
+				<option value="{{ sample.sample_id }}">
+					{{ sample.sample_name }} : {{ sample.sample_comment }}
+				</option>
+			{% endfor %}
+		
+	</select>
 
+	<input type="button" class="smbutton" value="Import from" onclick="importDataFromOtherSample();"/>
+
+{% endif %}
 
 </br>
 

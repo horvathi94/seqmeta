@@ -1,0 +1,16 @@
+.smbasicform{
+	max-width: 800px;
+	padding: 2em;
+	border: 2px solid var(--light-green);
+	border-radius: 5px;
+}
+
+.smbasicform .buttons {
+	width: 100%;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.smbasicform .buttons .smbutton{
+	margin-right: 0.5em;
+}

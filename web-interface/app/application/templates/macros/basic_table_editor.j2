@@ -2,7 +2,7 @@
 
 	<form action="{{ url_for(form_link) }}" method="POST">
 
-		<input type="button" value="+" onclick="addNew_{{name}}();"/>
+		<input type="button" class="smbutton" value="+" onclick="addNew_{{name}}();"/>
 
 		<table id="editor-table-{{ name }}">
 
@@ -35,7 +35,7 @@
 
 		</table>
 
-		<input type="submit" value="Save"/>
+		<input type="submit" class="smbutton" value="Save"/>
 
 	</form>
 

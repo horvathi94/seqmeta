@@ -1,20 +1,24 @@
-<form action="{{ url_for('author_groups_bp.submit') }}" method="POST">
+<h1>Edit author group</h1>
+
+<form action="{{ url_for('author_groups_bp.submit') }}" method="POST" class="smbasicform">
 
 <div id="editor-shell">
 
 	<input type="hidden" name="group+id" value="{{ group.group_id }}"/>
 
-	<div class="name-edit">
-		<label for="group_name"> Group name: </label>
-		<input type="text" name="group+name" value="{{ group.group_name }}"/>
+	<div id="group-name" class="name-edit">
+	<label for="group_name"> <strong>Group name:</strong> </label>
+		<input type="text" name="group+name" value="{{ group.group_name }}" class="sminp-text"/>
 	</div>
 
 	<div id="editor">
 
 
 		<input type="button" 
+					 class="smbutton"
+					 id="add-author-to-group"
 					 onclick="addAuthorToGroup()"
-					 value="Add"/>
+					 value="Add author"/>
 
 
 		<table id="author-group-editor">
@@ -70,7 +74,12 @@
 
 	</table>
 
-	<input type="submit" value="Save"/>
+	<div class="buttons">
+		<input type="submit" class="smbutton save" value="Save"/>
+		<input type="button" class="smbutton back" 
+												 onclick="location.href='{{ url_for('author_groups_bp.show') }}';"
+												 value="Back"/>
+	</div>
 
 </div>
 

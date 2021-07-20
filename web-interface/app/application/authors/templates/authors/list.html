@@ -1,8 +1,16 @@
-<table>
+<h1>Authors</h1>
+
+<input type="button"
+			 class="smbutton"
+			 	onclick="location.href='{{ url_for('authors_bp.edit') }}'"
+				value="New"/>
+
+
+<table class="smlist">
 	<tr>
 		<th>ID</th>
 		<th>Authors</th>
-		<th></th>
+		<th>Edit</th>
 	</tr>
 
 	{% for author in authors %}
@@ -11,6 +19,7 @@
 		<td>{{author.abbreviated_middle_name}}</td>
 		<td>
 			<input type="button"
+				class="smbutton"
 				onclick="location.href='{{ url_for('authors_bp.edit') }}?id={{author.id}}'"
 				value="Edit"/>
 		</td>
@@ -19,6 +28,3 @@
 
 </table>
 
-<input type="button"
-			 	onclick="location.href='{{ url_for('authors_bp.edit') }}'"
-				value="Add"/>

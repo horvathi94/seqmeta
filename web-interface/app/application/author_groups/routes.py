@@ -10,6 +10,10 @@ author_groups_bp = Blueprint("author_groups_bp", __name__,
                                static_url_path="/static/author-groups/");
 
 
+description = """Create author groups from registered authors. These groups
+ will appear in author enumeration fields.""";
+
+
 @author_groups_bp.route("/author-groups/view")
 def show():
     groups_list = AuthorGroups.fetch_list();
@@ -17,7 +21,8 @@ def show():
     if len(groups_list) == 0:
         html+= render_template("empty_list.html",
                                name_plural="author groups",
-                               link="author_groups_bp.edit");
+                               link="author_groups_bp.edit",
+                               description=description);
     else:
         html+= render_template("author_groups/list.html", groups=groups_list);
     html+= render_template("footer.html");
@@ -27,10 +32,12 @@ def show():
 @author_groups_bp.route("/author-groups/edit")
 def edit():
     scripts = [{"filename":"edit.js", "prefix":"author-groups"}];
+    styles = [{"filename": "group-editor.css", "prefix": "author-groups"},
+              {"filename": "smbasicform.css"}];
     group_id = int(request.args["id"]) if "id" in request.args else 0;
     group = AuthorGroups.fetch_entry_edit(group_id=group_id);
     authors_list = Authors.fetch_list();
-    html = render_template("head.html");
+    html = render_template("head.html", styles=styles);
     html+= render_template("author_groups/edit.html",
                            group=group,
                            authors_list=authors_list);

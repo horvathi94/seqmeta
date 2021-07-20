@@ -1,21 +1,23 @@
 {% from "macros/select.j2" import select %}
 
-<form action="{{ url_for('institutions_bp.submit') }}" method="POST">
+<h1>Add/edit institution</h1>
+
+<form action="{{ url_for('institutions_bp.submit') }}" method="POST" class="smbasicform">
 
 	<input type="hidden" name="id" value="{{ institution.id }}"/>
 
 	<table>
 
 		<tr>
-			<th> Field </th>
-			<th> Value </th>
-			<th> Description </th>
-		</tr>
-
-		<tr>
-			<td> Name </td>
+			<td> 
+				<strong>
+					Name 
+				</strong>
+			</td>
 			<td>
-				<input type="text" name="name" value="{{ institution.name }}"/>
+				<input type="text" 
+							 name="name" class="sminp-text"
+							 value="{{ institution.name }}"/>
 			</td>
 			<td>
 				<p> The name of the institution </p>
@@ -24,9 +26,15 @@
 
 
 		<tr>
-			<td> Address </td>
 			<td>
-				<input type="text" name="street_address" value="{{ institution.street_address }}"/>
+				<strong>
+					Address 
+				</strong>
+			</td>
+			<td>
+				<input type="text"
+								name="street_address" class="sminp-text"
+								value="{{ institution.street_address }}"/>
 			</td>
 			<td>
 				<p> Where is the institution located? (Street, number, etc.) </p>
@@ -34,9 +42,13 @@
 		</tr>
 
 		<tr>
-			<td> Postal code </td>
+			<td> 
+				<strong>
+					Postal code 
+				</strong>
+			</td>
 			<td>
-				<input type="text" name="postal_code"
+				<input type="text" name="postal_code" class="sminp-text"
 						value="{{ institution.postal_code }}"
 						pattern="[0-9]{6}"/>
 			</td>
@@ -47,9 +59,15 @@
 
 
 		<tr>
-			<td> Locality </td>
+			<td> 
+				<strong>
+					Locality 
+				</strong>
+			</td>
 			<td>
-				<input type="text" name="locality" value="{{ institution.locality }}"/>
+				<input type="text" 
+							 name="locality" class="sminp-text"
+							 value="{{ institution.locality }}"/>
 			</td>
 			<td>
 				<p> Locality </p>
@@ -57,9 +75,15 @@
 		</tr>
 	
 		<tr>
-			<td> Region </td>
+			<td> 
+				<strong>
+					Region 
+				</strong>
+			</td>
 			<td>
-				<input type="text" name="region" value="{{ institution.region }}"/>
+				<input type="text" 
+							name="region" class="sminp-text"
+							value="{{ institution.region }}"/>
 			</td>
 			<td>
 				<p> Region </p>
@@ -67,9 +91,14 @@
 		</tr>
 
 		<tr>
-			<td> Country </td>
+			<td> 
+				<strong>
+					Country 
+				</strong>
+			</td>
 			<td>
-				{{ select("country_id", countries, selected_id=institution.country_id) }}
+				{{ select("country_id", countries, selected_id=institution.country_id,
+				class="sminp-text") }}
 			</td>
 			<td>
 				<p> Country </p>
@@ -78,9 +107,14 @@
 		
 
 		<tr>
-			<td> Symbol </td>
+			<td> 
+				<strong>
+					Symbol 
+				</strong>
+			</td>
 			<td>
-				<input type="text" name="symbol" value="{{ institution.symbol }}"/>
+				<input type="text" name="symbol" class="sminp-text"
+				value="{{ institution.symbol }}"/>
 			</td>
 			<td>
 				<p> Symbol for the instituion to be used in virusname or isolate name template.</p>
@@ -90,10 +124,15 @@
 
 	</table>
 
-	<input type="submit" value="Submit"/>
-	
-	<input type="button" 
-		onclick="location.href='{{ url_for('institutions_bp.show') }}';"
-		value="Back"/>
 
+	<div class="buttons">
+
+		<input type="submit" class="smbutton" value="Save"/>
+		
+		<input type="button" 
+					 class="smbutton"
+			onclick="location.href='{{ url_for('institutions_bp.show') }}';"
+			value="Back"/>
+
+	</div>
 </form>

@@ -1,18 +1,19 @@
-<form action="{{ url_for('authors_bp.submit') }}" method="POST">
+<h1>Add/edit author</h1>
+
+<div class="editor">
+
+
+<form action="{{ url_for('authors_bp.submit') }}" method="POST" class="smbasicform">
 
 	<input type="hidden" name="id" value="{{ author.id }}"/>
 
 	<table>
 
-		<tr>
-			<th> Property </th>
-			<th> Value </th>
-			<th> Description </th>
-		</tr>
-
 
 		<tr>
-			<td> First name </td>
+			<td>
+				<strong>First name </strong>
+			</td>
 			<td> 
 				<input type="text" name="first_name" value="{{ author.first_name }}"/>
 			</td>
@@ -23,7 +24,11 @@
 
 
 		<tr>
-			<td> Middle name </td>
+			<td> 
+				<strong>
+					Middle name 
+				</strong>
+			</td>
 			<td> 
 				<input type="text" name="middle_name" value="{{ author.middle_name }}"/>
 			</td>
@@ -33,7 +38,11 @@
 		</tr>
 
 		<tr>
-			<td> Last name </td>
+			<td> 
+				<strong>
+					Last name 
+				</strong>
+			</td>
 			<td> 
 				<input type="text" name="last_name" value="{{ author.last_name }}"/>
 			</td>
@@ -44,10 +53,17 @@
 
 	</table>
 
-	<input type="submit" value="Submit"/>
-	
-	<input type="button" 
-		onclick="location.href='{{ url_for('authors_bp.show') }}';"
-		value="Back"/>
+	<div class="buttons">
+
+		<input class="smbutton save" type="submit" value="Save"/>
+		
+		<input type="button" 
+			class="smbutton back"
+			onclick="location.href='{{ url_for('authors_bp.show') }}';"
+			value="Back"/>
+
+	</div>
+
+</div>
 
 </form>

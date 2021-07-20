@@ -1,19 +1,22 @@
+<h1>Institutions</h1>
+
 <table>
 
 	<tr>
-		<th>ID</th>
 		<th>Name</th>
 		<th>Address</th>
-		<th></th>
+		<th>Symbol</th>
+		<th>Edit</th>
 	</tr>
 
 	{% for institution in institutions %}
 	<tr>
-		<td>{{institution.id}}</td>
-		<td>{{institution.name}}</td>
-		<td>{{institution.address}}</td>
+		<td>{{ institution.name }}</td>
+		<td>{{ institution.address }}</td>
+		<td>{{ institution.symbol }}</td>
 		<td>
 			<input type="button"
+						 class="smbutton"
 						 onclick="location.href='{{ url_for('institutions_bp.edit') }}?id={{institution.id}}'"
 						 value="Edit"/>
 		</td>
@@ -24,5 +27,6 @@
 
 
 <input type="button"
+			 class="smbutton"
 	onclick="location.href='{{ url_for('institutions_bp.edit') }}'"
 	value="Add"/>

@@ -37,10 +37,10 @@ def show():
         sample["seqfiles"] = seqbunch.todict();
     html = render_template("head.html", styles=styles);
     if len(samples_list) == 0:
-        html+= render_template("samples/add_multiple_button.html");
         html+= render_template("empty_list.html",
                                name_plural="samples",
                                link="samples_bp.edit");
+        html+= render_template("samples/add_multiple_button.html");
     else:
         html+= render_template("samples/list.html", samples=samples_list);
 
@@ -298,18 +298,4 @@ def edit_multiple():
     html+= render_template("footer.html", scripts=scripts);
     return html;
 
-
-from application.src.seqfiles.seqfiles import SeqFilesBunch
-from application.src.seqfiles.db import SeqFile
-from application.src.metatemplates.ena.assemblies_manifest import EnaManifestAssembly
-@samples_bp.route("/test")
-def test():
-    return jsonify(Samples.fetch_entries("view_samples_ena_manifest_assembly",
-                                         sample_ids=[1,2]));
-    sample_id = 2;
-    bunch = SeqFilesBunch(sample_id);
-    test = bunch.has_fwreads_file();
-    test = bunch.forward_reads;
-    test = SeqFile.fetch_filename(sample_id);
-    return str(test)
 
