@@ -1,7 +1,11 @@
-# sequence-uploader
-Project for formatting sequencing metadata and data for upload to multiple databases.
+# SeqMeta
 
-A simple web interface where you can upload sequences to keep track in a local mysql database and aslo format metadata to readily upload to sequencing databases.
+A simple Python Flask application for editing and managing SARS-CoV-2 sequencing metadata and data.
+
+The goal of the project is to users to format metadata for upload to EpiCov from [GISAID](https://www.gisaid.org/), ENA and NCBI databases.
+
+
+
 
 
 ## Tips
