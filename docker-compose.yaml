@@ -11,7 +11,8 @@ services:
     #    image: horvathi94/seq-test
     build: 
       context: ./web-interface
-      target: ${STAGING_LEVEL:-development}
+      #      target: ${STAGING_LEVEL:-development}
+      target: ${STAGING_LEVEL:-production}
       dockerfile: Dockerfile
 
     depends_on:

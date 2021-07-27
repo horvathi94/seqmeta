@@ -22,6 +22,9 @@ COPY ./requirements/production.txt prod-requirements.txt
 RUN pip3 install --no-cache-dir -r prod-requirements.txt
 
 
+RUN pip3 install gunicorn[gevent]
+
+
 WORKDIR /app
 COPY ./app /app
 
@@ -30,5 +33,8 @@ RUN groupadd --gid 5000 pyman \
 	&& chown -R pyman:pyman /temp
 
 USER pyman
+EXPOSE 5000
 
-CMD ["python3", "/app/wsgi.py"]
+CMD gunicorn --worker-class gevent --workers 8 --bind 0.0.0.0:5000 wsgi:app --max-requests 10000 --timeout 5 --keep-alive 5 --log-level info
+
+#CMD ["python3", "/app/wsgi.py"]
