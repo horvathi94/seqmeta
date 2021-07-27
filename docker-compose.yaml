@@ -48,6 +48,7 @@ services:
     volumes:
       - ./database/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - ./database/backups/:/backups
+#      - ${MYSQL_DIR}:/var/lib/mysql
 
     networks:
       - app-network

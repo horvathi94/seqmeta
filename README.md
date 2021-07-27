@@ -25,6 +25,11 @@ Environment variables:
 - **STAGING_LEVEL** accepted values are *production* and *development*. The default value for this variable is *production*. Use *development* only if you would like to modify or further develop the application. 
 
 
+To locally mount the MySQL database volume uncomment line number 51 from the compose file and specify the **MYSQL_DIR** environment variable. Data inside the Docker containers which is created during runtime is deleted if the container is stopped mounting it locally will kepp this data persistent. Read more about Docker volumes [here](https://docs.docker.com/storage/volumes/).
+
+
+**TODO: mounting of sequencing data volumes.**
+
 
 ## Tips
 
@@ -34,9 +39,9 @@ Environment variables:
 To backup the mysql database use the `mysqldump` function via `docker exec`.
 Example: 
 
-`docker exec -i <mysql_container_name> mysqldump --user=<user> -p<password> sequencing_data > <path/on/host/to/backup.sql>`
+`docker exec -i <mysql_container_name> mysqldump --user=<MYSQL_USER> --password=<MYSQL_PASSWORD> sequencing_data > <path/on/host/to/backup.sql>`
 
 
 To restore from the backup run:
 
-`docker exec -i <mysql_container_name> mysql --user=<username> -p<password> sequencing_data > <path/on/host/to/backup.sql>` 
+`docker exec -i <mysql_container_name> mysql --user=<MYSQL_USER> --password<MYSQL_PASSWORD> sequencing_data > <path/on/host/to/backup.sql>` 
