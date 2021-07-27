@@ -10,19 +10,19 @@ Move into the main directory of the project (where the *docker-compose.yaml* fil
 `docker-compose up --build -d`
 
 Where:
-	- the `docker-compose up` command tells docker to spin up all containers in the compose file.
-	- the `--build` option is important if it is the first time you are running the application as it tells Docker to build the images for the containers.
-	- the `-d` option is to run the command in detached mode, which means that it will run in the background and you will be free to use the terminal.
+- the `docker-compose up` command tells docker to spin up all containers in the compose file.
+- the `--build` option is important if it is the first time you are running the application as it tells Docker to build the images for the containers.
+- the `-d` option is to run the command in detached mode, which means that it will run in the background and you will be free to use the terminal.
 
 
 The environment variables for the containers can be modified by editing the compose file or adding a .env file. More on environment variables [here](https://docs.docker.com/compose/environment-variables/).
 
 Environment variables:
-	- **MYSQL_DATABASE** the name of the MySQL database
-	- **MYSQL_USER** username for MySQL
-	- **MYSQL_PASSWORD** a password for the MySQL user
-	- **MYSQL_ROOT_PASSWORD** password for the root user.
-	- **STAGING_LEVEL** accepted values are *production* and *development*. The default value for this variable is *production*. Use *development* only if you would like to modify or further develop the application. 
+- **MYSQL_DATABASE** the name of the MySQL database
+- **MYSQL_USER** username for MySQL
+- **MYSQL_PASSWORD** a password for the MySQL user
+- **MYSQL_ROOT_PASSWORD** password for the root user.
+- **STAGING_LEVEL** accepted values are *production* and *development*. The default value for this variable is *production*. Use *development* only if you would like to modify or further develop the application. 
 
 
 
