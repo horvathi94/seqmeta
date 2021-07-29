@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `default_values`(
 	`item_key`			VARCHAR(100) NOT NULL PRIMARY KEY,
-	`item_value`		VARCHAR(100) NULL
+	`item_value`		VARCHAR(5000) NULL
 );
 
 
@@ -8,7 +8,7 @@ DELIMITER $$
 
 CREATE PROCEDURE upsert_deftab(
 	IN in_key 		VARCHAR(100),
-	IN in_value 	VARCHAR(100)
+	IN in_value 	VARCHAR(5000)
 )
 
 	BEGIN

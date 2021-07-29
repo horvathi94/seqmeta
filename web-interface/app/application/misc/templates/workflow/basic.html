@@ -65,16 +65,28 @@ upload to GISAID, ENA and NCBI databases.</p>
 	<ul>
 		<li><a href="{{ url_for('misc_bp.workflow_gisaid') }}">GISAID</a></li>
 		<li><a href="{{ url_for('misc_bp.workflow_ena') }}">ENA</a></li>
-		<li><a href="">NCBI</a></li>
+		<li><a href="{{ url_for('misc_bp.workflow_ncbi') }}">NCBI</a></li>
 	</ul>
 	</p>
 
-<p><em>
-	Note: Before uploading the raw read data clean any human identifiable reads. 
-	For this you can use 
-	<a href="https://github.com/alakob/Metagen-FastQC-Docker">this</a>
-	program.
-</em></p>
 
-</ol>
+<h3>Usefull links:</h3>
+	
+<ul>
+	<li>
+		Instructions on how to install <a href="https://docs.docker.com/get-docker/">Docker</a>.
+	</li>
+	<li>
+		A <a href="https://github.com/alakob/Metagen-FastQC-Docker">containerized version</a> of the Metagen-FastQC program to clean the human identifiable reads from the raw reads.
+	</li>
+	<li>
+		<a href="https://www.nextflow.io/">Nextflow</a>, this is needed if you wish to use the nf-core/viralrecon pipeline to assemble the reads and use the variant calling. Requires Docker or another containerization technology (e.g. Singularity)
+	</li>
+	<li>
+		<a href="https://nf-co.re/viralrecon/2.1">nf-core/viralrecon 2.1</a>, a pipeline designed to do the variant calling and assembly of SARS-CoV-2 sequencing data.
+	</li>
+
+</ul>
+
+
 

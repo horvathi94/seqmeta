@@ -55,13 +55,16 @@ following files:
 	</ol>
 
 
-<h4>Using the enasequence/webin-cli docker image for uploading</h4>
+<h3>Uploading the sequencing files</h3>
 
 <p>
-	Install docker if you haven't already (https://docs.docker.com/get-docker/).
+To perform this task you can use FTP clients or Webin-CLI from the command line <a href="https://ena-docs.readthedocs.io/en/latest/submit/general-guide.html">a general guide on data submission</a>). The ENA documentation on uploading SARS-CoV-2 data recommands the use of the Webin-CLI.
+Here we present the use of containerized version of the Webin-CLI this is much easier to manage than the Java client if you have Docker installed just be sure to keep your Docker image updated.
 </p>
 
+
 <p>
+<a href="https://docs.docker.com/get-docker/">Install docker</a> if you haven't already.
 	Use the following command to get the docker image for the webin-cli: 
 </p>
 <code>
@@ -71,7 +74,7 @@ following files:
 <p>A basic command for uploading:</p>
 <code>docker run --rm --name=ena-upload -v $(pwd):/data enasequence/webin-cli [options]</code>
 
-<p>Explanations:</p>
+<p>Where:</p>
 <ul>
 	<li>The <code>docker run</code> command starts the docker container.</li>
 	<li>The <code>--rm</code> option tells docker to remove the container after finishing its job.</li>
@@ -86,5 +89,4 @@ following files:
 
 
 
-</ol>
 

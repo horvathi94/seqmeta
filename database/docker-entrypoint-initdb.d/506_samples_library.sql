@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `samples_library` (
 	library_strategy_id							SMALLINT UNSIGNED,
 	library_source_id								SMALLINT UNSIGNED,
 	library_selection_id						SMALLINT UNSIGNED,
-	library_design_description 			VARCHAR(1000),
+	library_design_description 			VARCHAR(5000),
 	library_preparation_date				DATE,
 	insert_size											MEDIUMINT UNSIGNED,
 	library_construction_protocol		VARCHAR(500)
