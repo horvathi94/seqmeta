@@ -16,6 +16,7 @@ from application.src.authors import AuthorGroups
 from .editors import defaults
 from application.src.fields import Field
 from . import basic_editors
+from application.src.defaults import DefaultValues
 
 misc_bp = Blueprint("misc_bp", __name__,
                     template_folder="templates",
@@ -64,6 +65,12 @@ def edit():
     html+= render_template("misc/basic_options.html",
                            info=basic_editors.HOST_BODY_PRODUCTS,
                            vals=misc.HostBodyProducts.fetch_list());
+    html+= render_template("misc/basic_options.html",
+                           info=basic_editors.PURPOSE_OF_SAMPLING,
+                           vals=misc.PurposesOfSampling.fetch_list());
+    html+= render_template("misc/basic_options.html",
+                           info=basic_editors.PURPOSE_OF_SEQUENCING,
+                           vals=misc.PurposesOfSequencing.fetch_list());
 
     html+= render_template("misc/virusname.html",
                 virusname_format=VirusnameGisaid.fetch_format_string(),
@@ -138,8 +145,20 @@ def submit_host_body_products():
     return redirect(url_for("misc_bp.edit"));
 
 
+@misc_bp.route("/misc/submit/purposes-of-sampling", methods=["POST"])
+def submit_purpose_of_sampling():
+    parsed = Form.parse_list(request.form, "purpose_of_sampling")[1:];
+    misc.PurposesOfSampling.save_by_procedure(parsed);
+    return redirect(url_for("misc_bp.edit"));
 
-from application.src.defaults import DefaultValues
+
+@misc_bp.route("/misc/submit/purposes-of-sequencing", methods=["POST"])
+def submit_purpose_of_sequencing():
+    parsed = Form.parse_list(request.form, "purpose_of_sequencing")[1:];
+    misc.PurposesOfSequencing.save_by_procedure(parsed);
+    return redirect(url_for("misc_bp.edit"));
+
+
 @misc_bp.route("/default-values")
 def edit_default_values():
     styles = [{"filename": "markers.css"}];

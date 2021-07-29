@@ -126,10 +126,16 @@ class HostBodyProducts(DBInterface):
 
 class PurposesOfSampling(DBInterface):
     display_table_name = "purposes_of_sampling";
+    edit_table_name = "view_purposes_of_sampling";
+    submit_table_name = "purposes_of_sampling";
+    save_procedure = "upsert_basic_table";
 
 
 class PurposesOfSequencing(DBInterface):
     display_table_name = "purposes_of_sequencing";
+    edit_table_name = "view_purposes_of_sequencing";
+    submit_table_name = "purposes_of_sequencing";
+    save_procedure = "upsert_basic_table";
 
 
 class CollectionDevices(DBInterface):

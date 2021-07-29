@@ -49,3 +49,21 @@ HOST_BODY_PRODUCTS = {
     <em>e.g. stool, mucus</em>, where the sample was obtained from."
 };
 
+
+PURPOSE_OF_SAMPLING = {
+    "name": "Purpose of sampling",
+    "id": "purpose_of_sampling",
+    "link": "misc_bp.submit_purpose_of_sampling",
+    "description": "The reason the sample was collected,"\
+        "<em>e.g., diagnostic testing</em>"
+};
+
+
+PURPOSE_OF_SEQUENCING = {
+    "name": "Purpose of sequencing",
+    "id": "purpose_of_sequencing",
+    "link": "misc_bp.submit_purpose_of_sequencing",
+    "description": "The reason the sample was sequenced, "\
+        "<em>e.g., baseline surveillance (random sampling)</em>",
+};
+
