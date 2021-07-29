@@ -16,12 +16,24 @@
 	{% set name = dets.defaults %}
 {% endif %}
 
+
+{% if dets.maxlength < 500 %}
 <input type="text"
 			 name="{{ name }}"
 			 	class="{{ dets.class }}"
 				value="{{ dets.value }}"
 				{{ maxlen }} 
 				{{ onchangefunc }}/>
+{% else %}
+<textarea 
+				name="{{ name }}" 
+			 	class="{{ dets.class }}"
+				{{ maxlen }} 
+				{{ onchangefunc }}
+				cols="50">
+{{ dets.value }}
+</textarea>
+{% endif %}
 
 
 {% endmacro %}
