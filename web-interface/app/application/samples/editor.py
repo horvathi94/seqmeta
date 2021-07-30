@@ -3,7 +3,8 @@ from application.src.samples.samples import Samples
 from application.src.fields import Field
 from application.src.defaults import DefaultValues
 from application.src.seqfiles.seqfiles import SeqFilesBunch
-from application.src.seqfiles.db import SeqFileTypes, SeqFile
+from application.src.seqfiles.db import SeqFileTypes, SeqFile, \
+    AssemblyFileTypes, ReadFileTypes
 from application.src.editor.dlist import get_dlist
 from .editor_fields import FIELDS_LIST
 from application.src.samples.samples import Samples
@@ -120,12 +121,18 @@ class MultiEditor:
     @classmethod
     def sample_col(cls, info, sample):
         dlist = [];
-        if info["db_key"] not in ["assembly_file", "fwread_file", "rvread_file"]:
+        assemblies = ["assembly_file", "contigs_file", "scaffolds_file"];
+        reads = ["fwread_file", "rvread_file"];
+        if info["db_key"] not in assemblies + reads:
             val = sample[info["db_key"]];
         else:
             seqfiles = SeqFilesBunch(sample["sample_id"]);
-            seqfile_types = SeqFileTypes.fetch_list_labeled(
-                replace_key="item_key");
+            if info["db_key"] in assemblies:
+                seqfile_types = AssemblyFileTypes.fetch_list_labeled(
+                    replace_key="item_key");
+            if info["db_key"] in reads:
+                seqfile_types = ReadFileTypes.fetch_list_labeled(
+                    replace_key="item_key");
             ftype = info["db_key"].replace("_file", "");
             val = SeqFile.fetch_filename(sample["sample_id"], ftype=ftype);
         info["input"]["multi_template"] = \
