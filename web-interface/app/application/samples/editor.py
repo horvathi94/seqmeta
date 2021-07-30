@@ -3,7 +3,7 @@ from application.src.samples.samples import Samples
 from application.src.fields import Field
 from application.src.defaults import DefaultValues
 from application.src.seqfiles.seqfiles import SeqFilesBunch
-from application.src.seqfiles.db import SeqFileTypes, SeqFile, \
+from application.src.seqfiles.db import SeqFile, \
     AssemblyFileTypes, ReadFileTypes
 from application.src.editor.dlist import get_dlist
 from .editor_fields import FIELDS_LIST
@@ -42,15 +42,6 @@ class Editor:
         field["input"]["value"] = self.get_value(field);
         return render_template("samples/form/single/field.html",
                                info=field, dlist=dlist);
-
-
-    def single_files(self):
-        seqfiles=SeqFilesBunch(self.sample_id);
-        seqfile_types=SeqFileTypes.fetch_list_labeled(
-                            replace_key="item_key");
-        return render_template("samples/form/single/files.html",
-                               seqfiles=seqfiles,
-                               seqfile_types=seqfile_types);
 
 
     def show(self):
