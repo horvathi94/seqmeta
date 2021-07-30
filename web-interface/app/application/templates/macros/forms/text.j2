@@ -21,7 +21,7 @@
 <input type="text"
 			 name="{{ name }}"
 			 	class="{{ dets.class }}"
-				value="{{ dets.value }}"
+				value="{{- dets.value -}}"
 				{{ maxlen }} 
 				{{ onchangefunc }}/>
 {% else %}
@@ -31,7 +31,9 @@
 				{{ maxlen }} 
 				{{ onchangefunc }}
 				cols="50">
-{{ dets.value }}
+{% if dets.value != None %}
+	{{- dets.value -}}
+{% endif %}
 </textarea>
 {% endif %}
 

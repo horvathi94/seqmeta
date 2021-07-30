@@ -9,7 +9,7 @@
 
 
 <tr>
-	<td> {{ info.field_name|safe }} 
+	<td> {{- info.field_name|safe -}} 
 		{% for req in info.requirement %}
 			{{ marker(req.type, requirement=req.level) }}
 		{% endfor %}
@@ -33,6 +33,6 @@
 			{{ seqfile(info, dlist) }}
 		{% endif %}
 	</td>
-	<td> {{ info.description|safe }} </td>
+	<td> {{- info.description|safe -}} </td>
 </tr>
 
