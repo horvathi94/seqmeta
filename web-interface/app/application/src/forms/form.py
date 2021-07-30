@@ -22,6 +22,7 @@ class Form:
             splits = key.split("+");
             if splits[0] != main_key:
                 continue;
+
             indx = int(splits[1]);
             prop = splits[2];
             is_registered = False;
@@ -32,7 +33,8 @@ class Form:
             if not is_registered:
                 curr_od = OrderedDict();
                 curr_od["id"] = indx;
-            curr_od[prop] = form_data[key];
+            curr_od[prop] = form_data[key].rstrip("\r\n") \
+                if isinstance(form_data, str) else form_data[key];
             if not is_registered:
                 res.append(curr_od);
         return res;

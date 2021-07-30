@@ -9,7 +9,7 @@ function addNewRow(){
 	cloned.style.visibility = "visible";
 	let inp;
 	Array.from(cloned.cells).forEach( (cell) => {
-		Array.from(cell.querySelectorAll("input, select")).forEach( (inp) => {
+		Array.from(cell.querySelectorAll("input, select, textarea")).forEach( (inp) => {
 			newName = inp.getAttribute("name").replace("0", newIndx);
 			inp.setAttribute("name", newName);
 		});

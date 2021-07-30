@@ -88,7 +88,6 @@ def parse_files_multiple(request):
 
 @samples_bp.route("/samples/submit-multiple", methods=["POST"])
 def submit_multiple():
-    return jsonify(request.form);
     sample_data = Form.parse_list(request.form, "sample")[1:];
     collection = Form.parse_list(request.form, "collection")[1:];
     location = Form.parse_list(request.form, "location")[1:];
@@ -98,7 +97,7 @@ def submit_multiple():
     sequencing = Form.parse_list(request.form, "sequencing")[1:];
     sampling = Form.parse_list(request.form, "sampling")[1:];
     library = Form.parse_list(request.form, "library")[1:];
-    return jsonify(location);
+#    return jsonify(location);
     fs = parse_files_multiple(request)[1:];
 
     samples = [];
