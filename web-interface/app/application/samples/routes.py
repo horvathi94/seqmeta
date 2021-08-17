@@ -97,7 +97,6 @@ def submit_multiple():
     sequencing = Form.parse_list(request.form, "sequencing")[1:];
     sampling = Form.parse_list(request.form, "sampling")[1:];
     library = Form.parse_list(request.form, "library")[1:];
-#    return jsonify(location);
     fs = parse_files_multiple(request)[1:];
 
     samples = [];

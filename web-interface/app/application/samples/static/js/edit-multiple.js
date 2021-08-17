@@ -15,6 +15,8 @@ function addNewRow(){
 		});
 	});
 	editor.appendChild(cloned);
+
+	checkSampleNames();
 }
 
 
@@ -48,4 +50,8 @@ function updateColumnRadio(e){
 
 function removeRow(e){
 	e.parentElement.parentElement.remove();
+	checkSampleNames();
+	if (!document.querySelectorAll("input[type=submit]")[0].disabled){
+		checkLibraryNames();
+	}
 }

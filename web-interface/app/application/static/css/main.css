@@ -114,6 +114,15 @@ td input[type="radio"]{
 	border-color: var(--yellow);
 }
 
+.smbutton:disabled {
+	border-color: var(--dark-green);
+	background-color: lightgrey;
+}
+.smbutton:disabled:hover {
+	color:white;
+
+}
+
 
 
 .smlist{

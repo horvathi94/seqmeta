@@ -13,20 +13,20 @@ async function fetchNamesList(url){
 function disableSave(inps, names, ommits=[], emptyAllowed=false){
 	const subButton = document.querySelectorAll("input[type=submit]")[0];
 
-	disabled = false;
+	isDisabled = false;
 
 	inps.forEach( (inp, i) => {
 		errorCode = "";
 		if (names.includes(inp.value)) {
-			disabled = true;
+			isDisabled = true;
 			errorCode = "Registered in db";
 		} else if ((!inp.value) && (!emptyAllowed)){
-			disabled = true;
+			isDisabled = true;
 			errorCode = "Empty string not allowed.";
 		} else if (!ommits.includes(inp.value)){
 			Array.from(inps).slice(0,i).forEach( (inp2) => {
 				if (inp.value == inp2.value){
-					disabled=true; 
+					isDisabled=true; 
 					errorCode="Duplicate name."
 				}
 			});
@@ -45,9 +45,10 @@ function disableSave(inps, names, ommits=[], emptyAllowed=false){
 		} else {
 			inp.style.backgroundColor = "#fff";
 		}
-		subButton.disabled = disabled;
 
 	});
+
+	subButton.disabled = isDisabled;
 
 }
 
@@ -72,3 +73,5 @@ function checkLibraryNames(){
 	});
 
 }
+
+
