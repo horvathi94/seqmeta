@@ -1,8 +1,11 @@
+/* Create table, view, upsert procedure for host names. 
+  Populate with human. */
+
 CREATE TABLE IF NOT EXISTS `hosts` (
-	id			INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	label		CHAR(200) UNIQUE,
-	latin		CHAR(200),
-	indx		INT UNSIGNED
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	label VARCHAR(200) UNIQUE,
+	latin VARCHAR(200),
+	indx  INT UNSIGNED
 );
 
 
@@ -22,9 +25,9 @@ CREATE OR REPLACE VIEW `view_hosts` AS
 DELIMITER $$
 
 CREATE PROCEDURE upsert_hosts(
-	IN inlabel 	CHAR(200),
-	IN inlatin	CHAR(200),
-	IN inindx		INT UNSIGNED
+	IN inlabel VARCHAR(200),
+	IN inlatin VARCHAR(200),
+	IN inindx INT UNSIGNED
 )
 
 	BEGIN
@@ -57,7 +60,6 @@ CREATE PROCEDURE upsert_hosts(
 	END $$
 
 DELIMITER ;
-
 
 
 CALL upsert_hosts("Human", "Homo sapiens", 1);

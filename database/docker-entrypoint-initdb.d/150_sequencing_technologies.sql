@@ -15,7 +15,8 @@ CALL upsert_basic_table(@table_name, "PACBIO_SMRT", 10);
 
 
 
-
+/* Table for holding sequencing instrument names and link them to the 
+	`sequencing_platforms` */
 CREATE TABLE IF NOT EXISTS `sequencing_instruments` (
 	id						INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	platform_id		INT UNSIGNED,
