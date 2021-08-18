@@ -1,4 +1,5 @@
 /* Basic information about the samples */
+
 CREATE TABLE IF NOT EXISTS `samples` (
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
