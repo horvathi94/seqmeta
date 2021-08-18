@@ -1,19 +1,22 @@
+/* Information about the host from which the sample was collected.
+ Is linked to the `samples` table trough the `sample_id` column. */
+
 CREATE TABLE IF NOT EXISTS `samples_host` (
 
-	sample_id																INT UNSIGNED NOT NULL PRIMARY KEY,
-	host_id																	INT UNSIGNED,
-	host_subject_id													VARCHAR(200),
-	additional_host_info										VARCHAR(200),
-	patient_gender													BIT(1),
-	patient_age															TINYINT UNSIGNED,
-	patient_status_id												INT UNSIGNED,
-	ppe																			VARCHAR(600),
-	host_habitat_id													TINYINT UNSIGNED,
-	host_behaviour_id												TINYINT UNSIGNED,
-	host_description												VARCHAR(1000),
-	gravidity																VARCHAR(500),
-	host_recent_travel_loc									VARCHAR(500),
-	host_recent_travel_return_date					DATE
+	sample_id INT UNSIGNED NOT NULL PRIMARY KEY,
+	host_id INT UNSIGNED,
+	host_subject_id VARCHAR(200),
+	additional_host_info VARCHAR(200),
+	patient_gender BIT(1),
+	patient_age TINYINT UNSIGNED,
+	patient_status_id INT UNSIGNED,
+	ppe VARCHAR(600),
+	host_habitat_id TINYINT UNSIGNED,
+	host_behaviour_id TINYINT UNSIGNED,
+	host_description VARCHAR(1000),
+	gravidity VARCHAR(500),
+	host_recent_travel_loc VARCHAR(500),
+	host_recent_travel_return_date DATE
 
 );
 
