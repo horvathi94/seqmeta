@@ -1,3 +1,5 @@
+/* View for selecting data for GISAID submissions */
+
 CREATE OR REPLACE VIEW view_samples_gisaid AS
 
 	SELECT 

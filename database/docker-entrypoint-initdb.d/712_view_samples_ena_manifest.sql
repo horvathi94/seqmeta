@@ -1,3 +1,5 @@
+/* View for selecting data for ENA manifest file for raw read submission. */
+
 CREATE OR REPLACE VIEW `view_samples_ena_manifest` AS
         
   SELECT 

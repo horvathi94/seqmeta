@@ -1,3 +1,5 @@
+/* View for selecting data for ENA experiments submission. */
+
 CREATE OR REPLACE VIEW `view_samples_ena_experiment` AS 
 
 	SELECT

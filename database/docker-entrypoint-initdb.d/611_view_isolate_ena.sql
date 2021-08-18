@@ -1,3 +1,5 @@
+/* View to select data for isolate name. */
+
 CREATE OR REPLACE VIEW `view_isolate_ena` AS
 
 	SELECT 

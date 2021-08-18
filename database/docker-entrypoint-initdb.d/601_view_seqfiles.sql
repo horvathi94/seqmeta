@@ -1,3 +1,5 @@
+/* View for retrieving information about sequencing files */
+
 CREATE OR REPLACE VIEW `view_seqfiles` AS 
 
 	SELECT 

@@ -1,3 +1,5 @@
+/* View for linking samples to the sequencing files */
+
 CREATE OR REPLACE VIEW `view_samples_seqfiles` AS
 
 	SELECT 

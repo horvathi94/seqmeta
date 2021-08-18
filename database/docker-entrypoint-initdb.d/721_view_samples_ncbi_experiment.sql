@@ -1,3 +1,6 @@
+/* View for selecting data for NCBI experiments submission. */
+
+
 CREATE OR REPLACE VIEW `view_samples_ncbi_experiment` AS
 	
 	SELECT 

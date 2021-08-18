@@ -1,3 +1,5 @@
+/* View to select data for GISAID virusname. */
+
 CREATE OR REPLACE VIEW view_virusname_gisaid AS
 
 	SELECT 
