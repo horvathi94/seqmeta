@@ -33,12 +33,12 @@ Procedures:
 		with `indx` 0 is updated with the IN data, if no such row is found then a 
 		new row is inserted.
 			+ table_name: IN VARCHAR(100) -> the table to be updated
-			+ id					IN INT UNSIGNED -> the id of the row to be updated
-			+ item_key:		IN VARCHAR(200) -> the item_key of the item to be added or 
+			+ id:         IN INT UNSIGNED -> the id of the row to be updated
+			+ item_key:   IN VARCHAR(200) -> the item_key of the item to be added or 
 			                                                              updated
 			+ item_value: IN VARCHAR(500) -> the item_value of the item to be added 
 			                                                              or updated
-			+ indx: 			IN INT UNSIGNED	-> the index of the item to be added
+			+ indx:       IN INT UNSIGNED	-> the index of the item to be added
 
 
 */
