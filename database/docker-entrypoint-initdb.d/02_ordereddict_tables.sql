@@ -7,10 +7,10 @@ Stores a list of dictionary like items, each has a key and a value.
 
 Table structure: | id | item_key | item_value | indx |
 Columns:
-	- id:         INT UNSIGNED  -> PRIMARY KEY
-	- item_key:   VARCHAR(200) 	-> key of the item	
-	- item_value:	VARCHAR(500) 	-> value of the item
-	- indx:	      INT UNSIGNED  -> order of the rows, if 0 the row is ommited.
+	- id:         INT UNSIGNED -> PRIMARY KEY
+	- item_key:   VARCHAR(200) -> key of the item	
+	- item_value: VARCHAR(500) -> value of the item
+	- indx:       INT UNSIGNED -> order of the rows, if 0 the row is ommited.
 
 Procedures:
 	`create_ordereddict_table`
