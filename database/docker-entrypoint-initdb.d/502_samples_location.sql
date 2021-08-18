@@ -1,14 +1,17 @@
+/* Information about the location of the patient.
+ Is linked to the `samples` table trough the `sample_id` column. */
+
 CREATE TABLE IF NOT EXISTS `samples_location` (
 
-	sample_id									INT UNSIGNED NOT NULL PRIMARY KEY,
-	continent_id							TINYINT UNSIGNED,
-	country_id								SMALLINT UNSIGNED,
-	region										VARCHAR(150),
-	locality									VARCHAR(150),
-	additional_location_info	VARCHAR(1000),
-	geo_loc_latitude					DECIMAL(5,2),
-	geo_loc_longitude					DECIMAL(5,2),
-	geo_loc_exposure_id				SMALLINT UNSIGNED
+	sample_id INT UNSIGNED NOT NULL PRIMARY KEY,
+	continent_id TINYINT UNSIGNED,
+	country_id SMALLINT UNSIGNED,
+	region VARCHAR(150),
+	locality VARCHAR(150),
+	additional_location_info VARCHAR(1000),
+	geo_loc_latitude DECIMAL(5,2),
+	geo_loc_longitude DECIMAL(5,2),
+	geo_loc_exposure_id SMALLINT UNSIGNED
 
 );
 
