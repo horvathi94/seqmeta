@@ -1,10 +1,14 @@
+/* Information about the sequencing of the samples.
+ Is linked to the `samples` table trough the `sample_id` column. */
+
+
 CREATE TABLE IF NOT EXISTS `samples_sequencing` (
 
-	sample_id											INT UNSIGNED NOT NULL PRIMARY KEY,
-	sequencing_instrument_id			INT UNSIGNED,
-	assembly_method_id						INT UNSIGNED,
-	coverage											MEDIUMINT UNSIGNED,
-	sequencing_lab_id							INT UNSIGNED
+	sample_id INT UNSIGNED NOT NULL PRIMARY KEY,
+	sequencing_instrument_id INT UNSIGNED,
+	assembly_method_id INT UNSIGNED,
+	coverage MEDIUMINT UNSIGNED,
+	sequencing_lab_id INT UNSIGNED
 
 );
 
