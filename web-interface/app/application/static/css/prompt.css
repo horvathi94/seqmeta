@@ -12,6 +12,9 @@ div.prompt.wrap h4 {
 }
 
 div.prompt.data {
+	height: 90%;
+	min-width: 800px;
+	overflow-y: auto;
 	opacity: 1;
 	position: absolute;
 	top: 50%;

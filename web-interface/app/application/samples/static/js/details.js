@@ -23,139 +23,63 @@ async function fetchDetails(sampleID){
 }
 
 
-function addRow(){
+function addRow(propHTML="", valueHTML=""){
 	const row = detailsTable.insertRow();
 	const propCell = row.insertCell(0);
 	propCell.classList.add("prop");
+
+	if (propHTML){
+		propCell.innerHTML = propHTML + ":";
+	}
+
 	const valCell = row.insertCell(1);
 	valCell.classList.add("value");
+	valCell.innerHTML = valueHTML;
+	
 	return [propCell, valCell];
 }
+
+
+
 
 function updateTable(sample){
 
 	let cells = [];
 
-	cells = addRow();
-	cells[0].innerHTML = "Sample ID:";
-	cells[1].innerHTML = sample.sample_id;
+	cells = addRow("Sample name", sample.sample_name);
+	cells = addRow("Sample comment", sample.sample_comment);
+	cells = addRow("Patient", sample.patient_details);
+	cells = addRow("Collection date", sample.collection_date);
+	cells = addRow("GISAID virusname", sample.gisaid_details);
+	cells = addRow("Isolate name", sample.isolate);
+	cells = addRow("Location", sample.location_details);
+	cells = addRow("Collector name", sample.collector_name);
 
-	cells = addRow();
-	cells[0].innerHTML = "Sample name:";
-	cells[1].innerHTML = sample.sample_name;
+	cells = addRow("Originating laboratory", sample.originating_lab_details);
+	cells = addRow("Submitting laboratory", sample.submitting_lab_details);
+	cells = addRow("Authors", sample.authors_details);
 
-	cells = addRow();
-	cells[0].innerHTML = "Collection date:";
-	cells[1].innerHTML = sample.collection_date;
 
-	cells = addRow();
-	cells[0].innerHTML = "Collector name:";
-	cells[1].innerHTML = sample.collector_name;
+	cells = addRow("Ilness", sample.ilness_details);
+	cells = addRow("Antiviral treatment", sample.antiviral_treatment_details);
+	cells = addRow("Hospitalisation", sample.hospitalization);
+	cells = addRow("Disease outcome", sample.host_disease_outcome);
+	cells = addRow("Vaccination details", sample.vaccination_details);
+	cells = addRow("Prior SARS-CoV-2 infection", sample.prior_infection_details);
 
-	cells = addRow();
-	cells[0].innerHTML = "Originating laboratory:";
-	cells[1].innerHTML = sample.originating_lab_name;
 
-	cells = addRow();
-	cells[0].innerHTML = "Submitting laboratory:";
-	cells[1].innerHTML = sample.submitting_lab_name;
+	cells = addRow("Sampling strategy", sample.sampling_strategy);
+	cells = addRow("Purpose of sampling", sample.purpose_of_sampling);
+	cells = addRow("Purpose of sequencing", sample.purpose_of_sequencing);
 
-	cells = addRow();
-	cells[0].innerHTML = "Passage details:";
-	cells[1].innerHTML = sample.passage_details;
-
-	cells = addRow();
-	cells[0].innerHTML = "Sampling strategy:";
-	cells[1].innerHTML = sample.sampling_strategy;
-
-	cells = addRow();
-	cells[0].innerHTML = "Location:";
-	cells[1].innerHTML = sample.location;
-
-	cells = addRow();
-	cells[0].innerHTML = "Additional location information:";
-	cells[1].innerHTML = sample.additional_location_info;
-
-	cells = addRow();
-	cells[0].innerHTML = "Author group:";
-	cells[1].innerHTML = sample.author_group_name + " ("+sample.authors_list+")";
-
-	cells = addRow();
-	cells[0].innerHTML = "Host:";
-	cells[1].innerHTML = sample.host_name;
-
-	cells = addRow();
-	cells[0].innerHTML = "Additional host information";
-	cells[1].innerHTML = sample.additional_host_info;
-
-	cells = addRow();
-	cells[0].innerHTML = "Patient age:";
-	cells[1].innerHTML = sample.patient_age;
-
-	cells = addRow();
-	cells[0].innerHTML = "Patient gender:";
-	cells[1].innerHTML = sample.patient_gender;
-
-	cells = addRow();
-	cells[0].innerHTML = "Patient status:";
-	cells[1].innerHTML = sample.patient_status;
-
-	cells = addRow();
-	cells[0].innerHTML = "Specimen source:";
-	cells[1].innerHTML = sample.specimen_source;
-
-	cells = addRow();
-	cells[0].innerHTML = "Outbreak:";
-	cells[1].innerHTML = sample.outbreak;
-
-	cells = addRow();
-	cells[0].innerHTML = "Last vaccinated:";
-	cells[1].innerHTML = sample.last_vaccinated;
-
-	cells = addRow();
-	cells[0].innerHTML = "Treatment:";
-	cells[1].innerHTML = sample.treatment;
-
-	cells = addRow();
-	cells[0].innerHTML = "Sequencing instrument:";
-	cells[1].innerHTML = sample.sequencing_instrument + 
-		" (" + sample.sequencing_platform + ")";
-
-	cells = addRow();
-	cells[0].innerHTML = "Assembly method:";
-	cells[1].innerHTML = sample.assembly_method;
+	cells = addRow("Sequencing instrument", sample.instrument_details);
+	cells = addRow("Assembly method", sample.assembly_method);
+	cells = addRow("Coverage", sample.coverage);
 	
-	cells = addRow();
-	cells[0].innerHTML = "Coverage:";
-	cells[1].innerHTML = sample.coverage;
 	
-	cells = addRow();
-	cells[0].innerHTML = "Isolate:";
-	cells[1].innerHTML = sample.isolate;
-	
-	cells = addRow();
-	cells[0].innerHTML = "Strain:";
-	cells[1].innerHTML = sample.strain;
 
-	cells = addRow();
-	cells[0].innerHTML = "Library ID:";
-	cells[1].innerHTML = sample.library_id;
-
-	cells = addRow();
-	cells[0].innerHTML = "Library strategy";
-	cells[1].innerHTML = sample.library_strategy;
-
-	cells = addRow();
-	cells[0].innerHTML = "Library source:";
-	cells[1].innerHTML = sample.library_source;
-
-	cells = addRow();
-	cells[0].innerHTML = "Library selection:";
-	cells[1].innerHTML = sample.library_selection;
-
-	cells = addRow();
-	cells[0].innerHTML = "Library layout:";
-	cells[1].innerHTML = sample.library_layout;
+	cells = addRow("Library ID", sample.library_id);
+	cells = addRow("Library", sample.library_details);
 
 };
 
