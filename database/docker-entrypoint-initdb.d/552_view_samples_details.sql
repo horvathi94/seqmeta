@@ -1,3 +1,5 @@
+/* View for selecting data to appear on sample details prompt */
+
 CREATE OR REPLACE VIEW view_samples_details AS
 
 	SELECT 

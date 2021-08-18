@@ -1,3 +1,8 @@
+/* Tables for holding information about any files related to the sequencing,
+such as sequence reads and assembly files.
+A procedure to upsert sequencing files. */
+
+
 SET @table_name := "assembly_files";
 CALL create_dict_table(@table_name);
 CALL upsert_dict_table(@table_name, 0, "FASTA", "fa");
@@ -19,12 +24,12 @@ CALL upsert_basic_table(@table_name, "consensus", 3);
 
 CREATE TABLE IF NOT EXISTS `seqfiles` (
 
-	id 								INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	sample_id					INT UNSIGNED NOT NULL,
-	file_type_id			INT UNSIGNED,
-	is_assembly				BIT(1),
-	is_forward_read		BIT(1),
-	assembly_level		TINYINT UNSIGNED
+	id  INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	sample_id INT UNSIGNED NOT NULL,
+	file_type_id INT UNSIGNED,
+	is_assembly BIT(1),
+	is_forward_read BIT(1),
+	assembly_level TINYINT UNSIGNED
 
 );
 
@@ -34,11 +39,11 @@ CREATE TABLE IF NOT EXISTS `seqfiles` (
 DELIMITER $$
 
 CREATE PROCEDURE upsert_seqfiles (
-	IN sample_id 				INT UNSIGNED,
-	IN file_type_id 		INT UNSIGNED,
-	IN is_assembly			BIT(1),
-	IN is_forward_read	BIT(1),
-	IN assembly_level		INT UNSIGNED
+	IN sample_id INT UNSIGNED,
+	IN file_type_id INT UNSIGNED,
+	IN is_assembly BIT(1),
+	IN is_forward_read BIT(1),
+	IN assembly_level INT UNSIGNED
 )
 
 	BEGIN

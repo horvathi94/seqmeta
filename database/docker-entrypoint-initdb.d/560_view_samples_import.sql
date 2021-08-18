@@ -1,3 +1,5 @@
+/* View for selecting data to be imported when editing multiple samples */
+
 CREATE OR REPLACE VIEW `view_samples_import` AS
 
 	SELECT 

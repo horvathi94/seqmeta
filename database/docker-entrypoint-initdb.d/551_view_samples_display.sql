@@ -1,3 +1,5 @@
+/* View for selecting data to be displayed on samples page */
+
 CREATE OR REPLACE VIEW view_samples_display AS 
 
 	SELECT 

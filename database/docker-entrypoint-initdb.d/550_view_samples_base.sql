@@ -1,3 +1,5 @@
+/* Basic view of samples. Unifies data in the tables related to samples */
+
 CREATE OR REPLACE VIEW `view_samples_base` AS
 
 	SELECT 
