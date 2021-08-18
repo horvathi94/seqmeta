@@ -3,7 +3,7 @@
 	                --- OrderedDict table ---
 
 
-Stores a list of dictionary like items, each has a key and a value.
+Stores an ordered list of dictionary like items, each has a key and a value.
 
 Table structure: | id | item_key | item_value | indx |
 Columns:
