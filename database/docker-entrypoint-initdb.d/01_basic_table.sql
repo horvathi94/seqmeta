@@ -1,6 +1,6 @@
 /*  
 		
-								--- Basic table ---
+	                         --- Basic table ---
 
 
 Stores a list of VARCHAR values.

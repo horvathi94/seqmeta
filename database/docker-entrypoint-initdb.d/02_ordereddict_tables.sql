@@ -1,7 +1,6 @@
 /*
 
-
-										--- OrderedDict table ---
+	                --- OrderedDict table ---
 
 
 Stores a list of dictionary like items, each has a key and a value.
@@ -21,9 +20,9 @@ Procedures:
 	`create_ordereddict_view`
 		-> Create view of an ordereddict table.
 			+ view_name: IN VARCHAR(100) -> the name of the view to be created
-																			based on the table
+			                                            based on the table
 			+ table_name: IN VARCHAR(100) -> the name of the table based on which
-																			the view will be created
+			                                            the view will be created
 
 	`upsert_ordereddict_table`
 		-> Insert or update data in an ordereddict table.
