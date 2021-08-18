@@ -3,8 +3,7 @@
 								--- Basic table ---
 
 
-Good for storing a list of VARCHAR values.
-
+Stores a list of VARCHAR values.
 
 Table structure: | id | label | indx |
 Columns:
