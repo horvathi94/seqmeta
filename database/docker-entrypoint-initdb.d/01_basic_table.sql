@@ -19,9 +19,9 @@ Procedures:
 	`create_basic_view` 
 		-> Create view of a basic table.
 			+ view_name: IN VARCHAR(100) -> the name of the view to be created
-																			based on the table
+			                                             based on the table
 			+ table_name: IN VARCHAR(100) -> the name of the table based on which
-																			the view will be created
+			                                             the view will be created
 	
 	`upsert_basic_table` 
 		-> Insert or update data in a basic table.
