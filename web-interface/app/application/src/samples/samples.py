@@ -19,6 +19,7 @@ class Samples(DBInterface):
 
     @classmethod
     def clean_entry(cls, entry: dict) -> dict:
+        """Clean data fetched from the database."""
         if "hospitalization" in entry:
             entry = HealthStatus.clean_entry(entry);
         if "patient_gender" in entry:
