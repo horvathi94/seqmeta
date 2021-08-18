@@ -1,3 +1,6 @@
+/* Table and view for holding institution data.
+	Symbols are used in virusname and isolate templates.*/
+
 CREATE TABLE IF NOT EXISTS `institutions` (
 	id							INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name						CHAR(200),

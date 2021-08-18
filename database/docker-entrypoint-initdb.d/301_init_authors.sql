@@ -1,3 +1,5 @@
+/* Data about authors and author groups */
+
 CREATE TABLE IF NOT EXISTS `authors` (
 	id						INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	first_name		CHAR(150),
