@@ -1,15 +1,19 @@
+/* Information about the sequencing library.
+ Is linked to the `samples` table trough the `sample_id` column. */
+
+
 CREATE TABLE IF NOT EXISTS `samples_library` (
 	
-	sample_id 											INT UNSIGNED NOT NULL PRIMARY KEY,
-	library_id											VARCHAR(200) NULL UNIQUE,
-	library_layout_paired						BIT(1),					
-	library_strategy_id							SMALLINT UNSIGNED,
-	library_source_id								SMALLINT UNSIGNED,
-	library_selection_id						SMALLINT UNSIGNED,
-	library_design_description 			VARCHAR(5000),
-	library_preparation_date				DATE,
-	insert_size											MEDIUMINT UNSIGNED,
-	library_construction_protocol		VARCHAR(500)
+	sample_id  INT UNSIGNED NOT NULL PRIMARY KEY,
+	library_id VARCHAR(200) NULL UNIQUE,
+	library_layout_paired BIT(1), 
+	library_strategy_id SMALLINT UNSIGNED,
+	library_source_id SMALLINT UNSIGNED,
+	library_selection_id SMALLINT UNSIGNED,
+	library_design_description  VARCHAR(5000),
+	library_preparation_date DATE,
+	insert_size MEDIUMINT UNSIGNED,
+	library_construction_protocol VARCHAR(500)
 
 );
 
