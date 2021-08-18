@@ -1,14 +1,18 @@
+/* Table to hold default values for some of the fields. 
+ Procedure for updating the defaults table. 
+ Populate table with values which can have default values. */
+
 CREATE TABLE IF NOT EXISTS `default_values`(
-	`item_key`			VARCHAR(100) NOT NULL PRIMARY KEY,
-	`item_value`		VARCHAR(5000) NULL
+	`item_key` VARCHAR(100) NOT NULL PRIMARY KEY,
+	`item_value` VARCHAR(5000) NULL
 );
 
 
 DELIMITER $$
 
 CREATE PROCEDURE upsert_deftab(
-	IN in_key 		VARCHAR(100),
-	IN in_value 	VARCHAR(5000)
+	IN in_key VARCHAR(100),
+	IN in_value VARCHAR(5000)
 )
 
 	BEGIN

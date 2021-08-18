@@ -1,3 +1,5 @@
+/* View to select default values */
+
 CREATE OR REPLACE VIEW `view_default_values` AS 
 
 	SELECT

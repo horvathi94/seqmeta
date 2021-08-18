@@ -1,28 +1,25 @@
-DROP TABLE IF EXISTS fields;
+/* Store fields and field information for the sample editors */
 
-CREATE TABLE IF NOT EXISTS fields (
+DROP TABLE IF EXISTS `fields`;
 
-	handle				VARCHAR(100) NOT NULL PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS `fields` (
 
-	field_name		VARCHAR(200),
-	field_type		VARCHAR(100),
-	gisaid				TINYINT UNSIGNED,
-	ena						TINYINT UNSIGNED,
-	ncbi					TINYINT UNSIGNED,
-	
-	db_key				VARCHAR(100),
-	class					VARCHAR(100),
-	min_val				INT,
-	max_val				INT,
-	step					DECIMAL(5,3),
-	min_date			DATE,
-	max_date			DATE,
-
-	prefix				VARCHAR(100),
-
-	description		VARCHAR(2000),
-
-	edit_all			BIT(1) DEFAULT TRUE
+	handle VARCHAR(100) NOT NULL PRIMARY KEY,
+	field_name VARCHAR(200),
+	field_type VARCHAR(100),
+	gisaid TINYINT UNSIGNED,
+	ena TINYINT UNSIGNED,
+	ncbi TINYINT UNSIGNED,
+	db_key VARCHAR(100),
+	class VARCHAR(100),
+	min_val INT,
+	max_val INT,
+	step DECIMAL(5,3),
+	min_date DATE,
+	max_date DATE,
+	prefix VARCHAR(100),
+	description VARCHAR(2000),
+	edit_all BIT(1) DEFAULT TRUE
 
 );
 
