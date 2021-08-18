@@ -58,7 +58,7 @@ CREATE PROCEDURE create_basic_table(
 
 
 CREATE PROCEDURE create_basic_view(
-	IN view_name 	VARCHAR(100),
+	IN view_name VARCHAR(100),
 	IN table_name VARCHAR(100)
 )
 
@@ -82,9 +82,9 @@ CREATE PROCEDURE create_basic_view(
 
 
 CREATE PROCEDURE upsert_basic_table(
-	IN table_name 	VARCHAR(100),
-	IN label				VARCHAR(200),
-	IN indx					INT UNSIGNED
+	IN table_name VARCHAR(100),
+	IN label VARCHAR(200),
+	IN indx INT UNSIGNED
 )
 
 	BEGIN

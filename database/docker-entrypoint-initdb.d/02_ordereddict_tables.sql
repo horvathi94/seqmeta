@@ -68,7 +68,7 @@ CREATE PROCEDURE create_ordereddict_table(
 
 
 CREATE PROCEDURE create_ordereddict_view(
-	IN view_name 	VARCHAR(100),
+	IN view_name VARCHAR(100),
 	IN table_name VARCHAR(100)
 )
 
@@ -93,11 +93,11 @@ CREATE PROCEDURE create_ordereddict_view(
 
 
 CREATE PROCEDURE upsert_ordereddict_table(
-	IN table_name 	VARCHAR(100),
-	IN id						INT UNSIGNED,
-	IN item_key			VARCHAR(200),
-	IN item_value		VARCHAR(500),
-	IN indx					INT UNSIGNED 
+	IN table_name VARCHAR(100),
+	IN id INT UNSIGNED,
+	IN item_key VARCHAR(200),
+	IN item_value VARCHAR(500),
+	IN indx INT UNSIGNED 
 )
 
 	BEGIN
