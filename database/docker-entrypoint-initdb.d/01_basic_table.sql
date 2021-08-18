@@ -1,8 +1,11 @@
 /*  
 		
 								--- Basic table ---
-	
-Holds list type data.
+
+
+Good for storing a list of VARCHAR values.
+
+
 Table structure: | id | label | indx |
 Columns:
 	- id: 		INT UNSIGNED -> PRIMARY KEY
