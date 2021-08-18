@@ -1,3 +1,5 @@
+/* Information about the collection of the samples */
+
 CREATE TABLE IF NOT EXISTS `samples_collection` (
 
 	sample_id															INT UNSIGNED NOT NULL PRIMARY KEY,
