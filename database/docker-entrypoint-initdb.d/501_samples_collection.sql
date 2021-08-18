@@ -1,18 +1,19 @@
-/* Information about the collection of the samples */
+/* Information about the collection of the samples.
+ Is linked to the `samples` table trough the `sample_id` column. */
 
 CREATE TABLE IF NOT EXISTS `samples_collection` (
 
-	sample_id															INT UNSIGNED NOT NULL PRIMARY KEY,
-	collection_year												SMALLINT UNSIGNED,
-	collection_month											TINYINT UNSIGNED,
-	collection_day												TINYINT UNSIGNED,
-	collector_id													INT UNSIGNED,
-	collection_device_id									INT UNSIGNED,
-	originating_lab_id										INT UNSIGNED,
-	originating_lab_sample_name						CHAR(200),
-	submitting_lab_id											INT UNSIGNED,
-	submitting_lab_sample_name						CHAR(200),
-	author_group_id												INT UNSIGNED
+	sample_id INT UNSIGNED NOT NULL PRIMARY KEY,
+	collection_year SMALLINT UNSIGNED,
+	collection_month TINYINT UNSIGNED,
+	collection_day TINYINT UNSIGNED,
+	collector_id INT UNSIGNED,
+	collection_device_id INT UNSIGNED,
+	originating_lab_id INT UNSIGNED,
+	originating_lab_sample_name	VARCHAR(200),
+	submitting_lab_id INT UNSIGNED,
+	submitting_lab_sample_name VARCHAR(200),
+	author_group_id INT UNSIGNED
 
 );
 
