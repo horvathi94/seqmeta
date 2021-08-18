@@ -1,3 +1,7 @@
+/* Information about the treatment of the patient and prior infection.
+ Is linked to the `samples` table trough the `sample_id` column. */
+
+
 CREATE TABLE IF NOT EXISTS samples_patient_treatment (
 
 	sample_id																INT UNSIGNED NOT NULL PRIMARY KEY,
