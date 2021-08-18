@@ -1,5 +1,6 @@
-DROP PROCEDURE IF EXISTS `delete_sample`;
+/* Procedure for deleting samples */
 
+DROP PROCEDURE IF EXISTS `delete_sample`;
 
 DELIMITER $$
 
