@@ -83,6 +83,7 @@
 							 value="Edit"/>
 			</td>
 
+
 		</tr>
 
 	{% endfor %}
@@ -95,6 +96,11 @@
 				 class="edit multiple smbutton"
 				 formaction="{{ url_for("samples_bp.edit_multiple") }}"
 				 value="Edit selected"/>
+
+	<input type="submit"
+				class="delete multiple smbutton"
+				formaction="{{ url_for("samples_bp.validate_delete") }}"
+				value="Delete selected"/>
 
 
 	<div class="filegen wrap">

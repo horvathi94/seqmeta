@@ -10,8 +10,9 @@ CREATE OR REPLACE VIEW view_samples_details AS
 		")") AS gisaid_details,
 		samples.isolate AS isolate,
 	
+		location.location AS location,
 		CONCAT(location.location,
-			IF (location.geo_loc_latitude IS NULL OR location.geo_loc_longitude IS NULL, "",
+			IF (location.geo_loc_latitude = "" OR location.geo_loc_longitude = "", "",
 					CONCAT(" (", location.geo_loc_latitude, "DD, ", location.geo_loc_longitude, "DD)")
 				)
 			) AS location_details,

@@ -18,7 +18,7 @@ class Samples(DBInterface):
 
 
     @classmethod
-    def clean_entry(cls, entry):
+    def clean_entry(cls, entry: dict) -> dict:
         if "hospitalization" in entry:
             entry = HealthStatus.clean_entry(entry);
         if "patient_gender" in entry:
@@ -33,7 +33,8 @@ class Samples(DBInterface):
 
 
     @classmethod
-    def fetch_details(cls, sample_id):
+    def fetch_details(cls, sample_id: int) -> dict:
+        """Fetch sample details about sample with sample_id"""
         where = "WHERE `sample_id` = {:d}".format(sample_id);
         details = Cursor.select("view_samples_details", clauses=where);
         if len(details) != 1:
@@ -42,7 +43,8 @@ class Samples(DBInterface):
 
 
     @classmethod
-    def fetch_entries(cls, table_name, sample_ids=[]):
+    def fetch_entries(cls, table_name: str, sample_ids: list=[]):
+        """Fetch samples with ids in the sample_ids list."""
         if len(sample_ids) == 0:
             return [];
 
@@ -55,7 +57,7 @@ class Samples(DBInterface):
 
 
     @classmethod
-    def clean_submit(cls, submitted):
+    def clean_submit(cls, submitted: dict) -> dict:
         if "sample_id" in submitted:
             submitted["id"] = int(submitted["sample_id"]);
             del submitted["sample_id"];
@@ -80,8 +82,17 @@ class Samples(DBInterface):
 
 
     @classmethod
-    def fetch(cls, table_name, sample_id=0):
+    def fetch(cls, table_name: str, sample_id: int=0) -> dict:
+        """Fetch sample with sample_id from the database."""
         where_clause = "WHERE `sample_id` = {:d}".format(sample_id);
         entry, = Cursor.select(table_name, clauses=where_clause);
         entry = cls.clean_entry(entry);
         return entry;
+
+
+    @classmethod
+    def delete(cls, sample_id: int) -> None:
+        """Detele the sample with sample_id from the database."""
+        args = (sample_id,);
+        Cursor.call_procedure("delete_sample", args=args, commit=True);
+        return;

@@ -1,0 +1,31 @@
+{% if samples|length == 0 %}
+
+	<p><strong>No samples selected</strong></p>
+
+{% else %}
+
+	<form class="smbasicform" action="{{ url_for("samples_bp.delete_samples") }}" method="POST">
+
+
+	{% for sample in samples %}
+
+		<div>
+			<input type="checkbox" checked="checked" 
+						name="samples-to-delete" value="{{ sample.sample_id }}">
+			<label for="samples-to-delete">{{ sample.sample_name }}</label>
+			<p>{{ sample.sample_comment }}</p>
+			<p><strong>Collection date:</strong> {{ sample.collection_date }}</p>
+			<p><strong>Location:</strong> {{ sample.location }}</p>
+			<hr>
+			
+		</div>
+
+	{% endfor %}
+
+
+		<input type="submit" class="smbutton" value="Confirm delete"/>
+
+	</form>
+
+
+{% endif %}

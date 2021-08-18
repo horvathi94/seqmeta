@@ -30,6 +30,7 @@ def show():
     styles = [{"filename":"prompt.css"},
               {"filename": "samples.css", "prefix":"samples"}];
     scripts = [{"filename": "details.js", "prefix":"samples"},
+               {"filename": "delete-sample.js", "prefix": "samples"},
                {"filename": "submitguide.js", "prefix": "samples"}];
     samples_list = Samples.fetch_list();
     for sample in samples_list:
@@ -298,4 +299,31 @@ def edit_multiple():
     html+= render_template("footer.html", scripts=scripts);
     return html;
 
+
+
+@samples_bp.route("/samples/validate-delete", methods=["POST"])
+def validate_delete():
+
+    styles = [{"filename":"smbasicform.css"}];
+
+    selected = [int(i) for i in request.form.getlist("selected-samples")];
+    samples = Samples.fetch_entries("view_samples_details",
+                                    sample_ids=selected);
+
+    html = "";
+    html+= render_template("head.html", styles=styles);
+    html+= render_template("samples/validate_delete.html",
+                           samples=samples);
+    html+= render_template("footer.html");
+    return html;
+
+
+@samples_bp.route("/samples/delete", methods=["POST"])
+def delete_samples():
+
+    selected = [int(i) for i in request.form.getlist("samples-to-delete")];
+    for sample_id in selected:
+        Samples.delete(sample_id);
+
+    return redirect(url_for('samples_bp.show'));
 
