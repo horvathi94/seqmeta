@@ -1,19 +1,22 @@
+/* Information about the health status of the patient.
+ Is linked to the `samples` table trough the `sample_id` column. */
+
 CREATE TABLE IF NOT EXISTS `samples_health_status` (
 
-	sample_id																INT UNSIGNED NOT NULL PRIMARY KEY,
-	subject_exposure												VARCHAR(600),
-	subject_exposure_duration								VARCHAR(600),
-	type_exposure														VARCHAR(600),
-	hospitalization													BIT(1),
-	ilness_duration													SMALLINT UNSIGNED,
-	ilness_symptoms													VARCHAR(600),
-	host_disease_outcome_id									TINYINT UNSIGNED,
-	host_health_state_id										TINYINT UNSIGNED,
-	outbreak																VARCHAR(200),
-	sars_cov_2_diag_gene_name_1_id					TINYINT UNSIGNED,
-	sars_cov_2_diag_pcr_ct_value_1					TINYINT UNSIGNED,
-	sars_cov_2_diag_gene_name_2_id					TINYINT UNSIGNED,
-	sars_cov_2_diag_pcr_ct_value_2					TINYINT UNSIGNED
+	sample_id INT UNSIGNED NOT NULL PRIMARY KEY,
+	subject_exposure VARCHAR(600),
+	subject_exposure_duration VARCHAR(600),
+	type_exposure VARCHAR(600),
+	hospitalization BIT(1),
+	ilness_duration SMALLINT UNSIGNED,
+	ilness_symptoms VARCHAR(600),
+	host_disease_outcome_id TINYINT UNSIGNED,
+	host_health_state_id TINYINT UNSIGNED,
+	outbreak VARCHAR(200),
+	sars_cov_2_diag_gene_name_1_id TINYINT UNSIGNED,
+	sars_cov_2_diag_pcr_ct_value_1 TINYINT UNSIGNED,
+	sars_cov_2_diag_gene_name_2_id TINYINT UNSIGNED,
+	sars_cov_2_diag_pcr_ct_value_2 TINYINT UNSIGNED
 
 );
 
