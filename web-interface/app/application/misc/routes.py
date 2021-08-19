@@ -18,6 +18,7 @@ from .pages.descriptions import LibraryDescription
 from .pages.workflows import WorkflowBasic, \
     WorkflowGISAID, WorkflowENA, WorkflowNCBI
 from .pages.misc_editor import MiscEditor
+from .pages import basic_options as bopt
 
 
 misc_bp = Blueprint("misc_bp", __name__,
@@ -47,11 +48,13 @@ def submit_virusname():
     return redirect(url_for("misc_bp.edit"));
 
 
+
 @misc_bp.route("/misc/submit/isolate-ena", methods=["POST"])
 def submit_isolate_ena():
     virusname = request.form.to_dict()["virusname"];
     IsolateEna.call_save_procedure(virusname);
     return redirect(url_for("misc_bp.edit"));
+
 
 
 @misc_bp.route("/misc/submit/hosts", methods=["POST"])
@@ -61,11 +64,15 @@ def submit_hosts():
     return redirect(url_for("misc_bp.edit"));
 
 
+
 @misc_bp.route("/misc/submit/specimen-sources", methods=["POST"])
 def submit_specimen_sources():
-    parsed = Form.parse_list(request.form, "specimen_sources")[1:];
-    misc.SpecimenSources.save_by_procedure(parsed);
-    return redirect(url_for("misc_bp.edit"));
+    return bopt.SpecimenSourcesEditor.parse_and_save(request.form);
+
+#    parsed = Form.parse_list(request.form, "specimen_sources")[1:];
+#    misc.SpecimenSources.save_by_procedure(parsed);
+#    return redirect(url_for("misc_bp.edit"));
+
 
 
 @misc_bp.route("/misc/submit/assembly-methods", methods=["POST"])
@@ -75,11 +82,13 @@ def submit_assembly_methods():
     return redirect(url_for("misc_bp.edit"));
 
 
+
 @misc_bp.route("/misc/submit/sampling-strategies", methods=["POST"])
 def submit_sampling_strategies():
     parsed = Form.parse_list(request.form, "sampling_strategies")[1:];
     misc.SamplingStrategies.save_by_procedure(parsed);
     return redirect(url_for("misc_bp.edit"));
+
 
 
 @misc_bp.route("/misc/submit/collection-devices", methods=["POST"])
@@ -89,11 +98,13 @@ def submit_collection_devices():
     return redirect(url_for("misc_bp.edit"));
 
 
+
 @misc_bp.route("/misc/submit/host-anatomical-materials", methods=["POST"])
 def submit_host_anatomical_materials():
     parsed = Form.parse_list(request.form, "host_anatomical_materials")[1:];
     misc.HostAnatomicalMaterials.save_by_procedure(parsed);
     return redirect(url_for("misc_bp.edit"));
+
 
 
 @misc_bp.route("/misc/submit/host-body-products", methods=["POST"])
@@ -103,11 +114,13 @@ def submit_host_body_products():
     return redirect(url_for("misc_bp.edit"));
 
 
+
 @misc_bp.route("/misc/submit/purposes-of-sampling", methods=["POST"])
 def submit_purpose_of_sampling():
     parsed = Form.parse_list(request.form, "purpose_of_sampling")[1:];
     misc.PurposesOfSampling.save_by_procedure(parsed);
     return redirect(url_for("misc_bp.edit"));
+
 
 
 @misc_bp.route("/misc/submit/purposes-of-sequencing", methods=["POST"])
