@@ -1,12 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
-from application.src.samples.nametemplates.virusname_gisaid import \
-    VirusnameGisaid
-from application.src.samples.nametemplates.isolate_ena import \
-    IsolateEna
-from application.src.defaults import DefaultValues
-from application.src.defaults import DefaultValues
-
-
+from flask import Blueprint, request
 from .pages.descriptions import LibraryDescription
 from .pages.workflows import WorkflowBasic, \
     WorkflowGISAID, WorkflowENA, WorkflowNCBI
