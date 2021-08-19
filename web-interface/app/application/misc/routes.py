@@ -3,13 +3,8 @@ from application.src.samples.nametemplates.virusname_gisaid import \
     VirusnameGisaid
 from application.src.samples.nametemplates.isolate_ena import \
     IsolateEna
-from application.src.forms.form import Form
-from application.src import misc
 from application.src.defaults import DefaultValues
-from application.src.institutions import Institutions
-from application.src.authors import AuthorGroups
 from .editors import defaults
-from application.src.fields import Field
 from application.src.defaults import DefaultValues
 
 
