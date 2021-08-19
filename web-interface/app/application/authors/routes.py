@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, request, redirect, url_for
 from .pages.display import DisplayPage
 from .pages.editor import EditorPage
 from application.src.authors import Authors

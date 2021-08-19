@@ -5,7 +5,7 @@ from application.src.authors import Authors
 
 class EditorPage(EditorBase):
 
-    styles=[{"filename": "smbasicform.css"}];
+    styles = [{"filename": "smbasicform.css"}];
 
 
     @classmethod

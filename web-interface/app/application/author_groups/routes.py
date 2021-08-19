@@ -1,5 +1,5 @@
-from flask import current_app as app
 from flask import Blueprint, render_template, request, redirect, url_for
+from .pages.display import DisplayPage
 from application.src.authors import Authors, AuthorGroups
 from application.src.forms.form import Form
 
@@ -10,23 +10,13 @@ author_groups_bp = Blueprint("author_groups_bp", __name__,
                                static_url_path="/static/author-groups/");
 
 
-description = """Create author groups from registered authors. These groups
- will appear in author enumeration fields.""";
-
 
 @author_groups_bp.route("/author-groups/view")
 def show():
-    groups_list = AuthorGroups.fetch_list();
-    html = render_template("head.html");
-    if len(groups_list) == 0:
-        html+= render_template("empty_list.html",
-                               name_plural="author groups",
-                               link="author_groups_bp.edit",
-                               description=description);
-    else:
-        html+= render_template("author_groups/list.html", groups=groups_list);
-    html+= render_template("footer.html");
-    return html;
+    """Main page for author groups."""
+
+    return DisplayPage.show();
+
 
 
 @author_groups_bp.route("/author-groups/edit")
