@@ -1,9 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify
-from application.src.library import LibraryStrategies, \
-    LibrarySelections, \
-    LibrarySources
-from application.src.samples.extensions.library import Library,\
-    LIBRARY_LAYOUTS
+from flask import Blueprint, render_template, request, redirect, url_for
 from application.src.samples.nametemplates.virusname_gisaid import \
     VirusnameGisaid
 from application.src.samples.nametemplates.isolate_ena import \
@@ -22,6 +17,7 @@ from application.src.defaults import DefaultValues
 from .pages.descriptions import LibraryDescription
 from .pages.workflows import WorkflowBasic, \
     WorkflowGISAID, WorkflowENA, WorkflowNCBI
+from .pages.misc_editor import MiscEditor
 
 
 misc_bp = Blueprint("misc_bp", __name__,
@@ -30,61 +26,18 @@ misc_bp = Blueprint("misc_bp", __name__,
                     static_url_path="/static/misc/");
 
 
+
 @misc_bp.route("/descriptions/library")
 def descript_library():
     return LibraryDescription.show();
 
 
 
-from .pages.misc_editor import Editor
-
-
 @misc_bp.route("/misc/edit")
 def edit():
+    """Editor for misc values."""
+    return MiscEditor.show();
 
-    return Editor.show();
-
-    styles = [{"filename": "info.css"},
-              {"filename": "misc.css", "prefix": "misc"}];
-    scripts = [{"filename": "add_hosts.js", "prefix":"misc"}];
-
-    html = render_template("head.html", styles=styles);
-
-    html+= render_template("misc/hosts.html",
-                           hosts=misc.Hosts.fetch_list());
-    html+= render_template("misc/basic_options.html",
-                           info=basic_editors.ASSEMBLY_METHODS,
-                           vals=misc.AssemblyMethods.fetch_list());
-    html+= render_template("misc/basic_options.html",
-                           info=basic_editors.SAMPLING_STRATEGIES,
-                           vals=misc.SamplingStrategies.fetch_list());
-    html+= render_template("misc/basic_options.html",
-                           info=basic_editors.SPECIMEN_SOURCES,
-                           vals=misc.SpecimenSources.fetch_list());
-    html+= render_template("misc/basic_options.html",
-                           info=basic_editors.COLLECTION_DEVICES,
-                           vals=misc.CollectionDevices.fetch_list());
-    html+= render_template("misc/basic_options.html",
-                           info=basic_editors.HOST_ANATOMICAL_MATERIALS,
-                           vals=misc.HostAnatomicalMaterials.fetch_list());
-    html+= render_template("misc/basic_options.html",
-                           info=basic_editors.HOST_BODY_PRODUCTS,
-                           vals=misc.HostBodyProducts.fetch_list());
-    html+= render_template("misc/basic_options.html",
-                           info=basic_editors.PURPOSE_OF_SAMPLING,
-                           vals=misc.PurposesOfSampling.fetch_list());
-    html+= render_template("misc/basic_options.html",
-                           info=basic_editors.PURPOSE_OF_SEQUENCING,
-                           vals=misc.PurposesOfSequencing.fetch_list());
-
-    html+= render_template("misc/virusname.html",
-                virusname_format=VirusnameGisaid.fetch_format_string(),
-                available_db_keys=VirusnameGisaid.available_db_keys());
-    html+= render_template("misc/isolate_ena.html",
-                virusname_format=IsolateEna.fetch_format_string(),
-                available_db_keys=IsolateEna.available_db_keys());
-    html+= render_template("footer.html", scripts=scripts);
-    return html;
 
 
 @misc_bp.route("/misc/submit/virusname", methods=["POST"])
