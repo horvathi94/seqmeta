@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, request, redirect, url_for
 from .pages.display import DisplayPage
-from application.src.authors import Authors, AuthorGroups
+from .pages.editor import EditorPage
+from application.src.authors import AuthorGroups
 from application.src.forms.form import Form
 
 
@@ -21,22 +22,17 @@ def show():
 
 @author_groups_bp.route("/author-groups/edit")
 def edit():
-    scripts = [{"filename":"edit.js", "prefix":"author-groups"}];
-    styles = [{"filename": "group-editor.css", "prefix": "author-groups"},
-              {"filename": "smbasicform.css"}];
+    """Editor page for author groups."""
+
     group_id = int(request.args["id"]) if "id" in request.args else 0;
-    group = AuthorGroups.fetch_entry_edit(group_id=group_id);
-    authors_list = Authors.fetch_list();
-    html = render_template("head.html", styles=styles);
-    html+= render_template("author_groups/edit.html",
-                           group=group,
-                           authors_list=authors_list);
-    html+= render_template("footer.html",
-                           scripts=scripts);
-    return html;
+    return EditorPage.show(group_id);
+
+
 
 @author_groups_bp.route("/author-groups/submit", methods=["POST"])
 def submit():
+    """Handle author group data submitted from the edior."""
+
     form_data = request.form.to_dict();
     authors_list = Form.parse_list(form_data, "author")[1:];
     group = Form.parse_simple(form_data, "group");

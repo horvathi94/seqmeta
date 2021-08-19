@@ -21,5 +21,5 @@ class EditorBase:
 
         html = render_template("head.html", styles=cls.styles);
         html+= cls.render_editor(item_id);
-        html+= render_template("footer.html");
+        html+= render_template("footer.html", scripts=cls.scripts);
         return html;

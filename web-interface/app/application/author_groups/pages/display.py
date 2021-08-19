@@ -1,6 +1,6 @@
 from flask import render_template
 from application.src.pages.display import DisplayBase
-from application.src.authors import Authors
+from application.src.authors import Authors, AuthorGroups
 
 
 class DisplayPage(DisplayBase):
