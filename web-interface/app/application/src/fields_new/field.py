@@ -1,29 +1,11 @@
 from dataclasses import dataclass, field as dfield
-from enum import Enum
+from . import requirements as rqs
+from .sample_fields import SampleFields
 from application.src.db.cursor import Cursor
 
 
 
 import sys
-
-class RequirementLevels(Enum):
-
-    optional = 1;
-    recommended = 2;
-    mandatory = 3;
-
-class RequirementRepos(Enum):
-
-    GIASID = "gisaid";
-    ENA = "ena";
-    NCBI = "ncbi";
-
-
-@dataclass
-class Requirement:
-
-    repo: str = "";
-    level: str = "";
 
 
 
@@ -40,16 +22,6 @@ class Input:
     min_val: int = 0;
     max_val: int = 0;
 
-
-@dataclass
-class SampleFields(Enum):
-
-    """Mapping of field handles form the database to custom Enum class."""
-
-    NONE = "";
-    SAMPLE_NAME = "sample_name";
-    COLLECTOR_NAME = "collector_name";
-#    collector_name = 2;
 
 
 @dataclass
@@ -83,10 +55,11 @@ class DBField:
     @classmethod
     def parse_requirements(cls, raw: dict) -> list:
         requirements = [];
-        for repo in RequirementRepos:
+        for repo in rqs.RequirementRepos:
             rlevel = raw[repo.value];
             if rlevel is None: continue;
-            req = Requirement(repo.value, RequirementLevels(rlevel).value);
+            req = rqs.Requirement(repo.value,
+                                  rqs.RequirementLevels(rlevel).value);
             requirements.append(req);
         return requirements;
 

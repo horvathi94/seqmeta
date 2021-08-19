@@ -5,7 +5,8 @@ from .editor_fields import EDITOR_FIELDS
 
 
 from flask import jsonify
-from application.src.fields_new.field import DBField, SampleFields
+from application.src.fields_new.field import DBField
+from application.src.fields_new.sample_fields import SampleFields
 
 
 class Editor(EditorBase):
@@ -18,15 +19,15 @@ class Editor(EditorBase):
 
 
     @classmethod
-    def render_field(cls) -> "HTML":
+    def render_field(cls, field: SampleFields) -> "HTML":
         pass;
 
 
     @classmethod
     def render_fields(cls) -> "HTML":
         html = "";
-        for field in EDITOR_FIELDS:
-            html+= render_field(field);
+        for field in SampleFields:
+            html+= cls.render_field(field);
         return html;
 
 
