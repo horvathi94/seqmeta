@@ -1,4 +1,4 @@
-from flask import send_file
+from flask import send_file, redirect, url_for
 from application.src.metatemplates.gisaid.main import GisaidMeta
 from application.src.metatemplates.ena.main import EnaMeta
 from application.src.metatemplates.ncbi.main import NcbiMeta
@@ -28,7 +28,7 @@ class GeneratorBase:
     @classmethod
     def send_file(cls, selected: list) -> "flask.send_file":
         """Returns flask.send_file of zipped data."""
-        if len(selected) == 0: return;
+        if len(selected) == 0: return redirect(url_for("samples_bp.show"));
         cls.write_zip(selected);
         return send_file(cls.get_zip(),
                          attachment_filename=cls.get_attachment_name());
