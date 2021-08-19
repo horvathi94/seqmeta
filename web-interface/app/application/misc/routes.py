@@ -10,7 +10,6 @@ from application.src.institutions import Institutions
 from application.src.authors import AuthorGroups
 from .editors import defaults
 from application.src.fields import Field
-from . import basic_editors
 from application.src.defaults import DefaultValues
 
 
@@ -41,6 +40,58 @@ def edit():
 
 
 
+@misc_bp.route("/misc/submit/hosts", methods=["POST"])
+def submit_hosts():
+    return bopt.HostsEditor.parse_and_save(request.form);
+
+
+@misc_bp.route("/misc/submit/assembly-methods", methods=["POST"])
+def submit_assembly_methods():
+    return bopt.AssemblyMethodsEditor.parse_and_save(request.form);
+
+
+@misc_bp.route("/misc/submit/sampling-strategies", methods=["POST"])
+def submit_sampling_strategies():
+    return bopt.SamplingStrategies.save_by_procedure(request.form);
+
+
+@misc_bp.route("/misc/submit/specimen-sources", methods=["POST"])
+def submit_specimen_sources():
+    return bopt.SpecimenSourcesEditor.parse_and_save(request.form);
+
+
+@misc_bp.route("/misc/submit/collection-devices", methods=["POST"])
+def submit_collection_devices():
+    return bopt.CollectionDevicesEditor.parse_and_save(request.form);
+
+
+@misc_bp.route("/misc/submit/host-anatomical-materials", methods=["POST"])
+def submit_host_anatomical_materials():
+    return bopt.HostAnatomicalMaterialsEditor.parse_and_save(request.form);
+
+
+@misc_bp.route("/misc/submit/host-body-products", methods=["POST"])
+def submit_host_body_products():
+    return bopt.HostBodyProductsEditor.parse_and_save(request.form);
+
+
+@misc_bp.route("/misc/submit/purposes-of-sampling", methods=["POST"])
+def submit_purpose_of_sampling():
+    return bopt.PurposesOfSamplingEditor.parse_and_save(request.form);
+
+
+@misc_bp.route("/misc/submit/purposes-of-sequencing", methods=["POST"])
+def submit_purpose_of_sequencing():
+    return bopt.PurposesOfSequencingEditor.parse_and_save(request.form);
+
+
+
+
+
+
+
+
+
 @misc_bp.route("/misc/submit/virusname", methods=["POST"])
 def submit_virusname():
     virusname = request.form.to_dict()["virusname"];
@@ -57,77 +108,11 @@ def submit_isolate_ena():
 
 
 
-@misc_bp.route("/misc/submit/hosts", methods=["POST"])
-def submit_hosts():
-    parsed = Form.parse_list(request.form, "hosts")[1:];
-    misc.Hosts.save_by_procedure(parsed);
-    return redirect(url_for("misc_bp.edit"));
 
 
 
-@misc_bp.route("/misc/submit/specimen-sources", methods=["POST"])
-def submit_specimen_sources():
-    return bopt.SpecimenSourcesEditor.parse_and_save(request.form);
-
-#    parsed = Form.parse_list(request.form, "specimen_sources")[1:];
-#    misc.SpecimenSources.save_by_procedure(parsed);
-#    return redirect(url_for("misc_bp.edit"));
 
 
-
-@misc_bp.route("/misc/submit/assembly-methods", methods=["POST"])
-def submit_assembly_methods():
-    parsed = Form.parse_list(request.form, "assembly_methods")[1:];
-    misc.AssemblyMethods.save_by_procedure(parsed);
-    return redirect(url_for("misc_bp.edit"));
-
-
-
-@misc_bp.route("/misc/submit/sampling-strategies", methods=["POST"])
-def submit_sampling_strategies():
-    parsed = Form.parse_list(request.form, "sampling_strategies")[1:];
-    misc.SamplingStrategies.save_by_procedure(parsed);
-    return redirect(url_for("misc_bp.edit"));
-
-
-
-@misc_bp.route("/misc/submit/collection-devices", methods=["POST"])
-def submit_collection_devices():
-    parsed = Form.parse_list(request.form, "collection_devices")[1:];
-    misc.CollectionDevices.save_by_procedure(parsed);
-    return redirect(url_for("misc_bp.edit"));
-
-
-
-@misc_bp.route("/misc/submit/host-anatomical-materials", methods=["POST"])
-def submit_host_anatomical_materials():
-    parsed = Form.parse_list(request.form, "host_anatomical_materials")[1:];
-    misc.HostAnatomicalMaterials.save_by_procedure(parsed);
-    return redirect(url_for("misc_bp.edit"));
-
-
-
-@misc_bp.route("/misc/submit/host-body-products", methods=["POST"])
-def submit_host_body_products():
-    parsed = Form.parse_list(request.form, "host_body_products")[1:];
-    misc.HostBodyProducts.save_by_procedure(parsed);
-    return redirect(url_for("misc_bp.edit"));
-
-
-
-@misc_bp.route("/misc/submit/purposes-of-sampling", methods=["POST"])
-def submit_purpose_of_sampling():
-    parsed = Form.parse_list(request.form, "purpose_of_sampling")[1:];
-    misc.PurposesOfSampling.save_by_procedure(parsed);
-    return redirect(url_for("misc_bp.edit"));
-
-
-
-@misc_bp.route("/misc/submit/purposes-of-sequencing", methods=["POST"])
-def submit_purpose_of_sequencing():
-    parsed = Form.parse_list(request.form, "purpose_of_sequencing")[1:];
-    misc.PurposesOfSequencing.save_by_procedure(parsed);
-    return redirect(url_for("misc_bp.edit"));
 
 
 @misc_bp.route("/default-values")
