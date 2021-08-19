@@ -145,6 +145,9 @@ def samples_view_import():
 
 
 
+@samples_bp.route("/samples/generate", methods=["POST"])
+def generate():
+    return generators.GeneratorBase.render([]);
 
 
 @samples_bp.route("/samples/generate/gisaid", methods=["POST"])
