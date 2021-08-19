@@ -24,31 +24,13 @@ samples_bp = Blueprint("samples_bp", __name__,
                        static_url_path="/static/samples/");
 
 
+from .pages.display import DisplayPage
+from .pages import views
+
 
 @samples_bp.route("/samples/view")
 def show():
-    styles = [{"filename":"prompt.css"},
-              {"filename": "samples.css", "prefix":"samples"}];
-    scripts = [{"filename": "details.js", "prefix":"samples"},
-               {"filename": "delete-sample.js", "prefix": "samples"},
-               {"filename": "submitguide.js", "prefix": "samples"}];
-    samples_list = Samples.fetch_list();
-    for sample in samples_list:
-        seqbunch = SeqFilesBunch(sample["sample_id"]);
-        sample["seqfiles"] = seqbunch.todict();
-    html = render_template("head.html", styles=styles);
-    if len(samples_list) == 0:
-        html+= render_template("empty_list.html",
-                               name_plural="samples",
-                               link="samples_bp.edit");
-        html+= render_template("samples/add_multiple_button.html");
-    else:
-        html+= render_template("samples/list.html", samples=samples_list);
-
-    html+= render_template("footer.html", scripts=scripts);
-    return html;
-
-
+    return DisplayPage.show();
 
 
 @samples_bp.route("/samples/submit", methods=["POST"])
@@ -151,25 +133,27 @@ def submit_edit_multiple():
     return redirect(url_for('samples_bp.show'));
 
 
-@samples_bp.route("/samples/details")
-def sample_details():
-    sample_id = int(request.args["id"]) if "id" in request.args else 0;
-    sample_details = Samples.fetch_details(sample_id=sample_id);
-    return jsonify(sample_details);
 
 
 @samples_bp.route("/samples/view/base")
 def samples_view_base():
     sample_id = int(request.args["id"]) if "id" in request.args else 0;
-    sample_details = Samples.fetch("view_samples_base", sample_id=sample_id);
-    return jsonify(sample_details);
+    return views.BasicView.get_json(sample_id);
+
+
+@samples_bp.route("/samples/details")
+def sample_details():
+    sample_id = int(request.args["id"]) if "id" in request.args else 0;
+    return views.DetailsView.get_json(sample_id);
 
 
 @samples_bp.route("/samples/view/import")
 def samples_view_import():
     sample_id = int(request.args["id"]) if "id" in request.args else 0;
-    sample_details = Samples.fetch("view_samples_import", sample_id=sample_id);
-    return jsonify(sample_details);
+    return views.ImportView.get_json(sample_id);
+
+
+
 
 
 @samples_bp.route("/samples/generate")
@@ -177,37 +161,26 @@ def generate():
     return "Generate"
 
 
+from .pages import generators
+
 
 @samples_bp.route("/samples/generate/gisaid", methods=["POST"])
 def gen_gisaid_meta():
     selected = [int(i) for i in request.form.getlist("selected-samples")];
-    if len(selected) == 0:
-        return "Nothing selected";
-    GisaidMeta.write_zip(selected);
-    filename = GisaidMeta.get_attachment_filename();
-    zip_file = GisaidMeta.get_tempfile();
-    return send_file(zip_file, attachment_filename=filename);
+    return generators.Gisaid.send_file(selected);
 
 
 @samples_bp.route("/samples/generate/ncbi", methods=["POST"])
 def gen_ncbi_meta():
     selected = [int(i) for i in request.form.getlist("selected-samples")];
-    if len(selected) == 0:
-        return "Nothing selected";
-    NcbiMeta.write_zip(selected);
-    filename = NcbiMeta.get_attachment_filename();
-    zip_file = NcbiMeta.get_tempfile();
-    return send_file(zip_file, attachment_filename=filename);
+    return generators.Ncbi.send_file(selected);
 
 
 @samples_bp.route("/samples/generate/ena", methods=["POST"])
 def gen_ena_meta():
     selected = [int(i) for i in request.form.getlist("selected-samples")];
-    if len(selected) == 0: return "Nothing selected";
-    EnaMeta.write_zip(selected);
-    ena_zip = EnaMeta.get_tempfile();
-    filename = EnaMeta.get_attachment_filename();
-    return send_file(ena_zip, attachment_filename=filename);
+    return generators.Ena.send_file(selected);
+
 
 
 @samples_bp.route("/samples/generate/concat-assemblies", methods=["POST"])
