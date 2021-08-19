@@ -1,20 +1,10 @@
-import os
-from datetime import datetime
 from flask import Blueprint, render_template, request, redirect, url_for, \
-    jsonify, send_file, Response
+    jsonify
+from application.src.samples.extensions.library import Library
 from application.src.samples.samples import Samples
 from application.src.forms.form import Form
-from application.src.metatemplates.gisaid.main import GisaidMeta
-from application.src.metatemplates.ena.main import EnaMeta
-from application.src.metatemplates.ncbi.main import NcbiMeta
-from application.src.seqfiles.db import SeqFileTypes, SeqFile
-from application.src.seqfiles.seqfiles import SeqFilesBunch
-from application.src.samples.extensions.library import Library
 from .save import save
-from application.src.defaults import DefaultValues
 from .editor import Editor, MultiEditor
-from .editor_fields import FIELDS_LIST
-from application.src.fields import Field
 
 
 
