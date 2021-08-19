@@ -4,7 +4,6 @@ from application.src.samples.nametemplates.virusname_gisaid import \
 from application.src.samples.nametemplates.isolate_ena import \
     IsolateEna
 from application.src.defaults import DefaultValues
-from .editors import defaults
 from application.src.defaults import DefaultValues
 
 
@@ -13,6 +12,8 @@ from .pages.workflows import WorkflowBasic, \
     WorkflowGISAID, WorkflowENA, WorkflowNCBI
 from .pages.misc_editor import MiscEditor
 from .pages import basic_options as bopt
+from .pages import virusname_templates as vnt
+from .pages.defaults import DefaultsEditor
 
 
 misc_bp = Blueprint("misc_bp", __name__,
@@ -81,49 +82,28 @@ def submit_purpose_of_sequencing():
 
 
 
-
-
-
-
-
-
 @misc_bp.route("/misc/submit/virusname", methods=["POST"])
 def submit_virusname():
     virusname = request.form.to_dict()["virusname"];
-    VirusnameGisaid.call_save_procedure(virusname);
-    return redirect(url_for("misc_bp.edit"));
-
+    return vnt.GisaidVirusnameEditor.save_and_redirect(virusname);
 
 
 @misc_bp.route("/misc/submit/isolate-ena", methods=["POST"])
 def submit_isolate_ena():
     virusname = request.form.to_dict()["virusname"];
-    IsolateEna.call_save_procedure(virusname);
-    return redirect(url_for("misc_bp.edit"));
-
-
-
-
-
-
+    return vnt.EnaVirusnameEditor.save_and_redirect(virusname);
 
 
 
 
 @misc_bp.route("/default-values")
 def edit_default_values():
-    styles = [{"filename": "markers.css"}];
-    html = render_template("head.html", styles=styles);
-    html+= defaults.Editor.show();
-    html+= render_template("footer.html");
-    return html;
+    return DefaultsEditor.show();
 
 
 @misc_bp.route("/default-values/submit", methods=["POST"])
 def submit_default_values():
-    DefaultValues.save(request.form.to_dict());
-    return redirect(url_for("misc_bp.edit_default_values"));
-
+    return DefaultsEditor.save(request.form);
 
 
 

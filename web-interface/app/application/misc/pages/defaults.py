@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, redirect, url_for
 from application.src.defaults import DefaultValues
 from application.src.fields import Field
 from application.src.editor.dlist import get_dlist
@@ -50,11 +50,13 @@ FIELDS = [
     ];
 
 
-class Editor:
+class DefaultsEditor:
+
+    styles = [{"filename": "markers.css"}];
 
 
     @classmethod
-    def field(cls, handle):
+    def field(cls, handle) -> "HTML":
         dlist = get_dlist(handle);
         field = Field.fetch(handle);
         field["input"]["value"] = DefaultValues.fetch()[field["db_key"]];
@@ -63,9 +65,17 @@ class Editor:
 
 
     @classmethod
-    def show(cls):
-        html = render_template("defaults/head.html");
+    def show(cls) -> "HTML":
+        html = render_template("head.html", styles=cls.styles);
+        html+= render_template("defaults/head.html");
         for handle in FIELDS:
             html+= cls.field(handle);
         html+= render_template("defaults/tail.html");
+        html+= render_template("footer.html");
         return html;
+
+
+    @classmethod
+    def save(cls, submitted: "request.form") -> "flask.redirect":
+        DefaultValues.save(submitted.to_dict());
+        return redirect(url_for("misc_bp.edit_default_values"));
