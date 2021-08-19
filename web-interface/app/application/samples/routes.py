@@ -144,7 +144,6 @@ def samples_view_import():
     return views.ImportView.get_json(sample_id);
 
 
-
 @samples_bp.route("/samples/generate", methods=["POST"])
 def generate():
     return generators.GeneratorBase.render([]);
@@ -278,4 +277,11 @@ def delete_samples():
         Samples.delete(sample_id);
 
     return redirect(url_for('samples_bp.show'));
+
+
+from .pages.editor import Editor as TestEditor
+@samples_bp.route("/tester")
+def tester():
+    return TestEditor.test();
+
 
