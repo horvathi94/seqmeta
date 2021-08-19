@@ -18,6 +18,12 @@ from application.src.fields import Field
 from . import basic_editors
 from application.src.defaults import DefaultValues
 
+
+from .pages.descriptions import LibraryDescription
+from .pages.workflows import WorkflowBasic, \
+    WorkflowGISAID, WorkflowENA, WorkflowNCBI
+
+
 misc_bp = Blueprint("misc_bp", __name__,
                     template_folder="templates",
                     static_folder="static",
@@ -26,18 +32,17 @@ misc_bp = Blueprint("misc_bp", __name__,
 
 @misc_bp.route("/descriptions/library")
 def descript_library():
-    styles=[{"filename":"library.css", "prefix":"misc"}];
-    html = render_template("head.html", styles=styles);
-    html+= render_template("descriptions/library.html",
-                           lib_strategies=LibraryStrategies.fetch_list(),
-                           lib_sources=LibrarySources.fetch_list(),
-                           lib_selections=LibrarySelections.fetch_list());
-    html+= render_template("footer.html");
-    return html;
+    return LibraryDescription.show();
+
+
+
+from .pages.misc_editor import Editor
 
 
 @misc_bp.route("/misc/edit")
 def edit():
+
+    return Editor.show();
 
     styles = [{"filename": "info.css"},
               {"filename": "misc.css", "prefix": "misc"}];
@@ -174,33 +179,24 @@ def submit_default_values():
     return redirect(url_for("misc_bp.edit_default_values"));
 
 
+
+
 @misc_bp.route("/workflows/basic")
 def workflow_basic():
-    html = render_template("head.html");
-    html+= render_template("workflow/basic.html");
-    html+= render_template("footer.html");
-    return html;
+    return WorkflowBasic.show();
+
 
 
 @misc_bp.route("/workflows/gisaid")
 def workflow_gisaid():
-    html = render_template("head.html");
-    html+= render_template("workflow/gisaid.html");
-    html+= render_template("footer.html");
-    return html
+    return WorkflowGISAID.show();
 
 
 @misc_bp.route("/workflows/ena")
 def workflow_ena():
-    html = render_template("head.html");
-    html+= render_template("workflow/ena.html");
-    html+= render_template("footer.html");
-    return html;
+    return WorkflowENA.show();
 
 
 @misc_bp.route("/workflows/ncbi")
 def workflow_ncbi():
-    html = render_template("head.html");
-    html+= render_template("workflow/ncbi.html");
-    html+= render_template("footer.html");
-    return html;
+    return WorkflowNCBI.show();
