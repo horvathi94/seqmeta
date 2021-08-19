@@ -26,6 +26,7 @@ samples_bp = Blueprint("samples_bp", __name__,
 
 from .pages.display import DisplayPage
 from .pages import views
+from .pages import generators
 
 
 @samples_bp.route("/samples/view")
@@ -156,42 +157,28 @@ def samples_view_import():
 
 
 
-@samples_bp.route("/samples/generate")
-def generate():
-    return "Generate"
-
-
-from .pages import generators
-
-
 @samples_bp.route("/samples/generate/gisaid", methods=["POST"])
 def gen_gisaid_meta():
     selected = [int(i) for i in request.form.getlist("selected-samples")];
-    return generators.Gisaid.send_file(selected);
+    return generators.Gisaid.render(selected);
 
 
 @samples_bp.route("/samples/generate/ncbi", methods=["POST"])
 def gen_ncbi_meta():
     selected = [int(i) for i in request.form.getlist("selected-samples")];
-    return generators.Ncbi.send_file(selected);
+    return generators.Ncbi.render(selected);
 
 
 @samples_bp.route("/samples/generate/ena", methods=["POST"])
 def gen_ena_meta():
     selected = [int(i) for i in request.form.getlist("selected-samples")];
-    return generators.Ena.send_file(selected);
-
+    return generators.Ena.render(selected);
 
 
 @samples_bp.route("/samples/generate/concat-assemblies", methods=["POST"])
 def gen_concat_assemblies():
     selected = [int(i) for i in request.form.getlist("selected-samples")];
-    if len(selected) == 0: return "Nothing selected";
-    ret = "";
-    for sid in selected:
-        seqbunch = SeqFilesBunch(sid);
-        ret+= str(seqbunch.get_assembly());
-    return ret;
+    return generators.ConcatConsensus.render(selected);
 
 
 @samples_bp.route("/samples/registered/sample-names", methods=["GET"])
@@ -202,8 +189,7 @@ def reg_sample_names():
 
 @samples_bp.route("/samples/registered/library-names", methods=["GET"])
 def reg_library_names():
-    lids = Library.select_library_ids();
-    lib_ids = [lid["library_id"] for lid in lids];
+    lib_ids = [lid["library_id"] for lid in Library.select_library_ids()];
     return jsonify(lib_ids);
 
 

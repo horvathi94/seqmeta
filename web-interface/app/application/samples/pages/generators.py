@@ -2,6 +2,7 @@ from flask import send_file, redirect, url_for
 from application.src.metatemplates.gisaid.main import GisaidMeta
 from application.src.metatemplates.ena.main import EnaMeta
 from application.src.metatemplates.ncbi.main import NcbiMeta
+from application.src.seqfiles.seqfiles import SeqFilesBunch
 
 
 class GeneratorBase:
@@ -26,9 +27,16 @@ class GeneratorBase:
 
 
     @classmethod
-    def send_file(cls, selected: list) -> "flask.send_file":
+    def redirect_if_empty(cls) -> "flask.redirect":
+        """Redirect to this page if there are no selected values."""
+        return redirect(url_for("samples_bp.show"));
+
+
+    @classmethod
+    def render(cls, selected: list) -> "flask.send_file":
         """Returns flask.send_file of zipped data."""
-        if len(selected) == 0: return redirect(url_for("samples_bp.show"));
+        if len(selected) == 0:
+            return cls.redirect_if_empty();
         cls.write_zip(selected);
         return send_file(cls.get_zip(),
                          attachment_filename=cls.get_attachment_name());
@@ -93,4 +101,19 @@ class Ncbi(GeneratorBase):
     def get_attachment_name(cls) -> str:
         return NcbiMeta.get_attachment_filename();
 
+
+
+
+class ConcatConsensus(GeneratorBase):
+
+
+    @classmethod
+    def render(cls, selected: list) -> str:
+        if len(selected) == 0:
+            return cls.redirect_if_empty();
+        concat = "";
+        for sid in selected:
+            seqbunch = SeqFilesBunch(sid);
+            concat+= str(seqbunch.get_assembly());
+        return concat;
 
