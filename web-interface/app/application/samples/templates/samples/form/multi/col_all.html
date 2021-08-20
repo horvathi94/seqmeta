@@ -17,13 +17,13 @@
 		{% elif field.field_type == "select" %}
 			{{ select(field.input.multi_all,
 						field.options,
-						class=field.input.class_name,
+						classes=field.input.classes,
 						selected_id=field.input.value,
 						onchange="updateColumnSelect(this);") }}
 		{% elif field.field_type == "radio" %}
 			{{ radio(field.input.multi_all,
 						field.options,
-						class=field.input.class_name,
+						classes=field.input.classes,
 						selected_value=field.input.value,
 						onchange="updateColumnRadio(this);") }}
 		{% elif field.field_type == "seqfile" %}

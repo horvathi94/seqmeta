@@ -1,58 +1,33 @@
 from flask import render_template, redirect, url_for
 from application.src.defaults import DefaultValues
-from application.src.fields import Field
-from application.src.editor.dlist import get_dlist
+#from application.src.fields import Field
+#from application.src.editor.dlist import get_dlist
+
+from application.src.pages.editor import EditorBase
+from application.src.fields_new.dbfield import DBField
+from application.src.fields_new.sample_fields import SampleFields
 
 
-FIELDS = [
 
-    "location_continent",
-    "location_country",
-    "location_region",
-    "location_locality",
-    "geo_loc_latitude",
-    "geo_loc_longitude",
-    "host",
-
-    "originating_lab",
-    "author_group",
-    "sequencing_lab",
-    "submitting_lab",
-
-    "patient_status",
-    "host_health_state",
-    "host_anatomical_material",
-    "host_body_product",
-    "collection_device",
-    "sampling_strategy",
-    "specimen_source",
-    "sample_capture_status",
-
-    "sars_cov_2_diag_gene_name_1",
-    "sars_cov_2_diag_gene_name_2",
-    "purpose_of_sampling",
-    "purpose_of_sequencing",
-
-    "sequencing_instrument",
-    "assembly_method",
-    "sample_storage_conditions",
-    "passage_number",
-    "passage_method",
-
-    "library_source",
-    "library_strategy",
-    "library_selection",
-    "library_layout",
-    "library_construction_protocol",
-    "library_design_description",
-    "insert_size",
-
-    ];
-
-
-class DefaultsEditor:
+class DefaultsEditor(EditorBase):
 
     styles = [{"filename": "markers.css"}];
+
+
+    @classmethod
+    def render_field(cls, field_handle: SampleFields) -> "HTML":
+        field = DBField.get_field(field_handle);
+        field.input.value = field.get_value(sample_id=0);
+        return render_template("defaults/field.html", field=field);
+
+
+    @classmethod
+    def render_editor(cls, item_id: int=0) -> "HTML":
+        html = render_template("defaults/head.html");
+        for handle in SampleFields.list_for_defaults():
+            html+= cls.render_field(handle);
+        html+= render_template("defaults/tail.html");
+        return html;
 
 
     @classmethod
@@ -64,15 +39,15 @@ class DefaultsEditor:
                                info=field, dlist=dlist);
 
 
-    @classmethod
-    def show(cls) -> "HTML":
-        html = render_template("head.html", styles=cls.styles);
-        html+= render_template("defaults/head.html");
-        for handle in FIELDS:
-            html+= cls.field(handle);
-        html+= render_template("defaults/tail.html");
-        html+= render_template("footer.html");
-        return html;
+#    @classmethod
+#    def show(cls) -> "HTML":
+#        html = render_template("head.html", styles=cls.styles);
+#        html+= render_template("defaults/head.html");
+#        for handle in FIELDS:
+#            html+= cls.field(handle);
+#        html+= render_template("defaults/tail.html");
+#        html+= render_template("footer.html");
+#        return html;
 
 
     @classmethod

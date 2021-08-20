@@ -27,7 +27,6 @@ class Editor(EditorBase):
     def render_fields(cls, sample_id: int) -> "HTML":
         html = "";
         for field in SampleFields.list_for_editor():
-            print(f"Field: {field}");
             html+= cls.render_field(field, sample_id);
         return html;
 

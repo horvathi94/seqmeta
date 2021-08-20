@@ -111,3 +111,45 @@ class SampleFields(Enum):
             if e != cls.NONE: items.append(e);
         return items;
 
+
+    @classmethod
+    def list_for_defaults(cls) -> list:
+        """List of fiels for default values"""
+        return [cls.COLLECTOR_NAME,
+                cls.COLLECTION_DEVICE,
+                cls.LOCATION_CONTINENT,
+                cls.LOCATION_COUNTRY,
+                cls.LOCATION_REGION,
+                cls.LOCATION_LOCALITY,
+                cls.GEOLOC_LATITUDE,
+                cls.GEOLOC_LONGITUDE,
+                cls.HOST,
+                cls.ORIGINATING_LAB,
+                cls.SEQUENCING_LAB,
+                cls.SUBMITTING_LAB,
+                cls.AUTHOR_GROUP,
+                cls.HOST_STATUS,
+                cls.HOST_HEALTH_STATUS,
+                cls.HOST_ANATOMICAL_MATERIAL,
+                cls.HOST_BODY_PRODUCT,
+                cls.SAMPLING_STRATEGY,
+                cls.PURPOSE_OF_SAMPLING,
+                cls.PURPOSE_OF_SEQUENCING,
+                cls.SPECIMEN_SOURCE,
+                cls.SAMPLE_CAPTURE_STATUS,
+                cls.SEQUENCING_INSTRUMENT,
+                cls.LIBRARY_LAYOUT,
+                cls.LIBRARY_SOURCE,
+                cls.LIBRARY_SELECTION,
+                cls.LIBRARY_STRATEGY,
+                cls.LIBRARY_DESIGN_DESCRIPTION,
+                cls.INSERT_SIZE,
+                cls.LIBRARY_CONSTRUCTION_PROTOCOL,
+                cls.SARS_COV_2_DIAG_GENE_NAME_1,
+                cls.SARS_COV_2_DIAG_GENE_NAME_2,
+                cls.SAMPLE_STORAGE_CONDITIONS,
+                cls.PASSAGE_NUMBER,
+                cls.PASSAGE_METHOD,];
+
+
+

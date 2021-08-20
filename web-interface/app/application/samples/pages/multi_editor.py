@@ -26,28 +26,98 @@ class MultiEditor(EditorBase):
 
     @classmethod
     def all_col(cls, field: "Field") -> "HTML":
-        print(f"Field: {field}", file=sys.stderr)
+        if field.field_type in ["text", "number"]:
+            field.input.onchange = "updateColumn(this);";
         return render_template("samples/form/multi/col_all.html", field=field);
 
 
     @classmethod
-    def render_row(cls, cols: list=[], classes: list=[]) -> "HTML":
-        return "<tr class='"+ " ".join(classes) +"'>" + " ".join(cols)+"</tr>";
+    def template_col(cls, field: "Field") -> "HTML":
+        field.input.value = field.get_value();
+        if field.handle_std == SampleFields.SAMPLE_NAME:
+            field.input.onchange = "checkSampleNames();";
+        elif field.handle_std == SampleFields.LIBRARY_ID:
+            field.input.onchange = "checkLibraryNames();";
+        return render_template("samples/form/multi/col_template.html",
+                               field=field);
+
+
+    @classmethod
+    def sample_col(cls, field: "Field", sample_id: int=0) -> "HTML":
+        if sample_id == 0: return;
+        field.input.value = field.get_value(sample_id);
+        if field.handle_std == SampleFields.SAMPLE_NAME:
+            field.input.onchange = "checkSampleNames();";
+        elif field.handle_std == SampleFields.LIBRARY_ID:
+            field.input.onchange = "checkLibraryNames();";
+        field.input.replace_id_in_template_name(sample_id);
+        return render_template("samples/form/multi/col_sample.html",
+                               field=field);
+
+
+    @classmethod
+    def render_row(cls, cols: list=[],
+                   classes: list=[], style: str="") -> "HTML":
+        tr = "<tr class='"+ " ".join(classes) + "' style='" + style + "'>"
+        return tr + " ".join(cols)+"</tr>";
+
+
+    @classmethod
+    def list_header_row(cls) -> list:
+        row = [];
+        for fd in SampleFields.list_for_editor():
+            field = DBField.get_field(fd);
+            row.append(cls.header_col(field));
+        return row;
+
+
+    @classmethod
+    def list_template_row(cls) -> list:
+        row = [];
+        for fd in SampleFields.list_for_editor():
+            field = DBField.get_field(fd);
+            row.append(cls.template_col(field));
+        return row;
+
+
+    @classmethod
+    def list_all_row(cls) -> list:
+        row = [];
+        for fd in SampleFields.list_for_editor():
+            field = DBField.get_field(fd);
+            row.append(cls.all_col(field));
+        return row;
+
+
+    @classmethod
+    def list_sample_row(cls, sample_id: int=0) -> list:
+        row = [];
+        for fd in SampleFields.list_for_editor():
+            field = DBField.get_field(fd);
+            row.append(cls.sample_col(field, sample_id=sample_id));
+        return row;
 
 
     @classmethod
     def render_fields(cls, sample_ids: list=[]) -> "HTML":
-        header_row = [];
-        template_row = [];
-        all_row = [];
+        header_row = cls.list_header_row();
+        template_row = cls.list_template_row();
+        all_row = cls.list_all_row();
 
-        for fd in SampleFields.list_for_editor():
-            field = DBField.get_field(fd);
-            header_row.append(cls.header_col(field));
-            all_row.append(cls.all_col(field));
+        sample_rows = [];
+        for sample_id in sample_ids:
+            sample_rows.append(cls.list_sample_row(sample_id=sample_id));
+
+        print(f"Samples: {sample_rows}", file=sys.stderr);
 
         html = cls.render_row(header_row);
-        html+= cls.render_row(all_row, classes=["editor", "raw", "all"]);
+        html+= cls.render_row(all_row, classes=["editor", "row", "all"]);
+        html+= cls.render_row(template_row,
+                              classes=["editor", "row", "template"],
+                              style="visibility: collapse;");
+
+        for sample_row in sample_rows:
+            html+= cls.render_row(sample_row);
 
         return html;
 
@@ -70,7 +140,7 @@ class MultiEditor(EditorBase):
     @classmethod
     def render_editor(cls, sample_ids: list=[]) -> "HTML":
         html = cls.render_editor_head();
-        html+= cls.render_fields();
+        html+= cls.render_fields(sample_ids=sample_ids);
         html+= cls.render_editor_tail();
         return html;
 

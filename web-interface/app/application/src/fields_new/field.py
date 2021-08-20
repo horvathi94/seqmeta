@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field as dfield
+from dataclasses import dataclass, replace, field as dfield
 from . import requirements as rqs
 from . import inputs as inps
 from .sample_fields import SampleFields
@@ -6,9 +6,6 @@ from .options_list import _OPTIONS_LIST
 from application.src.samples.samples import Samples
 from application.src.defaults import DefaultValues
 from application.src.seqfiles.db import SeqFile
-
-
-import sys
 
 
 @dataclass
@@ -99,4 +96,7 @@ class Field:
 
         return "";
 
+
+    def copy(self):
+        return replace(self);
 

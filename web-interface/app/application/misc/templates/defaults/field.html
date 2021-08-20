@@ -6,28 +6,28 @@
 
 <tr>
 	<td>
-		<label for="{{ info.field_name|safe }}">
-			{{ info.field_name|safe }}
-			{% for req in info.requirement %}
-				{{ marker(req.type, requirement=req.level) }}
+		<label for="{{ field.field_name|safe }}">
+			{{ field.field_name|safe }}
+			{% for req in field.requirements %}
+				{{ marker(req.repo, requirement=req.level) }}
 			{% endfor %}
 		</label>
 	</td>
 	<td>
-		{% if info.field_type == "text" %}
-			{{ inptext(info.input, type="defaults") }}
-		{% elif info.field_type == "number" %}
-			{{ inpnumber(info.input, type="defaults") }}
-		{% elif info.field_type == "select" %}
-			{{ select(info.input.defaults,
-					dlist,
-					selected_id=info.input.value) }} </td>
-		{% elif info.field_type == "radio" %}
-			{{ radio(info.input.defaults,
-					dlist,
-					selected_value=info.input.value) }} 
+		{% if field.field_type == "text" %}
+			{{ inptext(field.input, type="defaults") }}
+		{% elif field.field_type == "number" %}
+			{{ inpnumber(field.input, type="defaults") }}
+		{% elif field.field_type == "select" %}
+			{{ select(field.input.defaults,
+					field.options,
+					selected_id=field.input.value) }} </td>
+		{% elif field.field_type == "radio" %}
+			{{ radio(field.input.defaults,
+					field.options,
+					selected_value=field.input.value) }} 
 		{% endif %}
 	</td>
-	<td> {{ info.description|safe }} </td>
+	<td> {{ field.description|safe }} </td>
 </tr>
 

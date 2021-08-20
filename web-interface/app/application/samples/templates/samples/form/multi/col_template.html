@@ -7,7 +7,7 @@
 
 <td>
 
-	{% if info.handle == "sample_name" %}
+	{% if field.handle == "sample_name" %}
 		<input type="button"
 					 name="rm+0+field"
 					 class="rmfield smbutton"
@@ -15,24 +15,24 @@
 					 value="Remove" />
 	{% endif %}
 
-	{% if info.field_type == "text" %}
-		{{ inptext(info.input, type="multi_template") }}
-	{% elif info.field_type == "number" %}
-		{{ inpnumber(info.input, type="multi_template") }}
-	{% elif info.field_type == "date" %}
-		{{ inpdate(info.input, type="multi_template") }}
-	{% elif info.field_type == "select" %}
-		{{ select(info.input.multi_template ,
-					dlist,
-					class=info.input.class,
-					selected_id=info.input.value) }}
-	{% elif info.field_type == "radio" %}
-		{{ radio(info.input.multi_template,
-					dlist,
-					class=info.input.class,
-					selected_value=info.input.value) }}
-	{% elif info.field_type == "seqfile" %}
-		{{ seqfile(info, dlist) }}
+	{% if field.field_type == "text" %}
+		{{ inptext(field.input, type="multi_template") }}
+	{% elif field.field_type == "number" %}
+		{{ inpnumber(field.input, type="multi_template") }}
+	{% elif field.field_type == "date" %}
+		{{ inpdate(field.input, type="multi_template") }}
+	{% elif field.field_type == "select" %}
+		{{ select(field.input.multi_template ,
+					field.options,
+					classes=field.input.classes,
+					selected_id=field.input.value) }}
+	{% elif field.field_type == "radio" %}
+		{{ radio(field.input.multi_template,
+					field.options,
+					classes=field.input.classes,
+					selected_value=field.input.value) }}
+	{% elif field.field_type == "seqfile" %}
+		{{ seqfile(field, field.options) }}
 	{% endif %}
 
 </td>

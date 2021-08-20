@@ -1,7 +1,7 @@
-{% macro select(name, options, selected_id=0, class="", onchange="") %}
+{% macro select(name, options, selected_id=0, classes=[], onchange="") %}
 
 	<select name="{{ name }}" 
-					{{ "class="+class if class else "" }}
+					{{ "class='"+classes|join(" ")+"'" }}
 					{{ "onchange="+onchange if onchange else "" }} >
 
 		<option value="0"> --------- </option>

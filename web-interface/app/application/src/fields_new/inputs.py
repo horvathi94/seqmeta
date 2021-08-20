@@ -20,6 +20,12 @@ class _InputBase:
         self.multi_template = self.prefix + "+0+" +self.db_key;
 
 
+    def replace_id_in_template_name(self, sample_id: int=0) -> None:
+        self.multi_template = \
+            self.multi_template.replace("+0+", "+"+str(sample_id)+"+");
+
+
+
 @dataclass
 class InputText(_InputBase):
 
