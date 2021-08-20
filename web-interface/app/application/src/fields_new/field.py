@@ -1,90 +1,95 @@
 from dataclasses import dataclass, field as dfield
 from . import requirements as rqs
+from . import inputs as inps
 from .sample_fields import SampleFields
-from application.src.db.cursor import Cursor
-
+from .options_list import _OPTIONS_LIST
+from application.src.samples.samples import Samples
+from application.src.defaults import DefaultValues
+from application.src.seqfiles.db import SeqFile
 
 
 import sys
 
 
-
-@dataclass
-class Input:
-
-    name_single: str = "";
-    multi_all: str = "";
-    multi_template: str = "";
-    defaults: str = "";
-    class_name: str = "";
-    onchange: str = "";
-    maxlength: int = 0;
-    min_val: int = 0;
-    max_val: int = 0;
-
-
-
 @dataclass
 class Field:
 
-    db_key: str = "";
-    handle:  SampleFields = SampleFields.NONE;
+    handle: str = "";
     field_name: str = "";
     field_type: str = "";
-    requirement: list = dfield(default_factory=list);
+    gisaid: int = None;
+    ena: int = None;
+    ncbi: int = None;
+    db_key: str = "";
+    class_name: str = "";
     edit_all: bool = False;
-    input_tag: Input = None;
+    min_val: str = None;
+    max_val: str = None;
+    step: int = None;
+    min_date: str = None;
+    max_date: str = None;
+    prefix: str = "";
+    description: str = "";
+    file_type: str = "";
+    requirements: list = dfield(default_factory=list);
+    input: inps._InputBase = None;
+    options: list = dfield(default_factory=list);
+
+    handle_std: SampleFields = SampleFields.NONE;
 
 
+    def __post_init__(self):
+        self.handle_std = SampleFields(self.handle);
+        self._parse_requirements();
+        self.options = self.get_options_list();
+        if self.field_type == "text":
+            self.input = inps.InputText(self.prefix, self.db_key,
+                                   maxlength=self.max_val);
+        if self.field_type == "number":
+            self.input = inps.InputNumber(self.prefix, self.db_key,
+                min_val=self.min_val, max_val=self.max_val, step=self.step);
+        if self.field_type == "date":
+            self.input = inps.InputDate(self.prefix, self.db_key,
+                            min_date=self.min_date, max_date=self.max_date);
+        if self.field_type == "select":
+            self.input = inps.InputSelect(self.prefix, self.db_key);
+        if self.field_type == "seqfile":
+            self.input = inps.InputSeqFile(self.prefix, self.db_key);
 
 
-
-class DBField:
-
-    display_table = "fields";
-
-
-    @classmethod
-    def fetch(cls, handle: str) -> dict:
-        """Fetch field data from the database."""
-        where_clause = f"WHERE handle = '{handle}'";
-        entry ,= Cursor.select(cls.display_table, clauses=where_clause);
-        return entry;
-
-
-    @classmethod
-    def parse_requirements(cls, raw: dict) -> list:
-        requirements = [];
+    def _parse_requirements(self) -> None:
+        """Returns list of requirement levels from raw data."""
         for repo in rqs.RequirementRepos:
-            rlevel = raw[repo.value];
+            rlevel = getattr(self, repo.value);
             if rlevel is None: continue;
             req = rqs.Requirement(repo.value,
                                   rqs.RequirementLevels(rlevel).value);
-            requirements.append(req);
-        return requirements;
+            self.requirements.append(req);
 
 
-    @classmethod
-    def parse_field_info(cls, raw: dict) -> Field:
-        """Parse main data related to the field."""
-        field = Field();
-        field.handle = SampleFields(raw["handle"]);
-        field.requirements = cls.parse_requirements(raw);
-        field.db_key = raw["db_key"];
-        field.edit_all = bool(raw["edit_all"]);
-        return field;
+    def get_options_list(self):
+        """Returns a list of all possible options for the handle."""
+        func = _OPTIONS_LIST.get(self.handle_std, lambda: []);
+        return func();
 
 
-    @classmethod
-    def get_field(cls, handle: SampleFields) -> Field:
-        raw = cls.fetch(handle.value);
-        field = cls.parse_field_info(raw);
+    def get_value(self, sample_id: int=0):
+        """Returns the value that will be assigned to the fields."""
+        if self.field_type == "seqfile":
+            ftype = self.db_key.replace("_file", "");
+            return SeqFile.fetch_filename(sample_id, ftype=ftype);
 
+        if sample_id != 0:
+            sampd = Samples.fetch_entry_edit(id=sample_id, id_key="sample_id");
+            return sampd[self.db_key];
 
-        for fd in SampleFields:
-            print(f"Field: {fd}", file=sys.stderr)
-        return field;
+        defs = DefaultValues.fetch();
+        if self.db_key in defs and defs[self.db_key] is not None:
+            return defs[self.db_key];
 
+        if self.field_type in ["select", "radio"]:
+            return 0;
 
+        return "";
 
 

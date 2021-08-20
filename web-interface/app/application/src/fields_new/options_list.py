@@ -1,21 +1,14 @@
-from enum import Enum, auto
+from .sample_fields import SampleFields as SF
 from application.src.authors import Authors, AuthorGroups
 from application.src import misc
 
 
-class Fields:
+_OPTIONS_LIST = {
 
-    continents = auto();
-    collector_name = auto();
+    SF.COLLECTOR_NAME: Authors.fetch_select_list,
+    SF.LOC_CONTINENT: misc.Continents.fetch_list,
+
+};
 
 
-class OptionsList:
 
-    @staticmethod
-    def get(handle: Fields) -> list:
-        """Fetch list of possible values for the field."""
-        if handle == Fields.continents:
-            return misc.Continents.fetch_list();
-        if handle == Fields.collector_name:
-            return Authors.fetch_list_labeled(
-                replace_key="abbreviated_middle_name");

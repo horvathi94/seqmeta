@@ -10,11 +10,23 @@ class Authors(DBInterface):
 
 
     @staticmethod
-    def clean_entry(entry):
-
+    def clean_entry(entry) -> dict:
         if entry["middle_name"] == None:
             entry["middle_name"] = "";
         return entry;
+
+
+    @classmethod
+    def fetch_select_list(cls) -> list:
+        """Returns list of authors formatted for select template."""
+        ls = cls.fetch_list_labeled(replace_key="abbreviated_middle_name");
+        for item in ls:
+            del item["last_name"];
+            del item["first_name"];
+            del item["middle_name"];
+            del item["full_name"];
+        return ls;
+
 
 
 class AuthorGroups(DBInterface):
@@ -66,3 +78,5 @@ class AuthorGroups(DBInterface):
             Cursor.call_procedure("upsert_authors_in_group",
                                   vals, commit=True);
         return group_id;
+
+
