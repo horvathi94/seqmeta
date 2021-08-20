@@ -6,6 +6,8 @@ from application.src.forms.form import Form
 from .save import save
 from .editor import Editor, MultiEditor
 
+from .pages.editor import Editor
+
 
 
 samples_bp = Blueprint("samples_bp", __name__,
@@ -189,19 +191,8 @@ def reg_library_names():
 
 @samples_bp.route("/samples/edit")
 def edit():
-
     sample_id = int(request.args["id"]) if "id" in request.args else 0;
-    editor = Editor(sample_id);
-
-    styles = [{"filename": "edit.css", "prefix": "samples"},
-              {"filename": "markers.css"}];
-    scripts = [{"filename": "validate-sample-name.js", "prefix": "samples"},
-               {"filename": "edit-sample.js", "prefix": "samples"}];
-    html = render_template("head.html", styles=styles);
-    html+= editor.show();
-    html+= render_template("footer.html", scripts=scripts);
-    return html;
-
+    return Editor.show(sample_id);
 
 
 
@@ -279,9 +270,9 @@ def delete_samples():
     return redirect(url_for('samples_bp.show'));
 
 
-from .pages.editor import Editor as TestEditor
+from .pages.multi_editor import MultiEditor as TestEditor
 @samples_bp.route("/tester")
 def tester():
-    return TestEditor.show(1);
+    return TestEditor.show([1]);
 
 

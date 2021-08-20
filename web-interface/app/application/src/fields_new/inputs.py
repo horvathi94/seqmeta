@@ -10,7 +10,7 @@ class _InputBase:
     multi_all: str = "";
     multi_template: str = "";
     defaults: str = "";
-    class_name: str = "";
+    classes: str = "";
     onchange: str = "";
     value: str = "";
 
@@ -26,6 +26,7 @@ class InputText(_InputBase):
     maxlength: int = None;
 
     def __post_init__(self):
+        super().__post_init__();
         self.maxlength = 0 if self.maxlength is None else self.maxlength;
 
 
@@ -38,6 +39,7 @@ class InputNumber(_InputBase):
     step: float = None;
 
     def __post_init__(self):
+        super().__post_init__();
         self.min_val = "" if self.min_val is None else float(self.min_val);
         self.max_val = "" if self.max_val is None else float(self.max_val);
         self.step = 1 if self.step is None else float(self.step);
@@ -51,6 +53,7 @@ class InputDate(_InputBase):
     max_date: "date" = None;
 
     def __post_init__(self):
+        super().__post_init__();
         self.min_date = "" if self.min_date is None \
             else self.min_date.strftime("%Y-%m-%d");
         self.max_date = "" if self.max_date is None \
@@ -62,6 +65,7 @@ class InputDate(_InputBase):
 class InputSeqFile(_InputBase):
 
     def __post_init__(self):
+        super().__post_init__();
         self.file_type = self.db_key;
 
 

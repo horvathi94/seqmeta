@@ -2,18 +2,18 @@
 
 
 {% set has_tooltip = "class=has-tooltip" 
-	if info.description != "" else "" %}
+	if field.description != "" else "" %}
 
 <th {{ has_tooltip }}>
-	{{- info.field_name|safe -}}
+	{{- field.field_name|safe -}}
 
-	{% for req in info.requirement %}
+	{% for req in field.requirement %}
 		{{ marker(req.type, requirement=req.level) }}
 	{% endfor %}
 
-	{% if info.description != "" %}
+	{% if field.description != "" %}
 		<div class="tooltip">
-			{{- info.description|safe -}}
+			{{- field.description|safe -}}
 		</div>
 	{% endif %}
 </th>

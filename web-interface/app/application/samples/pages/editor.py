@@ -34,10 +34,8 @@ class Editor(EditorBase):
 
     @classmethod
     def render_editor(cls, item_id: int) -> "HTML":
-
         html = render_template("samples/form/single/head.html",
                                sample_id=item_id);
-
         html+= cls.render_fields(item_id);
         html+= render_template("samples/form/single/tail.html");
         return html;

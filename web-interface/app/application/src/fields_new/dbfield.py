@@ -12,7 +12,7 @@ class DBField:
         """Fetch field data from the database."""
         where_clause = f"WHERE handle = '{handle}'";
         entry ,= Cursor.select(cls.display_table, clauses=where_clause);
-        entry["class_name"] = entry["class"];
+        entry["classes"] = entry["class"].split();
         del entry["class"];
         return entry;
 

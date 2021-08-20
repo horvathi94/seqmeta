@@ -1,9 +1,9 @@
 {% macro inpnumber(dets, type="single") %}
 
-{% set min="min='"+dets.min|string+"'" 
-	if dets.min != "" else "" %}
-{% set max="max='"+dets.max|string+"'" 
-	if dets.max != "" else "" %}
+{% set min="min='"+dets.min_val|string+"'" 
+	if dets.min_val != "" else "" %}
+{% set max="max='"+dets.max_val|string+"'" 
+	if dets.max_val != "" else "" %}
 {% set onchangefunc="onchange='"+dets.onchange+"'" 
 	if dets.onchange != "" else "" %}
 
@@ -21,7 +21,7 @@
 <input type="number"
 			 name="{{ name }}"
 			 step="{{ dets.step }}"
-			 	class="{{ dets.class }}"
+			 	class="{{ dets.classes|join(" ") }}"
 				value="{{ dets.value }}"
 				{{ min }} 
 				{{ max }} 

@@ -20,14 +20,14 @@
 {% if dets.maxlength < 800 %}
 <input type="text"
 			 name="{{ name }}"
-			 	class="{{ dets.class }}"
+			 	class="{{ dets.classes|join(" ") }}"
 				value="{{- dets.value -}}"
 				{{ maxlen }} 
 				{{ onchangefunc }}/>
 {% else %}
 <textarea 
 				name="{{ name }}" 
-			 	class="{{ dets.class }}"
+			 	class="{{ dets.classes|join(" ") }}"
 				{{ maxlen }} 
 				{{ onchangefunc }}
 				cols="50">

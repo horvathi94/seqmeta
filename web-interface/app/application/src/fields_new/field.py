@@ -21,7 +21,7 @@ class Field:
     ena: int = None;
     ncbi: int = None;
     db_key: str = "";
-    class_name: str = "";
+    classes: list = dfield(default_factory=list);
     edit_all: bool = False;
     min_val: str = None;
     max_val: str = None;
@@ -44,19 +44,24 @@ class Field:
         self.options = self.get_options_list();
         if self.field_type == "text":
             self.input = inps.InputText(self.prefix, self.db_key,
-                                   maxlength=self.max_val);
+                classes=self.classes, maxlength=self.max_val);
         if self.field_type == "number":
             self.input = inps.InputNumber(self.prefix, self.db_key,
+                classes=self.classes,
                 min_val=self.min_val, max_val=self.max_val, step=self.step);
         if self.field_type == "date":
             self.input = inps.InputDate(self.prefix, self.db_key,
-                            min_date=self.min_date, max_date=self.max_date);
+                classes=self.classes,
+                min_date=self.min_date, max_date=self.max_date);
         if self.field_type == "select":
-            self.input = inps.InputSelect(self.prefix, self.db_key);
+            self.input = inps.InputSelect(self.prefix, self.db_key,
+                                          classes=self.classes);
         if self.field_type == "radio":
-            self.input = inps.InputRadio(self.prefix, self.db_key);
+            self.input = inps.InputRadio(self.prefix, self.db_key,
+                                         classes=self.classes);
         if self.field_type == "seqfile":
-            self.input = inps.InputSeqFile(self.prefix, self.db_key);
+            self.input = inps.InputSeqFile(self.prefix, self.db_key,
+                                           classes=self.classes);
 
 
     def _parse_requirements(self) -> None:
