@@ -1,26 +1,5 @@
 from .base import SampleExtension
-
-
-PATIENT_GENDERS = [
-{
-    "db_value": None,
-    "db_save": None,
-    "value": 0,
-    "label": "N/A"
-},
-{
-    "db_value": 1,
-    "db_save": True,
-    "value": 1,
-    "label": "Male"
-},
-{
-    "db_value": 0,
-    "db_save": False,
-    "value": 2,
-    "label": "Female"
-},
-];
+from application.src.misc import Genders
 
 
 class Host(SampleExtension):
@@ -30,12 +9,10 @@ class Host(SampleExtension):
     @classmethod
     def clean_submit(cls, entry):
         entry["sample_id"] = int(entry["sample_id"]);
+        gend = Genders.get_item_from_value(entry["patient_gender"]);
+        entry["patient_gender"] = gend.dbsave;
         if entry["patient_age"] == "":
             entry["patient_age"] = None;
-        for genders in PATIENT_GENDERS:
-            if genders["value"] == int(entry["patient_gender"]):
-                entry["patient_gender"] = genders["db_save"];
-                break;
         if entry["host_recent_travel_return_date"] == "":
             entry["host_recent_travel_return_date"] = None;
         return entry;
@@ -43,10 +20,8 @@ class Host(SampleExtension):
 
     @classmethod
     def clean_entry(cls, entry):
-        for layout in PATIENT_GENDERS:
-            if layout["db_value"] == entry["patient_gender"]:
-                entry["patient_gender"] = layout["value"];
-                break;
+        gend = Genders.get_item_from_dbvalue(entry["patient_gender"]);
+        entry["patient_gender"] = gend.value;
         if "host_recent_travel_return_date" in entry:
             if entry["host_recent_travel_return_date"] == None:
                 entry["host_recent_travel_return_date"] = "";

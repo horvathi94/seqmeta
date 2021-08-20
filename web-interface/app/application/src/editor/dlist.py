@@ -2,15 +2,9 @@ from application.src.authors import Authors, AuthorGroups
 from application.src.institutions import Institutions
 from application.src import misc
 from application.src import library as lib
-from application.src.samples.extensions.host import Host,\
-    PATIENT_GENDERS
-from application.src.samples.extensions.health_status import HealthStatus,\
-    HOSPITALISATIONS
+from application.src.samples.extensions.host import Host
 from application.src.samples.extensions.library import Library,\
     LIBRARY_LAYOUTS
-from application.src.samples.extensions.treatment import \
-    ANTIVIRAL_TREAT, \
-    PRIOR_INFECTION
 from application.src.seqfiles.db import SeqFileTypes, \
     AssemblyFileTypes, ReadFileTypes
 

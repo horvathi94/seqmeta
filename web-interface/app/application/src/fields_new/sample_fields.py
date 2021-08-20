@@ -27,8 +27,6 @@ class SampleFields(Enum):
     GEOLOC_LONGITUDE = "geo_loc_longitude";
     GEOLOC_EXPOSURE = "geo_loc_exposure";
     HOST = "host";
-    HOST_SUBJECT_ID = "host_subject_id";
-    ADDITIONAL_HOST_INFO = "additional_host_info";
     HOST_GENDER = "patient_gender";
     HOST_AGE = "patient_age";
     HOST_STATUS = "patient_status";
@@ -65,7 +63,7 @@ class SampleFields(Enum):
     SARS_COV_2_DIAG_PCR_CT_VALUE_1 = "sars_cov_2_diag_pcr_ct_value_1";
     SARS_COV_2_DIAG_GENE_NAME_2 = "sars_cov_2_diag_gene_name_2";
     SARS_COV_2_DIAG_PCR_CT_VALUE_2 = "sars_cov_2_diag_pcr_ct_value_2";
-    ORIGINATING_LAB_SAMPLE = "originating_lab";
+    ORIGINATING_LAB = "originating_lab";
     ORIGINATING_LAB_SAMPLE_NAME = "originating_lab_sample_name";
     SEQUENCING_LAB = "sequencing_lab";
     SUBMITTING_LAB = "submitting_lab";
@@ -81,29 +79,28 @@ class SampleFields(Enum):
     SAMPLE_CAPTURE_STATUS = "sample_capture_status";
     SPECIMEN_SOURCE = "specimen_source";
     SAMPLE_STORAGE_CONDITIONS = "sample_storage_conditions";
-    PASSAGE_NUMBER = "passage_number";
-    PASSAGE_METHOD = "passage_method";
-    DEFINITION_FOR_SEROPOSITIVE_SAMPLE = "definition_for_seropositive_sample";
-    SEROTYPE = "serotype";
-    SEQUENCING_INSTRUMENT = "sequencing_instrument";
-    ASSEMBLY_METHOD = "assembly_method";
-    COVERAGE = "coverage";
-    LIBRARY_ID = "library_id";
-    LIBRARY_LAYOUT = "library_layout";
-    LIBRARY_SOURCE = "library_source";
-    LIBRARY_SELECTION = "library_selection";
-    LIBRARY_STRATEGY = "library_strategy";
-    LIBRARY_PREPARATION_DATE = "library_preparation_date";
-    LIBRARY_DESIGN_DESCRIPTION = "library_design_description";
-    INSERT_SIZE = "insert_size";
-    LIBRARY_CONSTRUCTION_PROTOCOL = "library_construction_protocol";
-
-    CONSENSUS_FILE = "assembly_file";
-    CONTIGS_FILE = "contigs_file";
-    SCAFFOLDS_FILE = "scaffolds_file";
-    FORWARD_READ_FILE = "fwread_file";
-    REVERSE_READ_FILE = "rvread_file";
-    COLLECTOR_NAME = "collector_name";
+#    PASSAGE_NUMBER = "passage_number";
+#    PASSAGE_METHOD = "passage_method";
+#    DEFINITION_FOR_SEROPOSITIVE_SAMPLE = "definition_for_seropositive_sample";
+#    SEROTYPE = "serotype";
+#    SEQUENCING_INSTRUMENT = "sequencing_instrument";
+#    ASSEMBLY_METHOD = "assembly_method";
+#    COVERAGE = "coverage";
+#    LIBRARY_ID = "library_id";
+#    LIBRARY_LAYOUT = "library_layout";
+#    LIBRARY_SOURCE = "library_source";
+#    LIBRARY_SELECTION = "library_selection";
+#    LIBRARY_STRATEGY = "library_strategy";
+#    LIBRARY_PREPARATION_DATE = "library_preparation_date";
+#    LIBRARY_DESIGN_DESCRIPTION = "library_design_description";
+#    INSERT_SIZE = "insert_size";
+#    LIBRARY_CONSTRUCTION_PROTOCOL = "library_construction_protocol";
+#
+#    CONSENSUS_FILE = "assembly_file";
+#    CONTIGS_FILE = "contigs_file";
+#    SCAFFOLDS_FILE = "scaffolds_file";
+#    FORWARD_READ_FILE = "fwread_file";
+#    REVERSE_READ_FILE = "rvread_file";
 
 
     @classmethod

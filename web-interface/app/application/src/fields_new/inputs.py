@@ -23,10 +23,10 @@ class _InputBase:
 @dataclass
 class InputText(_InputBase):
 
-    maxlength: str = None;
+    maxlength: int = None;
 
     def __post_init__(self):
-        self.maxlength = "" if self.maxlength is None else self.maxlength;
+        self.maxlength = 0 if self.maxlength is None else self.maxlength;
 
 
 
@@ -51,8 +51,10 @@ class InputDate(_InputBase):
     max_date: "date" = None;
 
     def __post_init__(self):
-        self.min_date = "" if self.min_date is None else strftime("%Y-%m-%d");
-        self.max_date = "" if self.max_date is None else strftime("%Y-%m-%d");
+        self.min_date = "" if self.min_date is None \
+            else self.min_date.strftime("%Y-%m-%d");
+        self.max_date = "" if self.max_date is None \
+            else self.max_date.strftime("%Y-%m-%d");
 
 
 
@@ -68,3 +70,8 @@ class InputSelect(_InputBase):
 
     value: int = 0;
 
+
+@dataclass
+class InputRadio(_InputBase):
+
+    value: int = 0;

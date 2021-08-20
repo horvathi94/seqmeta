@@ -53,6 +53,8 @@ class Field:
                             min_date=self.min_date, max_date=self.max_date);
         if self.field_type == "select":
             self.input = inps.InputSelect(self.prefix, self.db_key);
+        if self.field_type == "radio":
+            self.input = inps.InputRadio(self.prefix, self.db_key);
         if self.field_type == "seqfile":
             self.input = inps.InputSeqFile(self.prefix, self.db_key);
 

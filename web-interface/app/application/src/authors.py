@@ -80,3 +80,7 @@ class AuthorGroups(DBInterface):
         return group_id;
 
 
+    @classmethod
+    def fetch_select_list(cls) -> list:
+        return cls.fetch_list_labeled(replace_key="group_name",
+                                      replace_id="group_id");

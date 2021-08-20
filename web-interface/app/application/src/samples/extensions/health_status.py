@@ -1,4 +1,5 @@
 from .base import SampleExtension
+from application.src.misc import Hospitalisation
 
 HOSPITALISATIONS = [
 {
@@ -29,10 +30,8 @@ class HealthStatus(SampleExtension):
     @classmethod
     def clean_submit(cls, entry):
         entry["sample_id"] = int(entry["sample_id"]);
-        for hosp in HOSPITALISATIONS:
-            if hosp["value"] == int(entry["hospitalization"]):
-                entry["hospitalization"] = hosp["db_save"];
-                break;
+        hosp = Hospitalisation.get_item_from_value(entry["hospitalization"]);
+        entry["hospitalization"] = hosp.dbsave;
         if entry["ilness_duration"] == "":
             entry["ilness_duration"] = None;
         if "sars_cov_2_diag_pcr_ct_value_1" in entry:
@@ -46,8 +45,6 @@ class HealthStatus(SampleExtension):
 
     @classmethod
     def clean_entry(cls, entry):
-        for hosp in HOSPITALISATIONS:
-            if hosp["db_value"] == entry["hospitalization"]:
-                entry["hospitalization"] = hosp["value"];
-                break;
+        hosp = Hospitalisation.get_item_from_dbvalue(entry["hospitalization"]);
+        entry["hospitalization"] = hosp.value;
         return entry;

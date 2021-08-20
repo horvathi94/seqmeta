@@ -1,5 +1,43 @@
+from dataclasses import dataclass
 from .db.cursor import Cursor
 from .db.interface import DBInterface
+from .fields_new.radio import RadioValue, RadioList
+
+
+class Genders(RadioList):
+
+    items = [
+        RadioValue(),
+        RadioValue("Male", 1, 1, True),
+        RadioValue("Female", 2, 0, False),
+    ];
+
+
+class ReceivedTreatment(RadioList):
+
+    items = [
+        RadioValue(),
+        RadioValue("Yes", 1, 1, True),
+        RadioValue("No", 2, 0, False),
+    ];
+
+
+class PriorInfection(RadioList):
+
+    items = [
+        RadioValue(),
+        RadioValue("Yes", 1, 1, True),
+        RadioValue("No", 2, 0, False),
+    ];
+
+
+class Hospitalisation(RadioList):
+
+    items = [
+        RadioValue(),
+        RadioValue("Yes", 1, 1, True),
+        RadioValue("No", 2, 0, False),
+    ];
 
 
 class Countries(DBInterface):
