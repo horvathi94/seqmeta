@@ -282,6 +282,6 @@ def delete_samples():
 from .pages.editor import Editor as TestEditor
 @samples_bp.route("/tester")
 def tester():
-    return TestEditor.render_editor(1);
+    return TestEditor.show(1);
 
 

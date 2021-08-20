@@ -1,12 +1,6 @@
 from flask import render_template
 from application.src.pages.editor import EditorBase
-from .editor_fields import EDITOR_FIELDS
-
-
-
-from flask import jsonify
 from application.src.fields_new.dbfield import DBField
-from application.src.fields_new.field import Field
 from application.src.fields_new.sample_fields import SampleFields
 
 import sys
@@ -26,9 +20,7 @@ class Editor(EditorBase):
                      sample_id: int) -> "HTML":
         field = DBField.get_field(field_handle);
         field.input.value = field.get_value(sample_id=sample_id);
-
-        return render_template("samples/form/single/field_new.html",
-                               info=field);
+        return render_template("samples/form/single/field.html", field=field);
 
 
     @classmethod
@@ -50,10 +42,3 @@ class Editor(EditorBase):
         html+= render_template("samples/form/single/tail.html");
         return html;
 
-
-    @classmethod
-    def test(cls):
-        fd = SampleFields.SAMPLE_NAME;
-        testval = DBField.get_field(fd);
-        dl = testval.get_options_list()
-        print(dl, file=sys.stderr)
