@@ -3,8 +3,7 @@ from application.src.institutions import Institutions
 from application.src import misc
 from application.src import library as lib
 from application.src.samples.extensions.host import Host
-from application.src.samples.extensions.library import Library,\
-    LIBRARY_LAYOUTS
+from application.src.samples.extensions.library import Library
 from application.src.seqfiles.db import SeqFileTypes, \
     AssemblyFileTypes, ReadFileTypes
 

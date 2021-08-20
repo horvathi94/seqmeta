@@ -1,27 +1,7 @@
 from application.src.db.cursor import Cursor
 from .base import SampleExtension
+from application.src.misc import LibraryLayouts
 
-
-LIBRARY_LAYOUTS = [
-    {
-        "db_value": None,
-        "db_save": None,
-        "value": 0,
-        "label": "N/A"
-    },
-    {
-        "db_value": 1,
-        "db_save": True,
-        "value": 1,
-        "label": "Paired-End"
-    },
-    {
-        "db_value": 0,
-        "db_save": False,
-        "value": 2,
-        "label": "Single"
-    },
-];
 
 
 class Library(SampleExtension):
@@ -31,11 +11,9 @@ class Library(SampleExtension):
 
     @classmethod
     def clean_submit(cls, entry):
-        if "library_layout_paired" in entry:
-            for layout in LIBRARY_LAYOUTS:
-                if layout["value"] == int(entry["library_layout_paired"]):
-                    entry["library_layout_paired"] = layout["db_save"];
-                    break;
+        lay = LibraryLayouts.get_item_from_value(
+            entry["library_layout_paired"]);
+        entry["library_layout_paired"] = lay.dbsave;
         if entry["library_preparation_date"] == "":
             entry["library_preparation_date"] = None;
         if entry["library_id"] == "":
@@ -47,11 +25,9 @@ class Library(SampleExtension):
 
     @classmethod
     def clean_entry(cls, entry):
-        if "library_layout_paired" in entry:
-            for layout in LIBRARY_LAYOUTS:
-                if layout["db_value"] == entry["library_layout_paired"]:
-                    entry["library_layout_paired"] = layout["value"];
-                    break;
+        lay = LibraryLayouts.get_item_from_dbvalue(
+            entry["library_layout_paired"]);
+        entry["library_layout_paired"] = lay.value;
         if "insert_size" in entry:
             if entry["insert_size"] == None:
                 entry["insert_size"] = "";

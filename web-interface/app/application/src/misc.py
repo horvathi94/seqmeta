@@ -40,6 +40,16 @@ class Hospitalisation(RadioList):
     ];
 
 
+class LibraryLayouts(RadioList):
+
+    items = [
+        RadioValue(),
+        RadioValue("Paired-end", 1, 1, True),
+        RadioValue("Single", 2, 0, False),
+    ];
+
+
+
 class Countries(DBInterface):
     display_table_name = "countries";
 

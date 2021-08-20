@@ -10,10 +10,19 @@ class AssemblyFileTypes(DBInterface):
 
     display_table_name = "assembly_files";
 
+    @classmethod
+    def fetch_select_list(cls) -> list:
+        return cls.fetch_list_labeled(replace_key="item_key");
+
 
 class ReadFileTypes(DBInterface):
 
     display_table_name = "reads_files";
+
+    @classmethod
+    def fetch_select_list(cls) -> list:
+        return cls.fetch_list_labeled(replace_key="item_key");
+
 
 
 

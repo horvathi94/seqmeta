@@ -79,28 +79,28 @@ class SampleFields(Enum):
     SAMPLE_CAPTURE_STATUS = "sample_capture_status";
     SPECIMEN_SOURCE = "specimen_source";
     SAMPLE_STORAGE_CONDITIONS = "sample_storage_conditions";
-#    PASSAGE_NUMBER = "passage_number";
-#    PASSAGE_METHOD = "passage_method";
-#    DEFINITION_FOR_SEROPOSITIVE_SAMPLE = "definition_for_seropositive_sample";
-#    SEROTYPE = "serotype";
-#    SEQUENCING_INSTRUMENT = "sequencing_instrument";
-#    ASSEMBLY_METHOD = "assembly_method";
-#    COVERAGE = "coverage";
-#    LIBRARY_ID = "library_id";
-#    LIBRARY_LAYOUT = "library_layout";
-#    LIBRARY_SOURCE = "library_source";
-#    LIBRARY_SELECTION = "library_selection";
-#    LIBRARY_STRATEGY = "library_strategy";
-#    LIBRARY_PREPARATION_DATE = "library_preparation_date";
-#    LIBRARY_DESIGN_DESCRIPTION = "library_design_description";
-#    INSERT_SIZE = "insert_size";
-#    LIBRARY_CONSTRUCTION_PROTOCOL = "library_construction_protocol";
-#
-#    CONSENSUS_FILE = "assembly_file";
-#    CONTIGS_FILE = "contigs_file";
-#    SCAFFOLDS_FILE = "scaffolds_file";
-#    FORWARD_READ_FILE = "fwread_file";
-#    REVERSE_READ_FILE = "rvread_file";
+    PASSAGE_NUMBER = "passage_number";
+    PASSAGE_METHOD = "passage_method";
+    DEFINITION_FOR_SEROPOSITIVE_SAMPLE = "definition_for_seropositive_sample";
+    SEROTYPE = "serotype";
+    SEQUENCING_INSTRUMENT = "sequencing_instrument";
+    ASSEMBLY_METHOD = "assembly_method";
+    COVERAGE = "coverage";
+    LIBRARY_ID = "library_id";
+    LIBRARY_LAYOUT = "library_layout";
+    LIBRARY_SOURCE = "library_source";
+    LIBRARY_SELECTION = "library_selection";
+    LIBRARY_STRATEGY = "library_strategy";
+    LIBRARY_PREPARATION_DATE = "library_preparation_date";
+    LIBRARY_DESIGN_DESCRIPTION = "library_design_description";
+    INSERT_SIZE = "insert_size";
+    LIBRARY_CONSTRUCTION_PROTOCOL = "library_construction_protocol";
+
+    CONSENSUS_FILE = "assembly_file";
+    CONTIGS_FILE = "contigs_file";
+    SCAFFOLDS_FILE = "scaffolds_file";
+    FORWARD_READ_FILE = "fwread_file";
+    REVERSE_READ_FILE = "rvread_file";
 
 
     @classmethod
