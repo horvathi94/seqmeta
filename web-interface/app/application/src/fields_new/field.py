@@ -97,6 +97,14 @@ class Field:
         return "";
 
 
+    def get_value_from_sample(self, sample: "Sample"):
+        """Returns the value that will be assigned to the field from sample."""
+        if self.field_type == "seqfile":
+            ftype = self.db_key.replace("_file", "");
+            return SeqFile.fetch_filename(sample["sample_id"], ftype=ftype);
+        return sample[self.db_key];
+
+
     def copy(self):
         return replace(self);
 

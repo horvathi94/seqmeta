@@ -6,7 +6,6 @@
 {% from "samples/form/seqfiles.j2" import seqfile %}
 
 <td>
-
 	{% if field.field_type == "text" %}
 		{{ inptext(field.input, type="multi_template") }}
 	{% elif field.field_type == "number" %}
@@ -26,6 +25,5 @@
 	{% elif field.field_type == "seqfile" %}
 		{{ seqfile(field, dlist) }}
 	{% endif %}
-
 </td>
 

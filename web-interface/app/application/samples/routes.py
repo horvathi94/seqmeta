@@ -4,9 +4,10 @@ from application.src.samples.extensions.library import Library
 from application.src.samples.samples import Samples
 from application.src.forms.form import Form
 from .save import save
-from .editor import Editor, MultiEditor
+#from .editor import Editor, MultiEditor
 
 from .pages.editor import Editor
+from .pages.multi_editor import MultiEditor
 
 
 
@@ -220,6 +221,8 @@ def add_multiple():
 
 @samples_bp.route("/samples/edit-multiple", methods=["POST"])
 def edit_multiple():
+    selected = [int(i) for i in request.form.getlist("selected-samples")];
+    return MultiEditor.show(selected);
 
     styles = [{"filename": "add-multiple.css", "prefix": "samples"},
               {"filename": "markers.css"},
@@ -229,7 +232,6 @@ def edit_multiple():
                {"filename": "validate-samples.js", "prefix": "samples"}];
 
 
-    selected = [int(i) for i in request.form.getlist("selected-samples")];
     if len(selected) == 0: return "Nothing selected";
 
     html = "";
@@ -270,9 +272,8 @@ def delete_samples():
     return redirect(url_for('samples_bp.show'));
 
 
-from .pages.multi_editor import MultiEditor as TestEditor
 @samples_bp.route("/tester")
 def tester():
-    return TestEditor.show([1]);
+    return TestEditor.show([3]);
 
 
