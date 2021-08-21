@@ -67,7 +67,7 @@ class Field:
             rlevel = getattr(self, repo.value);
             if rlevel is None: continue;
             req = rqs.Requirement(repo.value,
-                                  rqs.RequirementLevels(rlevel).value);
+                                  rqs.RequirementLevels(rlevel).name);
             self.requirements.append(req);
 
 
