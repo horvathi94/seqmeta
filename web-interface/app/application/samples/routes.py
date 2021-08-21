@@ -7,6 +7,10 @@ from .save import save
 
 from .pages.editor import Editor
 from .pages.multi_editor import MultiEditor, MultiEditorAdd
+from .pages.display import DisplayPage
+from .pages import views
+from .pages import generators
+from .pages import delete
 
 
 
@@ -16,10 +20,6 @@ samples_bp = Blueprint("samples_bp", __name__,
                        static_url_path="/static/samples/");
 
 
-from .pages.display import DisplayPage
-from .pages import views
-from .pages import generators
-from .pages import delete
 
 
 @samples_bp.route("/samples/view")
@@ -27,8 +27,13 @@ def show():
     return DisplayPage.show();
 
 
+from .pages.save import Saver
+
 @samples_bp.route("/samples/submit", methods=["POST"])
 def submit():
+    test = Saver.parse_single(request.form);
+    return jsonify(test);
+
     save_data = {};
     save_data["sample"] = Form.parse_simple(request.form, "sample");
     save_data["location"] = Form.parse_simple(request.form, "location");
@@ -65,6 +70,8 @@ def parse_files_multiple(request):
 
 @samples_bp.route("/samples/submit-multiple", methods=["POST"])
 def submit_multiple():
+    test = Saver.parse_multiple(request.form);
+    return jsonify(test);
     sample_data = Form.parse_list(request.form, "sample")[1:];
     collection = Form.parse_list(request.form, "collection")[1:];
     location = Form.parse_list(request.form, "location")[1:];
