@@ -95,7 +95,7 @@ def edit_default_values():
 
 @misc_bp.route("/default-values/submit", methods=["POST"])
 def submit_default_values():
-    return DefaultsEditor.save(request.form);
+    return DefaultsEditor.save(submitted=request.form);
 
 
 

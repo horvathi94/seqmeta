@@ -19,11 +19,11 @@
 		{% elif field.field_type == "number" %}
 			{{ inpnumber(field.input, type="defaults") }}
 		{% elif field.field_type == "select" %}
-			{{ select(field.input.defaults,
+			{{ select(field.input.db_key,
 					field.options,
 					selected_id=field.input.value) }} </td>
 		{% elif field.field_type == "radio" %}
-			{{ radio(field.input.defaults,
+			{{ radio(field.input.db_key,
 					field.options,
 					selected_value=field.input.value) }} 
 		{% endif %}

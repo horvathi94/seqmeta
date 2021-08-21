@@ -39,18 +39,9 @@ class DefaultsEditor(EditorBase):
                                info=field, dlist=dlist);
 
 
-#    @classmethod
-#    def show(cls) -> "HTML":
-#        html = render_template("head.html", styles=cls.styles);
-#        html+= render_template("defaults/head.html");
-#        for handle in FIELDS:
-#            html+= cls.field(handle);
-#        html+= render_template("defaults/tail.html");
-#        html+= render_template("footer.html");
-#        return html;
-
-
     @classmethod
     def save(cls, submitted: "request.form") -> "flask.redirect":
+#        from flask import jsonify
+#        return jsonify(submitted);
         DefaultValues.save(submitted.to_dict());
         return redirect(url_for("misc_bp.edit_default_values"));
