@@ -12,10 +12,10 @@ class PatientTreatment(SampleExtension):
         entry["sample_id"] = int(entry["sample_id"]);
         treat = ReceivedTreatment.get_item_from_value(
             entry["prior_sars_cov_2_antiviral_treat"]);
-        entry["prior_sars_cov_2_antiviral_treat"] = treat.dbvalue;
+        entry["prior_sars_cov_2_antiviral_treat"] = treat.dbsave;
         infect = PriorInfection.get_item_from_value(
             entry["prior_sars_cov_2_infection"]);
-        entry["prior_sars_cov_2_infection"] = infect.dbvalue;
+        entry["prior_sars_cov_2_infection"] = infect.dbsave;
         if "date_of_prior_antiviral_treat" in entry:
             if entry["date_of_prior_antiviral_treat"] == "":
                 entry["date_of_prior_antiviral_treat"] = None;
