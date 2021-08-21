@@ -4,7 +4,6 @@ from application.src.samples.extensions.library import Library
 from application.src.samples.samples import Samples
 from application.src.forms.form import Form
 from .save import save
-#from .editor import Editor, MultiEditor
 
 from .pages.editor import Editor
 from .pages.multi_editor import MultiEditor, MultiEditorAdd
@@ -20,6 +19,7 @@ samples_bp = Blueprint("samples_bp", __name__,
 from .pages.display import DisplayPage
 from .pages import views
 from .pages import generators
+from .pages import delete
 
 
 @samples_bp.route("/samples/view")
@@ -196,28 +196,9 @@ def edit():
     return Editor.show(sample_id);
 
 
-
 @samples_bp.route("/samples/add-multiple", methods=["GET"])
 def add_multiple():
     return MultiEditorAdd.show();
-
-    styles = [{"filename": "add-multiple.css", "prefix": "samples"},
-              {"filename": "markers.css"},
-              {"filename": "tooltips.css"},
-              {"filename": "info.css"}];
-    scripts = [{"filename": "edit-multiple.js", "prefix": "samples"},
-               {"filename": "validate-samples.js", "prefix": "samples"},
-               {"filename": "import-data.js", "prefix": "samples"}];
-
-    html = "";
-    html+= render_template("head.html", styles=styles);
-
-    editor = MultiEditor();
-    html+= editor.show(tp="add");
-
-    html+= render_template("footer.html", scripts=scripts);
-    return html;
-
 
 
 @samples_bp.route("/samples/edit-multiple", methods=["POST"])
@@ -229,33 +210,13 @@ def edit_multiple():
 
 @samples_bp.route("/samples/validate-delete", methods=["POST"])
 def validate_delete():
-
-    styles = [{"filename":"smbasicform.css"}];
-
     selected = [int(i) for i in request.form.getlist("selected-samples")];
-    samples = Samples.fetch_entries("view_samples_details",
-                                    sample_ids=selected);
-
-    html = "";
-    html+= render_template("head.html", styles=styles);
-    html+= render_template("samples/validate_delete.html",
-                           samples=samples);
-    html+= render_template("footer.html");
-    return html;
+    return delete.Validate.render(selected);
 
 
 @samples_bp.route("/samples/delete", methods=["POST"])
 def delete_samples():
-
     selected = [int(i) for i in request.form.getlist("samples-to-delete")];
     for sample_id in selected:
         Samples.delete(sample_id);
-
     return redirect(url_for('samples_bp.show'));
-
-
-@samples_bp.route("/tester")
-def tester():
-    return TestEditor.show([3]);
-
-
