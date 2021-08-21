@@ -144,10 +144,18 @@ class MultiEditor(EditorBase):
 
 
     @classmethod
+    def empty_selection(cls) -> "HTML":
+        return "<p><strong>Nothing selected</strong></p>";
+
+
+    @classmethod
     def show(cls, sample_ids: list=[]) -> "HTML":
         """Returns HTML of basic editor."""
         html = render_template("head.html", styles=cls.styles);
-        html+= cls.render_editor(sample_ids=sample_ids);
+        if len(sample_ids) == 0:
+            html+= cls.empty_selection();
+        else:
+            html+= cls.render_editor(sample_ids=sample_ids);
         html+= render_template("footer.html", scripts=cls.scripts);
         return html;
 
@@ -161,3 +169,12 @@ class MultiEditorAdd(MultiEditor):
                {"filename": "import-data.js", "prefix": "samples"}];
 
     form_type = "add";
+
+
+    @classmethod
+    def show(cls) -> "HTML":
+        """Returns HTML of basic editor."""
+        html = render_template("head.html", styles=cls.styles);
+        html+= cls.render_editor(sample_ids=[]);
+        html+= render_template("footer.html", scripts=cls.scripts);
+        return html;

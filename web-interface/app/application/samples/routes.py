@@ -7,7 +7,7 @@ from .save import save
 #from .editor import Editor, MultiEditor
 
 from .pages.editor import Editor
-from .pages.multi_editor import MultiEditor
+from .pages.multi_editor import MultiEditor, MultiEditorAdd
 
 
 
@@ -199,6 +199,7 @@ def edit():
 
 @samples_bp.route("/samples/add-multiple", methods=["GET"])
 def add_multiple():
+    return MultiEditorAdd.show();
 
     styles = [{"filename": "add-multiple.css", "prefix": "samples"},
               {"filename": "markers.css"},
@@ -223,25 +224,6 @@ def add_multiple():
 def edit_multiple():
     selected = [int(i) for i in request.form.getlist("selected-samples")];
     return MultiEditor.show(selected);
-
-    styles = [{"filename": "add-multiple.css", "prefix": "samples"},
-              {"filename": "markers.css"},
-              {"filename": "tooltips.css"},
-              {"filename": "info.css"}];
-    scripts = [{"filename": "edit-multiple.js", "prefix": "samples"},
-               {"filename": "validate-samples.js", "prefix": "samples"}];
-
-
-    if len(selected) == 0: return "Nothing selected";
-
-    html = "";
-    html+= render_template("head.html", styles=styles);
-
-    editor = MultiEditor(sample_ids=selected);
-    html+= editor.show(tp="edit");
-
-    html+= render_template("footer.html", scripts=scripts);
-    return html;
 
 
 
