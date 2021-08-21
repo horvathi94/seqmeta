@@ -41,7 +41,5 @@ class DefaultsEditor(EditorBase):
 
     @classmethod
     def save(cls, submitted: "request.form") -> "flask.redirect":
-#        from flask import jsonify
-#        return jsonify(submitted);
         DefaultValues.save(submitted.to_dict());
         return redirect(url_for("misc_bp.edit_default_values"));
