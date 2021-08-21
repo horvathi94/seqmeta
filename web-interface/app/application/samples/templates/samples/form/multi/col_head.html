@@ -7,8 +7,8 @@
 <th {{ has_tooltip }}>
 	{{- field.field_name|safe -}}
 
-	{% for req in field.requirement %}
-		{{ marker(req.type, requirement=req.level) }}
+	{% for req in field.requirements %}
+		{{ marker(req.repo, requirement=req.level) }}
 	{% endfor %}
 
 	{% if field.description != "" %}
