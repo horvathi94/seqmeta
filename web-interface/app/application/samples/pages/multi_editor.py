@@ -45,8 +45,6 @@ class MultiEditor(EditorBase):
     @classmethod
     def sample_col(cls, field: "Field", sample: Samples) -> "HTML":
         field.input.value = field.get_value_from_sample(sample);
-#        field.input.value = sample[field.db_key];
-#        print(f"Value: {field.input.value}", file=sys.stderr)
         if field.handle_std == SampleFields.SAMPLE_NAME:
             field.input.onchange = "checkSampleNames();";
         elif field.handle_std == SampleFields.LIBRARY_ID:
@@ -93,7 +91,6 @@ class MultiEditor(EditorBase):
     def list_sample_row(cls, sample_id: int=0) -> list:
         row = [];
         sample = Samples.fetch("view_samples_base", sample_id);
-        print(f"Sample: {sample}", file=sys.stderr)
         for fd in SampleFields.list_for_editor():
             field = DBField.get_field(fd);
             field.input.replace_id_in_template_name(sample_id);
@@ -111,8 +108,6 @@ class MultiEditor(EditorBase):
         for sample_id in sample_ids:
             sample_rows.append(cls.list_sample_row(sample_id=sample_id));
 
-#        print(f"Samples: {sample_rows}", file=sys.stderr);
-
         html = cls.render_row(header_row);
         html+= cls.render_row(all_row, classes=["editor", "row", "all"]);
         html+= cls.render_row(template_row,
@@ -120,7 +115,6 @@ class MultiEditor(EditorBase):
                               style="visibility: collapse;");
 
         for sample_row in sample_rows:
-#            print(f"Sample: {sample_row[:3]}", file=sys.stderr)
             html+= cls.render_row(sample_row);
 
         return html;
