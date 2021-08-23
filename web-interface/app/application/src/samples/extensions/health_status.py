@@ -1,26 +1,7 @@
 from .base import SampleExtension
 from application.src.misc import Hospitalisation
 
-HOSPITALISATIONS = [
-{
-    "db_value": None,
-    "db_save": None,
-    "value": 0,
-    "label": "N/A"
-},
-{
-    "db_value": 1,
-    "db_save": True,
-    "value": 1,
-    "label": "Yes"
-},
-{
-    "db_value": 0,
-    "db_save": False,
-    "value": 2,
-    "label": "No"
-},
-];
+import sys
 
 
 class HealthStatus(SampleExtension):

@@ -97,53 +97,53 @@ class _SaveBase:
     @classmethod
     def save_collection_data(cls, data: dict, sample_id: int) -> None:
         data["sample_id"] = sample_id;
-        Collection.save_entry[data];
+        Collection.save_entry(data);
 
 
     @classmethod
     def save_location_data(cls, data: dict, sample_id: int) -> None:
         data["sample_id"] = sample_id;
-        Location.save_entry[data];
+        Location.save_entry(data);
 
 
     @classmethod
     def save_host_data(cls, data: dict, sample_id: int) -> None:
         data["sample_id"] = sample_id;
-        Host.save_entry[data];
+        Host.save_entry(data);
 
 
     @classmethod
     def save_treatment_data(cls, data: dict, sample_id: int) -> None:
         data["sample_id"] = sample_id;
-        PatientTreatment.save_entry[data];
+        PatientTreatment.save_entry(data);
 
 
     @classmethod
     def save_health_data(cls, data: dict, sample_id: int) -> None:
         data["sample_id"] = sample_id;
-        HealthStatus.save_entry[data];
+        HealthStatus.save_entry(data);
 
 
     @classmethod
     def save_sampling_data(cls, data: dict, sample_id: int) -> None:
         data["sample_id"] = sample_id;
-        Sampling.save_entry[data];
+        Sampling.save_entry(data);
 
 
     @classmethod
     def save_sequencing_data(cls, data: dict, sample_id: int) -> None:
         data["sample_id"] = sample_id;
-        Sequencing.save_entry[data];
+        Sequencing.save_entry(data);
 
 
     @classmethod
     def save_library_data(cls, data: dict, sample_id: int) -> None:
         data["sample_id"] = sample_id;
-        Library.save_entry[data];
+        Library.save_entry(data);
 
 
     @classmethod
-    def save_gisaid_virusname(cls, virusname: str, sample_id: int) -> None:
+    def save_virusname(cls, virusname: str, sample_id: int) -> None:
         if virusname == "":
             virusname = VirusnameGisaid.format_name(sample_id);
         Samples.update_virusname(sample_id, virusname);
@@ -157,12 +157,11 @@ class _SaveBase:
 
 
     @classmethod
-    def save(cls, submitted_samples: list) -> list:
+    def save_to_db(cls, submitted_samples: list) -> None:
 
         sample_ids = [];
         for submitted in submitted_samples:
             sample_id = cls.save_sample_data(submitted["sample"]);
-            sample_ids.append(sample_id);
             cls.save_collection_data(submitted["collection"], sample_id);
             cls.save_location_data(submitted["location"], sample_id);
             cls.save_host_data(submitted["host"], sample_id);
@@ -178,8 +177,12 @@ class _SaveBase:
 #                seqfiles = submitted["seqfiles"];
 #                save_files(seqfiles, sample_id);
 
-        return sample_ids;
 
+    @classmethod
+    def save(cls, data: "flask.request.form",
+             files: "flask.request.files") -> None:
+        submitted = cls.parse_request(data, files);
+        cls.save_to_db(submitted);
 
 
 

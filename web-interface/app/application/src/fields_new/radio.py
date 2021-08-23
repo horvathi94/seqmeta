@@ -30,6 +30,7 @@ class RadioList:
     @classmethod
     def get_item_from_value(cls, value: int) -> RadioValue:
         """Get item from value."""
+        value = int(value);
         for item in cls.items:
             if item.value == value: return item;
         return RadioValue();

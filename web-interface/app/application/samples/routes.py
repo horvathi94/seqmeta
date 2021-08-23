@@ -31,25 +31,8 @@ from .pages.save import Saver, SaveSingle
 
 @samples_bp.route("/samples/submit", methods=["POST"])
 def submit():
-    test = SaveSingle.parse_request(request.form, request.files);
-#    test = SaveSingle.parse_files(request.form, request.files);
-    return jsonify(test);
-
-    save_data = {};
-    save_data["sample"] = Form.parse_simple(request.form, "sample");
-    save_data["location"] = Form.parse_simple(request.form, "location");
-    save_data["collection"] = Form.parse_simple(request.form, "collection");
-    save_data["library"] = Form.parse_simple(request.form, "library");
-    save_data["host"] = Form.parse_simple(request.form, "host");
-    save_data["sampling"] = Form.parse_simple(request.form, "sampling");
-    save_data["health"] = Form.parse_simple(request.form, "health");
-    save_data["sequencing"] = Form.parse_simple(request.form, "sequencing");
-    save_data["treatment"] = Form.parse_simple(request.form, "treatment");
-    save_data["seqfiles"] = parse_files_multiple(request)[0];
-    sample_ids = save([save_data]);
-    sample_id = sample_ids[0];
+    SaveSingle.save(request.form, request.files);
     return redirect(url_for('samples_bp.show'));
-
 
 
 def parse_files_multiple(request):
