@@ -49,7 +49,6 @@ class DBSeqFile(DBInterface):
 
     @classmethod
     def fetch_filename_new(cls, seqfile: "SeqFile") -> str:
-        print(f"WHERE: {seqfile.get_where_clause()}", file=sys.stderr);
         raw = Cursor.select(cls.display_table_name, fields=["filename"],
                             clauses=seqfile.get_where_clause());
         return str(raw[0]["filename"]);

@@ -1,6 +1,8 @@
 import os
 from enum import Enum
 from dataclasses import dataclass
+from Bio import SeqIO
+from application.src.seqfiles import db
 
 
 class AssemblyLevels(Enum):
@@ -50,6 +52,8 @@ class SeqFile:
     is_forward_read: bool = None;
     filedata: "flask.fileStorage" = None;
     filename: str = "";
+    exists: bool = None;
+    extension: str = "fasta";
 
 
     def __post_init__(self):
@@ -57,6 +61,23 @@ class SeqFile:
             self.is_assembly = self.get_is_assembly(self.file_type);
             self.assembly_level = self.get_assembly_level(self.file_type);
             self.is_forward_read = self.get_is_forward_read(self.file_type);
+
+
+    def fetch_filename(self):
+        return db.DBSeqFile.fetch_filename_new(self);
+
+
+    def get_file(self):
+        path = self.get_path();
+        if path is None: return;
+        if self.filename is None: return;
+        return os.path.join(self.get_path(), self.filename);
+
+
+    def check_if_exists(self):
+        if self.filename == "": return False;
+        if self.get_path() is None: return False;
+        return os.path.isfile(self.get_file());
 
 
     @staticmethod
@@ -68,7 +89,7 @@ class SeqFile:
         if e == SeqFileTypes.CONTIGS_FILE:
             return AssemblyLevels.CONTIGS;
         if e == SeqFileTypes.SCAFFOLDS_FILE:
-            return AssemblyLevesl.SCAFFOLDS;
+            return AssemblyLevels.SCAFFOLDS;
 
 
     @staticmethod
@@ -82,7 +103,7 @@ class SeqFile:
     def get_is_forward_read(e: SeqFileTypes) -> bool:
         if e not in SeqFileTypes.list_reads():
             return None;
-        if e == SeqFileTypes.FW_READ_FILE:
+        if e == SeqFileTypes.FWREAD_FILE:
             return True;
         return False;
 
@@ -108,7 +129,15 @@ class SeqFile:
 
 
     def save_file(self) -> None:
-        path = self.get_path();
-        if path is None: return;
-        if self.filename is None: return;
-        self.filedata.save(os.path.join(path, self.filename));
+        self.filedata.save(self.get_file());
+
+
+    def get_sequence(self, header: str="") -> str:
+        if self.file_type not in SeqFileTypes.list_assemblies():
+            raise Exception("Trying to get sequence of reads file.");
+        if self.get_file() is None:
+            return f"Missing sequence.";
+        seq = f"> {header}";
+        seq+= SeqIO.read(self.get_file(), self.extension);
+        return seq.seq;
+

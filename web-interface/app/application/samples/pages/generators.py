@@ -2,7 +2,8 @@ from flask import send_file, redirect, url_for
 from application.src.metatemplates.gisaid.main import GisaidMeta
 from application.src.metatemplates.ena.main import EnaMeta
 from application.src.metatemplates.ncbi.main import NcbiMeta
-from application.src.seqfiles.seqfiles import SeqFilesBunch
+from application.src.seqfiles.seqfiles import SeqFilesBunchNew
+
 
 
 class GeneratorBase:
@@ -113,7 +114,7 @@ class ConcatConsensus(GeneratorBase):
             return cls.redirect_if_empty();
         concat = "";
         for sid in selected:
-            seqbunch = SeqFilesBunch(sid);
-            concat+= str(seqbunch.get_assembly());
+            seqbunch = SeqFilesBunchNew(sid);
+            concat+= str(seqbunch.get_consensus_sequence());
         return concat;
 

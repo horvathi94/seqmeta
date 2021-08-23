@@ -51,7 +51,7 @@
 			<td> {{ sample.group_name }} </td>
 
 			<td>
-				{% if sample.seqfiles.assembly_file.exists %}
+				{% if sample.seqfiles.consensus_file.exists %}
 					Yes
 				{% else %}
 					No

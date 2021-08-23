@@ -6,6 +6,7 @@ from .options_list import _OPTIONS_LIST
 from application.src.samples.samples import Samples
 from application.src.defaults import DefaultValues
 from application.src.seqfiles.db import DBSeqFile
+from application.src.seqfiles.types import SeqFile, SeqFileTypes
 
 
 @dataclass
@@ -80,8 +81,8 @@ class Field:
     def get_value(self, sample_id: int=0):
         """Returns the value that will be assigned to the fields."""
         if self.field_type == "seqfile":
-            ftype = self.db_key.replace("_file", "");
-            return DBSeqFile.fetch_filename(sample_id, ftype=ftype);
+            seqfile = SeqFile(sample_id, SeqFileTypes(self.db_key));
+            return seqfile.fetch_filename();
 
         if sample_id != 0:
             sampd = Samples.fetch_entry_edit(id=sample_id, id_key="sample_id");

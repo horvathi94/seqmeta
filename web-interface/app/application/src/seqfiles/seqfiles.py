@@ -1,8 +1,42 @@
 import os.path
-from .db import DBSeqFile
 from Bio import SeqIO
 from application.src.samples.samples import Samples
 from application.src.metatemplates.base.tempfile import TempFile
+
+
+from .db import DBSeqFile
+from .types import SeqFile, SeqFileTypes
+
+
+class SeqFilesBunchNew(TempFile):
+
+    main_dir = "/uploads/samples";
+    tempfilename = "last_generated_assembly_file.fasta";
+    attachement_prefix = "fasta_";
+    extension = "fasta";
+
+    def __init__(self, sample_id: int):
+        self.sample_id = sample_id;
+        self.consensus_file = self._fetch_file(self.sample_id,
+                                               SeqFileTypes.CONSENSUS_FILE);
+
+
+    @classmethod
+    def _fetch_file(cls, sample_id: int, sftype: SeqFileTypes) -> SeqFile:
+        seqfile = SeqFile(sample_id, sftype);
+        seqfile.filename = DBSeqFile.fetch_filename_new(seqfile);
+        seqfile.exists = seqfile.check_if_exists();
+        return seqfile;
+
+
+    def get_consensus_sequence(self):
+        sample = Samples.fetch("view_samples_base", self.sample_id);
+        virusname = sample["gisaid_virusname"];
+        seq = self.consensus_file.get_sequence(header=virusname);
+        return seq;
+
+
+
 
 class SeqFilesBunch(TempFile):
 
