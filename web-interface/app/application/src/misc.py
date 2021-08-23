@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from .db.cursor import Cursor
 from .db.interface import DBInterface
-from .fields_new.radio import RadioValue, RadioList
+from .fields.radio import RadioValue, RadioList
 
 
 class Genders(RadioList):

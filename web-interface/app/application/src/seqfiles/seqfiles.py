@@ -1,5 +1,5 @@
 import os.path
-from .db import SeqFile
+from .db import DBSeqFile
 from Bio import SeqIO
 from application.src.samples.samples import Samples
 from application.src.metatemplates.base.tempfile import TempFile
@@ -19,7 +19,7 @@ class SeqFilesBunch(TempFile):
         self.sort_files();
 
     def sort_files(self):
-        files = SeqFile.fetch_entries_by_sample_id(self.sample_id);
+        files = DBSeqFile.fetch_entries_by_sample_id(self.sample_id);
         self.assembly_file = SeqFilesBunch.fetch_assembly_file(files);
         self.forward_reads = SeqFilesBunch.fetch_reads_files(files);
         self.reverse_reads = SeqFilesBunch.fetch_reads_files(files,

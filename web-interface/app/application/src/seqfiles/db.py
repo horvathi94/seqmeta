@@ -1,5 +1,6 @@
 from application.src.db.interface import DBInterface
 from application.src.db.cursor import Cursor
+from .types import SeqFileTypes
 
 class SeqFileTypes(DBInterface):
 
@@ -24,17 +25,18 @@ class ReadFileTypes(DBInterface):
         return cls.fetch_list_labeled(replace_key="item_key");
 
 
+import sys
 
 
-class SeqFile(DBInterface):
+class DBSeqFile(DBInterface):
 
     display_table_name = "view_seqfiles";
 
     @classmethod
-    def save(cls, data):
-        args = (data["sample_id"], int(data["file_type_id"]),
-                data["is_assembly"], data["is_forward_read"],
-                data["assembly_level"]);
+    def save(cls, seqfile: "SeqFile") -> None:
+        args = (seqfile.sample_id, seqfile.file_type_id,
+                seqfile.is_assembly, seqfile.is_forward_read,
+                int(seqfile.assembly_level.value));
         Cursor.call_procedure("upsert_seqfiles", args=args, commit=True);
 
 
@@ -46,8 +48,16 @@ class SeqFile(DBInterface):
 
 
     @classmethod
+    def fetch_filename_new(cls, seqfile: "SeqFile") -> str:
+        print(f"WHERE: {seqfile.get_where_clause()}", file=sys.stderr);
+        raw = Cursor.select(cls.display_table_name, fields=["filename"],
+                            clauses=seqfile.get_where_clause());
+        return str(raw[0]["filename"]);
+
+
+    @classmethod
     def fetch_filename(cls, sample_id, ftype="assembly"):
-        where_clause = "WHERE sample_id = {:d}".format(sample_id);
+        where_clause = f"WHERE sample_id = {sample_id}";
         if ftype == "assembly":
             where_clause+= " AND is_assembly IS TRUE";
             where_clause+= " AND assembly_level_string = 'consensus'";

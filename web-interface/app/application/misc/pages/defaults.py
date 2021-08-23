@@ -1,11 +1,8 @@
 from flask import render_template, redirect, url_for
 from application.src.defaults import DefaultValues
-#from application.src.fields import Field
-#from application.src.editor.dlist import get_dlist
-
 from application.src.pages.editor import EditorBase
-from application.src.fields_new.dbfield import DBField
-from application.src.fields_new.sample_fields import SampleFields
+from application.src.fields.dbfield import DBField
+from application.src.fields.sample_fields import SampleFields
 
 
 

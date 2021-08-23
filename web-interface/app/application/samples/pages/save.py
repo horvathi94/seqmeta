@@ -15,8 +15,8 @@ from application.src.samples.nametemplates.virusname_gisaid import \
     VirusnameGisaid
 from application.src.samples.nametemplates.isolate_ena import \
     IsolateEna
-from application.src.seqfiles.db import SeqFile
-
+from application.src.seqfiles.db import DBSeqFile
+from application.src.seqfiles.types import SeqFileTypes, SeqFile
 
 import sys
 
@@ -64,15 +64,16 @@ class _SaveBase:
 
 
     @classmethod
-    def parse_file_bunch(cls, info: dict, files: dict) -> dict:
-        data = {"id": info["id"]};
+    def parse_file_bunch(cls, info: dict, files: dict) -> list:
+        data = [];
         for handle in info:
             if handle in SeqFileTypes.list_values():
                 if files[handle].filename == "": continue;
-                data[handle] = {};
-                data[handle]["type"] = handle;
-                data[handle]["filename"] = files[handle].filename;
-                data[handle]["filedata"] = files[handle];
+                sf = SeqFile(info["id"], SeqFileTypes(handle));
+                sf.file_type_id = info[handle];
+                sf.filename = files[handle].filename;
+                sf.filedata = files[handle];
+                data.append(sf);
         return data;
 
 
@@ -159,6 +160,17 @@ class _SaveBase:
 
 
     @classmethod
+    def save_seqfile_bunch(cls, seqfile_bunch: list, sample_id: int) -> None:
+        for seqfile in seqfile_bunch:
+            seqfile.sample_id = sample_id;
+            DBSeqFile.save(seqfile);
+
+            seqfile.filename = DBSeqFile.fetch_filename_new(seqfile);
+            print(f"Fetched: {seqfile.filename}", file=sys.stderr);
+            seqfile.save_file();
+
+
+    @classmethod
     def save_to_db(cls, submitted_samples: list) -> None:
 
         sample_ids = [];
@@ -175,9 +187,8 @@ class _SaveBase:
                                sample_id);
             cls.save_isolatename(submitted["sample"]["isolate"], sample_id);
 
-#            if "seqfiles" in submitted:
-#                seqfiles = submitted["seqfiles"];
-#                save_files(seqfiles, sample_id);
+            if "seqfiles" in submitted:
+                cls.save_seqfile_bunch(submitted["seqfiles"], sample_id);
 
 
     @classmethod
@@ -232,9 +243,6 @@ class AddMultiple(_SaveBase):
         save_data = cls.parse_list(raw, files);
         for item in save_data:
             item["sample"]["sample_id"] = 0;
-        print(f"Save data: {save_data}", file=sys.stderr)
-
-#        return []
         return save_data;
 
 

@@ -1,7 +1,7 @@
 from flask import render_template
 from application.src.pages.editor import EditorBase
-from application.src.fields_new.dbfield import DBField
-from application.src.fields_new.sample_fields import SampleFields
+from application.src.fields.dbfield import DBField
+from application.src.fields.sample_fields import SampleFields
 
 import sys
 
