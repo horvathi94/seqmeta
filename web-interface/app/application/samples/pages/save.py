@@ -1,7 +1,5 @@
 from flask import redirect, url_for
-from enum import Enum, auto
 from application.src.forms.form import Form
-from application.src.seqfiles.types import SeqFileTypes
 from application.src.samples.samples import Samples
 from application.src.samples.extensions.collections import Collection
 from application.src.samples.extensions.host import Host
@@ -16,7 +14,8 @@ from application.src.samples.nametemplates.virusname_gisaid import \
 from application.src.samples.nametemplates.isolate_ena import \
     IsolateEna
 from application.src.seqfiles.db import DBSeqFile
-from application.src.seqfiles.types import SeqFileTypes, SeqFile
+from application.src.seqfiles.types import SeqFileTypes
+from application.src.seqfiles.seqfile import  SeqFile
 
 import sys
 

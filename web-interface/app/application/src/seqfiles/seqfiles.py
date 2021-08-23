@@ -5,7 +5,8 @@ from application.src.metatemplates.base.tempfile import TempFile
 
 
 from .db import DBSeqFile
-from .types import SeqFile, SeqFileTypes
+from .types import SeqFileTypes
+from .seqfile import SeqFile
 
 
 class SeqFilesBunchNew(TempFile):
@@ -15,8 +16,10 @@ class SeqFilesBunchNew(TempFile):
     attachement_prefix = "fasta_";
     extension = "fasta";
 
+
     def __init__(self, sample_id: int):
         self.sample_id = sample_id;
+        self.sample = Samples.fetch("view_samples_base", self.sample_id);
         self.consensus_file = self._fetch_file(self.sample_id,
                                                SeqFileTypes.CONSENSUS_FILE);
 
@@ -30,10 +33,22 @@ class SeqFilesBunchNew(TempFile):
 
 
     def get_consensus_sequence(self):
-        sample = Samples.fetch("view_samples_base", self.sample_id);
-        virusname = sample["gisaid_virusname"];
-        seq = self.consensus_file.get_sequence(header=virusname);
-        return seq;
+        virusname = self.sample["gisaid_virusname"];
+        return self.consensus_file.get_sequence(header=virusname);
+
+
+    def write_gisiad_tempfile(self):
+        if not self.consuensus_file.exists:
+            raise Exception("No consensus file found.");
+        seqfile = self.consensus_file.get_file();
+        seqdata = SeqIO.read(seqfile, self.consensus_file.extension);
+        seqdata.id = self.sample["gisaid_virusname"];
+        seqdata.name = "";
+        seqdata.description = "";
+
+        with open(self.get_tempfile(), "w") as outf:
+            SeqIO.write(seqdata, outf, "fasta");
+
 
 
 

@@ -6,7 +6,8 @@ from .options_list import _OPTIONS_LIST
 from application.src.samples.samples import Samples
 from application.src.defaults import DefaultValues
 from application.src.seqfiles.db import DBSeqFile
-from application.src.seqfiles.types import SeqFile, SeqFileTypes
+from application.src.seqfiles.types import SeqFileTypes
+from application.src.seqfiles.seqfile import SeqFile
 
 
 @dataclass
