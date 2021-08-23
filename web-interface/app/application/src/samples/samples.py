@@ -97,3 +97,20 @@ class Samples(DBInterface):
         args = (sample_id,);
         Cursor.call_procedure("delete_sample", args=args, commit=True);
         return;
+
+
+    @classmethod
+    def update_virusname(cls, sample_id: int, virusname: str) -> None:
+        """Update the virusname of sample with id sample_id."""
+        where_clause = f"WHERE id = {sample_id}";
+        values = {"gisaid_virusname": virusname};
+        Cursor.update_row("samples", where_clause, values);
+
+
+    @classmethod
+    def update_isolatename(cls, sample_id: int, isolate: str) -> None:
+        """Update the virusname of sample with id sample_id."""
+        where_clause = f"WHERE id = {sample_id}";
+        values = {"isolate": isolate};
+        Cursor.update_row("samples", where_clause, values);
+

@@ -27,11 +27,12 @@ def show():
     return DisplayPage.show();
 
 
-from .pages.save import Saver
+from .pages.save import Saver, SaveSingle
 
 @samples_bp.route("/samples/submit", methods=["POST"])
 def submit():
-    test = Saver.parse_single(request.form);
+    test = SaveSingle.parse_request(request.form, request.files);
+#    test = SaveSingle.parse_files(request.form, request.files);
     return jsonify(test);
 
     save_data = {};
