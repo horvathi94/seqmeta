@@ -1,3 +1,4 @@
+from flask import redirect, url_for
 from enum import Enum, auto
 from application.src.forms.form import Form
 from application.src.seqfiles.types import SeqFileTypes
@@ -31,7 +32,8 @@ class _SaveBase:
 
 
     @classmethod
-    def parse_list(cls, raw: "flask.request.form") -> list:
+    def parse_list(cls, raw: "flask.request.form",\
+                   files: "flask.request.files") -> list:
         sample_data = Form.parse_list(raw, "sample")[1:];
         collection = Form.parse_list(raw, "collection")[1:];
         location = Form.parse_list(raw, "location")[1:];
@@ -41,7 +43,7 @@ class _SaveBase:
         sequencing = Form.parse_list(raw, "sequencing")[1:];
         sampling = Form.parse_list(raw, "sampling")[1:];
         library = Form.parse_list(raw, "library")[1:];
-#        fs = parse_files_multiple(request)[1:];
+        fs = cls.parse_files(raw, files)[1:];
 
         samples = [];
         for i, sd in enumerate(sample_data):
@@ -56,7 +58,7 @@ class _SaveBase:
             save_data["sampling"] = sampling[i];
             save_data["library"] = library[i];
             save_data["treatment"] = treatment[i];
-#            save_data["seqfiles"] = fs[i];
+            save_data["seqfiles"] = fs[i];
             samples.append(save_data);
         return samples;
 
@@ -180,9 +182,10 @@ class _SaveBase:
 
     @classmethod
     def save(cls, data: "flask.request.form",
-             files: "flask.request.files") -> None:
+             files: "flask.request.files") -> "flask.redirect":
         submitted = cls.parse_request(data, files);
         cls.save_to_db(submitted);
+        return redirect(url_for("samples_bp.show"));
 
 
 
@@ -212,8 +215,10 @@ class EditMultiple(_SaveBase):
 
 
     @classmethod
-    def parse_request(cls, raw: "flask.request.form") -> list:
-        save_data = cls.parse_list();
+    def parse_request(cls, raw: "flask.request.form",
+                      files: "flask.request.files") -> list:
+        save_data = cls.parse_list(raw, files);
+        return save_data;
 
 
 
@@ -222,30 +227,14 @@ class AddMultiple(_SaveBase):
 
 
     @classmethod
-    def parse_request(cls, raw: "flask.request.form") -> list:
-        save_data = cls.parse_list();
+    def parse_request(cls, raw: "flask.request.form",
+                      files: "flask.request.files") -> list:
+        save_data = cls.parse_list(raw, files);
         for item in save_data:
-            item["sample"]["sample_id"]: 0;
+            item["sample"]["sample_id"] = 0;
+        print(f"Save data: {save_data}", file=sys.stderr)
 
-
-
-
-
-
-class Saver:
-
-
-
-    @classmethod
-    def parse_files(cls, raw: "flask.request.form") -> list:
-        seqfiles = Form.parse_list(raw, "seqfile");
-        pass;
-
-
-
-    @classmethod
-    def parse_multiple(cls, raw: "flask.request.form") -> list:
-        """Parse data submitted from multiple samples editor."""
-
+#        return []
+        return save_data;
 
 

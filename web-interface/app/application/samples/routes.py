@@ -1,15 +1,12 @@
-from flask import Blueprint, render_template, request, redirect, url_for, \
-    jsonify
+from flask import Blueprint, request, redirect, url_for, jsonify
 from application.src.samples.extensions.library import Library
 from application.src.samples.samples import Samples
-from application.src.forms.form import Form
-from .save import save
-
 from .pages.editor import Editor
 from .pages.multi_editor import MultiEditor, MultiEditorAdd
 from .pages.display import DisplayPage
 from .pages import views
 from .pages import generators
+from .pages import save
 from .pages import delete
 
 
@@ -27,96 +24,19 @@ def show():
     return DisplayPage.show();
 
 
-from .pages.save import Saver, SaveSingle
-
 @samples_bp.route("/samples/submit", methods=["POST"])
 def submit():
-    SaveSingle.save(request.form, request.files);
-    return redirect(url_for('samples_bp.show'));
-
-
-def parse_files_multiple(request):
-    seqfile_types = Form.parse_list(request.form, "seqfile");
-    seqfiles = Form.parse_list(request.files, "seqfile");
-
-    fdata = [];
-    FTYPES = ["assembly_file", "fwread_file", "rvread_file",
-              "contigs_file", "scaffolds_file"];
-    for f, ftype in zip(seqfiles, seqfile_types):
-        d = {"id": ftype["id"]};
-        for handle in FTYPES:
-            d[handle] = {"type": ftype[handle],
-                        "filename": f[handle].filename,
-                        "filedata": f[handle]};
-        fdata.append(d);
-    return fdata;
+    return save.SaveSingle.save(request.form, request.files);
 
 
 @samples_bp.route("/samples/submit-multiple", methods=["POST"])
 def submit_multiple():
-    test = Saver.parse_multiple(request.form);
-    return jsonify(test);
-    sample_data = Form.parse_list(request.form, "sample")[1:];
-    collection = Form.parse_list(request.form, "collection")[1:];
-    location = Form.parse_list(request.form, "location")[1:];
-    host = Form.parse_list(request.form, "host")[1:];
-    treatment = Form.parse_list(request.form, "treatment")[1:];
-    health = Form.parse_list(request.form, "health")[1:];
-    sequencing = Form.parse_list(request.form, "sequencing")[1:];
-    sampling = Form.parse_list(request.form, "sampling")[1:];
-    library = Form.parse_list(request.form, "library")[1:];
-    fs = parse_files_multiple(request)[1:];
-
-    samples = [];
-    for i, sd in enumerate(sample_data):
-        save_data = {};
-        save_data["sample"] = sd;
-        save_data["sample"]["sample_id"] = 0;
-        save_data["location"] = location[i];
-        save_data["collection"] = collection[i];
-        save_data["host"] = host[i];
-        save_data["health"] = health[i];
-        save_data["sequencing"] = sequencing[i];
-        save_data["sampling"] = sampling[i];
-        save_data["library"] = library[i];
-        save_data["treatment"] = treatment[i];
-        save_data["seqfiles"] = fs[i];
-        samples.append(save_data);
-    save(samples);
-    return redirect(url_for('samples_bp.show'));
+    return save.AddMultiple.save(request.form, request.files);
 
 
 @samples_bp.route("/samples/submit-edit-multiple", methods=["POST"])
 def submit_edit_multiple():
-    sample_data = Form.parse_list(request.form, "sample")[1:];
-    collection = Form.parse_list(request.form, "collection")[1:];
-    location = Form.parse_list(request.form, "location")[1:];
-    host = Form.parse_list(request.form, "host")[1:];
-    treatment = Form.parse_list(request.form, "treatment")[1:];
-    health = Form.parse_list(request.form, "health")[1:];
-    sequencing = Form.parse_list(request.form, "sequencing")[1:];
-    sampling = Form.parse_list(request.form, "sampling")[1:];
-    library = Form.parse_list(request.form, "library")[1:];
-    fs = parse_files_multiple(request)[1:];
-
-    samples = [];
-    for i, sd in enumerate(sample_data):
-        save_data = {};
-        save_data["sample"] = sd;
-        save_data["sample"]["sample_id"] = int(sd["id"]);
-        save_data["location"] = location[i];
-        save_data["collection"] = collection[i];
-        save_data["host"] = host[i];
-        save_data["health"] = health[i];
-        save_data["sequencing"] = sequencing[i];
-        save_data["sampling"] = sampling[i];
-        save_data["library"] = library[i];
-        save_data["treatment"] = treatment[i];
-        save_data["seqfiles"] = fs[i];
-        samples.append(save_data);
-    save(samples);
-    return redirect(url_for('samples_bp.show'));
-
+    return save.EditMultiple.save(request.form, request.files);
 
 
 
