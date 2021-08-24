@@ -65,14 +65,6 @@ class SeqFilesBunchNew(TempFile):
             SeqIO.write(seqdata, outf, "fasta");
 
 
-    def write_ena_contigs(self, file: str) -> None:
-        pass;
-
-
-    def write_ena_scaffolds(self, file: str) -> None:
-        pass;
-
-
     def has_reads(self) -> bool:
         for read in self.read_files:
             if not read.exists: return False;

@@ -2,7 +2,7 @@ import os.path
 from zipfile import ZipFile
 from ..base.tempfile import TempFile
 from application.src.samples.samples import Samples
-from application.src.seqfiles.seqfiles import SeqFilesBunch
+from application.src.seqfiles.seqfiles import SeqFilesBunchNew
 from .samples import NcbiSample
 from .experiment import NcbiExperiment
 
@@ -30,15 +30,13 @@ class NcbiMeta(TempFile):
             zipObj.write(NcbiSample.get_tempfile(), "samples.xlsx");
             zipObj.write(NcbiExperiment.get_tempfile(), "sra.xlsx");
 
+            # Write read files: 
             for sample in samples:
-                seqbunch = SeqFilesBunch(sample["sample_id"]);
+                sb = SeqFilesBunchNew(sample["sample_id"]);
+                if not sb.has_reads():
+                    continue;
 
-                if seqbunch.has_fwreads_file():
-                    fwread = seqbunch.get_reads(tp="fwread");
-                    zipObj.write(fwread,
-                            "reads/"+seqbunch.forward_reads[0]["filename"]);
+                for read in sb.read_files:
+                    zipObj.write(read.get_file(),
+                                 f"reads/{read.filename}");
 
-                if seqbunch.has_rvreads_file():
-                    rvread = seqbunch.get_reads(tp="rvread");
-                    zipObj.write(rvread,
-                            "reads/"+seqbunch.reverse_reads[0]["filename"]);

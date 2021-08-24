@@ -11,10 +11,6 @@ from .runs_manifest import EnaManifestRun
 from . import assemblies_manifest as assembman
 
 
-import sys
-
-
-
 class EnaMeta(TempFile):
 
     tempfilename = "last_generated_ena.zip";
@@ -65,7 +61,6 @@ class EnaMeta(TempFile):
                     assembman.EnaContigs.write(sample);
                     zipObj.write(assembman.EnaContigs.get_tempfile(),
                                  assembman.EnaContigs.manifest_in_zip(sname));
-                    print(f"Contigs: {sb.contigs_file}", file=sys.stderr);
 
                     zipObj.write(sb.contigs_file.get_file(),
                                  f"{assembman.EnaContigs.zip_dir}/" \
