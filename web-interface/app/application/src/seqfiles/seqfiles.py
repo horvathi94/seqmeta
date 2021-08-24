@@ -37,8 +37,8 @@ class SeqFilesBunchNew(TempFile):
         return self.consensus_file.get_sequence(header=virusname);
 
 
-    def write_gisiad_tempfile(self):
-        if not self.consuensus_file.exists:
+    def write_gisiad_tempfile(self, file: str) -> None:
+        if not self.consensus_file.exists:
             raise Exception("No consensus file found.");
         seqfile = self.consensus_file.get_file();
         seqdata = SeqIO.read(seqfile, self.consensus_file.extension);
@@ -46,7 +46,7 @@ class SeqFilesBunchNew(TempFile):
         seqdata.name = "";
         seqdata.description = "";
 
-        with open(self.get_tempfile(), "w") as outf:
+        with open(file, "w") as outf:
             SeqIO.write(seqdata, outf, "fasta");
 
 

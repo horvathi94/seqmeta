@@ -21,7 +21,7 @@ CREATE OR REPLACE VIEW view_samples_gisaid AS
 		hosts.host_common_name AS host,
 		hosts.additional_host_info AS additional_host_info,
 		sampling.sampling_strategy AS sampling_strategy,
-		hosts.patient_gender AS patient_gender,
+		hosts.patient_gender AS patient_gender_gisaid,
 		hosts.patient_age AS patient_age,
 		hosts.patient_status AS patient_status,
 		sampling.specimen_source AS specimen_source,
@@ -57,7 +57,9 @@ CREATE OR REPLACE VIEW view_samples_gisaid AS
 		( SELECT filename 
 			FROM view_seqfiles
 			WHERE sample_id = samples.sample_id
-				AND is_assembly = TRUE ) AS seqfilename
+				AND is_assembly IS TRUE 
+				AND assembly_level_string = "consensus" 
+			) AS seqfilename
 
 	FROM view_samples_base AS samples
 	LEFT JOIN view_samples_sampling AS sampling

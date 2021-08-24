@@ -23,7 +23,7 @@ class GisaidExcel(ExcelGenerator):
             ws["I{:d}".format(i)] = sample["host"];
             ws["J{:d}".format(i)] = sample["additional_host_info"];
             ws["K{:d}".format(i)] = sample["sampling_strategy"];
-            ws["L{:d}".format(i)] = sample["patient_gender"]
+            ws["L{:d}".format(i)] = sample["patient_gender_gisaid"]
             ws["M{:d}".format(i)] = sample["patient_age"];
             ws["N{:d}".format(i)] = sample["patient_status"];
             ws["O{:d}".format(i)] = sample["specimen_source"];
