@@ -67,15 +67,14 @@ class _SaveBase:
         data = [];
         for handle in info:
             if handle in SeqFileTypes.list_values():
-                if files[handle].filename == "": continue;
                 sf = SeqFile(info["id"], SeqFileTypes(handle));
                 sf.file_type_id = info[handle];
-                sf.filename = files[handle].filename;
-                sf.filedata = files[handle];
+                if files[handle].filename != "":
+                    sf.filename = files[handle].filename;
+                    sf.filedata = files[handle];
                 if handle in assemb:
                     sf.assembly_method_id = int(assemb[handle]);
                 data.append(sf);
-        print(f"Data: {data}", file=sys.stderr);
         return data;
 
 
@@ -168,8 +167,9 @@ class _SaveBase:
             seqfile.sample_id = sample_id;
             DBSeqFile.save(seqfile);
 
-            seqfile.filename = DBSeqFile.fetch_filename(seqfile);
-            seqfile.save_file();
+            if seqfile.filename != "":
+                seqfile.filename = DBSeqFile.fetch_filename(seqfile);
+                seqfile.save_file();
 
 
     @classmethod
