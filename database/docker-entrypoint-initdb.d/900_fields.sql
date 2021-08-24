@@ -608,10 +608,10 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 
 
 	("assembly_file",
-		"Assembly file", "seqfile", 3, 1, 1,
+		"Consensus sequence file", "seqfile", 3, 1, 1,
 		"assembly_file", "assembly-file", NULL, NULL, NULL, NULL, NULL,
 		"seqfile",
-		"Assembly file."
+		"Consensus sequence file."
 	),
 	("contigs_file",
 		"Contigs assembly file", "seqfile", NULL, 1, 1,
@@ -638,10 +638,22 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"Reverse read file (the second one the machine returns)."
 	),
 	("consensus_assembly_method",
-		"Consensus file assembly method", "seqfile_assembly", 3, 1, 1,
+		"Consensus sequence assembly method", "seqfile_assembly", 3, 1, 1,
 		"consensus_assembly_method", "consensus-assembly-method", NULL, NULL, NULL, NULL, NULL,
 		"seqfile_assembly",
 		"Consensus sequence assembly method."
+	),
+	("contigs_assembly_method",
+		"Contigs assembly assembly method", "seqfile_assembly", NULL, 1, 1,
+		"contigs_assembly_method", "contigs-assembly-method", NULL, NULL, NULL, NULL, NULL,
+		"seqfile_assembly",
+		"Contigs assembly assembly method."
+	),
+	("scaffolds_assembly_method",
+		"Scaffolds assembly assembly method", "seqfile_assembly", NULL, 1, 1,
+		"scaffolds_assembly_method", "scaffolds-assembly-method", NULL, NULL, NULL, NULL, NULL,
+		"seqfile_assembly",
+		"Scaffolds assembly assembly_method."
 	)
 
 

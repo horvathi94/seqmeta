@@ -32,7 +32,7 @@ class SeqFile:
 
 
     def _set_assembly_method(self):
-        d ,= db.DBSeqFile.fetch_entries_by_sample_id(self.sample_id);
+        d = db.DBSeqFile.fetch_assembly_method(self);
         self.assembly_method_id = d["assembly_method_id"];
         self.assembly_method = d["assembly_method"];
 

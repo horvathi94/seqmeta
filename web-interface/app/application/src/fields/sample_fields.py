@@ -99,7 +99,9 @@ class SampleFields(Enum):
     CONSENSUS_FILE = "assembly_file";
     CONSENSUS_ASSEMBLY_METHOD = "consensus_assembly_method";
     CONTIGS_FILE = "contigs_file";
+    CONTIGS_ASSEMBLY_METHOD = "contigs_assembly_method";
     SCAFFOLDS_FILE = "scaffolds_file";
+    SCAFFOLDS_ASSEMBLY_METHOD = "scaffolds_assembly_method";
     FORWARD_READ_FILE = "fwread_file";
     REVERSE_READ_FILE = "rvread_file";
 

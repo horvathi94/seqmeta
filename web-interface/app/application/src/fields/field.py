@@ -92,7 +92,13 @@ class Field:
             return seqfile.fetch_filename();
 
         if self.field_type == "seqfile_assembly":
-            seqfile = SeqFile(sample_id, SeqFileTypes(self.db_key));
+            if self.db_key == "consensus_assembly_method":
+                sftype = SeqFileTypes.CONSENSUS_FILE;
+            elif self.db_key == "contigs_assembly_method":
+                sftype = SeqFileTypes.CONTIGS_FILE;
+            elif self.db_key == "scaffolds_assembly_method":
+                sftype = SeqFileTypes.SCAFFOLDS_FILE;
+            seqfile = SeqFile(sample_id, sftype);
             return seqfile.assembly_method_id;
 
         if sample_id != 0:
