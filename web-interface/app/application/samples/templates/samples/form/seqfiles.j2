@@ -2,14 +2,28 @@
 
 
 
-{% macro seqfile(info, dlist) %}
+{% macro seqfile(info, dlist_extension) %}
 
 	<input type="file" name="{{ info.input.multi_template }}">
 
-	{{ select(info.input.multi_template, dlist) }}
+	{{ select(info.input.multi_template, dlist_extension) }}
+	
 
 	{% if info.input.value != "" and info.input.value != 0 %}
 		<p> Has file: {{ info.input.value }} </p>
 	{% endif %}
+
+{% endmacro %}
+
+
+
+
+
+{% macro seqfile_assembly(info, dlist_assembly_methods) %}
+
+	<input type="file" name="{{ info.input.multi_template }}">
+
+	{{ select(info.input.multi_template, dlist_assembly_methods) }}
+	
 
 {% endmacro %}

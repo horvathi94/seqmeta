@@ -76,6 +76,14 @@ class InputSeqFile(_InputBase):
 
 
 @dataclass
+class InputSeqFileAssembly(_InputBase):
+
+    def __post_init__(self):
+        super().__post_init__();
+        self.file_type = self.db_key;
+
+
+@dataclass
 class InputSelect(_InputBase):
 
     value: int = 0;

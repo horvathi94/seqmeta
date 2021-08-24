@@ -20,5 +20,7 @@ class DBField:
     @classmethod
     def get_field(cls, handle: "SampleFields") -> Field:
         raw = cls.fetch(handle.value);
+        import sys
+        print(raw, file=sys.stderr)
         field = Field(**raw);
         return field;

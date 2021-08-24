@@ -97,6 +97,7 @@ class SampleFields(Enum):
     LIBRARY_CONSTRUCTION_PROTOCOL = "library_construction_protocol";
 
     CONSENSUS_FILE = "assembly_file";
+    CONSENSUS_ASSEMBLY_METHOD = "consensus_assembly_method";
     CONTIGS_FILE = "contigs_file";
     SCAFFOLDS_FILE = "scaffolds_file";
     FORWARD_READ_FILE = "fwread_file";

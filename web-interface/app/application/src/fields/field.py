@@ -61,6 +61,9 @@ class Field:
         if self.field_type == "seqfile":
             self.input = inps.InputSeqFile(self.prefix, self.db_key,
                                            classes=self.classes);
+        if self.field_type == "seqfile_assembly":
+            self.input = inps.InputSeqFile(self.prefix, self.db_key,
+                                           classes=self.classes);
 
 
     def _parse_requirements(self) -> None:
@@ -85,6 +88,9 @@ class Field:
             seqfile = SeqFile(sample_id, SeqFileTypes(self.db_key));
             return seqfile.fetch_filename();
 
+        if self.field_type == "seqfile_assembly":
+            return 0;
+
         if sample_id != 0:
             sampd = Samples.fetch_entry_edit(id=sample_id, id_key="sample_id");
             return sampd[self.db_key];
@@ -104,6 +110,9 @@ class Field:
         if self.field_type == "seqfile":
             ftype = self.db_key.replace("_file", "");
             return SeqFile.fetch_filename(sample["sample_id"], ftype=ftype);
+
+        if self.field_type == "seqfile_assembly":
+            return 2;
         return sample[self.db_key];
 
 

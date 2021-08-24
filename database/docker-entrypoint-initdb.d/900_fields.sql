@@ -636,6 +636,12 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"rvread_file", "rvread-file", NULL, NULL, NULL, NULL, NULL,
 		"seqfile",
 		"Reverse read file (the second one the machine returns)."
+	),
+	("consensus_assembly_method",
+		"Consensus file assembly method", "seqfile_assembly", 3, 1, 1,
+		"consensus_assembly_method", "consensus-assembly-method", NULL, NULL, NULL, NULL, NULL,
+		"seqfile_assembly",
+		"Consensus sequence assembly method."
 	)
 
 

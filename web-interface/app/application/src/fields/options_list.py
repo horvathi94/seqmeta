@@ -45,6 +45,7 @@ _OPTIONS_LIST = {
     SF.LIBRARY_STRATEGY: lib.LibraryStrategies.fetch_select_list,
 
     SF.CONSENSUS_FILE: AssemblyFileTypes.fetch_select_list,
+    SF.CONSENSUS_ASSEMBLY_METHOD: misc.AssemblyMethods.fetch_list,
     SF.CONTIGS_FILE: AssemblyFileTypes.fetch_select_list,
     SF.SCAFFOLDS_FILE: AssemblyFileTypes.fetch_select_list,
     SF.FORWARD_READ_FILE: ReadFileTypes.fetch_select_list,

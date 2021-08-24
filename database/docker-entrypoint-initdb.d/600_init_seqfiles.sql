@@ -29,12 +29,13 @@ CREATE TABLE IF NOT EXISTS `seqfiles` (
 	file_type_id INT UNSIGNED,
 	is_assembly BIT(1),
 	is_forward_read BIT(1),
-	assembly_level TINYINT UNSIGNED
+	assembly_level TINYINT UNSIGNED,
+	assembly_method_id INT UNSIGNED
 
 );
 
 
-
+DROP PROCEDURE IF EXISTS upsert_seqfiles;
 
 DELIMITER $$
 
@@ -43,7 +44,8 @@ CREATE PROCEDURE upsert_seqfiles (
 	IN file_type_id INT UNSIGNED,
 	IN is_assembly BIT(1),
 	IN is_forward_read BIT(1),
-	IN assembly_level INT UNSIGNED
+	IN assembly_level INT UNSIGNED,
+	IN assembly_method_id INT UNSIGNED
 )
 
 	BEGIN
@@ -71,8 +73,8 @@ CREATE PROCEDURE upsert_seqfiles (
 
 		IF ( @working_id = 0 ) THEN
 
-			INSERT INTO seqfiles (sample_id, file_type_id, is_assembly, is_forward_read, assembly_level)
-				VALUES (sample_id, file_type_id, is_assembly, is_forward_read, assembly_level);
+			INSERT INTO seqfiles (sample_id, file_type_id, is_assembly, is_forward_read, assembly_level, assembly_method_id)
+				VALUES (sample_id, file_type_id, is_assembly, is_forward_read, assembly_level, assembly_method_id);
 
 		ELSE
 
@@ -81,6 +83,7 @@ CREATE PROCEDURE upsert_seqfiles (
 					is_assembly = is_assembly,
 					is_forward_read = is_forward_read,
 					assembly_level = assembly_level
+					assembly_method_id = assembly_method_id
 				WHERE id = @working_id;
 
 		END IF;
