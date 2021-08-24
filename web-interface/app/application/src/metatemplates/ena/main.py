@@ -8,7 +8,12 @@ from .samples import EnaTsv
 from .experiment import EnaExperiment
 from .manifest import EnaManifest
 from .runs_manifest import EnaManifestRun
-from .assemblies_manifest import EnaManifestAssembly
+from . import assemblies_manifest as assembman
+
+
+import sys
+
+
 
 class EnaMeta(TempFile):
 
@@ -40,46 +45,37 @@ class EnaMeta(TempFile):
 
             # Write read files: 
             for sample in run_samples:
+                sb = SeqFilesBunchNew(sample["sample_id"]);
+                if not sb.has_reads():
+                    continue;
                 EnaManifestRun.write(sample);
                 zipObj.write(EnaManifestRun.get_tempfile(),
                     EnaManifestRun.manifest_in_zip(sample["sample_alias"]));
-                sb = SeqFilesBunchNew(sample["sample_id"]);
                 for read in sb.read_files:
                     zipObj.write(read.get_file(),
                                  f"{EnaManifestRun.zip_dir}/{read.filename}");
 
-#            for sample in assembly_samples:
-#                EnaManifestAssembly.write(sample, "contigs");
-#                zipObj.write(EnaManifestAssembly.get_tempfile(),
-#                  f"assemblies/contigs/{sample['sample_name']}_manifest.txt");
-#
-#            for sample in assembly_samples:
-#                EnaManifestAssembly.write(sample, "scaffolds");
-#                zipObj.write(EnaManifestAssembly.get_tempfile(),
-#                  f"assemblies/scaffolds/{sample['sample_name']}_manifest.txt");
-#
-#            for sample in samples:
-#
-#                seqbunch = SeqFilesBunch(sample["sample_id"]);
-#
-#                if seqbunch.has_fwreads_file():
-#                    fwread = seqbunch.get_reads(tp="fwread");
-#                    zipObj.write(fwread,
-#                            "reads/"+seqbunch.forward_reads[0]["filename"]);
-#
-#                if seqbunch.has_rvreads_file():
-#                    rvread = seqbunch.get_reads(tp="rvread");
-#                    zipObj.write(rvread,
-#                            "reads/"+seqbunch.reverse_reads[0]["filename"]);
-#
-##                manifest_sample ,= Samples.fetch_entries(
-##                    "view_samples_ena_manifest",
-##                    sample_ids=[sample["sample_id"]]);
-##                EnaManifest.write(manifest_sample);
-##                zipObj.write(EnaManifest.get_tempfile(),
-##                        "assemblies/manifest_"+sample["sample_name"]+".txt");
-#
-#                if seqbunch.has_assembly_file():
-#                    assembly = seqbunch.get_assembly_file();
-#                    zipObj.write(assembly,
-#                            "assemblies/"+seqbunch.assembly_file["filename"]);
+
+            # Write assembly files:
+            for sample in assembly_samples:
+                sb = SeqFilesBunchNew(sample["sample_id"]);
+                sname = sample["sample_name"];
+
+                if sb.contigs_file.exists:
+                    assembman.EnaContigs.write(sample);
+                    zipObj.write(assembman.EnaContigs.get_tempfile(),
+                                 assembman.EnaContigs.manifest_in_zip(sname));
+                    print(f"Contigs: {sb.contigs_file}", file=sys.stderr);
+
+                    zipObj.write(sb.contigs_file.get_file(),
+                                 f"{assembman.EnaContigs.zip_dir}/" \
+                                 f"{sb.contigs_file.filename}");
+
+                if sb.scaffolds_file.exists:
+                    assembman.EnaScaffolds.write(sample);
+                    zipObj.write(assembman.EnaScaffolds.get_tempfile(),
+                                assembman.EnaScaffolds.manifest_in_zip(sname));
+                    zipObj.write(sb.scaffolds_file.get_file(),
+                                 f"{assembman.EnaScaffolds.zip_dir}/" \
+                                 f"{sb.scaffolds_file.filename}");
+

@@ -18,9 +18,7 @@ class GisaidMeta(TempFile):
 
         samples = Samples.fetch_entries("view_samples_gisaid",
                                         sample_ids=selected);
-        print(f"GISAID: {samples}", file=sys.stderr)
         GisaidExcel.write_gisaid(samples);
-
 
 
         with ZipFile(cls.get_tempfile(), "w") as zipObj:

@@ -3,9 +3,9 @@ from enum import Enum
 
 class AssemblyLevels(Enum):
 
-    CONSENSUS = 1;
-    CONTIGS = 2;
-    SCAFFOLDS = 3;
+    CONTIGS = 1;
+    SCAFFOLDS = 2;
+    CONSENSUS = 3;
 
 
 

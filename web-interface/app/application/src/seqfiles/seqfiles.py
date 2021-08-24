@@ -22,6 +22,10 @@ class SeqFilesBunchNew(TempFile):
         self.sample = Samples.fetch("view_samples_base", self.sample_id);
         self.consensus_file = self._fetch_file(self.sample_id,
                                                SeqFileTypes.CONSENSUS_FILE);
+        self.contigs_file = self._fetch_file(self.sample_id,
+                                               SeqFileTypes.CONTIGS_FILE);
+        self.scaffolds_file = self._fetch_file(self.sample_id,
+                                               SeqFileTypes.SCAFFOLDS_FILE);
         self.read_files = self._get_reads();
 
 
@@ -69,10 +73,10 @@ class SeqFilesBunchNew(TempFile):
         pass;
 
 
-    def write_ena_reads(self, file: str) -> None:
-
-        pass;
-
+    def has_reads(self) -> bool:
+        for read in self.read_files:
+            if not read.exists: return False;
+        return True;
 
 
 
