@@ -75,6 +75,7 @@ class _SaveBase:
                 if handle in assemb:
                     sf.assembly_method_id = int(assemb[handle]);
                 data.append(sf);
+        print(f"Data: {data}", file=sys.stderr);
         return data;
 
 
@@ -167,8 +168,7 @@ class _SaveBase:
             seqfile.sample_id = sample_id;
             DBSeqFile.save(seqfile);
 
-            seqfile.filename = DBSeqFile.fetch_filename_new(seqfile);
-            print(f"Fetched: {seqfile.filename}", file=sys.stderr);
+            seqfile.filename = DBSeqFile.fetch_filename(seqfile);
             seqfile.save_file();
 
 

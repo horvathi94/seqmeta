@@ -27,8 +27,9 @@ class SeqFile:
             self.is_assembly = self.get_is_assembly(self.file_type);
             self.assembly_level = self.get_assembly_level(self.file_type);
             self.is_forward_read = self.get_is_forward_read(self.file_type);
-            if self.file_type in SeqFileTypes.list_assemblies():
-                self._set_assembly_method();
+            if self.sample_id != 0:
+                if self.file_type in SeqFileTypes.list_assemblies():
+                    self._set_assembly_method();
 
 
     def _set_assembly_method(self):

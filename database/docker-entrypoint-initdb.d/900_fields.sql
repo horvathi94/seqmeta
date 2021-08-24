@@ -639,19 +639,19 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 	),
 	("consensus_assembly_method",
 		"Consensus sequence assembly method", "seqfile_assembly", 3, 1, 1,
-		"consensus_assembly_method", "consensus-assembly-method", NULL, NULL, NULL, NULL, NULL,
+		"assembly_file", "consensus-assembly-method", NULL, NULL, NULL, NULL, NULL,
 		"seqfile_assembly",
 		"Consensus sequence assembly method."
 	),
 	("contigs_assembly_method",
 		"Contigs assembly assembly method", "seqfile_assembly", NULL, 1, 1,
-		"contigs_assembly_method", "contigs-assembly-method", NULL, NULL, NULL, NULL, NULL,
+		"contigs_file", "contigs-assembly-method", NULL, NULL, NULL, NULL, NULL,
 		"seqfile_assembly",
 		"Contigs assembly assembly method."
 	),
 	("scaffolds_assembly_method",
 		"Scaffolds assembly assembly method", "seqfile_assembly", NULL, 1, 1,
-		"scaffolds_assembly_method", "scaffolds-assembly-method", NULL, NULL, NULL, NULL, NULL,
+		"scaffolds_file", "scaffolds-assembly-method", NULL, NULL, NULL, NULL, NULL,
 		"seqfile_assembly",
 		"Scaffolds assembly assembly_method."
 	)
