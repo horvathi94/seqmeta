@@ -10,7 +10,7 @@ class EnaManifestRun(TempFile):
     zip_dir = "reads";
 
     @classmethod
-    def zip_file_manifest(cls, name: str) -> str:
+    def manifest_in_zip(cls, name: str) -> str:
         return os.path.join(cls.zip_dir, name+"_manifest.txt");
 
 

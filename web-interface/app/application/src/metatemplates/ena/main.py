@@ -42,11 +42,11 @@ class EnaMeta(TempFile):
             for sample in run_samples:
                 EnaManifestRun.write(sample);
                 zipObj.write(EnaManifestRun.get_tempfile(),
-                    EnaManifest.zip_file_manifest(sample["sample_alias"]));
+                    EnaManifestRun.manifest_in_zip(sample["sample_alias"]));
                 sb = SeqFilesBunchNew(sample["sample_id"]);
                 for read in sb.read_files:
                     zipObj.write(read.get_file(),
-                                 f"{EnaManifest.zip_dir}/{read.filename}");
+                                 f"{EnaManifestRun.zip_dir}/{read.filename}");
 
 #            for sample in assembly_samples:
 #                EnaManifestAssembly.write(sample, "contigs");
