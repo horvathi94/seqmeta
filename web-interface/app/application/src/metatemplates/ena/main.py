@@ -2,7 +2,7 @@ import os.path
 from zipfile import ZipFile
 import gzip
 from application.src.samples.samples import Samples
-from application.src.seqfiles.seqfiles import SeqFilesBunchNew
+from application.src.seqfiles.seqfile_bunch import SeqFilesBunch
 from ..base.tempfile import TempFile
 from .samples import EnaTsv
 from .experiment import EnaExperiment
@@ -41,7 +41,7 @@ class EnaMeta(TempFile):
 
             # Write read files: 
             for sample in run_samples:
-                sb = SeqFilesBunchNew(sample["sample_id"]);
+                sb = SeqFilesBunch(sample["sample_id"]);
                 if not sb.has_reads():
                     continue;
                 EnaManifestRun.write(sample);
@@ -54,7 +54,7 @@ class EnaMeta(TempFile):
 
             # Write assembly files:
             for sample in assembly_samples:
-                sb = SeqFilesBunchNew(sample["sample_id"]);
+                sb = SeqFilesBunch(sample["sample_id"]);
                 sname = sample["sample_name"];
 
                 if sb.contigs_file.exists:

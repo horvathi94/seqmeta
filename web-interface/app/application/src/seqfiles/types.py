@@ -10,7 +10,6 @@ class AssemblyLevels(Enum):
 
 
 
-
 class SeqFileTypes(Enum):
 
     CONSENSUS_FILE = "assembly_file";

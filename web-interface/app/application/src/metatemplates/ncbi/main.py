@@ -2,7 +2,7 @@ import os.path
 from zipfile import ZipFile
 from ..base.tempfile import TempFile
 from application.src.samples.samples import Samples
-from application.src.seqfiles.seqfiles import SeqFilesBunchNew
+from application.src.seqfiles.seqfile_bunch import SeqFilesBunch
 from .samples import NcbiSample
 from .experiment import NcbiExperiment
 
@@ -32,11 +32,10 @@ class NcbiMeta(TempFile):
 
             # Write read files: 
             for sample in samples:
-                sb = SeqFilesBunchNew(sample["sample_id"]);
+                sb = SeqFilesBunch(sample["sample_id"]);
                 if not sb.has_reads():
                     continue;
 
                 for read in sb.read_files:
-                    zipObj.write(read.get_file(),
-                                 f"reads/{read.filename}");
+                    zipObj.write(read.get_file(), f"reads/{read.filename}");
 

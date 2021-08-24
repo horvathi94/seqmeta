@@ -3,7 +3,7 @@ from zipfile import ZipFile
 from .submission import GisaidExcel
 from ..base.tempfile import TempFile
 from application.src.samples.samples import Samples
-from application.src.seqfiles.seqfiles import SeqFilesBunchNew
+from application.src.seqfiles.seqfile_bunch import SeqFilesBunch
 
 
 class GisaidMeta(TempFile):
@@ -25,7 +25,7 @@ class GisaidMeta(TempFile):
             zipObj.write(GisaidExcel.get_tempfile(), "submission.xlsx");
 
             for sample in samples:
-                seqbunch = SeqFilesBunchNew(sample["sample_id"]);
+                seqbunch = SeqFilesBunch(sample["sample_id"]);
                 if not seqbunch.consensus_file.exists:
                     continue;
 
