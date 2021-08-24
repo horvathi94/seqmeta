@@ -30,7 +30,7 @@ class EnaManifestAssembly(TempFile):
             wf.write(f"PLATFORM\t\t{sample['PLATFORM']}\n");
             wf.write(f"DESCRIPTION\t\t{sample['DESCRIPTION']}\n");
             wf.write(f"RUN_REF\t\t<RUN_REF>\n");
-            wf.write(f"FASTA\t\t{sample[filename]}\n");
+            wf.write(f"FASTA\t\t{sample[filename]}.gz\n");
 
 
 class EnaContigs(EnaManifestAssembly):

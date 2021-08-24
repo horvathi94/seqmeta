@@ -1,4 +1,5 @@
 import os.path
+import gzip
 from Bio import SeqIO
 from application.src.samples.samples import Samples
 from application.src.metatemplates.base.tempfile import TempFile
@@ -61,6 +62,19 @@ class SeqFilesBunch(TempFile):
 
         with open(file, "w") as outf:
             SeqIO.write(seqdata, outf, "fasta");
+
+
+    def zip_file_data(self, in_file: "file", out_file: str) -> None:
+        with open(in_file, 'rb') as f_in, gzip.open(out_file, 'wb') as f_out:
+            f_out.writelines(f_in);
+
+
+    def write_ena_contigs_tempfile(self, file: str) -> None:
+        self.zip_file_data(self.contigs_file.get_file(), file);
+
+
+    def write_ena_scaffolds_tempfile(self, file: str) -> None:
+        self.zip_file_data(self.scaffolds_file.get_file(), file);
 
 
     def has_reads(self) -> bool:

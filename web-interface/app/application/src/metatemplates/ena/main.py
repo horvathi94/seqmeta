@@ -62,15 +62,20 @@ class EnaMeta(TempFile):
                     zipObj.write(assembman.EnaContigs.get_tempfile(),
                                  assembman.EnaContigs.manifest_in_zip(sname));
 
-                    zipObj.write(sb.contigs_file.get_file(),
+                    tempfile = "ena_contigs_file.fa.gz";
+                    sb.write_ena_contigs_tempfile(tempfile);
+                    zipObj.write(tempfile,
                                  f"{assembman.EnaContigs.zip_dir}/" \
-                                 f"{sb.contigs_file.filename}");
+                                 f"{sb.contigs_file.filename}.gz");
+
 
                 if sb.scaffolds_file.exists:
                     assembman.EnaScaffolds.write(sample);
                     zipObj.write(assembman.EnaScaffolds.get_tempfile(),
                                 assembman.EnaScaffolds.manifest_in_zip(sname));
-                    zipObj.write(sb.scaffolds_file.get_file(),
+                    tempfile = "ena_scaffolds_file.fa.gz";
+                    sb.write_ena_contigs_tempfile(tempfile);
+                    zipObj.write(tempfile,
                                  f"{assembman.EnaScaffolds.zip_dir}/" \
-                                 f"{sb.scaffolds_file.filename}");
+                                 f"{sb.scaffolds_file.filename}.gz");
 
