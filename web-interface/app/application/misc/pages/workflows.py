@@ -1,16 +1,13 @@
+from application.src.pages.page import Page
 from flask import render_template
 
-class WorkflowPage:
+class WorkflowPage(Page):
 
     html_source = "";
 
     @classmethod
-    def show(cls) -> "HTML":
-        """Returns HTML page with workflow."""
-        html = render_template("head.html");
-        html+= render_template(f"workflow/{cls.html_source}");
-        html+= render_template("footer.html");
-        return html
+    def render_page(cls) -> "HTML":
+        return render_template(f"workflow/{cls.html_source}");
 
 
 

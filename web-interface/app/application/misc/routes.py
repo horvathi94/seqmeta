@@ -17,14 +17,14 @@ misc_bp = Blueprint("misc_bp", __name__,
 
 @misc_bp.route("/descriptions/library")
 def descript_library():
-    return LibraryDescription.show();
+    return LibraryDescription.render();
 
 
 
 @misc_bp.route("/misc/edit")
 def edit():
     """Editor for misc values."""
-    return MiscEditor.show();
+    return MiscEditor.render();
 
 
 
@@ -90,7 +90,7 @@ def submit_isolate_ena():
 
 @misc_bp.route("/default-values")
 def edit_default_values():
-    return DefaultsEditor.show();
+    return DefaultsEditor.render();
 
 
 @misc_bp.route("/default-values/submit", methods=["POST"])
@@ -101,20 +101,20 @@ def submit_default_values():
 
 @misc_bp.route("/workflows/basic")
 def workflow_basic():
-    return WorkflowBasic.show();
+    return WorkflowBasic.render();
 
 
 
 @misc_bp.route("/workflows/gisaid")
 def workflow_gisaid():
-    return WorkflowGISAID.show();
+    return WorkflowGISAID.render();
 
 
 @misc_bp.route("/workflows/ena")
 def workflow_ena():
-    return WorkflowENA.show();
+    return WorkflowENA.render();
 
 
 @misc_bp.route("/workflows/ncbi")
 def workflow_ncbi():
-    return WorkflowNCBI.show();
+    return WorkflowNCBI.render();

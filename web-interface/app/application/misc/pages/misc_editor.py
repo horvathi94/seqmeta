@@ -1,9 +1,10 @@
 from flask import render_template
+from application.src.pages.page import Page
 from . import basic_options as bopt
 from . import virusname_templates as vnt
 
 
-class MiscEditor:
+class MiscEditor(Page):
 
     styles = [{"filename": "info.css"},
               {"filename": "misc.css", "prefix": "misc"}];
@@ -11,11 +12,8 @@ class MiscEditor:
 
 
     @classmethod
-    def show(cls) -> "HTML":
-        """Returns the misc editor pages."""
-
-        html = render_template("head.html", styles=cls.styles);
-        html+= bopt.HostsEditor.render();
+    def render_page(cls) -> "HTML":
+        html = bopt.HostsEditor.render();
         html+= bopt.AssemblyMethodsEditor.render();
         html+= bopt.SamplingStrategiesEditor.render();
         html+= bopt.SpecimenSourcesEditor.render();
@@ -26,6 +24,5 @@ class MiscEditor:
         html+= bopt.PurposesOfSequencingEditor.render();
         html+= vnt.GisaidVirusnameEditor.render();
         html+= vnt.EnaVirusnameEditor.render();
-        html+= render_template("footer.html", scripts=cls.scripts);
         return html;
 
