@@ -14,18 +14,14 @@ author_groups_bp = Blueprint("author_groups_bp", __name__,
 
 @author_groups_bp.route("/author-groups/view")
 def show():
-    """Main page for author groups."""
-
-    return DisplayPage.show();
+    return DisplayPage.render();
 
 
 
 @author_groups_bp.route("/author-groups/edit")
 def edit():
-    """Editor page for author groups."""
-
     group_id = int(request.args["id"]) if "id" in request.args else 0;
-    return EditorPage.show(group_id);
+    return EditorPage.render(group_id);
 
 
 

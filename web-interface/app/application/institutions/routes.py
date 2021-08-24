@@ -12,18 +12,14 @@ institutions_bp = Blueprint("institutions_bp", __name__,
 
 @institutions_bp.route("/institutions/view", methods=["GET"])
 def show():
-    """Main page for insititutions."""
-
-    return DisplayPage.show();
+    return DisplayPage.render();
 
 
 
 @institutions_bp.route("/institutions/edit", methods=["GET"])
 def edit():
-    """Editor for institutions."""
-
     institution_id = int(request.args["id"]) if "id" in request.args else 0;
-    return EditorPage.show(institution_id);
+    return EditorPage.render(institution_id);
 
 
 

@@ -1,14 +1,13 @@
 from flask import render_template
+from .page import Page
 
-class DisplayBase:
+class DisplayBase(Page):
 
     """Base class for display pages"""
 
     name_plural = "";
     description = "";
     editor_link = "";
-    styles = [];
-    scripts = [];
 
 
     @classmethod
@@ -40,16 +39,13 @@ class DisplayBase:
 
 
     @classmethod
-    def show(cls) -> "HTML":
-        """Display empty message or show the list of registered items."""
-
-        html = render_template("head.html", styles=cls.styles);
+    def render_page(cls) -> "HTML":
         items = cls.get_list();
 
+        html = "";
         if len(items) == 0:
             html+= cls.show_empty();
         else:
             html+= cls.show_list(items);
 
-        html+= render_template("footer.html", scripts=cls.scripts);
         return html;

@@ -21,7 +21,7 @@ samples_bp = Blueprint("samples_bp", __name__,
 
 @samples_bp.route("/samples/view")
 def show():
-    return DisplayPage.show();
+    return DisplayPage.render();
 
 
 @samples_bp.route("/samples/submit", methods=["POST"])
@@ -104,18 +104,18 @@ def reg_library_names():
 @samples_bp.route("/samples/edit")
 def edit():
     sample_id = int(request.args["id"]) if "id" in request.args else 0;
-    return Editor.show(sample_id);
+    return Editor.render(sample_id);
 
 
 @samples_bp.route("/samples/add-multiple", methods=["GET"])
 def add_multiple():
-    return MultiEditorAdd.show();
+    return MultiEditorAdd.render();
 
 
 @samples_bp.route("/samples/edit-multiple", methods=["POST"])
 def edit_multiple():
     selected = [int(i) for i in request.form.getlist("selected-samples")];
-    return MultiEditor.show(selected);
+    return MultiEditor.render(selected);
 
 
 

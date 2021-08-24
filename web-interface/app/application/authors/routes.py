@@ -15,8 +15,7 @@ authors_bp = Blueprint("authors_bp", __name__,
 @authors_bp.route("/authors/view", methods=["GET"])
 def show():
     """Main page for authors"""
-
-    return DisplayPage.show();
+    return DisplayPage.render();
 
 
 
@@ -25,7 +24,7 @@ def edit():
     """Editor for authors"""
 
     author_id = int(request.args["id"]) if "id" in request.args else 0;
-    return EditorPage.show(author_id);
+    return EditorPage.render(author_id);
 
 
 

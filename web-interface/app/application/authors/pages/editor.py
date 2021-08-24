@@ -11,7 +11,6 @@ class EditorPage(EditorBase):
     @classmethod
     def render_editor(cls, item_id: int) -> "HTML":
         """Return author editor."""
-
         author = Authors.fetch_entry_edit(id=item_id);
         html = render_template("authors/edit.html", author=author);
         return html;
