@@ -10,6 +10,9 @@ from application.src.seqfiles.types import SeqFileTypes
 from application.src.seqfiles.seqfile import SeqFile
 
 
+import sys
+
+
 @dataclass
 class Field:
 
@@ -89,7 +92,8 @@ class Field:
             return seqfile.fetch_filename();
 
         if self.field_type == "seqfile_assembly":
-            return 0;
+            seqfile = SeqFile(sample_id, SeqFileTypes(self.db_key));
+            return seqfile.assembly_method_id;
 
         if sample_id != 0:
             sampd = Samples.fetch_entry_edit(id=sample_id, id_key="sample_id");
@@ -112,7 +116,8 @@ class Field:
             return SeqFile.fetch_filename(sample["sample_id"], ftype=ftype);
 
         if self.field_type == "seqfile_assembly":
-            return 2;
+            print(f"Value from sample: {1}", file=sys.stderr)
+            return 1;
         return sample[self.db_key];
 
 

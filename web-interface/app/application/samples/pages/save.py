@@ -63,7 +63,7 @@ class _SaveBase:
 
 
     @classmethod
-    def parse_file_bunch(cls, info: dict, files: dict) -> list:
+    def parse_file_bunch(cls, info: dict, files: dict, assemb: dict) -> list:
         data = [];
         for handle in info:
             if handle in SeqFileTypes.list_values():
@@ -72,6 +72,8 @@ class _SaveBase:
                 sf.file_type_id = info[handle];
                 sf.filename = files[handle].filename;
                 sf.filedata = files[handle];
+                if handle in assemb:
+                    sf.assembly_method_id = int(assemb[handle]);
                 data.append(sf);
         return data;
 
@@ -81,10 +83,11 @@ class _SaveBase:
                     files: "flask.request.files") -> list:
         bunch_data = Form.parse_list(raw, "seqfile");
         bunch_files = Form.parse_list(files, "seqfile");
+        bunch_assembly = Form.parse_list(raw, "seqfile_assembly");
 
         fdata = [];
-        for bd, bf in zip(bunch_data, bunch_files):
-            fdata.append(cls.parse_file_bunch(bd, bf));
+        for bd, bf, ba in zip(bunch_data, bunch_files, bunch_assembly):
+            fdata.append(cls.parse_file_bunch(bd, bf, ba));
 
         return fdata;
 

@@ -82,7 +82,7 @@ CREATE PROCEDURE upsert_seqfiles (
 				SET file_type_id = file_type_id,
 					is_assembly = is_assembly,
 					is_forward_read = is_forward_read,
-					assembly_level = assembly_level
+					assembly_level = assembly_level,
 					assembly_method_id = assembly_method_id
 				WHERE id = @working_id;
 

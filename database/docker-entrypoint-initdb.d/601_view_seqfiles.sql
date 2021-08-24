@@ -24,7 +24,9 @@ CREATE OR REPLACE VIEW `view_seqfiles` AS
 			) 
 		) AS filename,
 		seqfiles.assembly_level AS assembly_level,
-		assembly_levels.label AS assembly_level_string
+		assembly_levels.label AS assembly_level_string,
+		seqfiles.assembly_method_id AS assembly_method_id,
+		assembly_methods.label AS assembly_method
 
 
 	FROM seqfiles
@@ -36,3 +38,5 @@ CREATE OR REPLACE VIEW `view_seqfiles` AS
 		ON seqfiles.file_type_id = reads_files.id
 	LEFT JOIN assembly_levels
 		ON seqfiles.assembly_level = assembly_levels.id
+	LEFT JOIN assembly_methods
+		ON seqfiles.assembly_method_id = assembly_methods.id

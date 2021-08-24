@@ -19,11 +19,11 @@
 
 
 
-{% macro seqfile_assembly(info, dlist_assembly_methods) %}
+{% macro seqfile_assembly(field, dlist_assembly_methods) %}
 
-	<input type="file" name="{{ info.input.multi_template }}">
-
-	{{ select(info.input.multi_template, dlist_assembly_methods) }}
+	{{ select(field.input.multi_template,
+						dlist_assembly_methods,
+						selected_id=field.input.value) }}
 	
 
 {% endmacro %}

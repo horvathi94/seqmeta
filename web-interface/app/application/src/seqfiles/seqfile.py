@@ -18,6 +18,8 @@ class SeqFile:
     filename: str = "";
     exists: bool = None;
     extension: str = "fasta";
+    assembly_method_id: int = None;
+    assembly_method: str = None;
 
 
     def __post_init__(self):
@@ -25,10 +27,18 @@ class SeqFile:
             self.is_assembly = self.get_is_assembly(self.file_type);
             self.assembly_level = self.get_assembly_level(self.file_type);
             self.is_forward_read = self.get_is_forward_read(self.file_type);
+            if self.file_type in SeqFileTypes.list_assemblies():
+                self._set_assembly_method();
+
+
+    def _set_assembly_method(self):
+        d ,= db.DBSeqFile.fetch_entries_by_sample_id(self.sample_id);
+        self.assembly_method_id = d["assembly_method_id"];
+        self.assembly_method = d["assembly_method"];
 
 
     def fetch_filename(self):
-        return db.DBSeqFile.fetch_filename_new(self);
+        return db.DBSeqFile.fetch_filename(self);
 
 
     def get_file(self):

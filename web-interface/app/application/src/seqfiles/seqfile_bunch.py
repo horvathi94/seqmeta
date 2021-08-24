@@ -30,8 +30,12 @@ class SeqFilesBunch(TempFile):
 
     @classmethod
     def _fetch_file(cls, sample_id: int, sftype: SeqFileTypes) -> SeqFile:
+        data = DBSeqFile.fetch_entries_by_sample_id(sample_id);
+        import sys
+        print(f"Seqdata: {data}", file=sys.stderr);
+
         seqfile = SeqFile(sample_id, sftype);
-        seqfile.filename = DBSeqFile.fetch_filename_new(seqfile);
+        seqfile.filename = DBSeqFile.fetch_filename(seqfile);
         seqfile.exists = seqfile.check_if_exists();
         return seqfile;
 
