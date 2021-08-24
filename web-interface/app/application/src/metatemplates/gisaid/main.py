@@ -5,8 +5,6 @@ from ..base.tempfile import TempFile
 from application.src.samples.samples import Samples
 from application.src.seqfiles.seqfiles import SeqFilesBunchNew
 
-import sys
-
 
 class GisaidMeta(TempFile):
 
@@ -17,7 +15,6 @@ class GisaidMeta(TempFile):
 
     @classmethod
     def write_zip(cls, selected):
-        print(f"Selected: {selected}", file=sys.stderr)
 
         samples = Samples.fetch_entries("view_samples_gisaid",
                                         sample_ids=selected);

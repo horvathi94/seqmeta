@@ -22,6 +22,7 @@ class SeqFilesBunchNew(TempFile):
         self.sample = Samples.fetch("view_samples_base", self.sample_id);
         self.consensus_file = self._fetch_file(self.sample_id,
                                                SeqFileTypes.CONSENSUS_FILE);
+        self.read_files = self._get_reads();
 
 
     @classmethod
@@ -30,6 +31,16 @@ class SeqFilesBunchNew(TempFile):
         seqfile.filename = DBSeqFile.fetch_filename_new(seqfile);
         seqfile.exists = seqfile.check_if_exists();
         return seqfile;
+
+
+    def _get_reads(self) -> list:
+        reads = [];
+        if self.sample["library_layout_paired"]:
+            sf = self._fetch_file(self.sample_id, SeqFileTypes.FWREAD_FILE);
+            reads.append(sf);
+            sf = self._fetch_file(self.sample_id, SeqFileTypes.RVREAD_FILE);
+            reads.append(sf);
+        return reads;
 
 
     def get_consensus_sequence(self):
@@ -49,6 +60,18 @@ class SeqFilesBunchNew(TempFile):
         with open(file, "w") as outf:
             SeqIO.write(seqdata, outf, "fasta");
 
+
+    def write_ena_contigs(self, file: str) -> None:
+        pass;
+
+
+    def write_ena_scaffolds(self, file: str) -> None:
+        pass;
+
+
+    def write_ena_reads(self, file: str) -> None:
+
+        pass;
 
 
 

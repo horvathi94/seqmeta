@@ -34,9 +34,12 @@ class DBSeqFile(DBInterface):
 
     @classmethod
     def save(cls, seqfile: "SeqFile") -> None:
+        alevel = None;
+        if not seqfile.assembly_level is None:
+            alevel = int(seqfile.assembly_level.value);
         args = (seqfile.sample_id, seqfile.file_type_id,
                 seqfile.is_assembly, seqfile.is_forward_read,
-                int(seqfile.assembly_level.value));
+                alevel);
         Cursor.call_procedure("upsert_seqfiles", args=args, commit=True);
 
 

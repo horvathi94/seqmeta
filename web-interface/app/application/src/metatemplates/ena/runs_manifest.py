@@ -1,3 +1,4 @@
+import os
 from ..base.tempfile import TempFile
 
 
@@ -6,6 +7,12 @@ class EnaManifestRun(TempFile):
     tempfilename = "last_generated_ena_runs_manifest.txt";
     attachment_prefix = "ena";
     extension = "txt";
+    zip_dir = "reads";
+
+    @classmethod
+    def zip_file_manifest(cls, name: str) -> str:
+        return os.path.join(cls.zip_dir, name+"_manifest.txt");
+
 
     @classmethod
     def write(cls, sample):
