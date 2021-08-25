@@ -33,7 +33,13 @@ class MultiEditor(EditorBase):
 
     @classmethod
     def template_col(cls, field: "Field") -> "HTML":
-        field.input.value = field.get_value();
+        val = field.get_value();
+        if field.field_type == "seqfile":
+            field.input.value = val.get_filename();
+            ftype = val.extension_id;
+            return render_template("samples/form/multi/col_template.html",
+                               field=field, ftype=ftype);
+        field.input.value = val;
         if field.handle_std == SampleFields.SAMPLE_NAME:
             field.input.onchange = "checkSampleNames();";
         elif field.handle_std == SampleFields.LIBRARY_ID:
@@ -44,6 +50,13 @@ class MultiEditor(EditorBase):
 
     @classmethod
     def sample_col(cls, field: "Field", sample: Samples) -> "HTML":
+        if field.field_type == "seqfile":
+            val = field.get_value();
+            field.input.value = val.get_filename();
+            ftype = val.extension_id;
+            return render_template("samples/form/multi/col_template.html",
+                               field=field, ftype=ftype);
+
         field.input.value = field.get_value_from_sample(sample);
         if field.handle_std == SampleFields.SAMPLE_NAME:
             field.input.onchange = "checkSampleNames();";
@@ -149,15 +162,10 @@ class MultiEditor(EditorBase):
 
 
     @classmethod
-    def show(cls, sample_ids: list=[]) -> "HTML":
-        """Returns HTML of basic editor."""
-        html = render_template("head.html", styles=cls.styles);
+    def render_page(cls, sample_ids: list=[]) -> "HTML":
         if len(sample_ids) == 0:
-            html+= cls.empty_selection();
-        else:
-            html+= cls.render_editor(sample_ids=sample_ids);
-        html+= render_template("footer.html", scripts=cls.scripts);
-        return html;
+            return cls.empty_selection();
+        return cls.render_editor(sample_ids=sample_ids);
 
 
 
@@ -170,11 +178,3 @@ class MultiEditorAdd(MultiEditor):
 
     form_type = "add";
 
-
-    @classmethod
-    def show(cls) -> "HTML":
-        """Returns HTML of basic editor."""
-        html = render_template("head.html", styles=cls.styles);
-        html+= cls.render_editor(sample_ids=[]);
-        html+= render_template("footer.html", scripts=cls.scripts);
-        return html;

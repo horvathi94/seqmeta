@@ -24,11 +24,13 @@
 
 
 
-{% macro seqfile_assembly(field, dlist_assembly_methods) %}
+{% macro seqfile_assembly(field, dlist_assembly_methods, onchange="") %}
 
 	{{ select(field.input.multi_template,
 						dlist_assembly_methods,
-						selected_id=field.input.value) }}
+						selected_id=field.input.value,
+						classes=field.input.classes,
+						onchange=onchange) }}
 	
 
 {% endmacro %}

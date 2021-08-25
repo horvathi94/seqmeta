@@ -31,9 +31,10 @@ function updateColumn(e){
 function updateColumnSelect(e){
 	className = e.className;
 	Array.from(editor.rows).slice(2).forEach( (row) => {
-		row.getElementsByClassName(className)[0].options[e.value].selected="selected";
+		Array.from(row.getElementsByClassName(className)[0].options).forEach( (opt) => {
+			if (opt.value == e.value) {opt.selected="selected";}
+		} );
 	});
-	
 }
 
 

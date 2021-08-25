@@ -3,7 +3,7 @@
 {% from "macros/forms/date.j2" import inpdate %}
 {% from "macros/select.j2" import select %}
 {% from "macros/radio.j2" import radio %}
-{% from "samples/form/seqfiles.j2" import seqfile %}
+{% from "samples/form/seqfiles.j2" import seqfile, seqfile_assembly %}
 
 <td>
 
@@ -32,7 +32,9 @@
 					classes=field.input.classes,
 					selected_value=field.input.value) }}
 	{% elif field.field_type == "seqfile" %}
-		{{ seqfile(field, field.options) }}
+		{{ seqfile(field, field.options, ftype=ftype) }}
+	{% elif field.field_type == "seqfile_assembly" %}
+		{{ seqfile_assembly(field, field.options) }}
 	{% endif %}
 
 </td>

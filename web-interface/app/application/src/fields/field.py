@@ -88,12 +88,11 @@ class Field:
     def get_value(self, sample_id: int=0):
         """Returns the value that will be assigned to the fields."""
         if self.field_type == "seqfile":
-            seqfile = SeqFile(sample_id, SeqFileTypes(self.db_key));
-#            return seqfile.fetch_filename();
-            return seqfile;
+            return DBSeqFile.get_seqfile(sample_id, SeqFileTypes(self.db_key));
 
         if self.field_type == "seqfile_assembly":
-            seqfile = SeqFile(sample_id, SeqFileTypes(self.db_key));
+            seqfile = DBSeqFile.get_seqfile(sample_id,
+                                            SeqFileTypes(self.db_key));
             return seqfile.assembly_method_id;
 
         if sample_id != 0:
@@ -113,12 +112,9 @@ class Field:
     def get_value_from_sample(self, sample: "Sample"):
         """Returns the value that will be assigned to the field from sample."""
         if self.field_type == "seqfile":
-            ftype = self.db_key.replace("_file", "");
-            return SeqFile.fetch_filename(sample["sample_id"], ftype=ftype);
-
+            return self.get_value();
         if self.field_type == "seqfile_assembly":
-            print(f"Value from sample: {1}", file=sys.stderr)
-            return 1;
+            return self.get_value();
         return sample[self.db_key];
 
 

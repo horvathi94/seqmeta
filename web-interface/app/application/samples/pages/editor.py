@@ -21,7 +21,7 @@ class Editor(EditorBase):
         field = DBField.get_field(field_handle);
         val = field.get_value(sample_id=sample_id);
         if field.field_type == "seqfile":
-            field.input.value = val.fetch_filename();
+            field.input.value = val.get_filename();
             ftype = val.extension_id;
             return render_template("samples/form/single/field.html",
                                    field=field, ftype=ftype);
