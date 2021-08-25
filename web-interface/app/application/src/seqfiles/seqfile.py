@@ -15,11 +15,15 @@ class SeqFileNew:
     is_assembly: bool = None;
     assembly_level: str = None;
     is_forward_read: bool = None;
+    file_type_id: int = None;
     file_type: str = None;
     extension_id: int = None;
     extension: str = None;
     assembly_method_id: int = None;
     assembly_method: str = None;
+    filedata: "flask.fileStorage" = None;
+    found_in_db: bool = None;
+    to_save: bool = False;
 
 
     def __post_init__(self):
@@ -58,13 +62,14 @@ class SeqFileNew:
     def get_filename(self) -> str:
         if self.sample_name is None:
             raise Exception("Error generating file name.");
-        if self.is_assembly is None:
-            raise Exception("Error generating file name.")
+        if self.sample_name == "": return "";
 
         fname = f"{self.sample_name}_";
         if self.is_assembly:
+            if self.assembly_level is None: return "";
             fname+= f"{self.assembly_level.name.lower()}";
         else:
+            if self.is_forward_read is None: return "";
             fname+= "fw_read" if self.is_forward_read else "rv_read";
         fname+= f".{self.extension}";
         return fname;
@@ -87,6 +92,8 @@ class SeqFileNew:
 
 
     def save_file(self) -> None:
+        if not self.to_save: return;
+        if self.get_filename() == "": return;
         self.filedata.save(self.get_file());
 
 

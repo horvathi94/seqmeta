@@ -15,11 +15,7 @@ from application.src.samples.nametemplates.isolate_ena import \
     IsolateEna
 from application.src.seqfiles.db import DBSeqFile
 from application.src.seqfiles.types import SeqFileTypes
-from application.src.seqfiles.seqfile import  SeqFile
-
-import sys
-
-
+from application.src.seqfiles.seqfile import SeqFileNew, SeqFile
 
 
 class _SaveBase:
@@ -64,17 +60,24 @@ class _SaveBase:
 
     @classmethod
     def parse_file_bunch(cls, info: dict, files: dict, assemb: dict) -> list:
+
         data = [];
         for handle in info:
             if handle in SeqFileTypes.list_values():
-                sf = SeqFile(info["id"], SeqFileTypes(handle));
-                sf.file_type_id = info[handle];
-                if files[handle].filename != "":
-                    sf.filename = files[handle].filename;
+
+                upload_name = files[handle].filename;
+                sf = DBSeqFile.get_seqfile(0, SeqFileTypes(handle));
+
+                if upload_name != "":
                     sf.filedata = files[handle];
+                    sf.to_save = True;
+
+                sf.file_type_id = info[handle];
                 if handle in assemb:
                     sf.assembly_method_id = int(assemb[handle]);
+
                 data.append(sf);
+
         return data;
 
 
@@ -164,12 +167,12 @@ class _SaveBase:
     @classmethod
     def save_seqfile_bunch(cls, seqfile_bunch: list, sample_id: int) -> None:
         for seqfile in seqfile_bunch:
+            if not seqfile.to_save and seqfile.get_filename() == "":
+                continue;
             seqfile.sample_id = sample_id;
             DBSeqFile.save(seqfile);
+            seqfile.save_file();
 
-            if seqfile.filename != "":
-                seqfile.filename = DBSeqFile.fetch_filename(seqfile);
-                seqfile.save_file();
 
 
     @classmethod

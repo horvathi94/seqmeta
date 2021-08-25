@@ -139,6 +139,6 @@ from application.src.seqfiles.types import SeqFileTypes as sft
 
 @samples_bp.route("/test")
 def test():
-#    seqfile = DBSeqFile.get_seqfile(1, sft.CONSENSUS_FILE);
-    seqfile = DBSeqFile.get_seqfile(1, sft.FWREAD_FILE);
+    seqfile = DBSeqFile.get_seqfile(12, sft.CONSENSUS_FILE);
+#    seqfile = DBSeqFile.get_seqfile(1, sft.FWREAD_FILE);
     return str(seqfile.get_filename());
