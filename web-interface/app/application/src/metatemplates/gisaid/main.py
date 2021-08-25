@@ -31,6 +31,5 @@ class GisaidMeta(TempFile):
 
                 file = os.path.join("/uploads/samples/temp", "temp_gisaid.fa");
                 seqbunch.write_gisiad_tempfile(file);
-                zipObj.write(file, seqbunch.consensus_file.filename);
-
+                zipObj.write(file, seqbunch.consensus_file.get_filename());
 

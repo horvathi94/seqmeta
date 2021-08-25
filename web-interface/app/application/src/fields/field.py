@@ -112,9 +112,9 @@ class Field:
     def get_value_from_sample(self, sample: "Sample"):
         """Returns the value that will be assigned to the field from sample."""
         if self.field_type == "seqfile":
-            return self.get_value();
+            return self.get_value(sample["sample_id"]);
         if self.field_type == "seqfile_assembly":
-            return self.get_value();
+            return self.get_value(sample["sample_id"]);
         return sample[self.db_key];
 
 

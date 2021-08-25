@@ -37,5 +37,6 @@ class NcbiMeta(TempFile):
                     continue;
 
                 for read in sb.read_files:
-                    zipObj.write(read.get_file(), f"reads/{read.filename}");
+                    zipObj.write(read.get_file(),
+                                 f"reads/{read.get_filename()}");
 

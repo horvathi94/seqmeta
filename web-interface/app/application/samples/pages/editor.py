@@ -3,8 +3,6 @@ from application.src.pages.editor import EditorBase
 from application.src.fields.dbfield import DBField
 from application.src.fields.sample_fields import SampleFields
 
-import sys
-
 
 class Editor(EditorBase):
 

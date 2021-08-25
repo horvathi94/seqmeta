@@ -49,7 +49,7 @@ class EnaMeta(TempFile):
                     EnaManifestRun.manifest_in_zip(sample["sample_alias"]));
                 for read in sb.read_files:
                     zipObj.write(read.get_file(),
-                                 f"{EnaManifestRun.zip_dir}/{read.filename}");
+                        f"{EnaManifestRun.zip_dir}/{read.get_filename()}");
 
 
             # Write assembly files:
@@ -66,7 +66,7 @@ class EnaMeta(TempFile):
                     sb.write_ena_contigs_tempfile(tempfile);
                     zipObj.write(tempfile,
                                  f"{assembman.EnaContigs.zip_dir}/" \
-                                 f"{sb.contigs_file.filename}.gz");
+                                 f"{sb.contigs_file.get_filename()}.gz");
 
 
                 if sb.scaffolds_file.exists:
@@ -77,5 +77,5 @@ class EnaMeta(TempFile):
                     sb.write_ena_contigs_tempfile(tempfile);
                     zipObj.write(tempfile,
                                  f"{assembman.EnaScaffolds.zip_dir}/" \
-                                 f"{sb.scaffolds_file.filename}.gz");
+                                 f"{sb.scaffolds_file.get_filename()}.gz");
 

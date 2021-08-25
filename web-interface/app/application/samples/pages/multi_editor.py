@@ -50,14 +50,14 @@ class MultiEditor(EditorBase):
 
     @classmethod
     def sample_col(cls, field: "Field", sample: Samples) -> "HTML":
-        if field.field_type == "seqfile":
-            val = field.get_value();
-            field.input.value = val.get_filename();
-            ftype = val.extension_id;
-            return render_template("samples/form/multi/col_template.html",
-                               field=field, ftype=ftype);
+        val = field.get_value_from_sample(sample);
 
-        field.input.value = field.get_value_from_sample(sample);
+        if field.field_type == "seqfile":
+            field.input.value = val.get_filename();
+            return render_template("samples/form/multi/col_template.html",
+                                   field=field, ftype=val.extension_id);
+
+        field.input.value = val;
         if field.handle_std == SampleFields.SAMPLE_NAME:
             field.input.onchange = "checkSampleNames();";
         elif field.handle_std == SampleFields.LIBRARY_ID:
@@ -178,3 +178,6 @@ class MultiEditorAdd(MultiEditor):
 
     form_type = "add";
 
+    @classmethod
+    def render_page(cls, sample_ids: list=[]) -> "HTML":
+        return cls.render_editor(sample_ids=sample_ids);

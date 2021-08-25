@@ -22,8 +22,8 @@ class SeqFileNew:
     assembly_method_id: int = None;
     assembly_method: str = None;
     filedata: "flask.fileStorage" = None;
-    found_in_db: bool = None;
     to_save: bool = False;
+    exists: bool = None;
 
 
     def __post_init__(self):
@@ -76,11 +76,11 @@ class SeqFileNew:
 
 
     def get_path(self) -> "os.path":
-        if self.file_type in SeqFileTypes.list_assemblies():
+        if self.seqtype in SeqFileTypes.list_assemblies():
             return "/uploads/samples/assemblies/";
-        if self.file_type in SeqFileTypes.list_reads():
+        if self.seqtype in SeqFileTypes.list_reads():
             return "/uploads/samples/raw";
-        raise Expcetion("Error generating path.");
+        raise Exception("Error generating path.");
 
 
     def get_file(self):

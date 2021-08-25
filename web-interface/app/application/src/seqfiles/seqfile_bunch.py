@@ -8,6 +8,8 @@ from .types import SeqFileTypes
 from .seqfile import SeqFile
 
 
+import sys
+
 class SeqFilesBunch(TempFile):
 
     main_dir = "/uploads/samples";
@@ -30,8 +32,10 @@ class SeqFilesBunch(TempFile):
 
     @classmethod
     def _fetch_file(cls, sample_id: int, sftype: SeqFileTypes) -> SeqFile:
-        seqfile = SeqFile(sample_id, sftype);
-        seqfile.filename = DBSeqFile.fetch_filename(seqfile);
+        seqfile = DBSeqFile.get_seqfile(sample_id, sftype);
+        print(f"seqfile: {seqfile}", file=sys.stderr)
+#        seqfile = SeqFile(sample_id, sftype);
+#        seqfile.filename = DBSeqFile.fetch_filename(seqfile);
         seqfile.exists = seqfile.check_if_exists();
         return seqfile;
 

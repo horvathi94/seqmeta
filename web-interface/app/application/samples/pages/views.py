@@ -35,6 +35,8 @@ class DetailsView(SampleViewBase):
 
     @classmethod
     def fetch_data(cls, sample_id: int) -> dict:
-        return Samples.fetch_details(sample_id=sample_id);
+        sample = Samples.fetch_details(sample_id=sample_id);
+
+        return sample;
 
 

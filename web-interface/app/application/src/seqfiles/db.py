@@ -32,8 +32,6 @@ class DBSeqFile(DBInterface):
 
     @classmethod
     def save(cls, seqfile: "SeqFile") -> None:
-        import sys
-        print(f"seqfile: {seqfile}", file=sys.stderr);
         alevel = None;
         if not seqfile.assembly_level is None:
             alevel = int(seqfile.assembly_level.value);
@@ -90,8 +88,6 @@ class DBSeqFile(DBInterface):
         raw ,= Cursor.select(cls.display_table_name,
                             fields=fields, clauses=where);
 
-        import sys
-        print(raw, file=sys.stderr);
         seqfile.sample_name = raw["sample_name"];
         seqfile.file_type = raw["file_type"];
         seqfile.extension_id = raw["file_extension_id"];
