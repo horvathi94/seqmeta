@@ -32,7 +32,7 @@
 					selected_value=field.input.value) }}
 
 		{% elif field.field_type == "seqfile" %}
-			{{ seqfile(field, field.options) }}
+			{{ seqfile(field, field.options, ftype=ftype) }}
 		
 		{% elif field.field_type == "seqfile_assembly" %}
 			{{ seqfile_assembly(field, field.options) }}

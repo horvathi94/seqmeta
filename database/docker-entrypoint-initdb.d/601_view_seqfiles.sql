@@ -10,6 +10,7 @@ CREATE OR REPLACE VIEW `view_seqfiles` AS
 		IF (seqfiles.is_assembly IS TRUE, 
 			assembly_files.item_key,
 			reads_files.item_key) AS file_type,
+		seqfiles.file_type_id AS file_extension_id,
 		IF (seqfiles.is_assembly IS TRUE, 
 			assembly_files.item_value,
 			reads_files.item_value) AS file_extension,

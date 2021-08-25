@@ -2,11 +2,16 @@
 
 
 
-{% macro seqfile(info, dlist_extension) %}
+{% macro seqfile(info, dlist_extension, ftype=0) %}
+
 
 	<input type="file" name="{{ info.input.multi_template }}">
 
-	{{ select(info.input.multi_template, dlist_extension) }}
+
+
+	{{ select(info.input.multi_template,
+						dlist_extension,
+						selected_id=ftype) }}
 	
 
 	{% if info.input.value != "" and info.input.value != 0 %}

@@ -83,9 +83,18 @@ class Samples(DBInterface):
 
 
     @classmethod
+    def fetch_name(cls, sample_id: int) -> str:
+        where_clause = f"WHERE `sample_id` = {sample_id}";
+        fields = ["sample_name"];
+        sample_name ,= Cursor.select(cls.edit_table_name, fields=fields,
+                                     clauses=where_clause);
+        return sample_name;
+
+
+    @classmethod
     def fetch(cls, table_name: str, sample_id: int=0) -> dict:
         """Fetch sample with sample_id from the database."""
-        where_clause = "WHERE `sample_id` = {:d}".format(sample_id);
+        where_clause = f"WHERE `sample_id` = {sample_id}";
         entry, = Cursor.select(table_name, clauses=where_clause);
         entry = cls.clean_entry(entry);
         return entry;

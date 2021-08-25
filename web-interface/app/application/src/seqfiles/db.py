@@ -50,8 +50,15 @@ class DBSeqFile(DBInterface):
 
     @classmethod
     def fetch_assembly_method(cls, seqfile: "SeqFiles") -> dict:
-        import sys
         fields = ["assembly_method_id", "assembly_method"];
+        raw ,= Cursor.select(cls.display_table_name, fields=fields,
+                            clauses=seqfile.get_where_clause());
+        return {fd: raw[fd] for fd in fields};
+
+
+    @classmethod
+    def fetch_extension(cls, seqfile: "SeqFiles") -> dict:
+        fields = ["file_extension_id", "file_extension"];
         raw ,= Cursor.select(cls.display_table_name, fields=fields,
                             clauses=seqfile.get_where_clause());
         return {fd: raw[fd] for fd in fields};

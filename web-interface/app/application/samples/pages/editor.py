@@ -19,7 +19,13 @@ class Editor(EditorBase):
     def render_field(cls, field_handle: SampleFields,
                      sample_id: int) -> "HTML":
         field = DBField.get_field(field_handle);
-        field.input.value = field.get_value(sample_id=sample_id);
+        val = field.get_value(sample_id=sample_id);
+        if field.field_type == "seqfile":
+            field.input.value = val.fetch_filename();
+            ftype = val.extension_id;
+            return render_template("samples/form/single/field.html",
+                                   field=field, ftype=ftype);
+        field.input.value = val;
         return render_template("samples/form/single/field.html", field=field);
 
 

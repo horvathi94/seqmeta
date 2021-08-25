@@ -2,6 +2,7 @@ import os
 from Bio import SeqIO
 from dataclasses import dataclass
 from application.src.seqfiles import db
+from application.src.samples.samples import Samples
 from .types import AssemblyLevels, SeqFileTypes
 
 
@@ -17,7 +18,8 @@ class SeqFile:
     filedata: "flask.fileStorage" = None;
     filename: str = "";
     exists: bool = None;
-    extension: str = "fasta";
+    extension_id: int = None;
+    extension: str = None;
     assembly_method_id: int = None;
     assembly_method: str = None;
 
@@ -28,6 +30,7 @@ class SeqFile:
             self.assembly_level = self.get_assembly_level(self.file_type);
             self.is_forward_read = self.get_is_forward_read(self.file_type);
             if self.sample_id != 0:
+                self._fetch_extension();
                 if self.file_type in SeqFileTypes.list_assemblies():
                     self._set_assembly_method();
 
@@ -36,6 +39,20 @@ class SeqFile:
         d = db.DBSeqFile.fetch_assembly_method(self);
         self.assembly_method_id = d["assembly_method_id"];
         self.assembly_method = d["assembly_method"];
+
+
+    def _fetch_extension(self):
+        d = db.DBSeqFile.fetch_extension(self);
+        self.extension_id = d["file_extension_id"];
+        self.extension = d["file_extension"];
+
+
+    def _generate_filename(self):
+        sample_name = Samples.fetch_name(self.sample_id);
+        fname = sample_name;
+        if self.is_assembly:
+           pass;
+
 
 
     def fetch_filename(self):

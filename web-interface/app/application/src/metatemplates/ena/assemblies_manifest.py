@@ -10,6 +10,7 @@ class EnaManifestAssembly(TempFile):
 
     zip_dir = "assemblies";
     level = "";
+    assembly_method_key = "";
 
     @classmethod
     def manifest_in_zip(cls, name: str) -> str:
@@ -26,7 +27,7 @@ class EnaManifestAssembly(TempFile):
             wf.write(f"ASSEMBLYNAME\t\t{sample['sample_name']}_{cls.level}\n");
             wf.write(f"ASSEMBLY_TYPE\t\tCOVID-19 outbreak\n");
             wf.write(f"COVERAGE\t\t{sample['COVERAGE']}\n");
-            wf.write(f"PROGRAM\t\t{sample['PROGRAM']}\n");
+            wf.write(f"PROGRAM\t\t{sample[cls.assembly_method_key]}\n");
             wf.write(f"PLATFORM\t\t{sample['PLATFORM']}\n");
             wf.write(f"DESCRIPTION\t\t{sample['DESCRIPTION']}\n");
             wf.write(f"RUN_REF\t\t<RUN_REF>\n");
@@ -36,8 +37,10 @@ class EnaManifestAssembly(TempFile):
 class EnaContigs(EnaManifestAssembly):
 
     level = "contigs";
+    assembly_method_key = "contigs_assembly_method";
 
 
 class EnaScaffolds(EnaManifestAssembly):
 
     level = "scaffolds";
+    assembly_method_key = "scaffolds_assembly_method";

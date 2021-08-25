@@ -89,7 +89,8 @@ class Field:
         """Returns the value that will be assigned to the fields."""
         if self.field_type == "seqfile":
             seqfile = SeqFile(sample_id, SeqFileTypes(self.db_key));
-            return seqfile.fetch_filename();
+#            return seqfile.fetch_filename();
+            return seqfile;
 
         if self.field_type == "seqfile_assembly":
             seqfile = SeqFile(sample_id, SeqFileTypes(self.db_key));

@@ -28,7 +28,6 @@ CREATE OR REPLACE VIEW view_samples_gisaid AS
 		health.outbreak AS outbreak,
 		treatment.antiviral_treatment_agent AS treatment,
 		sequencing.sequencing_instrument AS sequencing_technology,
-		sequencing.assembly_method AS assembly_method,
 		sequencing.coverage_x AS coverage,
 		collection.originating_lab_name AS originating_lab_name,
 		collection.originating_lab_address AS originating_lab_address,
@@ -59,7 +58,13 @@ CREATE OR REPLACE VIEW view_samples_gisaid AS
 			WHERE sample_id = samples.sample_id
 				AND is_assembly IS TRUE 
 				AND assembly_level_string = "consensus" 
-			) AS seqfilename
+			) AS seqfilename,
+		( SELECT assembly_method
+			FROM view_seqfiles
+			WHERE sample_id = samples.sample_id
+				AND is_assembly IS TRUE 
+				AND assembly_level_string = "consensus" 
+			) AS assembly_method
 
 	FROM view_samples_base AS samples
 	LEFT JOIN view_samples_sampling AS sampling
