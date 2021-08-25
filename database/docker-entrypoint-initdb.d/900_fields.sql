@@ -474,13 +474,6 @@ ntry or sea names should be chosen from the <a target='_blank' href='http://insd
 		"sequencing",
 		"Apparatus with which the sequencing was done."
 	),
-	("assembly_method",
-		"Assembly method", "select", 3, 3, 3,
-		"assembly_method_id", "assembly-method", NULL, NULL, NULL, NULL, NULL,
-		"sequencing",
-		"Program name and version with which the assembly of the sequence was performed. 
-	Edit and add options: <a href='/misc/edit#assembly-methods-editor' target='_blank'>here</a>"
-	),
 	("coverage",
 		"Coverage", "number", 1, NULL, NULL,
 		"coverage", "coverage", 0, NULL, 1, NULL, NULL,

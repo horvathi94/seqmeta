@@ -84,7 +84,6 @@ class SampleFields(Enum):
     DEFINITION_FOR_SEROPOSITIVE_SAMPLE = "definition_for_seropositive_sample";
     SEROTYPE = "serotype";
     SEQUENCING_INSTRUMENT = "sequencing_instrument";
-    ASSEMBLY_METHOD = "assembly_method";
     COVERAGE = "coverage";
     LIBRARY_ID = "library_id";
     LIBRARY_LAYOUT = "library_layout";

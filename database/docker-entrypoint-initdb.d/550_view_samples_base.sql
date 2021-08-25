@@ -89,7 +89,6 @@ CREATE OR REPLACE VIEW `view_samples_base` AS
 		health.sars_cov_2_diag_pcr_ct_value_2 AS sars_cov_2_diag_pcr_ct_value_2,
 	
 		sequencing.sequencing_instrument_id AS sequencing_instrument_id,
-		sequencing.assembly_method_id AS assembly_method_id,
 		sequencing.coverage AS coverage,
 		sequencing.sequencing_lab_id AS sequencing_lab_id,
 

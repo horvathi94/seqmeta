@@ -33,7 +33,6 @@ CREATE OR REPLACE VIEW view_virusname_gisaid AS
 		health.outbreak AS outbreak,
 		treatment.antiviral_treatment_agent AS treatment,
 		sequencing.sequencing_instrument AS sequencing_technology,
-		sequencing.assembly_method AS assembly_method,
 		sequencing.coverage_x AS coverage,
 		collection.originating_lab_name AS originating_lab_name,
 		collection.originating_lab_sample_name AS originating_lab_sample_name,

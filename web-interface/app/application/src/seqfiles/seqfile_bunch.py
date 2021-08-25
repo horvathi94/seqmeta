@@ -55,6 +55,8 @@ class SeqFilesBunch(TempFile):
         if not self.consensus_file.exists:
             raise Exception("No consensus file found.");
         seqfile = self.consensus_file.get_file();
+        import sys
+        print(f"File extension: {self.consensus_file}", file=sys.stderr);
         seqdata = SeqIO.read(seqfile, self.consensus_file.extension);
         seqdata.id = self.sample["gisaid_virusname"];
         seqdata.name = "";

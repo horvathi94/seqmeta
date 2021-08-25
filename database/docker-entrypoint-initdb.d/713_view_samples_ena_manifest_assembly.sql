@@ -40,8 +40,6 @@ CREATE OR REPLACE VIEW `view_samples_ena_manifest_assembly` AS
 
 
 		FROM view_samples_base AS samples
-		LEFT JOIN assembly_methods
-			ON samples.assembly_method_id = assembly_methods.id
 		LEFT JOIN sequencing_instruments
 			ON samples.sequencing_instrument_id = sequencing_instruments.id
 		LEFT JOIN sequencing_platforms

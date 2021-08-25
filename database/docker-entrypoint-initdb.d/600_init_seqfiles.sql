@@ -5,7 +5,7 @@ A procedure to upsert sequencing files. */
 
 SET @table_name := "assembly_files";
 CALL create_dict_table(@table_name);
-CALL upsert_dict_table(@table_name, 0, "FASTA", "fa");
+CALL upsert_dict_table(@table_name, 0, "FASTA", "fasta");
 CALL upsert_dict_table(@table_name, 0, "BAM", "bam");
 
 

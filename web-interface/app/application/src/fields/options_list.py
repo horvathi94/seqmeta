@@ -38,7 +38,6 @@ _OPTIONS_LIST = {
     SF.SAMPLE_CAPTURE_STATUS: misc.SampleCaptureStatuses.fetch_list,
     SF.SPECIMEN_SOURCE: misc.SpecimenSources.fetch_list,
     SF.SEQUENCING_INSTRUMENT: misc.SequencingInstruments.fetch_list,
-    SF.ASSEMBLY_METHOD: misc.AssemblyMethods.fetch_list,
     SF.LIBRARY_LAYOUT: misc.LibraryLayouts.get_list,
     SF.LIBRARY_SOURCE: lib.LibrarySources.fetch_select_list,
     SF.LIBRARY_SELECTION: lib.LibrarySelections.fetch_select_list,
