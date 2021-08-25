@@ -1,10 +1,8 @@
 from application.src.db.interface import DBInterface
 from application.src.db.cursor import Cursor
+from .seqfile import SeqFileNew
 from .types import SeqFileTypes
 
-class SeqFileTypes(DBInterface):
-
-    display_table_name = "seqfile_extensions";
 
 
 class AssemblyFileTypes(DBInterface):
@@ -16,6 +14,7 @@ class AssemblyFileTypes(DBInterface):
         return cls.fetch_list_labeled(replace_key="item_key");
 
 
+
 class ReadFileTypes(DBInterface):
 
     display_table_name = "reads_files";
@@ -23,6 +22,7 @@ class ReadFileTypes(DBInterface):
     @classmethod
     def fetch_select_list(cls) -> list:
         return cls.fetch_list_labeled(replace_key="item_key");
+
 
 
 
@@ -69,3 +69,29 @@ class DBSeqFile(DBInterface):
         raw = Cursor.select(cls.display_table_name, fields=["filename"],
                             clauses=seqfile.get_where_clause());
         return str(raw[0]["filename"]);
+
+
+    @classmethod
+    def get_seqfile(cls, sample_id: int, seqtype: SeqFileTypes) -> SeqFileNew:
+        seqfile = SeqFileNew(seqtype, sample_id=sample_id);
+        fields = ["sample_name",
+                  "file_type", "file_extension_id", "file_extension",
+                  "assembly_method_id", "assembly_method"];
+
+        where = f"WHERE `sample_id` = {seqfile.sample_id}";
+        where+= f" AND is_assembly IS {seqfile.is_assembly}";
+        if seqfile.seqtype in SeqFileTypes.list_assemblies():
+            where+= f" AND assembly_level = {seqfile.assembly_level.value}"
+        if seqfile.seqtype in SeqFileTypes.list_reads():
+            where+= f" AND is_forward_read IS {seqfile.is_forward_read}";
+
+        raw ,= Cursor.select(cls.display_table_name,
+                            fields=fields, clauses=where);
+
+        seqfile.sample_name = raw["sample_name"];
+        seqfile.file_type = raw["file_type"];
+        seqfile.extension_id = raw["file_extension_id"];
+        seqfile.extension = raw["file_extension"];
+        seqfile.assembly_method_id = raw["assembly_method_id"];
+        seqfile.assembly_method = raw["assembly_method"];
+        return seqfile;

@@ -5,6 +5,7 @@ CREATE OR REPLACE VIEW `view_seqfiles` AS
 	SELECT 
 
 		samples.sample_id AS sample_id,
+		samples.sample_name AS sample_name,
 		seqfiles.is_assembly AS is_assembly,
 		seqfiles.is_forward_read AS is_forward_read,
 		IF (seqfiles.is_assembly IS TRUE, 
