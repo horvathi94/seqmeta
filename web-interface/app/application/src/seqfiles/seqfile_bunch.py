@@ -33,9 +33,6 @@ class SeqFilesBunch(TempFile):
     @classmethod
     def _fetch_file(cls, sample_id: int, sftype: SeqFileTypes) -> SeqFile:
         seqfile = DBSeqFile.get_seqfile(sample_id, sftype);
-        print(f"seqfile: {seqfile}", file=sys.stderr)
-#        seqfile = SeqFile(sample_id, sftype);
-#        seqfile.filename = DBSeqFile.fetch_filename(seqfile);
         seqfile.exists = seqfile.check_if_exists();
         return seqfile;
 
@@ -86,3 +83,13 @@ class SeqFilesBunch(TempFile):
             if not read.exists: return False;
         return True;
 
+
+    def get_display_details(self) -> dict:
+        d = {};
+        d["consensus"] = self.consensus_file.get_display_details();
+        d["contigs"] = self.contigs_file.get_display_details();
+        d["scaffolds"] = self.scaffolds_file.get_display_details();
+        d["reads"] = [];
+        for r in self.read_files:
+            d["reads"].append(r.get_display_details());
+        return d;

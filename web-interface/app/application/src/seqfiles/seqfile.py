@@ -107,6 +107,20 @@ class SeqFileNew:
         return seq.seq;
 
 
+    def get_display_details(self) -> dict:
+        d = {};
+        d["seqtype"] = self.seqtype.value;
+        d["filename"] = self.get_filename();
+        d["is_assembly"] = self.is_assembly;
+        d["file_type"] = self.file_type;
+        if self.is_assembly:
+            d["assembly_method"] = self.assembly_method;
+        else:
+            d["is_forward_read"] = self.is_forward_read;
+        return d;
+
+
+
 @dataclass
 class SeqFile:
 

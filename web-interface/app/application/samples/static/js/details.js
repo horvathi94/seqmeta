@@ -41,45 +41,69 @@ function addRow(propHTML="", valueHTML=""){
 
 
 
+function seqfileRow(seqfile, label){
+
+	if (seqfile.filename == "") {
+		string = "None";
+	} else {
+		string = seqfile.filename;
+		if (seqfile.is_assembly){
+			string += " (" + seqfile.file_type + ", assembled with: " + seqfile.assembly_method + ")";
+		} else {
+			if (seqfile.is_forward_read){
+				string += " (forward read)";
+			}
+			else{
+				string += " (reverse read)";
+			}
+		}
+	}
+
+	addRow(label, string);
+}
+
 
 function updateTable(sample){
 
-	let cells = [];
+	addRow("Sample name", sample.sample_name);
+	addRow("Sample comment", sample.sample_comment);
+	addRow("Patient", sample.patient_details);
+	addRow("Collection date", sample.collection_date);
+	addRow("GISAID virusname", sample.gisaid_details);
+	addRow("Isolate name", sample.isolate);
+	addRow("Location", sample.location_details);
+	addRow("Collector name", sample.collector_name);
 
-	cells = addRow("Sample name", sample.sample_name);
-	cells = addRow("Sample comment", sample.sample_comment);
-	cells = addRow("Patient", sample.patient_details);
-	cells = addRow("Collection date", sample.collection_date);
-	cells = addRow("GISAID virusname", sample.gisaid_details);
-	cells = addRow("Isolate name", sample.isolate);
-	cells = addRow("Location", sample.location_details);
-	cells = addRow("Collector name", sample.collector_name);
-
-	cells = addRow("Originating laboratory", sample.originating_lab_details);
-	cells = addRow("Submitting laboratory", sample.submitting_lab_details);
-	cells = addRow("Authors", sample.authors_details);
+	addRow("Originating laboratory", sample.originating_lab_details);
+	addRow("Submitting laboratory", sample.submitting_lab_details);
+	addRow("Authors", sample.authors_details);
 
 
-	cells = addRow("Ilness", sample.ilness_details);
-	cells = addRow("Antiviral treatment", sample.antiviral_treatment_details);
-	cells = addRow("Hospitalisation", sample.hospitalization);
-	cells = addRow("Disease outcome", sample.host_disease_outcome);
-	cells = addRow("Vaccination details", sample.vaccination_details);
-	cells = addRow("Prior SARS-CoV-2 infection", sample.prior_infection_details);
+	addRow("Ilness", sample.ilness_details);
+	addRow("Antiviral treatment", sample.antiviral_treatment_details);
+	addRow("Hospitalisation", sample.hospitalization);
+	addRow("Disease outcome", sample.host_disease_outcome);
+	addRow("Vaccination details", sample.vaccination_details);
+	addRow("Prior SARS-CoV-2 infection", sample.prior_infection_details);
 
 
-	cells = addRow("Sampling strategy", sample.sampling_strategy);
-	cells = addRow("Purpose of sampling", sample.purpose_of_sampling);
-	cells = addRow("Purpose of sequencing", sample.purpose_of_sequencing);
+	addRow("Sampling strategy", sample.sampling_strategy);
+	addRow("Purpose of sampling", sample.purpose_of_sampling);
+	addRow("Purpose of sequencing", sample.purpose_of_sequencing);
 
-	cells = addRow("Sequencing instrument", sample.instrument_details);
-	cells = addRow("Assembly method", sample.assembly_method);
-	cells = addRow("Coverage", sample.coverage);
-	
+	addRow("Sequencing instrument", sample.instrument_details);
+	addRow("Coverage", sample.coverage);
 	
 
-	cells = addRow("Library ID", sample.library_id);
-	cells = addRow("Library", sample.library_details);
+	addRow("Library ID", sample.library_id);
+	addRow("Library", sample.library_details);
+
+	seqfileRow(sample.seqbunch.consensus, "Consensus");
+	seqfileRow(sample.seqbunch.contigs, "Contigs");
+	seqfileRow(sample.seqbunch.scaffolds, "Scaffolds");
+	sample.seqbunch.reads.forEach( (r) => {
+		seqfileRow(r, "Reads");
+	});
 
 };
 

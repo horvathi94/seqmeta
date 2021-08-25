@@ -89,7 +89,6 @@ CREATE OR REPLACE VIEW view_samples_details AS
 
 		CONCAT(sequencing.sequencing_instrument, " (",
 				sequencing.sequencing_platform, ")") AS instrument_details,
-		sequencing.assembly_method AS assembly_method,
 		sequencing.coverage AS coverage
 
 
