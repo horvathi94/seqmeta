@@ -3,7 +3,9 @@ from .pages.descriptions import LibraryDescription
 from .pages.workflows import WorkflowBasic, \
     WorkflowGISAID, WorkflowENA, WorkflowNCBI
 from .pages.misc_editor import MiscEditor
-from .pages import basic_options as bopt
+from .pages.misc_options import hosts, assembly_methods, sampling_strategies, \
+    specimen_sources, collection_devices, anatomical_materials, body_products,\
+    purposes_sampling, purposes_sequencing
 from .pages import virusname_templates as vnt
 from .pages.defaults import DefaultsEditor
 
@@ -27,47 +29,47 @@ def edit():
 
 @misc_bp.route("/misc/submit/hosts", methods=["POST"])
 def submit_hosts():
-    return bopt.HostsEditor.parse_and_save(request.form);
+    return hosts.Editor.parse_and_save(request.form);
 
 
 @misc_bp.route("/misc/submit/assembly-methods", methods=["POST"])
 def submit_assembly_methods():
-    return bopt.AssemblyMethodsEditor.parse_and_save(request.form);
+    return assembly_methods.Editor.parse_and_save(request.form);
 
 
 @misc_bp.route("/misc/submit/sampling-strategies", methods=["POST"])
 def submit_sampling_strategies():
-    return bopt.SamplingStrategies.save_by_procedure(request.form);
+    return sampling_strategies.Editor.save_by_procedure(request.form);
 
 
 @misc_bp.route("/misc/submit/specimen-sources", methods=["POST"])
 def submit_specimen_sources():
-    return bopt.SpecimenSourcesEditor.parse_and_save(request.form);
+    return specimen_sources.Editor.parse_and_save(request.form);
 
 
 @misc_bp.route("/misc/submit/collection-devices", methods=["POST"])
 def submit_collection_devices():
-    return bopt.CollectionDevicesEditor.parse_and_save(request.form);
+    return collection_devices.Editor.parse_and_save(request.form);
 
 
 @misc_bp.route("/misc/submit/host-anatomical-materials", methods=["POST"])
 def submit_host_anatomical_materials():
-    return bopt.HostAnatomicalMaterialsEditor.parse_and_save(request.form);
+    return anatomical_materials.Editor.parse_and_save(request.form);
 
 
 @misc_bp.route("/misc/submit/host-body-products", methods=["POST"])
 def submit_host_body_products():
-    return bopt.HostBodyProductsEditor.parse_and_save(request.form);
+    return body_products.Editor.parse_and_save(request.form);
 
 
 @misc_bp.route("/misc/submit/purposes-of-sampling", methods=["POST"])
 def submit_purpose_of_sampling():
-    return bopt.PurposesOfSamplingEditor.parse_and_save(request.form);
+    return purposes_sampling.Editor.parse_and_save(request.form);
 
 
 @misc_bp.route("/misc/submit/purposes-of-sequencing", methods=["POST"])
 def submit_purpose_of_sequencing():
-    return bopt.PurposesOfSequencingEditor.parse_and_save(request.form);
+    return purposes_sequencing.Editor.parse_and_save(request.form);
 
 
 
