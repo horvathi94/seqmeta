@@ -58,11 +58,6 @@ CREATE OR REPLACE VIEW `view_default_values` AS
 			WHERE `item_key` = "sampling_strategy_id"
 		) AS sampling_strategy_id,
 		
-		(SELECT 
-			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
-			FROM `default_values`
-			WHERE `item_key` = "assembly_method_id"
-		) AS assembly_method_id,
 
 		(SELECT 
 			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
@@ -215,4 +210,22 @@ CREATE OR REPLACE VIEW `view_default_values` AS
 			IF (`item_value` IS NULL, "", `item_value`) 
 			FROM `default_values`
 			WHERE `item_key` = "library_design_description"
-		) AS library_design_description;
+		) AS library_design_description,
+
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "consensus_assembly_method"
+		) AS consensus_assembly_method,
+
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "contigs_assembly_method"
+		) AS contigs_assembly_method,
+
+		(SELECT 
+			IF (`item_value` IS NULL, NULL, CAST(`item_value` AS UNSIGNED)) 
+			FROM `default_values`
+			WHERE `item_key` = "scaffolds_assembly_method"
+		) AS scaffolds_assembly_method;

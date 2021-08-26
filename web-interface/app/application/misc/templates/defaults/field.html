@@ -26,6 +26,10 @@
 			{{ radio(field.input.db_key,
 					field.options,
 					selected_value=field.input.value) }} 
+		{% elif field.field_type == "seqfile_assembly" %}
+			{{ select(field.input.db_key,
+								field.options,
+								selected_id=field.input.value) }}
 		{% endif %}
 	</td>
 	<td> {{ field.description|safe }} </td>

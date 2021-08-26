@@ -11,8 +11,6 @@ class EditorPage(EditorBase):
 
     @classmethod
     def render_editor(cls, item_id: int) -> "HTML":
-        """Return author editor."""
-
         institution = Institutions.fetch_entry(id=institution_id);
         html = render_template("institutions/edit.html",
                                institution=institution,

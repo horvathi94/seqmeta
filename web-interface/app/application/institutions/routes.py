@@ -25,8 +25,6 @@ def edit():
 
 @institutions_bp.route("/institutions/submit", methods=["POST"])
 def submit():
-    """Handle institution data submitted from the editor."""
-
     data = request.form.to_dict();
     Institutions.save_entry(data);
     return redirect(url_for('institutions_bp.show'));

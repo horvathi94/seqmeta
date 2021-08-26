@@ -83,3 +83,8 @@ CALL upsert_deftab("passage_number", NULL);
 CALL upsert_deftab("passage_method", NULL);
 CALL upsert_deftab("insert_size", NULL);
 CALL upsert_deftab("library_construction_protocol", NULL);
+
+CALL upsert_deftab("consensus_assembly_method", NULL);
+CALL upsert_deftab("contigs_assembly_method", NULL);
+CALL upsert_deftab("scaffolds_assembly_method", NULL);
+

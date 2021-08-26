@@ -20,12 +20,9 @@ def descript_library():
     return LibraryDescription.render();
 
 
-
 @misc_bp.route("/misc/edit")
 def edit():
-    """Editor for misc values."""
     return MiscEditor.render();
-
 
 
 @misc_bp.route("/misc/submit/hosts", methods=["POST"])

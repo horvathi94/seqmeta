@@ -10,8 +10,6 @@ from application.src.seqfiles.types import SeqFileTypes
 from application.src.seqfiles.seqfile import SeqFile
 
 
-import sys
-
 
 @dataclass
 class Field:
@@ -87,10 +85,17 @@ class Field:
 
     def get_value(self, sample_id: int=0):
         """Returns the value that will be assigned to the fields."""
+
+        import sys
+
+
         if self.field_type == "seqfile":
             return DBSeqFile.get_seqfile(sample_id, SeqFileTypes(self.db_key));
 
         if self.field_type == "seqfile_assembly":
+            if sample_id == 0:
+                defs = DefaultValues.fetch();
+                return defs[self.handle_std.value];
             seqfile = DBSeqFile.get_seqfile(sample_id,
                                             SeqFileTypes(self.db_key));
             return seqfile.assembly_method_id;
@@ -99,9 +104,11 @@ class Field:
             sampd = Samples.fetch_entry_edit(id=sample_id, id_key="sample_id");
             return sampd[self.db_key];
 
+
         defs = DefaultValues.fetch();
         if self.db_key in defs and defs[self.db_key] is not None:
             return defs[self.db_key];
+
 
         if self.field_type in ["select", "radio"]:
             return 0;
