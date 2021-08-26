@@ -5,10 +5,8 @@ from application.src.samples.samples import Samples
 from application.src.metatemplates.base.tempfile import TempFile
 from .db import DBSeqFile
 from .types import SeqFileTypes
-from .seqfile import SeqFile
 
 
-import sys
 
 class SeqFilesBunch(TempFile):
 
@@ -31,7 +29,7 @@ class SeqFilesBunch(TempFile):
 
 
     @classmethod
-    def _fetch_file(cls, sample_id: int, sftype: SeqFileTypes) -> SeqFile:
+    def _fetch_file(cls, sample_id: int, sftype: SeqFileTypes) -> "SeqFile":
         seqfile = DBSeqFile.get_seqfile(sample_id, sftype);
         seqfile.exists = seqfile.check_if_exists();
         return seqfile;

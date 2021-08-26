@@ -1,6 +1,6 @@
 from application.src.db.interface import DBInterface
 from application.src.db.cursor import Cursor
-from .seqfile import SeqFileNew
+from .seqfile import SeqFile
 from .types import SeqFileTypes
 
 
@@ -72,8 +72,8 @@ class DBSeqFile(DBInterface):
 
 
     @classmethod
-    def get_seqfile(cls, sample_id: int, seqtype: SeqFileTypes) -> SeqFileNew:
-        seqfile = SeqFileNew(seqtype, sample_id=sample_id);
+    def get_seqfile(cls, sample_id: int, seqtype: SeqFileTypes) -> SeqFile:
+        seqfile = SeqFile(seqtype, sample_id=sample_id);
         fields = ["sample_name",
                   "file_type", "file_extension_id", "file_extension",
                   "assembly_method_id", "assembly_method"];

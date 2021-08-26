@@ -15,7 +15,6 @@ from application.src.samples.nametemplates.isolate_ena import \
     IsolateEna
 from application.src.seqfiles.db import DBSeqFile
 from application.src.seqfiles.types import SeqFileTypes
-from application.src.seqfiles.seqfile import SeqFileNew, SeqFile
 
 
 class _SaveBase:
