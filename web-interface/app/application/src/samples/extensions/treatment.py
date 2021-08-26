@@ -1,5 +1,5 @@
 from .base import SampleExtension
-from application.src.misc import ReceivedTreatment, PriorInfection
+from application.src.misc.health import ReceivedTreatment, PriorInfection
 
 
 class PatientTreatment(SampleExtension):

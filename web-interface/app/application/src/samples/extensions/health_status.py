@@ -1,7 +1,5 @@
 from .base import SampleExtension
-from application.src.misc import Hospitalisation
-
-import sys
+from application.src.misc.health import Hospitalisation
 
 
 class HealthStatus(SampleExtension):

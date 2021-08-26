@@ -1,5 +1,5 @@
 from .base import SampleExtension
-from application.src.misc import Genders
+from application.src.misc.host import Genders
 
 
 class Host(SampleExtension):

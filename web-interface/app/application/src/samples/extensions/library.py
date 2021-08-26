@@ -1,6 +1,6 @@
 from application.src.db.cursor import Cursor
 from .base import SampleExtension
-from application.src.misc import LibraryLayouts
+from application.src.misc.library import LibraryLayouts
 
 
 

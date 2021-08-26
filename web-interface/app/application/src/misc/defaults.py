@@ -1,5 +1,5 @@
-from .db.interface import DBInterface
-from .db.cursor import Cursor
+from application.src.db.interface import DBInterface
+from application.src.db.cursor import Cursor
 
 class DefaultValues:
 
@@ -18,6 +18,7 @@ class DefaultValues:
         values["locality"] = values["locality"] \
             if values["locality"] != None else "";
         return values;
+
 
     @classmethod
     def save(cls, submitted):

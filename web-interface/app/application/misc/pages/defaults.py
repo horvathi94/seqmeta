@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for
-from application.src.defaults import DefaultValues
+from application.src.misc.defaults import DefaultValues
 from application.src.pages.editor import EditorBase
 from application.src.fields.dbfield import DBField
 from application.src.fields.sample_fields import SampleFields

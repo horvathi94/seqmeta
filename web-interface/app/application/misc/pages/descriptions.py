@@ -1,6 +1,6 @@
 from flask import render_template
 from application.src.pages.page import Page
-from application.src import library
+from application.src.misc import library
 
 
 class LibraryDescription(Page):

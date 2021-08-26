@@ -1,7 +1,7 @@
 from flask import render_template
 from application.src.pages.editor import EditorBase
 from application.src.institutions import Institutions
-from application.src.misc import Countries
+from application.src.misc.location import Countries
 
 
 class EditorPage(EditorBase):
