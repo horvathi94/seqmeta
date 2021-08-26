@@ -152,9 +152,9 @@ class SampleFields(Enum):
                 cls.SAMPLE_STORAGE_CONDITIONS,
                 cls.PASSAGE_NUMBER,
                 cls.PASSAGE_METHOD,
-                cls.CONSENSUS_ASSEMBLY_METHOD,]
-#                cls.CONTIGS_ASSEMBLY_METHOD,
-#                cls.SCAFFOLDS_ASSEMBLY_METHOD,];
+                cls.CONSENSUS_ASSEMBLY_METHOD,
+                cls.CONTIGS_ASSEMBLY_METHOD,
+                cls.SCAFFOLDS_ASSEMBLY_METHOD,];
 
 
 
