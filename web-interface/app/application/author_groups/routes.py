@@ -27,8 +27,6 @@ def edit():
 
 @author_groups_bp.route("/author-groups/submit", methods=["POST"])
 def submit():
-    """Handle author group data submitted from the edior."""
-
     form_data = request.form.to_dict();
     authors_list = Form.parse_list(form_data, "author")[1:];
     group = Form.parse_simple(form_data, "group");

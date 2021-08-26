@@ -2,85 +2,73 @@
 
 <form action="{{ url_for('author_groups_bp.submit') }}" method="POST" class="smbasicform">
 
-<div id="editor-shell">
+	<div id="editor-shell">
 
-	<input type="hidden" name="group+id" value="{{ group.group_id }}"/>
+		<input type="hidden" name="group+id" value="{{ group.group_id }}"/>
 
-	<div id="group-name" class="name-edit">
-	<label for="group_name"> <strong>Group name:</strong> </label>
-		<input type="text" name="group+name" value="{{ group.group_name }}" class="sminp-text"/>
+		<div id="group-name" class="name-edit">
+			<label for="group_name"> <strong>Group name:</strong> </label>
+			<input type="text" name="group+name" value="{{ group.group_name }}" class="sminp-text"/>
+		</div>
+
+		<div id="editor">
+
+			<input type="button" 
+						 class="smbutton"
+						 id="add-author-to-group"
+						 onclick="addAuthorToGroup()"
+						 value="Add author"/>
+
+			<table id="author-group-editor">
+				<tr>
+					<th> Order </th>
+					<th> Name </th>
+				</tr>
+
+				<tr class="editor template" style="visibility: collapse;">
+					<td>
+						<input type="number" 
+							name="author+0+order_index"
+							class="orderindx"
+							value="0"/>
+					</td>
+					<td>
+						<select class="authorid template" name="author+0+auhtor_id">
+							{% for a in authors_list %}
+								<option value="{{ a.id }}"> {{ a.abbreviated_middle_name }} </option>
+							{% endfor %}
+						</select>
+					</td>
+				</tr>
+
+			{% for author in group.authors %}
+				<tr>
+					<td>
+						<input type="number" 
+							class="orderindx"
+							name="author+{{ loop.index }}+order_index"
+							value="{{ author.order_index }}"/>
+					</td>
+					<input type="hidden" 
+						class="authorid"
+						name="author+{{ loop.index }}+author_id"
+						value="{{ author.author_id }}"/> 
+					<td> 
+						{{ author.abbreviated_middle_name }} 
+					</td>
+				</tr>
+			{% endfor %}
+
+			</table>
+
+			<div class="buttons">
+				<input type="submit" class="smbutton save" value="Save"/>
+				<input type="button" class="smbutton back" 
+														 onclick="location.href='{{ url_for('author_groups_bp.show') }}';"
+														 value="Back"/>
+			</div>
+
+		</div>
+
 	</div>
-
-	<div id="editor">
-
-
-		<input type="button" 
-					 class="smbutton"
-					 id="add-author-to-group"
-					 onclick="addAuthorToGroup()"
-					 value="Add author"/>
-
-
-		<table id="author-group-editor">
-			<tr>
-				<th> Order </th>
-				<th> Name </th>
-			</tr>
-			
-
-			<tr class="editor template" style="visibility: collapse;">
-
-				<td>
-					<input type="number" 
-						name="author+0+order_index"
-						class="orderindx"
-						value="0"/>
-				</td>
-
-				<td>
-					<select class="authorid template" name="author+0+auhtor_id">
-						{% for a in authors_list %}
-							<option value="{{ a.id }}"> {{ a.abbreviated_middle_name }} </option>
-						{% endfor %}
-					</select>
-				</td>
-
-			</tr>
-
-
-		{% for author in group.authors %}
-
-
-				<td>
-					<input type="number" 
-						class="orderindx"
-						name="author+{{ loop.index }}+order_index"
-						value="{{ author.order_index }}"/>
-				</td>
-			
-				<input type="hidden" 
-					class="authorid"
-					name="author+{{ loop.index }}+author_id"
-					value="{{ author.author_id }}"/> 
-
-				<td> {{ author.abbreviated_middle_name }} </td>
-
-			</tr>
-
-		{% endfor %}
-
-
-
-
-	</table>
-
-	<div class="buttons">
-		<input type="submit" class="smbutton save" value="Save"/>
-		<input type="button" class="smbutton back" 
-												 onclick="location.href='{{ url_for('author_groups_bp.show') }}';"
-												 value="Back"/>
-	</div>
-
-</div>
-
 </form>

@@ -14,15 +14,12 @@ authors_bp = Blueprint("authors_bp", __name__,
 
 @authors_bp.route("/authors/view", methods=["GET"])
 def show():
-    """Main page for authors"""
     return DisplayPage.render();
 
 
 
 @authors_bp.route("/authors/edit", methods=["GET"])
 def edit():
-    """Editor for authors"""
-
     author_id = int(request.args["id"]) if "id" in request.args else 0;
     return EditorPage.render(author_id);
 
@@ -30,8 +27,6 @@ def edit():
 
 @authors_bp.route("/authors/submit", methods=["POST"])
 def submit():
-    """Handle author data submitted from the editor."""
-
     data = request.form.to_dict();
     Authors.save_entry(data);
     return redirect(url_for('authors_bp.show'));
