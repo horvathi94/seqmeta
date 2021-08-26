@@ -19,6 +19,6 @@ def home():
 
 @home_bp.route("/favicon.ico")
 def favicon():
-    path = os.path.join(app.root_path, 'static', 'assets');
-    return send_from_directory(path, 'favicon.ico', mimetype='image/x-icon');
+    return send_from_directory("static/assets",
+                               'favicon.ico', mimetype='image/x-icon');
 
