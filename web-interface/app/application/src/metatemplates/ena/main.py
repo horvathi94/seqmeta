@@ -63,8 +63,9 @@ class EnaMeta(TempFile):
                                  assembman.EnaContigs.manifest_in_zip(sname));
 
                     tempfile = "ena_contigs_file.fa.gz";
-                    sb.write_ena_contigs_tempfile(tempfile);
-                    zipObj.write(tempfile,
+                    file = os.path.join("/uploads/samples/temp", tempfile);
+                    sb.write_ena_contigs_tempfile(file);
+                    zipObj.write(file,
                                  f"{assembman.EnaContigs.zip_dir}/" \
                                  f"{sb.contigs_file.get_filename()}.gz");
 
@@ -74,8 +75,9 @@ class EnaMeta(TempFile):
                     zipObj.write(assembman.EnaScaffolds.get_tempfile(),
                                 assembman.EnaScaffolds.manifest_in_zip(sname));
                     tempfile = "ena_scaffolds_file.fa.gz";
-                    sb.write_ena_contigs_tempfile(tempfile);
-                    zipObj.write(tempfile,
+                    file = os.path.join("/uploads/samples/temp", tempfile);
+                    sb.write_ena_contigs_tempfile(file);
+                    zipObj.write(file,
                                  f"{assembman.EnaScaffolds.zip_dir}/" \
                                  f"{sb.scaffolds_file.get_filename()}.gz");
 
