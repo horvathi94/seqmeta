@@ -11,7 +11,7 @@ class EditorPage(EditorBase):
 
     @classmethod
     def render_editor(cls, item_id: int) -> "HTML":
-        institution = Institutions.fetch_entry(id=institution_id);
+        institution = Institutions.fetch_entry(id=item_id);
         html = render_template("institutions/edit.html",
                                institution=institution,
                                countries=Countries.fetch_list());
