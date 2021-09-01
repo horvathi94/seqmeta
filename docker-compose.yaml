@@ -39,8 +39,9 @@ services:
      dockerfile: Dockerfile
 
     volumes:
+      - ./database/scripts:/scripts
       - ${MYSQL_BACKUPS_DIR}:/backups
-#      - ${MYSQL_DATABASE_DIR}:/var/lib/mysql
+      - ${MYSQL_DATABASE_DIR}:/var/lib/mysql
 
     networks:
       - app-network

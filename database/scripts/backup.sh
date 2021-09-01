@@ -2,6 +2,9 @@
 
 # Perform backups for the MySQL database
 
+BACKUPS_DIR="/backups"
+SAVE_DATA="all";
+
 
 help(){
 	# Display help
@@ -9,13 +12,13 @@ help(){
 	echo ;
   echo "Syntax: backup [-s|-h]";
   echo "options:";
-  echo "  -s, --save   Specify the type of save you want to perform.";
+  echo "  -d, --data   Specify the type of save you want to perform.";
   echo "  -h, --help   Print this help screen.";
   echo ;
 	echo "Save options:";
 	echo "  samples      Data related to the samples.";
 	echo "  groups       Authors, author groups and institutions.";
-	echo "  default      The default values.";
+	echo "  defaults     The default values.";
 	echo "  misc         Values specified on the misc page.";
 	echo "  templates    Virusname and isolatename templates.";
 	echo "  all          All of the above. This is the default option.";
@@ -23,17 +26,17 @@ help(){
 }
 
 
+
 ####################################################################
 # Save tables related to the samples.  
 ####################################################################
-save_samples(){
-	mysqldump --user=$MYSQL_USER --password=$MYSQL_PASSWORD \
-		-t \
-		$MYSQL_DATABASE \
-			samples samples_collection samples_health_status \
-			samples_host samples_library samples_location \
+function save_samples(){
+	filename="samples.sql"
+	mysqldump --user=root --password=$MYSQL_ROOT_PASSWORD -t \
+		$MYSQL_DATABASE samples samples_collection samples_health_status \
+		  samples_host samples_library samples_location \
 			samples_patient_treatment samples_sampling samples_sequencing \
-			seqfiles;
+			  > "$BACKUPS_DIR/$filename"
 }
 
 
@@ -41,10 +44,10 @@ save_samples(){
 # Save tables related to authors, author groups and institutions.  
 ####################################################################
 save_groups(){
-	mysqldump --user=$MYSQL_USER --password=$MYSQL_PASSWORD \
-		-t \
-		$MYSQL_DATABASE \
-			authors author_groups authors_in_group institutions;
+	filename="groups.sql"
+	mysqldump --user=root --password=$MYSQL_ROOT_PASSWORD -t \
+		$MYSQL_DATABASE authors author_groups authors_in_group institutions \
+		  > "$BACKUPS_DIR/$filename"
 }
 
 
@@ -52,10 +55,9 @@ save_groups(){
 # Save default values.  
 ####################################################################
 save_defaults(){
-	mysqldump --user=$MYSQL_USER --password=$MYSQL_PASSWORD \
-		-t \
-		$MYSQL_DATABASE \
-			default_values;
+	filename="defaults.sql"
+	mysqldump --user=root --password=$MYSQL_ROOT_PASSWORD \
+		$MYSQL_DATABASE deafault_values > "$BACKUPS_DIR/$filename"
 }
 
 
@@ -64,12 +66,12 @@ save_defaults(){
 # Save misc tables.  
 ####################################################################
 save_misc(){
-	mysqldump --user=$MYSQL_USER --password=$MYSQL_PASSWORD \
-		-t \
-		$MYSQL_DATABASE \
-			hosts assembly_methods sampling_strategies specimen_sources \
-			collection_devices anatomical_materials body_products \
-			purposes_of_sampling purposes_of_sequencing;
+	filename="misc.sql"
+	mysqldump --user=root --password=$MYSQL_ROOT_PASSWORD \
+		$MYSQL_DATABASE hosts assembly_methods sampling_strategies \
+		specimen_sources collection_devices host_anatomical_materials \
+		host_body_products purposes_of_sampling purposes_of_sequencing \
+		  > "$BACKUPS_DIR/$filename"
 }
 
 
@@ -77,12 +79,10 @@ save_misc(){
 # Save virusname and isolatename templates.  
 ####################################################################
 save_templates(){
-	mysqldump --user=$MYSQL_USER --password=$MYSQL_PASSWORD \
-		-t \
-		$MYSQL_DATABASE \
-			virusnames;
+	filename="templates.sql"
+	mysqldump --user=root --password=$MYSQL_ROOT_PASSWORD -t \
+		$MYSQL_DATABASE virusnames > "$BACKUPS_DIR/$filename"
 }
-
 
 
 
@@ -91,13 +91,12 @@ save_templates(){
 # Main script
 ####################################################################
 
-SAVE_DATA="all";
 
 for p in $@; do
 
 	case $p in
 
-		-s=*|--save=*)
+		-d=*|--data=*)
 			SAVE_DATA="${p#*=}"
 			shift
 			;;
