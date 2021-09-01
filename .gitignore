@@ -1,10 +1,5 @@
-web-interface/temp
-temp/
-mysql/
-scratch
-uploads
-web-interface/uploads
-web-interface/samples
+data/*
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
