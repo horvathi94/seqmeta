@@ -1,4 +1,6 @@
-data/*
+data/temp/*
+data/uploads/samples/*
+data/mysql
 
 
 # Byte-compiled / optimized / DLL files
