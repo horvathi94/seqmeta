@@ -68,7 +68,7 @@ case $mode in
 		;;
 
 	down)
-		echo "Shutting donw...";
+		echo "Shutting down...";
 		docker-compose -env-file run.env down
 		;;
 

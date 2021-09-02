@@ -18,7 +18,7 @@ services:
       - database
 
     environment:
-      MYSQL_DATABASE: ?{MYSQL_DATABASE:-sequencing_data}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-sequencing_data}
       MYSQL_USER: ${MYSQL_USER:-admin}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-12345}
 
@@ -41,7 +41,7 @@ services:
 
 
     environment:
-      MYSQL_DATABASE: ?{MYSQL_DATABASE:-sequencing_data}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-sequencing_data}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-1234567890}
       MYSQL_USER: ${MYSQL_USER:-admin}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-12345}
