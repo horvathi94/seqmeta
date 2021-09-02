@@ -57,7 +57,7 @@ save_groups(){
 save_defaults(){
 	filename="defaults.sql"
 	mysqldump --user=root --password=$MYSQL_ROOT_PASSWORD \
-		$MYSQL_DATABASE deafault_values > "$BACKUPS_DIR/$filename"
+		$MYSQL_DATABASE default_values > "$BACKUPS_DIR/$filename"
 }
 
 
