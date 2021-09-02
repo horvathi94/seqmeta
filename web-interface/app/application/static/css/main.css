@@ -11,7 +11,7 @@ html{
 
 body{
 	margin: 0em 2em 1em 2em;
-	height: 100%;
+	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 }
@@ -19,6 +19,7 @@ body{
 
 div#page-wrap{
 	padding: 1em 2em;
+	height: 100%;
 }
 
 

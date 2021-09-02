@@ -1,0 +1,21 @@
+version: "3.6"
+
+services:
+
+  app:
+
+    build:
+      context: ./web-interface
+      target: ${STAGING_LEVEL:-development}
+      dockerfile: Dockerfile
+
+    depends_on:
+      - database
+
+    volumes:
+      - ./web-interface/app:/app
+
+
+
+
+    

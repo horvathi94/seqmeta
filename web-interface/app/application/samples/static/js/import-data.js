@@ -12,9 +12,27 @@ async function fetchSampleData(sampleID){
 
 
 
+const importer = document.getElementById("import-from-sample");
+
 
 function importDataFromOtherSample(){
 
+	let inp;
+
+	fetchSampleData(importer.value).then( (sampleData) => {
+
+		Object.keys(sampleData).filter( (className) => className != "sample_id" ).forEach( (className) => {
+		
+			inp = templateRow.getElementsByClassName(className)[0];
+			console.log(className);
+			console.log(inp.type);
+
+		});
+
+	});
+
+
+	/*
 	const selector = document.getElementById("import-from-sample");
 	const templateRow = document.getElementById("samples-editor").getElementsByClassName("template row")[0];
 	const selectorClasses = ["collector-name", "continent", "country", "geo-loc-exposure",
@@ -44,13 +62,12 @@ function importDataFromOtherSample(){
 					if (e.value == sampleData[className]) {e.checked=true;};
 				});
 			} else {
-				console.log(className, inp);
 				inp.value = sampleData[className];
 			}
 		
 		});
 
 	});
-
+	*/
 
 }

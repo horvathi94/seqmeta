@@ -27,6 +27,7 @@ class SampleFields(Enum):
     GEOLOC_LONGITUDE = "geo_loc_longitude";
     GEOLOC_EXPOSURE = "geo_loc_exposure";
     HOST = "host";
+    HOST_SUBJECT_ID = "host_subject_id";
     HOST_GENDER = "patient_gender";
     HOST_AGE = "patient_age";
     HOST_STATUS = "patient_status";
@@ -35,6 +36,7 @@ class SampleFields(Enum):
     HOST_BEHAVIOUR = "host_behaviour";
     HOST_DESCRIPTION = "host_description";
     HOST_GRAVIDITY = "host_gravidity";
+    HOST_ADDITIONAL_INFO = "additional_host_info";
     HOST_RECENT_TRAVEL_LOCATION = "host_recent_travel_loc";
     HOST_RECENT_TRAVEL_RETURN_DATE = "host_recent_travel_return_date";
     HOST_ANATOMICAL_MATERIAL = "host_anatomical_material";

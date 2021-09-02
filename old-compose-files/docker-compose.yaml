@@ -10,12 +10,7 @@ services:
 
   interface:
 
-    env_file: run.env
-
-    build: 
-      context: ./web-interface
-      target: ${STAGING_LEVEL:-development}
-      dockerfile: Dockerfile
+    image: horvathi94/seqmeta-app:${APP_VERSION:-latest}
 
     depends_on:
       - database
@@ -24,8 +19,7 @@ services:
       - ${PORT:-5000}:5000
 
     volumes:
-      - ./web-interface/app:/app
-      - ./uploads/samples:/uploads/samples
+      - ./data/uploads/samples:/uploads/samples
 
     networks:
       - app-network
@@ -36,12 +30,9 @@ services:
 
     env_file: run.env
 
-    build: 
-     context: ./database
-     dockerfile: Dockerfile
+    image: horvathi94/seqmeta-database:${DB_VERSION:-latest}
 
     volumes:
-      - ./database/scripts:/scripts
       - ${MYSQL_BACKUPS_DIR}:/backups
       - ${MYSQL_DATABASE_DIR}:/var/lib/mysql
 

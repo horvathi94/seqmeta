@@ -1,44 +1,56 @@
 version: "3.6"
 
 networks:
-  app-network:
+  seqmeta-network:
     external: false
-
 
 
 services:
 
-  interface:
+  app:
 
-    image: horvathi94/seqmeta-app:${APP_VERSION:-latest}
+    build:
+      context: ./web-interface
+      target: ${STAGING_LEVEL:-production}
+      dockerfile: Dockerfile
 
     depends_on:
       - database
 
+    environment:
+      MYSQL_DATABASE: ?{MYSQL_DATABASE:-sequencing_data}
+      MYSQL_USER: ${MYSQL_USER:-admin}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-12345}
+
     ports:
-      - ${PORT:-5000}:5000
+      - ${HOST_PORT:-5000}:5000
+
 
     volumes:
-      - ./data/uploads/samples:/uploads/samples
+      - ${APP_SAMPLES_DIR:?Specify directory}:/uploads/samples
 
     networks:
-      - app-network
-
+      - seqmeta-network
 
 
   database:
 
-    env_file: run.env
+    build:
+      context: ./database
+      dockerfile: Dockerfile
 
-    build: 
-     context: ./database
-     dockerfile: Dockerfile
+
+    environment:
+      MYSQL_DATABASE: ?{MYSQL_DATABASE:-sequencing_data}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-1234567890}
+      MYSQL_USER: ${MYSQL_USER:-admin}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-12345}
+
 
     volumes:
-      - ./database/scripts:/scripts
-      - ${MYSQL_BACKUPS_DIR}:/backups
-      - ${MYSQL_DATABASE_DIR}:/var/lib/mysql
+      - ${MYSQL_BACKUPS_DIR:?Specify directory}:/backups
+      - ${MYSQL_DATABASE_DIR:?Sepcify directory}:/var/lib/mysql
 
     networks:
-      - app-network
+      - seqmeta-network
 
