@@ -48,7 +48,9 @@ function seqfileRow(seqfile, label){
 	} else {
 		string = seqfile.filename;
 		if (seqfile.is_assembly){
-			string += " (assembled with: " + seqfile.assembly_method + ")";
+			if (seqfile.assembly_method){
+				string += " (assembled with: " + seqfile.assembly_method + ")";
+			}
 		} else {
 			if (seqfile.is_forward_read){
 				string += " (forward read)";

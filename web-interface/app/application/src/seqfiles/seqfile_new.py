@@ -96,14 +96,30 @@ class SeqFile:
         return os.path.exists(file);
 
 
-    def get_list_display(self):
+    def get_list_display(self) -> dict:
+        try:
+            filename = self.get_filename();
+        except:
+            filename = "No file was found.";
         return {"exists": self.check_exists(),
-                "filename": self.get_filename()};
+                "filename": filename};
 
 
-    def get_details_display(self):
+    def get_details_display(self) -> dict:
         d = self.get_list_display();
         d["is_assembly"] = self.is_assembly();
         d["assembly_level"] = self.get_assembly_level();
         d["assembly_method"] = self.assembly_method;
         return d;
+
+
+    def save_file(self) -> None:
+        try:
+            file = self.get_file();
+        except:
+            raise Exception("Failed to save file data.");
+        self.file_data.save(file);
+
+
+    def save(self):
+        pass
