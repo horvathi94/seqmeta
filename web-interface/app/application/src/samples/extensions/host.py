@@ -6,23 +6,35 @@ class Host(SampleExtension):
 
     submit_table_name = "samples_host";
 
+
+    clean_keys_strings = ["host_subject_id", "ppe",
+                          "host_description", "gravidity",
+                          "additional_host_info", "host_recent_travel_loc",
+                          "host_recent_travel_return_date"];
+    clean_keys_numbers = ["patient_age"]
+    clean_keys_select = ["host_id",
+                         "patient_status_id",
+                         "host_habitat_id",
+                         "host_behaviour_id",];
+
+
     @classmethod
-    def clean_submit(cls, entry):
-        entry["sample_id"] = int(entry["sample_id"]);
-        gend = Genders.get_item_from_value(entry["patient_gender"]);
+    def extra_clean_submitted(cls, entry: dict) -> dict:
+        if not "patient_gender" in entry:
+            return entry;
+        gend = Genders.get_item_from_value(int(entry["patient_gender"]));
         entry["patient_gender"] = gend.dbsave;
-        if entry["patient_age"] == "":
-            entry["patient_age"] = None;
-        if entry["host_recent_travel_return_date"] == "":
-            entry["host_recent_travel_return_date"] = None;
         return entry;
 
 
     @classmethod
-    def clean_entry(cls, entry):
+    def clean_entry(cls, entry: dict) -> dict:
+        for key in cls.clean_keys_strings:
+            entry = cls.clean_fetched_string(entry, key);
+        for key in cls.clean_keys_numbers:
+            entry = cls.clean_fetched_number(entry, key);
+        if not "patient_gender" in entry:
+            return entry;
         gend = Genders.get_item_from_dbvalue(entry["patient_gender"]);
         entry["patient_gender"] = gend.value;
-        if "host_recent_travel_return_date" in entry:
-            if entry["host_recent_travel_return_date"] == None:
-                entry["host_recent_travel_return_date"] = "";
         return entry;

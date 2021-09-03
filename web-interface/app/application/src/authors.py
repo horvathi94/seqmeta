@@ -8,12 +8,7 @@ class Authors(DBInterface):
     edit_table_name = "view_authors";
     submit_table_name = "authors";
 
-
-    @staticmethod
-    def clean_entry(entry) -> dict:
-        if entry["middle_name"] == None:
-            entry["middle_name"] = "";
-        return entry;
+    clean_keys_string = ["middle_name"];
 
 
     @classmethod

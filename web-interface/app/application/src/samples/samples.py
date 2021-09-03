@@ -7,6 +7,8 @@ from .extensions.host import Host
 from .extensions.health_status import HealthStatus
 from .extensions.treatment import PatientTreatment
 from .extensions.location import Location
+from .extensions.collections import Collection
+
 
 class Samples(DBInterface):
 
@@ -20,10 +22,10 @@ class Samples(DBInterface):
     @classmethod
     def clean_entry(cls, entry: dict) -> dict:
         """Clean data fetched from the database."""
+        entry = Collection.clean_entry(entry);
+        entry = Host.clean_entry(entry);
         if "hospitalization" in entry:
             entry = HealthStatus.clean_entry(entry);
-        if "patient_gender" in entry:
-            entry = Host.clean_entry(entry);
         if "library_layout_paired" in entry:
             entry = Library.clean_entry(entry);
         if "prior_sars_cov_2_antiviral_treat" in entry:
