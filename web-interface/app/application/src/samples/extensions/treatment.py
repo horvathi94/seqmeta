@@ -6,40 +6,40 @@ class PatientTreatment(SampleExtension):
 
     submit_table_name = "samples_patient_treatment";
 
+    clean_keys_strings = ["date_of_prior_antiviral_treat",
+                          "date_of_prior_sars_cov_2_infection",
+                          "date_of_prior_sars_cov_2_vaccination",
+                          "antiviral_treatment_agent",
+                          "virus_isolate_of_prior_infection",
+                          "vaccine_received"];
+    clean_keys_select = ["prior_sars_cov_2_vaccination_id"];
+
 
     @classmethod
-    def clean_submit(cls, entry):
-        entry["sample_id"] = int(entry["sample_id"]);
-        treat = ReceivedTreatment.get_item_from_value(
-            entry["prior_sars_cov_2_antiviral_treat"]);
-        entry["prior_sars_cov_2_antiviral_treat"] = treat.dbsave;
-        infect = PriorInfection.get_item_from_value(
-            entry["prior_sars_cov_2_infection"]);
-        entry["prior_sars_cov_2_infection"] = infect.dbsave;
-        if "date_of_prior_antiviral_treat" in entry:
-            if entry["date_of_prior_antiviral_treat"] == "":
-                entry["date_of_prior_antiviral_treat"] = None;
-        if "date_of_prior_sars_cov_2_infection" in entry:
-            if entry["date_of_prior_sars_cov_2_infection"] == "":
-                entry["date_of_prior_sars_cov_2_infection"] = None;
-        if "date_of_prior_sars_cov_2_vaccination" in entry:
-            if entry["date_of_prior_sars_cov_2_vaccination"] == "":
-                entry["date_of_prior_sars_cov_2_vaccination"] = None;
+    def extra_clean_submitted(cls, entry: dict) -> dict:
+        key = "prior_sars_cov_2_antiviral_treat";
+        treat = ReceivedTreatment.get_item_from_value(entry[key]);
+        entry[key] = treat.dbsave;
+        key = "prior_sars_cov_2_infection";
+        infect = PriorInfection.get_item_from_value(entry[key]);
+        entry[key] = infect.dbsave;
         return entry;
 
 
     @classmethod
     def clean_entry(cls, entry):
-        treat = ReceivedTreatment.get_item_from_dbvalue(
-            entry["prior_sars_cov_2_antiviral_treat"]);
-        entry["prior_sars_cov_2_antiviral_treat"] = treat.value;
-        infect = PriorInfection.get_item_from_dbvalue(
-            entry["prior_sars_cov_2_infection"]);
-        entry["prior_sars_cov_2_infection"] = infect.value;
-        if entry["date_of_prior_antiviral_treat"] == None:
-           entry["date_of_prior_antiviral_treat"] = "";
-        if entry["date_of_prior_sars_cov_2_infection"] == None:
-           entry["date_of_prior_sars_cov_2_infection"] = "";
-        if entry["date_of_prior_sars_cov_2_vaccination"] == None:
-           entry["date_of_prior_sars_cov_2_vaccination"] = "";
+        for key in cls.clean_keys_strings:
+            entry = cls.clean_fetched_string(entry, key);
+        for key in cls.clean_keys_numbers:
+            entry = cls.clean_fetched_number(entry, key);
+
+        key = "prior_sars_cov_2_antiviral_treat";
+        if not key in entry: return entry;
+        treat = ReceivedTreatment.get_item_from_dbvalue(entry[key]);
+        entry[key] = treat.value;
+
+        key = "prior_sars_cov_2_infection";
+        if not key in entry: return entry;
+        infect = PriorInfection.get_item_from_dbvalue(entry[key]);
+        entry[key] = infect.value;
         return entry;

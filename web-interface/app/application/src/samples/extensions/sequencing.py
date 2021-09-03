@@ -5,10 +5,6 @@ class Sequencing(SampleExtension):
 
     submit_table_name = "samples_sequencing";
 
-
-    @classmethod
-    def clean_submit(cls, entry):
-        entry["sample_id"] = int(entry["sample_id"]);
-        if entry["coverage"] == "":
-            entry["coverage"] = None;
-        return entry;
+    clean_keys_numbers = ["coverage"];
+    clean_keys_select = ["sequencing_lab_id",
+                         "sequencing_instrument_id"];

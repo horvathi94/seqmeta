@@ -1,21 +1,16 @@
 from application.src.db.cursor import Cursor
 from application.src.db.interface import DBInterface
 
-import sys
-
 
 class SampleExtension(DBInterface):
 
 
     @classmethod
     def save_entry(cls, submitted):
-        print(f"\n\n\nSubmitted: {submitted}", file=sys.stderr)
         submitted = cls.clean_submit(submitted);
-        print(f"\nCleaned: {submitted}", file=sys.stderr)
-        where_clause = "WHERE sample_id = {:d}".format(
-            int(submitted["sample_id"]));
+        where = f"WHERE sample_id = {int(submitted['sample_id'])}";
         row_id = Cursor.select(cls.submit_table_name, fields=["sample_id"],
-          clauses=where_clause)[0]["sample_id"];
+          clauses=where)[0]["sample_id"];
 
         if row_id == "":
             Cursor.insert_row(cls.submit_table_name, submitted);

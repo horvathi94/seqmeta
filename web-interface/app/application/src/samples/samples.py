@@ -8,6 +8,7 @@ from .extensions.health_status import HealthStatus
 from .extensions.treatment import PatientTreatment
 from .extensions.location import Location
 from .extensions.collections import Collection
+from .extensions.sampling import Sampling
 
 
 class Samples(DBInterface):
@@ -24,14 +25,11 @@ class Samples(DBInterface):
         """Clean data fetched from the database."""
         entry = Collection.clean_entry(entry);
         entry = Host.clean_entry(entry);
-        if "hospitalization" in entry:
-            entry = HealthStatus.clean_entry(entry);
-        if "library_layout_paired" in entry:
-            entry = Library.clean_entry(entry);
-        if "prior_sars_cov_2_antiviral_treat" in entry:
-            entry = PatientTreatment.clean_entry(entry);
-        if "geo-loc-longitude" in entry:
-            entry = Location.clean_entry(entry);
+        entry = HealthStatus.clean_entry(entry);
+        entry = Library.clean_entry(entry);
+        entry = PatientTreatment.clean_entry(entry);
+        entry = Location.clean_entry(entry);
+        entry = Sampling.clean_entry(entry);
         return entry;
 
 

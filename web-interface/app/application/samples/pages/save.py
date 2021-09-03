@@ -17,6 +17,8 @@ from application.src.seqfiles.db import DBSeqFile
 from application.src.seqfiles.types import SeqFileTypes
 
 
+import sys
+
 class _SaveBase:
 
 
@@ -183,6 +185,7 @@ class _SaveBase:
             cls.save_collection_data(submitted["collection"], sample_id);
             cls.save_location_data(submitted["location"], sample_id);
             cls.save_host_data(submitted["host"], sample_id);
+            cls.save_sampling_data(submitted["sampling"], sample_id);
             cls.save_treatment_data(submitted["treatment"], sample_id);
             cls.save_health_data(submitted["health"], sample_id);
             cls.save_sequencing_data(submitted["sequencing"], sample_id);
