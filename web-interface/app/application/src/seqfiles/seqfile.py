@@ -6,8 +6,6 @@ from application.src.samples.samples import Samples
 from .types import AssemblyLevels, SeqFileTypes
 
 
-import sys
-
 
 @dataclass
 class SeqFile:
