@@ -1,7 +1,7 @@
 from flask import render_template
 from application.src.pages.display import DisplayBase
 from application.src.samples.samples import Samples
-from application.src.seqfiles.seqfile_bunch import SeqFilesBunch
+from application.src.seqfiles.seqfile_bunch_new import SeqFilesBunch
 
 
 class DisplayPage(DisplayBase):
@@ -21,7 +21,7 @@ class DisplayPage(DisplayBase):
         samples = Samples.fetch_list();
         for sample in samples:
             seqbunch = SeqFilesBunch(sample["sample_id"]);
-            sample["seqfiles"] = seqbunch;
+            sample["seqfiles"] = seqbunch.get_list_display();
         return samples;
 
 

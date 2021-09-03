@@ -6,6 +6,11 @@ from application.src.samples.samples import Samples
 from .types import AssemblyLevels, SeqFileTypes
 
 
+import sys
+
+
+
+
 
 @dataclass
 class SeqFile:
@@ -23,7 +28,8 @@ class SeqFile:
     assembly_method_id: int = None;
     assembly_method: str = None;
     filedata: "flask.fileStorage" = None;
-    to_save: bool = False;
+    do_save_file: bool = False;
+    do_save_data: bool = False;
     exists: bool = None;
 
 
@@ -103,6 +109,9 @@ class SeqFile:
 
 
     def save_file(self) -> None:
+        print(f"\nSeqfile: {self}, filename: {self.get_filename()}", file=sys.stderr)
+        if not self.do_save_file: return;
+        if self.get_filename() == "": return;
         self.create_path(self.get_path());
         self.filedata.save(self.get_file());
 

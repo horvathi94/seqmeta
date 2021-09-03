@@ -71,11 +71,13 @@ class _SaveBase:
 
                 if upload_name != "":
                     sf.filedata = files[handle];
-                    sf.to_save = True;
+                    sf.do_save_data = True;
+                    sf.do_save_file = True;
 
                 sf.file_type_id = info[handle];
                 if handle in assemb:
                     sf.assembly_method_id = int(assemb[handle]);
+                    sf.do_save_data = True;
 
                 data.append(sf);
 
@@ -168,13 +170,16 @@ class _SaveBase:
     @classmethod
     def save_seqfile_bunch(cls, seqfile_bunch: list, sample_id: int) -> None:
         for seqfile in seqfile_bunch:
-            if not seqfile.to_save and seqfile.get_filename() == "":
-                continue;
+
             seqfile.sample_id = sample_id;
-            DBSeqFile.save(seqfile);
-            seq_to_save = DBSeqFile.get_seqfile(sample_id, seqfile.seqtype);
-            seq_to_save.filedata = seqfile.filedata;
-            seq_to_save.save_file();
+            if seqfile.do_save_data:
+                DBSeqFile.save(seqfile);
+
+            if seqfile.do_save_file:
+                seq_to_save = DBSeqFile.get_seqfile(sample_id,
+                                                    seqfile.seqtype);
+                seq_to_save.filedata = seqfile.filedata;
+                seq_to_save.save_file();
 
 
 
