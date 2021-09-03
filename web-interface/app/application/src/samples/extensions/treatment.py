@@ -30,8 +30,6 @@ class PatientTreatment(SampleExtension):
     def clean_entry(cls, entry):
         for key in cls.clean_keys_strings:
             entry = cls.clean_fetched_string(entry, key);
-        for key in cls.clean_keys_numbers:
-            entry = cls.clean_fetched_number(entry, key);
 
         key = "prior_sars_cov_2_antiviral_treat";
         if not key in entry: return entry;

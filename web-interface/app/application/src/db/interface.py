@@ -16,7 +16,8 @@ class DBInterface:
     save_procedure = "";
 
     clean_keys_strings = [];
-    clean_keys_numbers = [];
+    clean_keys_floats = [];
+    clean_keys_ints = [];
     clean_keys_select = [];
 
 
@@ -42,11 +43,15 @@ class DBInterface:
 
 
     @classmethod
-    def clean_submit_number(cls, entry: dict, key: str) -> dict:
+    def clean_submit_number(cls, entry: dict, key: str,
+                            type: str="float") -> dict:
         if key in entry and entry[key] == "":
             entry[key] = None;
         else:
-            entry[key] = float(entry[key].strip());
+            if type == "float":
+                entry[key] = float(entry[key].strip());
+            elif type == "int":
+                entry[key] = int(entry[key].strip());
         return entry;
 
 
@@ -61,9 +66,13 @@ class DBInterface:
 
 
     @classmethod
-    def clean_fetched_number(cls, entry: dict, key: str) -> dict:
+    def clean_fetched_number(cls, entry: dict, key: str,
+                             type: str="float") -> dict:
         if key in entry and entry[key] is not None:
-            entry[key] = float(entry[key]);
+            if type == "float":
+                entry[key] = float(entry[key]);
+            elif type == "int":
+                entry[key] = int(entry[key]);
         return entry;
 
 
@@ -71,8 +80,10 @@ class DBInterface:
     def clean_entry(cls, entry: dict) -> dict:
         for key in cls.clean_keys_strings:
             entry = cls.clean_fetched_string(entry, key);
-        for key in cls.clean_keys_numbers:
+        for key in cls.clean_keys_floats:
             entry = cls.clean_fetched_number(entry, key);
+        for key in cls.clean_keys_ints:
+            entry = cls.clean_fetched_number(entry, key, type="int");
         return entry;
 
 
@@ -81,8 +92,10 @@ class DBInterface:
         submitted["id"] = int(submitted["id"]);
         for key in cls.clean_keys_strings:
             submitted = cls.clean_submit_string(submitted, key);
-        for key in cls.clean_keys_numbers:
+        for key in cls.clean_keys_floats:
             submitted = cls.clean_submit_number(submitted, key);
+        for key in cls.clean_keys_ints:
+            submitted = cls.clean_submit_number(submitted, key, type="int");
         for key in cls.clean_keys_select:
             submitted = cls.clean_submit_select(submitted, key);
         return submitted;

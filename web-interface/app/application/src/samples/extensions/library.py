@@ -15,7 +15,7 @@ class Library(SampleExtension):
                           "library_design_description",
                           "library_construction_protocol"];
 
-    clean_keys_numbers = ["insert_size"];
+    clean_keys_ints = ["insert_size"];
 
     clean_keys_select = ["library_layout_paired",
                          "library_source_id",
@@ -37,8 +37,8 @@ class Library(SampleExtension):
     def clean_entry(cls, entry):
         for key in cls.clean_keys_strings:
             entry = cls.clean_fetched_string(entry, key);
-        for key in cls.clean_keys_numbers:
-            entry = cls.clean_fetched_number(entry, key);
+        for key in cls.clean_keys_ints:
+            entry = cls.clean_fetched_number(entry, key, type="int");
 
         key = "library_layout_paired";
         if not key in entry: return entry;

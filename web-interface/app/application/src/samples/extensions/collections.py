@@ -5,7 +5,7 @@ class Collection(SampleExtension):
 
     submit_table_name = "samples_collection";
 
-    clean_keys_numbers = ["collection_year",
+    clean_keys_ints = ["collection_year",
                           "collection_month",
                           "collection_day",];
     clean_keys_strings = ["originating_lab_sample_name",

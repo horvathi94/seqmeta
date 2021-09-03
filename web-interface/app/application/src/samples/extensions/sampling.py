@@ -13,7 +13,7 @@ class Sampling(SampleExtension):
                           "passage_method",
                           "sample_storage_conditions"];
 
-    clean_keys_numbers = ["passage_number"];
+    clean_keys_ints = ["passage_number"];
 
     clean_keys_select = ["host_anatomical_material_id",
                          "host_body_product_id",

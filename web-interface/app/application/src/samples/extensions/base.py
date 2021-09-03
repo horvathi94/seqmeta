@@ -30,8 +30,10 @@ class SampleExtension(DBInterface):
         submitted["sample_id"] = int(submitted["sample_id"]);
         for key in cls.clean_keys_strings:
             submitted = cls.clean_submit_string(submitted, key);
-        for key in cls.clean_keys_numbers:
+        for key in cls.clean_keys_floats:
             submitted = cls.clean_submit_number(submitted, key);
+        for key in cls.clean_keys_ints:
+            submitted = cls.clean_submit_number(submitted, key, type="int");
         for key in cls.clean_keys_select:
             submitted = cls.clean_submit_select(submitted, key);
         submitted = cls.extra_clean_submitted(submitted);

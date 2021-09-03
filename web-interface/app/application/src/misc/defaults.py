@@ -7,7 +7,7 @@ class DefaultValues(DBInterface):
     save_procedure = "upsert_deftab";
 
     clean_keys_strings = ["region", "locality"];
-    clean_keys_numbers = ["geo_loc_latitude", "geo_loc_longitude"];
+    clean_keys_floats = ["geo_loc_latitude", "geo_loc_longitude"];
 
     @classmethod
     def fetch(cls):

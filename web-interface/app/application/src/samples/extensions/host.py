@@ -11,7 +11,7 @@ class Host(SampleExtension):
                           "host_description", "gravidity",
                           "additional_host_info", "host_recent_travel_loc",
                           "host_recent_travel_return_date"];
-    clean_keys_numbers = ["patient_age"]
+    clean_keys_ints = ["patient_age"]
     clean_keys_select = ["host_id",
                          "patient_status_id",
                          "host_habitat_id",
@@ -31,8 +31,8 @@ class Host(SampleExtension):
     def clean_entry(cls, entry: dict) -> dict:
         for key in cls.clean_keys_strings:
             entry = cls.clean_fetched_string(entry, key);
-        for key in cls.clean_keys_numbers:
-            entry = cls.clean_fetched_number(entry, key);
+        for key in cls.clean_keys_ints:
+            entry = cls.clean_fetched_number(entry, key, type="int");
         if not "patient_gender" in entry:
             return entry;
         gend = Genders.get_item_from_dbvalue(entry["patient_gender"]);
