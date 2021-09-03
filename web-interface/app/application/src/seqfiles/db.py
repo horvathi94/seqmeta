@@ -35,6 +35,8 @@ class DBSeqFile(DBInterface):
         alevel = None;
         if not seqfile.assembly_level is None:
             alevel = int(seqfile.assembly_level.value);
+        if seqfile.assembly_method_id == "":
+            seqfile.assembly_method_id = None;
         args = (seqfile.sample_id, seqfile.file_type_id,
                 seqfile.is_assembly, seqfile.is_forward_read,
                 alevel, seqfile.assembly_method_id);
