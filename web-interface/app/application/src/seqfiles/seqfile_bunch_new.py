@@ -14,3 +14,9 @@ class SeqFilesBunch:
         disp = {};
         disp["consensus"] = self.consensus_file.get_list_display();
         return disp;
+
+
+    def get_details_display(self):
+        disp = {};
+        disp["consensus"]  = self.consensus_file.get_details_display();
+        return disp;

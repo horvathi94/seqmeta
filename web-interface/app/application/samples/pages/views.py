@@ -1,6 +1,6 @@
 from flask import jsonify
 from application.src.samples.samples import Samples
-from application.src.seqfiles.seqfile_bunch import SeqFilesBunch
+from application.src.seqfiles.seqfile_bunch_new import SeqFilesBunch
 
 
 class SampleViewBase:
@@ -38,7 +38,7 @@ class DetailsView(SampleViewBase):
     def fetch_data(cls, sample_id: int) -> dict:
         sample = Samples.fetch_details(sample_id=sample_id);
         seqbunch = SeqFilesBunch(sample_id);
-        sample["seqbunch"] = seqbunch.get_display_details();
+        sample["seqbunch"] = seqbunch.get_details_display();
         return sample;
 
 
