@@ -172,7 +172,9 @@ class _SaveBase:
                 continue;
             seqfile.sample_id = sample_id;
             DBSeqFile.save(seqfile);
-            seqfile.save_file();
+            seq_to_save = DBSeqFile.get_seqfile(sample_id, seqfile.seqtype);
+            seq_to_save.filedata = seqfile.filedata;
+            seq_to_save.save_file();
 
 
 

@@ -6,6 +6,9 @@ from application.src.samples.samples import Samples
 from .types import AssemblyLevels, SeqFileTypes
 
 
+import sys
+
+
 @dataclass
 class SeqFile:
 
@@ -75,6 +78,16 @@ class SeqFile:
         return fname;
 
 
+    @classmethod
+    def create_path(cls, path: "os.path") -> None:
+        if os.path.exists(path): return;
+
+        try:
+            os.makedirs(path);
+        except Exception as e:
+            raise Exception(f"Failed to create dir: {e}");
+
+
     def get_path(self) -> "os.path":
         if self.seqtype in SeqFileTypes.list_assemblies():
             return "/uploads/samples/assemblies/";
@@ -92,8 +105,7 @@ class SeqFile:
 
 
     def save_file(self) -> None:
-        if not self.to_save: return;
-        if self.get_filename() == "": return;
+        self.create_path(self.get_path());
         self.filedata.save(self.get_file());
 
 
