@@ -68,6 +68,8 @@ class DBInterface:
     @classmethod
     def clean_fetched_number(cls, entry: dict, key: str,
                              type: str="float") -> dict:
+        import sys
+        print(f"\nFetched {key}: {entry}", file=sys.stderr)
         if key in entry and entry[key] is not None:
             if type == "float":
                 entry[key] = float(entry[key]);

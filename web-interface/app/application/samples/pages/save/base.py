@@ -15,7 +15,7 @@ from application.src.samples.nametemplates.isolate_ena import \
     IsolateEna
 from application.src.seqfiles.db import DBSeqFile
 from application.src.seqfiles.types import SeqFileTypes
-
+from application.src.seqfiles.seqfile_new import SeqFile
 
 import sys
 
@@ -67,7 +67,8 @@ class _SaveBase:
             if handle in SeqFileTypes.list_values():
 
                 upload_name = files[handle].filename;
-                sf = DBSeqFile.get_seqfile(0, SeqFileTypes(handle));
+                sf = SeqFile(SeqFileTypes(handle));
+#                sf = DBSeqFile.get_seqfile(0, SeqFileTypes(handle));
 
                 if upload_name != "":
                     sf.filedata = files[handle];
@@ -169,8 +170,10 @@ class _SaveBase:
 
     @classmethod
     def save_seqfile_bunch(cls, seqfile_bunch: list, sample_id: int) -> None:
+        print("\nSaving bunch...\n", file=sys.stderr)
         for seqfile in seqfile_bunch:
 
+            print(f"Submitted: {seqfile}\n", file=sys.stderr);
             seqfile.sample_id = sample_id;
             if seqfile.do_save_data:
                 DBSeqFile.save(seqfile);

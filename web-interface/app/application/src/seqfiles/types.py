@@ -54,6 +54,13 @@ class SeqFileTypes(Enum):
 
 
     @classmethod
+    def is_forward_read(cls, item: "SeqFileTypes") -> bool:
+        if item == cls.FWREAD: return True;
+        if item == cls.RVREAD: return False;
+        return None;
+
+
+    @classmethod
     def get_assembly_level(cls, item: "SeqFileTypes") -> AssemblyLevels:
         if item not in cls.list_assemblies(): return None;
         return AssemblyLevels[item.name];

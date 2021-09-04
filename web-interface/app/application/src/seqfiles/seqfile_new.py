@@ -29,7 +29,6 @@ class SeqFile:
 
 
     def __post_init__(self):
-        print(f"Post init: {self}", file=sys.stderr)
         if self.sample_id != 0:
             self._init_from_database();
 
@@ -58,6 +57,8 @@ class SeqFile:
         if self.seqtype in SeqFileTypes.list_reads():
             where+= f" AND is_forward_read IS {self.is_forward_read()}";
 
+        import sys
+        print(f"query: {where}", file=sys.stderr)
         raw ,= Cursor.select("view_seqfiles", fields=fields, clauses=where);
         if "id" in raw and raw["id"] == 0: return;
         self.sample_name = raw["sample_name"];

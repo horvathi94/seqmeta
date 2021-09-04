@@ -96,8 +96,9 @@ class Field:
             if sample_id == 0:
                 defs = DefaultValues.fetch();
                 return defs[self.handle_std.value];
-            seqfile = DBSeqFile.get_seqfile(sample_id,
-                                            SeqFileTypes(self.db_key));
+            seqfile = SeqFile(SeqFileTypes(self.db_key), sample_id);
+#            seqfile = DBSeqFile.get_seqfile(sample_id,
+#                                            SeqFileTypes(self.db_key));
             return seqfile.assembly_method_id;
 
         if sample_id != 0:

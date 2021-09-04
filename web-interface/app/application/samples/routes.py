@@ -11,7 +11,6 @@ from .pages.save import multiple as save_multiple
 from .pages import delete
 
 
-
 samples_bp = Blueprint("samples_bp", __name__,
                        template_folder="templates",
                        static_folder="static",

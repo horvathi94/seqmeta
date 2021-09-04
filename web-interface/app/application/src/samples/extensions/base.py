@@ -1,6 +1,8 @@
 from application.src.db.cursor import Cursor
 from application.src.db.interface import DBInterface
 
+import sys
+
 
 class SampleExtension(DBInterface):
 
