@@ -89,7 +89,8 @@ class DBInterface:
 
     @classmethod
     def clean_submit(cls, submitted):
-        submitted["id"] = int(submitted["id"]);
+        if "id" in submitted:
+            submitted["id"] = int(submitted["id"]);
         for key in cls.clean_keys_strings:
             submitted = cls.clean_submit_string(submitted, key);
         for key in cls.clean_keys_floats:
