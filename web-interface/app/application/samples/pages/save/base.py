@@ -60,46 +60,6 @@ class _SaveBase:
 
 
     @classmethod
-    def parse_file_bunch(cls, info: dict, files: dict, assemb: dict) -> list:
-
-        data = [];
-        for handle in info:
-            if handle in SeqFileTypes.list_values():
-
-                upload_name = files[handle].filename;
-                sf = SeqFile(SeqFileTypes(handle));
-#                sf = DBSeqFile.get_seqfile(0, SeqFileTypes(handle));
-
-                if upload_name != "":
-                    sf.filedata = files[handle];
-                    sf.do_save_data = True;
-                    sf.do_save_file = True;
-
-                sf.file_type_id = info[handle];
-                if handle in assemb:
-                    sf.assembly_method_id = int(assemb[handle]);
-                    sf.do_save_data = True;
-
-                data.append(sf);
-
-        return data;
-
-
-    @classmethod
-    def parse_files(cls, raw: "flask.request.form",
-                    files: "flask.request.files") -> list:
-        bunch_data = Form.parse_list(raw, "seqfile");
-        bunch_files = Form.parse_list(files, "seqfile");
-        bunch_assembly = Form.parse_list(raw, "seqfile_assembly");
-
-        fdata = [];
-        for bd, bf, ba in zip(bunch_data, bunch_files, bunch_assembly):
-            fdata.append(cls.parse_file_bunch(bd, bf, ba));
-
-        return fdata;
-
-
-    @classmethod
     def save_sample_data(cls, sample_data: dict) -> int:
         """Saves data to the samples table, returns id."""
         sample_id = Samples.save_entry(sample_data);
@@ -183,6 +143,56 @@ class _SaveBase:
                                                     seqfile.seqtype);
                 seq_to_save.filedata = seqfile.filedata;
                 seq_to_save.save_file();
+
+
+    @classmethod
+    def parse_file_bunch(cls, info: dict, files: dict, assemb: dict) -> list:
+
+        data = [];
+        for handle in info:
+            if handle in SeqFileTypes.list_values():
+
+                upload_name = files[handle].filename;
+                sf = SeqFile(SeqFileTypes(handle));
+#                sf = DBSeqFile.get_seqfile(0, SeqFileTypes(handle));
+
+                if upload_name != "":
+                    sf.filedata = files[handle];
+                    sf.do_save_data = True;
+                    sf.do_save_file = True;
+
+                sf.file_type_id = info[handle];
+                if handle in assemb:
+                    sf.assembly_method_id = int(assemb[handle]);
+                    sf.do_save_data = True;
+
+                data.append(sf);
+
+        return data;
+
+
+    @classmethod
+    def parse_files(cls, raw: "flask.request.form",
+                    files: "flask.request.files") -> list:
+        bunch_data = Form.parse_list(raw, "seqfile");
+        bunch_files = Form.parse_list(files, "seqfile");
+        bunch_assembly = Form.parse_list(raw, "seqfile_assembly");
+
+        fdata = [];
+        for bd, bf, ba in zip(bunch_data, bunch_files, bunch_assembly):
+            print(f"\nfdata: {bd} and {ba}", file=sys.stderr)
+            fdata.append(cls.parse_file_bunch(bd, bf, ba));
+
+        return fdata;
+
+
+    @classmethod
+    def saving(cls, form_data: "flask.request.form",
+               files: "flask,request.files"):
+
+        bunch_data = Form.parse_list(raw, "seqfile");
+        bunch_files = Form.parse_list(files, "seqfile");
+        bunch_assembly = Form.parse_list(raw, "seqfile_assembly");
 
 
 
