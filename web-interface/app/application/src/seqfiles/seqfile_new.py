@@ -113,6 +113,15 @@ class SeqFile:
         return d;
 
 
+    def get_display_name(self) -> str:
+        try:
+            disp = self.get_filename();
+        except:
+            disp = "No file found";
+        return disp;
+
+
+
     def save_file(self) -> None:
         try:
             file = self.get_file();

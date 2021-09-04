@@ -115,7 +115,6 @@ class SeqFile:
         self.create_path(self.get_path());
         self.filedata.save(self.get_file());
 
-
     def get_sequence(self, header: str="") -> str:
         if self.file_type not in SeqFileTypes.list_assemblies():
             raise Exception("Trying to get sequence of reads file.");

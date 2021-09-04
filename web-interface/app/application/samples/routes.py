@@ -6,7 +6,8 @@ from .pages.multi_editor import MultiEditor, MultiEditorAdd
 from .pages.display import DisplayPage
 from .pages import views
 from .pages import generators
-from .pages import save
+from .pages.save import single as save_single
+from .pages.save import multiple as save_multiple
 from .pages import delete
 
 
@@ -26,17 +27,17 @@ def show():
 
 @samples_bp.route("/samples/submit", methods=["POST"])
 def submit():
-    return save.SaveSingle.save(request.form, request.files);
+    return save_single.SaveSingle.save(request.form, request.files);
 
 
 @samples_bp.route("/samples/submit-multiple", methods=["POST"])
 def submit_multiple():
-    return save.AddMultiple.save(request.form, request.files);
+    return save_multiple.AddMultiple.save(request.form, request.files);
 
 
 @samples_bp.route("/samples/submit-edit-multiple", methods=["POST"])
 def submit_edit_multiple():
-    return save.EditMultiple.save(request.form, request.files);
+    return save_multiple.EditMultiple.save(request.form, request.files);
 
 
 
