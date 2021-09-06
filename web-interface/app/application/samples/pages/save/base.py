@@ -163,14 +163,10 @@ class _SaveBase:
         bunch_files = Form.parse_list(files, "seqfile");
         bunch_assembly = Form.parse_list(raw, "seqfile_assembly");
 
-        print(f"\nBunch data: {bunch_data}", file=sys.stderr);
-        print(f"\nBunch assembly: {bunch_assembly}", file=sys.stderr);
         fdata = [];
         for bd, bf, ba in zip(bunch_data, bunch_files, bunch_assembly):
             fdata.append(cls.parse_file_bunch(bd, bf, ba));
 
-        for fd in fdata[0]:
-            print(f"Fdata: {fd}", file=sys.stderr);
         return fdata;
 
 
@@ -223,8 +219,8 @@ class _SaveBase:
                                sample_id);
             cls.save_isolatename(submitted["sample"]["isolate"], sample_id);
 
-            if "seqfiles" in submitted:
-                cls.save_seqfile_bunch(submitted["seqfiles"], sample_id);
+#            if "seqfiles" in submitted:
+#                cls.save_seqfile_bunch(submitted["seqfiles"], sample_id);
 
 
     @classmethod

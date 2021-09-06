@@ -1,6 +1,7 @@
 from flask import jsonify
 from application.src.samples.samples import Samples
 from application.src.seqfiles.seqfile_bunch_new import SeqFilesBunch
+from application.src.misc.health import ReceivedTreatment, PriorInfection
 
 
 class SampleViewBase:
@@ -39,6 +40,17 @@ class ImportView(SampleViewBase):
             sample["geo-loc-longitude"] = float(sample["geo-loc-longitude"]);
         if "geo-loc-latitude" in sample:
             sample["geo-loc-latitude"] = float(sample["geo-loc-latitude"]);
+
+        key = "prior-sars-cov-2-antiviral-treat";
+        if key in sample:
+            treat = ReceivedTreatment.get_item_from_dbvalue(sample[key]);
+            sample[key] = treat.value;
+
+        key = "prior-sars-cov-2-infection";
+        if key in sample:
+            infect = PriorInfection.get_item_from_value(sample[key]);
+            sample[key] = infect.dbsave;
+
         return sample;
 
 

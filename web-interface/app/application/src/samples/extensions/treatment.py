@@ -18,6 +18,8 @@ class PatientTreatment(SampleExtension):
     @classmethod
     def extra_clean_submitted(cls, entry: dict) -> dict:
         key = "prior_sars_cov_2_antiviral_treat";
+        import sys
+        print(f"Key: {key} Treat: {entry[key]} \nFrom: {entry}", file=sys.stderr)
         treat = ReceivedTreatment.get_item_from_value(entry[key]);
         entry[key] = treat.dbsave;
         key = "prior_sars_cov_2_infection";
