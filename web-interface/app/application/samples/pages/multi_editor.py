@@ -35,8 +35,8 @@ class MultiEditor(EditorBase):
     def template_col(cls, field: "Field") -> "HTML":
         val = field.get_value();
         if field.field_type == "seqfile":
-            field.input.value = val.get_filename();
-            ftype = val.extension_id;
+            field.input.value = val.get_display_name();
+            ftype = val.file_extension_id;
             return render_template("samples/form/multi/col_template.html",
                                field=field, ftype=ftype);
         field.input.value = val;
