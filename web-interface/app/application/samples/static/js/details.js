@@ -94,7 +94,7 @@ function updateTable(sample){
 	addRow("Purpose of sequencing", sample.purpose_of_sequencing);
 
 	addRow("Sequencing instrument", sample.instrument_details);
-	addRow("Coverage", sample.coverage);
+	addRow("Coverage", sample.coverage+"x");
 	
 
 	addRow("Library ID", sample.library_id);
