@@ -1,8 +1,8 @@
-from flask import send_file, redirect, url_for
+from flask import send_file, redirect, url_for, make_response
 from application.src.metatemplates.gisaid.main import GisaidMeta
 from application.src.metatemplates.ena.main import EnaMeta
 from application.src.metatemplates.ncbi.main import NcbiMeta
-from application.src.seqfiles.seqfile_bunch import SeqFilesBunch
+from application.src.seqfiles.seqfile_bunch_new import SeqFilesBunch
 
 
 
@@ -109,12 +109,19 @@ class ConcatConsensus(GeneratorBase):
 
 
     @classmethod
-    def render(cls, selected: list) -> str:
+    def gen_text(cls, selected: list) -> str:
         if len(selected) == 0:
             return cls.redirect_if_empty();
         concat = "";
         for sid in selected:
             seqbunch = SeqFilesBunch(sid);
-            concat+= str(seqbunch.get_consensus_sequence());
+            concat+= seqbunch.get_display_sequence();
         return concat;
+
+
+    @classmethod
+    def render(cls, selected: list) -> "HTML":
+        response = make_response(cls.gen_text(selected), 200);
+        response.mimetype = "text/plain";
+        return response;
 

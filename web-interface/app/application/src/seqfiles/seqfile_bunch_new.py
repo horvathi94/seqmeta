@@ -13,13 +13,13 @@ class SeqFilesBunch:
         self.scaffolds_file = SeqFile(SeqFileTypes.SCAFFOLDS, sample_id);
 
 
-    def get_list_display(self):
+    def get_list_display(self) -> dict:
         disp = {};
         disp["consensus"] = self.consensus_file.get_list_display();
         return disp;
 
 
-    def get_details_display(self):
+    def get_details_display(self) -> dict:
         disp = {};
         disp["consensus"]  = self.consensus_file.get_details_display();
         disp["contigs"]  = self.contigs_file.get_details_display();
@@ -27,8 +27,19 @@ class SeqFilesBunch:
         return disp;
 
 
-    def write_tempfiles_gisaid(self, out_file):
+    def write_tempfiles_gisaid(self, out_file) -> None:
         if not self.consensus_file.check_exists():
             raise Exception("Consensus file not found for GISAID upload.");
         self.consensus_file.reformat_gisaid(out_file,
                                             self.sample["gisaid_virusname"]);
+
+
+    def get_consensus_sequence(self) -> str:
+        virusname = self.sample["gisaid_virusname"];
+        return self.consensus_file.get_sequence(id=virusname);
+
+
+    def get_display_sequence(self) -> str:
+        virusname = self.sample["gisaid_virusname"];
+        return self.consensus_file.get_display_sequence(virusname);
+

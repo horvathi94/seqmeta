@@ -142,14 +142,28 @@ class SeqFile:
         Cursor.call_procedure("upsert_seqfiles", args=args, commit=True);
 
 
+    def get_sequence(self, id: str,
+                     name: str="", description: str="") -> "SeqIo.file":
+        if not self.is_assembly():
+            raise Exception("Can not get sequence of none assembly file.");
+        seqdata = SeqIO.read(self.get_file(), self.file_extension);
+        seqdata.id = id;
+        seqdata.name = name;
+        seqdata.description = description;
+        return seqdata;
+
+
+    def get_display_sequence(self, header: str) -> str:
+        seqdata = self.get_sequence(header);
+        disp = f">{seqdata.id}\r\n";
+        disp+= str(seqdata.seq).strip() + "\r\n";
+        return disp;
+
+
     def reformat_gisaid(self, out_file: "file", virusname: str) -> None:
         if self.seqtype != SeqFileTypes.CONSENSUS:
             raise Exception("Not consensus file.");
-
-        seqdata = SeqIO.read(self.get_file(), self.file_extension);
-        seqdata.id = virusname;
-        seqdata.name = "";
-        seqdata.description = "";
+        seqdata = self.get_sequence(virusname);
         with open(out_file, "w") as outf:
             SeqIO.write(seqdata, outf, self.file_extension);
 
