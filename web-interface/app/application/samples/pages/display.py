@@ -13,7 +13,8 @@ class DisplayPage(DisplayBase):
               {"filename": "samples.css", "prefix":"samples"}];
     scripts = [{"filename": "details.js", "prefix":"samples"},
                {"filename": "delete-sample.js", "prefix": "samples"},
-               {"filename": "submitguide.js", "prefix": "samples"}];
+               {"filename": "submitguide.js", "prefix": "samples"},
+               {"filename": "toggle-select-all.js", "prefix": "samples"}];
 
 
     @classmethod

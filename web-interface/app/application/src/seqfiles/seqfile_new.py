@@ -139,7 +139,6 @@ class SeqFile:
         args = (self.sample_id, self.file_type_id,
                 self.is_assembly(), self.is_forward_read(),
                 self.get_assembly_level(), self.assembly_method_id);
-        print(f"\nSaving data: {args}", file=sys.stderr)
         Cursor.call_procedure("upsert_seqfiles", args=args, commit=True);
 
 

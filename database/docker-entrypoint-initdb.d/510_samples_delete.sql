@@ -21,6 +21,8 @@ CREATE PROCEDURE `delete_sample` (
 		DELETE FROM `samples_sequencing` WHERE `sample_id` = delid;
 		DELETE FROM `samples_patient_treatment` WHERE `sample_id` = delid;
 
+		DELETE FROM `seqfiles` WHERE `sample_id` = delid;
+
 	END $$
 
 

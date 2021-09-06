@@ -219,8 +219,8 @@ class _SaveBase:
                                sample_id);
             cls.save_isolatename(submitted["sample"]["isolate"], sample_id);
 
-#            if "seqfiles" in submitted:
-#                cls.save_seqfile_bunch(submitted["seqfiles"], sample_id);
+            if "seqfiles" in submitted:
+                cls.save_seqfile_bunch(submitted["seqfiles"], sample_id);
 
 
     @classmethod

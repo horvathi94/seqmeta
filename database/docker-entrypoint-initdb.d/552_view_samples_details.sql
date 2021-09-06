@@ -43,9 +43,16 @@ CREATE OR REPLACE VIEW view_samples_details AS
 		host.host_gravidity AS host_gravidity,
 
 
-		IF (treatment.vaccine_received = ""AND treatment.date_of_prior_sars_cov_2_vaccination IS NULL, "N/A", 
-			CONCAT_WS(treatment.vaccine_received, ", ", treatment.prior_sars_cov_2_vaccination,
-				" (", treatment.date_of_prior_sars_cov_2_vaccination, ")")
+		IF (treatment.prior_sars_cov_2_vaccination IS NULL, "N/A", 
+			CONCAT(
+				treatment.prior_sars_cov_2_vaccination,
+				IF (treatment.vaccine_received IS NULL, "",
+					CONCAT(": ", treatment.vaccine_received)
+				),
+				IF (treatment.date_of_prior_sars_cov_2_vaccination IS NULL, "",
+					CONCAT(" on: ", treatment.date_of_prior_sars_cov_2_vaccination)
+				)
+			)
 		) AS vaccination_details,
 
 
