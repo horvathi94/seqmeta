@@ -187,7 +187,6 @@ class _SaveBase:
                 do_save_file = True;
                 do_save_data = True;
 
-
             if not do_save_data:
                 # If file exists, then db data is rewritten.
                 do_save_data = seqfile.check_exists();

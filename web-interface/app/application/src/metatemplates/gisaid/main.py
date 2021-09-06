@@ -3,7 +3,7 @@ from zipfile import ZipFile
 from .submission import GisaidExcel
 from ..base.tempfile import TempFile
 from application.src.samples.samples import Samples
-from application.src.seqfiles.seqfile_bunch import SeqFilesBunch
+from application.src.seqfiles.seqfile_bunch_new import SeqFilesBunch
 
 import sys
 
@@ -13,6 +13,7 @@ class GisaidMeta(TempFile):
     attachement_prefix = "gisaid_";
     extension = "zip";
 
+    files_temp_dir = "/uploads/samples/temp"
 
     @classmethod
     def write_zip(cls, selected):
@@ -27,13 +28,10 @@ class GisaidMeta(TempFile):
 
             for sample in samples:
                 seqbunch = SeqFilesBunch(sample["sample_id"]);
-                if not seqbunch.consensus_file.exists:
+                if not seqbunch.consensus_file.check_exists():
                     continue;
 
-                path = "/uploads/samples/temp/";
-                if not os.path.exists(path): os.makedirs(path);
-                file = os.path.join(path, "temp_gisaid.fa");
-                print(f"Path {path} ({os.path.exists(path)})", file=sys.stderr)
-                seqbunch.write_gisiad_tempfile(file);
+                file = cls.get_sample_temp_file("temp_gisaid.fasta");
+                seqbunch.write_tempfiles_gisaid(file);
                 zipObj.write(file, seqbunch.consensus_file.get_filename());
 
