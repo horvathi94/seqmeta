@@ -31,6 +31,17 @@ class ImportView(SampleViewBase):
     view_name = "view_samples_import";
 
 
+    @classmethod
+    def fetch_data(cls, sample_id: int) -> dict:
+        """Fetch information from the database."""
+        sample = Samples.fetch(cls.view_name, sample_id=sample_id);
+        if "geo-loc-longitude" in sample:
+            sample["geo-loc-longitude"] = float(sample["geo-loc-longitude"]);
+        if "geo-loc-latitude" in sample:
+            sample["geo-loc-latitude"] = float(sample["geo-loc-latitude"]);
+        return sample;
+
+
 
 class DetailsView(SampleViewBase):
 
