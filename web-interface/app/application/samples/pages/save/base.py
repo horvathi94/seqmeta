@@ -129,44 +129,29 @@ class _SaveBase:
 
 
     @classmethod
-    def save_seqfile_bunch(cls, seqfile_bunch: list, sample_id: int) -> None:
-        print("\nSaving bunch...\n", file=sys.stderr)
-        for seqfile in seqfile_bunch:
-
-            print(f"Submitted: {seqfile}\n", file=sys.stderr);
-            seqfile.sample_id = sample_id;
-            if seqfile.do_save_data:
-                DBSeqFile.save(seqfile);
-
-            if seqfile.do_save_file:
-                seq_to_save = DBSeqFile.get_seqfile(sample_id,
-                                                    seqfile.seqtype);
-                seq_to_save.filedata = seqfile.filedata;
-                seq_to_save.save_file();
-
-
-    @classmethod
     def parse_file_bunch(cls, info: dict, files: dict, assemb: dict) -> list:
 
         data = [];
+
         for handle in info:
+
+            fdata = {"filedata": None,
+                     "assembly_method_id": None,
+                     "file_type_id": None};
+
             if handle in SeqFileTypes.list_values():
 
                 upload_name = files[handle].filename;
-                sf = SeqFile(SeqFileTypes(handle));
-#                sf = DBSeqFile.get_seqfile(0, SeqFileTypes(handle));
+                fdata["seqtype"] = SeqFileTypes(handle);
 
                 if upload_name != "":
-                    sf.filedata = files[handle];
-                    sf.do_save_data = True;
-                    sf.do_save_file = True;
+                    fdata["filedata"] = files[handle];
 
-                sf.file_type_id = info[handle];
+                fdata["file_type_id"] = int(info[handle]);
                 if handle in assemb:
-                    sf.assembly_method_id = int(assemb[handle]);
-                    sf.do_save_data = True;
+                    fdata["assembly_method_id"] = int(assemb[handle]);
 
-                data.append(sf);
+                data.append(fdata);
 
         return data;
 
@@ -178,21 +163,46 @@ class _SaveBase:
         bunch_files = Form.parse_list(files, "seqfile");
         bunch_assembly = Form.parse_list(raw, "seqfile_assembly");
 
+        print(f"\nBunch data: {bunch_data}", file=sys.stderr);
+        print(f"\nBunch assembly: {bunch_assembly}", file=sys.stderr);
         fdata = [];
         for bd, bf, ba in zip(bunch_data, bunch_files, bunch_assembly):
-            print(f"\nfdata: {bd} and {ba}", file=sys.stderr)
             fdata.append(cls.parse_file_bunch(bd, bf, ba));
 
+        for fd in fdata[0]:
+            print(f"Fdata: {fd}", file=sys.stderr);
         return fdata;
 
 
     @classmethod
-    def saving(cls, form_data: "flask.request.form",
-               files: "flask,request.files"):
+    def save_seqfile_bunch(cls, seqfile_bunch: list, sample_id: int) -> None:
+        for fdata in seqfile_bunch:
 
-        bunch_data = Form.parse_list(raw, "seqfile");
-        bunch_files = Form.parse_list(files, "seqfile");
-        bunch_assembly = Form.parse_list(raw, "seqfile_assembly");
+            seqfile = SeqFile(fdata["seqtype"], sample_id);
+            do_save_data = False;
+            do_save_file = False;
+
+            if fdata["filedata"] is not None:
+                # If user uploaded a file save it, and rewrite db data.
+                do_save_file = True;
+                do_save_data = True;
+
+
+            if not do_save_data:
+                # If file exists, then db data is rewritten.
+                do_save_data = seqfile.check_exists();
+
+            if do_save_data:
+                # Save data:
+                seqfile.assembly_method_id = fdata["assembly_method_id"];
+                seqfile.file_type_id = fdata["file_type_id"];
+                seqfile.save_data();
+
+            if do_save_file:
+                # Save file:
+                seqfile = SeqFile(fdata["seqtype"], sample_id);
+                seqfile.filedata = fdata["filedata"];
+                seqfile.save_file();
 
 
 

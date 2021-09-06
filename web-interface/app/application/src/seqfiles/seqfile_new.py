@@ -25,7 +25,7 @@ class SeqFile:
     file_extension: str = None;
     assembly_method_id: int = None;
     assembly_method: str = None;
-    file_data: str = None;
+    filedata: str = None;
 
 
     def __post_init__(self):
@@ -38,7 +38,9 @@ class SeqFile:
 
 
     def get_assembly_level(self) -> int:
-        return SeqFileTypes.get_assembly_level(self.seqtype).value;
+        assemb = SeqFileTypes.get_assembly_level(self.seqtype);
+        if assemb is None: return None;
+        return assemb.value;
 
 
     def is_forward_read(self) -> bool:
@@ -57,8 +59,6 @@ class SeqFile:
         if self.seqtype in SeqFileTypes.list_reads():
             where+= f" AND is_forward_read IS {self.is_forward_read()}";
 
-        import sys
-        print(f"query: {where}", file=sys.stderr)
         raw ,= Cursor.select("view_seqfiles", fields=fields, clauses=where);
         if "id" in raw and raw["id"] == 0: return;
         self.sample_name = raw["sample_name"];
@@ -74,15 +74,19 @@ class SeqFile:
         return path;
 
 
+    def create_filename(self) -> str:
+        spec = SeqFileTypes.get_filename_extension(self.seqtype);
+        if spec is None:
+            raise SeqFileException("could not get spec string.");
+        return f"{self.sample_name}_{spec}.{self.file_extension}";
+
+
     def get_filename(self) -> str:
         if self.sample_name is None:
             raise SeqFileException("sample_name is not defined.");
         if self.file_extension is None:
             raise SeqFileException("file_extension is not defined.");
-        spec = SeqFileTypes.get_filename_extension(self.seqtype);
-        if spec is None:
-            raise SeqFileException("could not get spec string.");
-        return f"{self.sample_name}_{spec}.{self.file_extension}";
+        return self.create_filename();
 
 
     def get_file(self) -> "os.path":
@@ -122,14 +126,17 @@ class SeqFile:
         return disp;
 
 
-
     def save_file(self) -> None:
         try:
             file = self.get_file();
         except:
             raise Exception("Failed to save file data.");
-        self.file_data.save(file);
+        self.filedata.save(file);
 
 
-    def save(self):
-        pass
+    def save_data(self) -> None:
+        args = (self.sample_id, self.file_type_id,
+                self.is_assembly(), self.is_forward_read(),
+                self.get_assembly_level(), self.assembly_method_id);
+        print(f"\nSaving data: {args}", file=sys.stderr)
+        Cursor.call_procedure("upsert_seqfiles", args=args, commit=True);
