@@ -53,9 +53,10 @@ class MultiEditor(EditorBase):
         val = field.get_value_from_sample(sample);
 
         if field.field_type == "seqfile":
-            field.input.value = val.get_filename();
+            field.input.value = val.get_display_name();
+            ftype = val.file_extension_id;
             return render_template("samples/form/multi/col_template.html",
-                                   field=field, ftype=val.extension_id);
+                                   field=field, ftype=ftype);
 
         field.input.value = val;
         if field.handle_std == SampleFields.SAMPLE_NAME:
