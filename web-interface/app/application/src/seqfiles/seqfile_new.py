@@ -115,6 +115,7 @@ class SeqFile:
         d = self.get_list_display();
         d["is_assembly"] = self.is_assembly();
         d["assembly_level"] = self.get_assembly_level();
+        d["is_forward_read"] = self.is_forward_read();
         d["assembly_method"] = self.assembly_method;
         return d;
 

@@ -47,6 +47,7 @@ function seqfileRow(seqfile, label){
 		string = "None";
 	} else {
 		string = seqfile.filename;
+		console.log(seqfile);
 		if (seqfile.is_assembly){
 			if (seqfile.assembly_method){
 				string += " (assembled with: " + seqfile.assembly_method + ")";

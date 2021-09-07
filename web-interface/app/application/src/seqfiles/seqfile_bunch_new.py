@@ -11,6 +11,15 @@ class SeqFilesBunch:
         self.consensus_file = SeqFile(SeqFileTypes.CONSENSUS, sample_id);
         self.contigs_file = SeqFile(SeqFileTypes.CONTIGS, sample_id);
         self.scaffolds_file = SeqFile(SeqFileTypes.SCAFFOLDS, sample_id);
+        self.reads = self._fetch_reads();
+
+
+    def _fetch_reads(self) -> list:
+        reads = [];
+        if self.sample["library_layout_paired"]:
+            reads.append(SeqFile(SeqFileTypes.FWREAD, self.sample_id));
+            reads.append(SeqFile(SeqFileTypes.RVREAD, self.sample_id));
+        return reads;
 
 
     def get_list_display(self) -> dict:
@@ -24,6 +33,7 @@ class SeqFilesBunch:
         disp["consensus"]  = self.consensus_file.get_details_display();
         disp["contigs"]  = self.contigs_file.get_details_display();
         disp["scaffolds"]  = self.scaffolds_file.get_details_display();
+        disp["reads"] = [r.get_details_display() for r in self.reads];
         return disp;
 
 
