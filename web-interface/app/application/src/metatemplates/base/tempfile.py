@@ -8,7 +8,7 @@ class TempFile:
     attachment_prefix = "prefix";
     extension = "txt";
 
-    samples_temp_dir = "/uploads/samples_temp";
+    samples_temp_dir = "/uploads/samples/temp";
 
 
     @classmethod

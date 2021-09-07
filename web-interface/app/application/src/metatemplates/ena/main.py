@@ -2,7 +2,8 @@ import os.path
 from zipfile import ZipFile
 import gzip
 from application.src.samples.samples import Samples
-from application.src.seqfiles.seqfile_bunch import SeqFilesBunch
+from application.src.seqfiles.seqfile_bunch_new import SeqFilesBunch
+from application.src.seqfiles.types import SeqFileTypes
 from ..base.tempfile import TempFile
 from .samples import EnaTsv
 from .experiment import EnaExperiment
@@ -11,11 +12,78 @@ from .runs_manifest import EnaManifestRun
 from . import assemblies_manifest as assembman
 
 
+import sys
+
+
 class EnaMeta(TempFile):
 
     tempfilename = "last_generated_ena.zip";
     attachement_prefix = "ena_";
     extension = "zip";
+
+
+    @classmethod
+    def write_contigs_manifest(cls, zipObj: "zip", sample: Samples) -> None:
+        sample_name = sample["sample_name"];
+        assembman.EnaContigs.write(sample);
+        zipObj.write(assembman.EnaContigs.get_tempfile(),
+                     assembman.EnaContigs.manifest_in_zip(sample_name));
+
+
+    @classmethod
+    def write_contigs_file(cls, zipObj: "zip",
+                           seqbunch: SeqFilesBunch) -> None:
+        tempname = os.path.join(cls.samples_temp_dir, "ena_contigs_file");
+        tempfile = seqbunch.write_tempfile_ena(SeqFileTypes.CONTIGS, tempname);
+        file_in_zip = os.path.join(assembman.EnaContigs.zip_dir,
+                                   seqbunch.contigs_file.get_ena_filename());
+        zipObj.write(tempfile, file_in_zip);
+
+
+    @classmethod
+    def write_contigs_data(cls, zipObj: "zip",
+                           seqbunch: SeqFilesBunch, sample: Samples) -> None:
+        cls.write_contigs_manifest(zipObj, sample);
+        cls.write_contigs_file(zipObj, seqbunch);
+
+
+    @classmethod
+    def write_scaffolds_manifest(cls, zipObj: "zip", sample: Samples) -> None:
+        sample_name = sample["sample_name"];
+        assembman.EnaScaffolds.write(sample);
+        zipObj.write(assembman.EnaScaffolds.get_tempfile(),
+                    assembman.EnaScaffolds.manifest_in_zip(sample_name));
+
+
+    @classmethod
+    def write_scaffolds_file(cls, zipObj: "zip",
+                             seqbunch: SeqFilesBunch) -> None:
+        tempname = os.path.join(cls.samples_temp_dir, "ena_scaffolds_file");
+        tempfile = seqbunch.write_tempfile_ena(SeqFileTypes.SCAFFOLDS,
+                                               tempname);
+        file_in_zip = os.path.join(assembman.EnaScaffolds.zip_dir,
+                            seqbunch.scaffolds_file.get_ena_filename());
+        zipObj.write(tempfile, file_in_zip);
+
+
+    @classmethod
+    def write_scaffolds_data(cls, zipObj: "zip",
+                             seqbunch: SeqFilesBunch, sample: Samples) -> None:
+        cls.write_scaffolds_manifest(zipObj, sample);
+        cls.write_scaffolds_file(zipObj, seqbunch);
+
+
+    @classmethod
+    def write_reads_data(cls, zipObj: "zip", seqbunch: SeqFilesBunch,
+                         sample: Samples) -> None:
+        sample_alias = sample["sample_alias"];
+        EnaManifestRun.write(sample);
+        zipObj.write(EnaManifestRun.get_tempfile(),
+            EnaManifestRun.manifest_in_zip(sample_alias));
+        for read in seqbunch.reads:
+            in_zip = f"{EnaManifestRun.zip_dir}/{read.get_filename()}";
+            zipObj.write(read.get_file(), in_zip);
+
 
     @classmethod
     def write_zip(cls, selected):
@@ -41,43 +109,16 @@ class EnaMeta(TempFile):
 
             # Write read files: 
             for sample in run_samples:
-                sb = SeqFilesBunch(sample["sample_id"]);
-                if not sb.has_reads():
-                    continue;
-                EnaManifestRun.write(sample);
-                zipObj.write(EnaManifestRun.get_tempfile(),
-                    EnaManifestRun.manifest_in_zip(sample["sample_alias"]));
-                for read in sb.read_files:
-                    zipObj.write(read.get_file(),
-                        f"{EnaManifestRun.zip_dir}/{read.get_filename()}");
-
+                seqbunch = SeqFilesBunch(sample["sample_id"]);
+                if not seqbunch.check_reads(): continue;
+                cls.write_reads_data(zipObj, seqbunch, sample);
 
             # Write assembly files:
             for sample in assembly_samples:
-                sb = SeqFilesBunch(sample["sample_id"]);
-                sname = sample["sample_name"];
+                seqbunch = SeqFilesBunch(sample["sample_id"]);
+                if seqbunch.contigs_file.check_exists():
+                    cls.write_contigs_data(zipObj, seqbunch, sample);
+                if seqbunch.scaffolds_file.check_exists():
+                    cls.write_scaffolds_data(zipObj, seqbunch, sample);
 
-                if sb.contigs_file.exists:
-                    assembman.EnaContigs.write(sample);
-                    zipObj.write(assembman.EnaContigs.get_tempfile(),
-                                 assembman.EnaContigs.manifest_in_zip(sname));
-
-                    tempfile = "ena_contigs_file.fa.gz";
-                    file = os.path.join("/uploads/samples/temp", tempfile);
-                    sb.write_ena_contigs_tempfile(file);
-                    zipObj.write(file,
-                                 f"{assembman.EnaContigs.zip_dir}/" \
-                                 f"{sb.contigs_file.get_filename()}.gz");
-
-
-                if sb.scaffolds_file.exists:
-                    assembman.EnaScaffolds.write(sample);
-                    zipObj.write(assembman.EnaScaffolds.get_tempfile(),
-                                assembman.EnaScaffolds.manifest_in_zip(sname));
-                    tempfile = "ena_scaffolds_file.fa.gz";
-                    file = os.path.join("/uploads/samples/temp", tempfile);
-                    sb.write_ena_contigs_tempfile(file);
-                    zipObj.write(file,
-                                 f"{assembman.EnaScaffolds.zip_dir}/" \
-                                 f"{sb.scaffolds_file.get_filename()}.gz");
 

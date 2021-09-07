@@ -1,4 +1,5 @@
 import os
+import gzip
 from dataclasses import dataclass
 from Bio import SeqIO
 from application.src.db.interface import DBInterface
@@ -168,3 +169,20 @@ class SeqFile:
         with open(out_file, "w") as outf:
             SeqIO.write(seqdata, outf, self.file_extension);
 
+
+    def reformat_ena_assembly(self, filename: "filename no extension") -> str:
+        if self.seqtype not in [SeqFileTypes.CONTIGS, SeqFileTypes.SCAFFOLDS]:
+            raise Exception("File is not for ENA.");
+        if not self.check_exists():
+            raise Exception("File was not found.");
+        out_file = f"{filename}.{self.file_extension}.gz";
+        with open(self.get_file(), 'rb') as f_in:
+            with gzip.open(out_file, 'wb') as f_out:
+                f_out.writelines(f_in);
+        return out_file;
+
+
+    def get_ena_filename(self) -> str:
+        if self.seqtype not in [SeqFileTypes.CONTIGS, SeqFileTypes.SCAFFOLDS]:
+            raise Exception("File is not for ENA.");
+        return f"{self.get_filename()}.gz";

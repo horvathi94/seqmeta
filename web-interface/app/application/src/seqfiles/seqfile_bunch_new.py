@@ -22,6 +22,12 @@ class SeqFilesBunch:
         return reads;
 
 
+    def check_reads(self) -> bool:
+        for read in self.reads:
+            if not read.check_exists(): return False;
+        return True;
+
+
     def get_list_display(self) -> dict:
         disp = {};
         disp["consensus"] = self.consensus_file.get_list_display();
@@ -44,6 +50,15 @@ class SeqFilesBunch:
                                             self.sample["gisaid_virusname"]);
 
 
+    def write_tempfile_ena(self, seqtype: SeqFileTypes, filename: str) -> None:
+        if seqtype == SeqFileTypes.CONTIGS:
+            file = self.contigs_file;
+        elif seqtype == SeqFileTypes.SCAFFOLDS:
+            file = self.scaffolds_file;
+        if file.check_exists():
+            return file.reformat_ena_assembly(filename);
+
+
     def get_consensus_sequence(self) -> str:
         virusname = self.sample["gisaid_virusname"];
         return self.consensus_file.get_sequence(id=virusname);
@@ -52,4 +67,5 @@ class SeqFilesBunch:
     def get_display_sequence(self) -> str:
         virusname = self.sample["gisaid_virusname"];
         return self.consensus_file.get_display_sequence(virusname);
+
 
