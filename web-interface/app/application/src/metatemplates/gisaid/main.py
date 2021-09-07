@@ -1,4 +1,5 @@
 import os
+from Bio import SeqIO
 from zipfile import ZipFile
 from .submission import GisaidExcel
 from ..base.tempfile import TempFile
@@ -26,12 +27,27 @@ class GisaidMeta(TempFile):
         with ZipFile(cls.get_tempfile(), "w") as zipObj:
             zipObj.write(GisaidExcel.get_tempfile(), "submission.xlsx");
 
+
+            tempfile = cls.get_sample_temp_file("temp_gisaid.fasta");
+
+            sequences = [];
             for sample in samples:
                 seqbunch = SeqFilesBunch(sample["sample_id"]);
                 if not seqbunch.consensus_file.check_exists():
                     continue;
 
-                file = cls.get_sample_temp_file("temp_gisaid.fasta");
-                seqbunch.write_tempfiles_gisaid(file);
-                zipObj.write(file, seqbunch.consensus_file.get_filename());
+                sequences.append(seqbunch.get_consensus_sequence());
+
+            SeqIO.write(sequences, tempfile, "fasta")
+            zipObj.write(tempfile, GisaidExcel.sequences_file);
+
+#            for sample in samples:
+#                seqbunch = SeqFilesBunch(sample["sample_id"]);
+#                if not seqbunch.consensus_file.check_exists():
+#                    continue;
+#
+#                consensus_files.append(seqbunch.consensus_file);
+#                file = cls.get_sample_temp_file("temp_gisaid.fasta");
+#                seqbunch.write_tempfiles_gisaid(file);
+#                zipObj.write(file, seqbunch.consensus_file.get_filename());
 

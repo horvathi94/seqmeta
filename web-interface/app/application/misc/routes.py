@@ -39,7 +39,7 @@ def submit_assembly_methods():
 
 @misc_bp.route("/misc/submit/sampling-strategies", methods=["POST"])
 def submit_sampling_strategies():
-    return sampling_strategies.Editor.save_by_procedure(request.form);
+    return sampling_strategies.Editor.parse_and_save(request.form);
 
 
 @misc_bp.route("/misc/submit/specimen-sources", methods=["POST"])

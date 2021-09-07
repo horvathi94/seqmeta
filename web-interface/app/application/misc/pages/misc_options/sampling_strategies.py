@@ -18,5 +18,5 @@ class Editor(_MiscOptionBase):
 
     @classmethod
     def save(cls, data: list) -> None:
-        SamplingMethods.save_by_procedure(data);
+        SamplingStrategies.save_by_procedure(data);
 

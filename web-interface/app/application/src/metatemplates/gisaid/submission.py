@@ -8,12 +8,16 @@ class GisaidExcel(ExcelGenerator):
     attachement_prefix = "gisaid";
     extension = "xlsx";
 
+    sequences_file = "sequences.fasta";
+
+
     @classmethod
     def populate_gisaid(cls, ws, samples):
         for indx, sample in enumerate(samples):
             i = indx+3;
             ws["A{:d}".format(i)] = "Submitter"          # Submitter
-            ws["B{:d}".format(i)] = sample["seqfilename"];
+    #        ws["B{:d}".format(i)] = sample["seqfilename"];
+            ws["B{:d}".format(i)] = cls.sequences_file;
             ws["C{:d}".format(i)] = sample["gisaid_virusname"];
             ws["D{:d}".format(i)] = "betacoronavirus"    # Leave as default
             ws["E{:d}".format(i)] = sample["passage_details"]

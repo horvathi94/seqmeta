@@ -43,7 +43,7 @@ class SeqFilesBunch:
         return disp;
 
 
-    def write_tempfiles_gisaid(self, out_file) -> None:
+    def write_tempfile_gisaid(self, out_file) -> None:
         if not self.consensus_file.check_exists():
             raise Exception("Consensus file not found for GISAID upload.");
         self.consensus_file.reformat_gisaid(out_file,
