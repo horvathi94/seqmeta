@@ -10,7 +10,7 @@ help(){
 	# Display help
 	echo "Backup tables from the MySQL database.";
 	echo ;
-  echo "Syntax: backup [-s|-h]";
+  echo "Syntax: backup [-d|-h]";
   echo "options:";
   echo "  -d, --data   Specify the type of save you want to perform.";
   echo "  -h, --help   Print this help screen.";

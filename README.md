@@ -28,7 +28,6 @@ Environment variables:
 To locally mount the MySQL database volume uncomment line number 51 from the compose file and specify the **MYSQL_DIR** environment variable. Data inside the Docker containers which is created during runtime is deleted if the container is stopped mounting it locally will kepp this data persistent. Read more about Docker volumes [here](https://docs.docker.com/storage/volumes/).
 
 
-**TODO: mounting of sequencing data volumes.**
 
 
 ## Tips
@@ -36,12 +35,12 @@ To locally mount the MySQL database volume uncomment line number 51 from the com
 
 ### Backup and restore the database
 
-To backup the mysql database use the `mysqldump` function via `docker exec`.
-Example: 
+To perform backup of the database tables you may use the two scripts which can be found in the database container inside `/scripts/` directory.
 
-`docker exec -i <mysql_container_name> mysqldump --user=<MYSQL_USER> --password=<MYSQL_PASSWORD> sequencing_data > <path/on/host/to/backup.sql>`
+The `backup.sh` script performs a `mysqldump` on some of the tables inside the database, the selection of the tables is performed usisng the `--data` option. The *sql* files are saved in the `/backups` directory, which can be mounted to your local machine. For more details please check the help menu.
+`docker exec -it <container-name> /scripts/backup.sh --help`
 
 
-To restore from the backup run:
+The `restore.sh` script can be used to restore data saved from the *SQL* files created by the `backup.sh` script. The *SQL* files must be located in the `/backups` directory of the container. To see more options about the usage of the scrpt please see the help menu:
+`docker exec -it <container-name> /scripts/restore.sh --help`
 
-`docker exec -i <mysql_container_name> mysql --user=<MYSQL_USER> --password<MYSQL_PASSWORD> sequencing_data > <path/on/host/to/backup.sql>` 
