@@ -16,7 +16,6 @@ class GisaidExcel(ExcelGenerator):
         for indx, sample in enumerate(samples):
             i = indx+3;
             ws["A{:d}".format(i)] = "Submitter"          # Submitter
-    #        ws["B{:d}".format(i)] = sample["seqfilename"];
             ws["B{:d}".format(i)] = cls.sequences_file;
             ws["C{:d}".format(i)] = sample["gisaid_virusname"];
             ws["D{:d}".format(i)] = "betacoronavirus"    # Leave as default
