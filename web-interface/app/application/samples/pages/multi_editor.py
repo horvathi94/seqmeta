@@ -26,7 +26,7 @@ class MultiEditor(EditorBase):
 
     @classmethod
     def all_col(cls, field: "Field") -> "HTML":
-        if field.field_type in ["text", "number"]:
+        if field.field_type in ["text", "number", "date"]:
             field.input.onchange = "updateColumn(this);";
         return render_template("samples/form/multi/col_all.html", field=field);
 

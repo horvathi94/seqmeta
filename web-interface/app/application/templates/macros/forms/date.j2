@@ -4,8 +4,8 @@
 	if dets.min != "" else "" %}
 {% set maxval="max='"+dets.max|string+"'" 
 	if dets.max != "" else "" %}
-{% set onhangefunc="onchange='"+dets.onchange+"'" 
-	if dets.onchange else "" %}
+{% set onchangefunc="onchange='"+dets.onchange|string+"'" 
+	if dets.onchange != "" else "" %}
 
 {% set name = "" %}
 {% if type == "single" %}
@@ -18,13 +18,14 @@
 	{% set name = dets.db_key %}
 {% endif %}
 
+
 <input type="date"
 			 name="{{ name }}"
 			 	class="{{ dets.classes|join(" ") }}"
 				value="{{ dets.value }}"
 				{{ minval }} 
 				{{ maxval }} 
-				{{ dets.onchangefunc }}/>
+				{{ onchangefunc }}/>
 
 
 {% endmacro %}
