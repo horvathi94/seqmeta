@@ -13,6 +13,18 @@
 
 
 
+#filters {
+	background-color: var(--orange);
+	border: 2px solid black;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	padding: 1em;
+}
+
+
+
 #sample-details-table {
 	border: 0px;
 }

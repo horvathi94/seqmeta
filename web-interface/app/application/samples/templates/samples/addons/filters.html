@@ -1,16 +1,22 @@
 
 <form action="{{ url_for("samples_bp.show") }}" id="filters" method="POST">
 
+	<div>
+		<strong>Filter:</strong>
+	</div>
 
-	<label for="filter-gisaid">GISAID</label>
-	<select id="filter-gisaid" name="filter-gisaid">
-		<option value="0">-----</option>
-		<option value="1">Submitted</option>
-		<option value="2">Not submitted</option>
-	</select>
+	<div class="filter-option">
+		<label for="filter-gisaid">GISAID</label>
+		<select id="filter-gisaid" name="filter-gisaid">
+			<option value="0">------------</option>
+			<option value="1">Submitted</option>
+			<option value="2">Not submitted</option>
+		</select>
+	</div>
 
 
 
-	<input type="submit" value="Filter">
+	<input type="submit" class="smbutton" value="Filter">
 
 </form>
+
