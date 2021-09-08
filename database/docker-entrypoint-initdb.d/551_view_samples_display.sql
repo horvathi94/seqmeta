@@ -10,7 +10,9 @@ CREATE OR REPLACE VIEW view_samples_display AS
 		collection.collection_date AS collection_date,
 		collection.author_group_name AS group_name,
 		samples.gisaid_virusname AS gisaid_virusname,
-		samples.isolate AS isolate
+		samples.isolate AS isolate,
+
+		samples.gisaid_accession AS gisaid_accession
 		
 	FROM view_samples_base AS samples
 	LEFT JOIN view_samples_collection AS collection

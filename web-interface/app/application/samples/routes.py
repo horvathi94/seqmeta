@@ -19,9 +19,12 @@ samples_bp = Blueprint("samples_bp", __name__,
 
 
 
-@samples_bp.route("/samples/view")
+@samples_bp.route("/samples/view", methods=["GET", "POST"])
 def show():
-    return DisplayPage.render();
+    filters = {};
+    if request.method == "POST":
+        filters = request.form;
+    return DisplayPage.render(filters);
 
 
 @samples_bp.route("/samples/submit", methods=["POST"])
@@ -132,3 +135,7 @@ def delete_samples():
         Samples.delete(sample_id);
     return redirect(url_for('samples_bp.show'));
 
+
+@samples_bp.route("/test", methods=["POST"])
+def tester():
+    return jsonify(request.form);

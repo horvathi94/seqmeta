@@ -2,7 +2,10 @@ from flask import render_template
 from application.src.pages.display import DisplayBase
 from application.src.samples.samples import Samples
 from application.src.seqfiles.seqfile_bunch_new import SeqFilesBunch
+from . import filters as sampfilters
 
+
+import sys
 
 class DisplayPage(DisplayBase):
 
@@ -17,9 +20,45 @@ class DisplayPage(DisplayBase):
                {"filename": "toggle-select-all.js", "prefix": "samples"}];
 
 
+
     @classmethod
-    def get_list(cls) -> list:
+    def filter_submitted_to_gisaid(cls, samples: list,
+                                   filt: sampfilters.GisaidSubmission) -> list:
+
+        if filt == sampfilters.GisaidSubmission.NONE:
+            return samples;
+
+        filtered = [];
+
+        for sample in samples:
+            if filt == sampfilters.GisaidSubmission.SUBMITTED \
+                    and sample["gisaid_accession"] != "":
+                filtered.append(sample);
+            elif filt == sampfilters.GisaidSubmission.NOT_SUBMITTED \
+                    and sample["gisaid_accession"] == "":
+                filtered.append(sample);
+
+        return filtered;
+
+
+    @classmethod
+    def filter(cls, samples: list, filters: dict={}) -> list:
+        """Filters sample data fetched from the database"""
+        if len(filters) == 0: return samples;
+
+        print(f"Filters: {filters}", file=sys.stderr);
+
+        for filter_key in filters:
+            if filter_key == "filter-gisaid":
+                filt = sampfilters.GisaidSubmission(int(filters[filter_key]));
+                samples = cls.filter_submitted_to_gisaid(samples, filt);
+        return samples;
+
+
+    @classmethod
+    def get_list(cls, filters: list=[]) -> list:
         samples = Samples.fetch_list();
+        samples = cls.filter(samples, filters=filters);
         for sample in samples:
             seqbunch = SeqFilesBunch(sample["sample_id"]);
             sample["seqfiles"] = seqbunch.get_list_display();
@@ -40,3 +79,16 @@ class DisplayPage(DisplayBase):
         return html;
 
 
+    @classmethod
+    def render_page(cls, filters: "flask.request.form"={}) -> "HTML":
+        if len(filters) != 0:
+            filters = filters.to_dict();
+        items = cls.get_list(filters=filters);
+
+        html = "";
+        if len(items) == 0:
+            html+= cls.show_empty();
+        else:
+            html+= cls.show_list(items);
+
+        return html;
