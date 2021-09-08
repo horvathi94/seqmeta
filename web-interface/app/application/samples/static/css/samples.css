@@ -21,6 +21,12 @@
 	justify-content: flex-start;
 	align-items: center;
 	padding: 1em;
+	margin-bottom: 2em;
+}
+
+#filters .filter-option {
+	margin-left: 1em;
+	margin-right: 1em;
 }
 
 

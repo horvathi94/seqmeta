@@ -29,15 +29,32 @@ class DisplayPage(DisplayBase):
             return samples;
 
         filtered = [];
-
         for sample in samples:
-            if filt == sampfilters.GisaidSubmission.SUBMITTED \
-                    and sample["gisaid_accession"] != "":
-                filtered.append(sample);
-            elif filt == sampfilters.GisaidSubmission.NOT_SUBMITTED \
-                    and sample["gisaid_accession"] == "":
-                filtered.append(sample);
+            if filt == sampfilters.GisaidSubmission.SUBMITTED:
+                if sample["gisaid_accession"] != "":
+                    filtered.append(sample);
+            elif filt == sampfilters.GisaidSubmission.NOT_SUBMITTED:
+                if sample["gisaid_accession"] == "":
+                    filtered.append(sample);
 
+        return filtered;
+
+
+    @classmethod
+    def filter_consensus_files(cls, samples: list,
+                               filt: sampfilters.HasConsensus) -> list:
+
+        if filt == sampfilters.HasConsensus.NONE:
+            return samples;
+
+        filtered = [];
+        for sample in samples:
+            if filt == sampfilters.HasConsensus.HAS_FILE:
+                if sample["seqfiles"]["consensus"]["exists"]:
+                    filtered.append(sample);
+            elif filt == sampfilters.HasConsensus.NO_FILE:
+                if not sample["seqfiles"]["consensus"]["exists"]:
+                    filtered.append(sample);
         return filtered;
 
 
@@ -52,16 +69,19 @@ class DisplayPage(DisplayBase):
             if filter_key == "filter-gisaid":
                 filt = sampfilters.GisaidSubmission(int(filters[filter_key]));
                 samples = cls.filter_submitted_to_gisaid(samples, filt);
+            if filter_key == "filter-consensus":
+                filt = sampfilters.HasConsensus(int(filters[filter_key]));
+                samples = cls.filter_consensus_files(samples, filt);
         return samples;
 
 
     @classmethod
     def get_list(cls, filters: list=[]) -> list:
         samples = Samples.fetch_list();
-        samples = cls.filter(samples, filters=filters);
         for sample in samples:
             seqbunch = SeqFilesBunch(sample["sample_id"]);
             sample["seqfiles"] = seqbunch.get_list_display();
+        samples = cls.filter(samples, filters=filters);
         return samples;
 
 
