@@ -7,8 +7,9 @@ from application.src.seqfiles.seqfile_bunch_new import SeqFilesBunch
 from application.src.seqfiles.types import SeqFileTypes
 from .tsvs.samples import EnaTsvSamples
 from .tsvs.experiment import EnaTsvExperiment
+from .manifests.runs import EnaManifestRun
 from .manifest import EnaManifest
-from .runs_manifest import EnaManifestRun
+#from .runs_manifest import EnaManifestRun
 from . import assemblies_manifest as assembman
 
 
@@ -74,19 +75,6 @@ class EnaMeta(TempFile):
 
 
     @classmethod
-    def write_reads_data(cls, zipObj: "zip", seqbunch: SeqFilesBunch,
-                         sample: Samples) -> None:
-        sample_alias = sample["sample_alias"];
-        EnaManifestRun.write(sample);
-        zipObj.write(EnaManifestRun.get_tempfile(),
-            EnaManifestRun.manifest_in_zip(sample_alias));
-        for read in seqbunch.reads:
-            in_zip = f"{EnaManifestRun.zip_dir}/{read.get_filename()}";
-            zipObj.write(read.get_file(), in_zip);
-
-
-
-    @classmethod
     def write_samples_tsv(cls, samp_ids: list) -> None:
         """Write samples.tsv for samples submission."""
         samp_tab = "view_samples_ena";
@@ -107,12 +95,51 @@ class EnaMeta(TempFile):
                          EnaTsvExperiment.filename);
 
 
+    @classmethod
+    def write_read_file(cls, zipObj: "zip", seqbunch: SeqFilesBunch,
+                         sample: Samples) -> None:
+        sample_alias = sample["sample_alias"];
+        EnaManifestRun.write(sample);
+        zipObj.write(EnaManifestRun.get_tempfile(),
+            EnaManifestRun.manifest_in_zip(sample_alias));
+        for read in seqbunch.reads:
+            in_zip = f"{EnaManifestRun.zip_dir}/{read.get_filename()}";
+            zipObj.write(read.get_file(), in_zip);
+
+
+
+    @classmethod
+    def write_reads_data(cls, samp_ids: list) -> None:
+        """Write read files and manifest files to zip file."""
+        samp_tab = "view_samples_ena_experiment";
+        run_samples = Samples.fetch_entries(samp_tab, sample_ids=samp_ids);
+
+        with ZipFile(cls.get_tempfile(), "a") as zipObj:
+            for sample in run_samples:
+                sample_alias = sample["sample_alias"];
+                seqbunch = SeqFilesBunch(sample["sample_id"]);
+                if not seqbunch.check_reads(): continue;
+
+                read_file_names = [];
+                for read in seqbunch.reads:
+                    read_name = read.get_filename();
+                    in_zip = EnaManifestRun.in_zip(read_name);
+                    read_file_names.append(read_name);
+                    zipObj.write(read.get_file(), in_zip);
+
+                EnaManifestRun.write(sample, read_file_names);
+                zipObj.write(EnaManifestRun.get_tempfile(),
+                             EnaManifestRun.manifest_in_zip(sample_alias));
+
+
+
 
     @classmethod
     def write_zip(cls, selected):
 
         cls.write_samples_tsv(selected);
         cls.write_experiments_tsv(selected);
+        cls.write_reads_data(selected);
 
         assembly_samples = Samples.fetch_entries(
             "view_samples_ena_manifest_assembly", sample_ids=selected);
