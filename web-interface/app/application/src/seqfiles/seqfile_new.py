@@ -170,12 +170,15 @@ class SeqFile:
             SeqIO.write(seqdata, outf, self.file_extension);
 
 
-    def reformat_ena_assembly(self, filename: "filename no extension") -> str:
+    def reformat_ena_assembly(self, filename: "filename no extension",
+                              path: str = "") -> str:
         if self.seqtype not in [SeqFileTypes.CONTIGS, SeqFileTypes.SCAFFOLDS]:
             raise Exception("File is not for ENA.");
         if not self.check_exists():
             raise Exception("File was not found.");
-        out_file = f"{filename}.{self.file_extension}.gz";
+        out_filename = f"{filename}.{self.file_extension}.gz";
+        out_file = os.path.join(path, out_filename);
+
         with open(self.get_file(), 'rb') as f_in:
             with gzip.open(out_file, 'wb') as f_out:
                 f_out.writelines(f_in);

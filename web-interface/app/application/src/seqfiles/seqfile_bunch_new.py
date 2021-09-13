@@ -58,13 +58,14 @@ class SeqFilesBunch:
                                             self.sample["gisaid_virusname"]);
 
 
-    def write_tempfile_ena(self, seqtype: SeqFileTypes, filename: str) -> None:
+    def write_tempfile_ena(self, seqtype: SeqFileTypes,
+                           filename: str, path: str="") -> None:
         if seqtype == SeqFileTypes.CONTIGS:
             file = self.contigs_file;
         elif seqtype == SeqFileTypes.SCAFFOLDS:
             file = self.scaffolds_file;
         if file.check_exists():
-            return file.reformat_ena_assembly(filename);
+            return file.reformat_ena_assembly(filename, path=path);
 
 
     def get_consensus_sequence(self) -> str:
