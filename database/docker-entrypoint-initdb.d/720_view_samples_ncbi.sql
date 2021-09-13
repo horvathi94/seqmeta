@@ -32,9 +32,11 @@ CREATE OR REPLACE VIEW `view_samples_ncbi` AS
 		treatment.antiviral_treatment_agent AS antiviral_treatment_agent,
 		collection.collection_device AS collection_device,
 		sampling.specimen_source AS collection_method,
+	
 		treatment.date_of_prior_antiviral_treat AS date_of_prior_antiviral_treat,
 		treatment.date_of_prior_sars_cov_2_infection AS date_of_prior_sars_cov_2_infection,
 		treatment.date_of_prior_sars_cov_2_vaccination AS date_of_prior_sars_cov_2_vaccination,
+		
 		health.outbreak AS exposure_event,
 		location.geo_loc_exposure AS geo_loc_exposure,
 		samples.gisaid_accession AS gisaid_accession,
@@ -59,9 +61,11 @@ CREATE OR REPLACE VIEW `view_samples_ncbi` AS
 		) AS lat_lon,
 		sampling.passage_method AS passage_method,
 		sampling.passage_number AS passage_number,
-		treatment.prior_sars_cov_2_antiviral_treat AS prior_sars_cov_2_antiviral_treat,
-		treatment.prior_sars_cov_2_infection AS prior_sars_cov_2_infection,
-		treatment.prior_sars_cov_2_vaccination AS prior_sars_cov_2_vaccination,
+		
+		treatment.prior_sars_cov_2_antiviral_treat AS prior_sars_cov_2_antiviral_treat_view,
+		treatment.prior_sars_cov_2_infection AS prior_sars_cov_2_infection_view,
+		treatment.prior_sars_cov_2_vaccination AS prior_sars_cov_2_vaccination_view,
+
 		sampling.purpose_of_sampling AS purpose_of_sampling,
 		sampling.purpose_of_sequencing AS purpose_of_sequencing,
 		health.sars_cov_2_diag_gene_name_1 AS sars_cov_2_diag_gene_name_1,
@@ -89,5 +93,9 @@ CREATE OR REPLACE VIEW `view_samples_ncbi` AS
 		ON samples.sample_id = health.sample_id
 	LEFT JOIN view_samples_patient_treatment AS treatment
 		ON samples.sample_id = treatment.sample_id
-	LEFT JOIN view_samples_sequencing AS sequencing
+
+	LEFT JOIN samples_patient_treatment AS treatment_base
+		ON samples.sample_id = treatment_base.sample_id
+
+		LEFT JOIN view_samples_sequencing AS sequencing
 		ON samples.sample_id = sequencing.sample_id

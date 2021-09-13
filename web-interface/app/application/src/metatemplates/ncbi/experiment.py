@@ -5,6 +5,7 @@ class NcbiExperiment(ExcelGenerator):
     tempfilename = "last_generated_ncbi_experiments.xlsx";
     attachement_prefix = "ncbi";
     extension = "xlsx";
+    filename = f"sra.{extension}";
 
     @classmethod
     def populate(cls, ws, samples):

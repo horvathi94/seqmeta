@@ -5,7 +5,7 @@ class NcbiSample(ExcelGenerator):
     tempfilename = "last_generated_ncbi.xlsx";
     attachement_prefix = "ncbi";
     extension = "xlsx";
-
+    filename = f"samples.{extension}";
 
     @classmethod
     def populate(cls, ws, samples):
@@ -45,9 +45,9 @@ class NcbiSample(ExcelGenerator):
             ws[f"AG{i}"] = sample["lat_lon"];
             ws[f"AH{i}"] = sample["passage_method"];
             ws[f"AI{i}"] = sample["passage_number"];
-            ws[f"AJ{i}"] = sample["prior_sars_cov_2_antiviral_treat"];
-            ws[f"AK{i}"] = sample["prior_sars_cov_2_infection"];
-            ws[f"AL{i}"] = sample["prior_sars_cov_2_vaccination"];
+            ws[f"AJ{i}"] = sample["prior_sars_cov_2_antiviral_treat_view"];
+            ws[f"AK{i}"] = sample["prior_sars_cov_2_infection_view"];
+            ws[f"AL{i}"] = sample["prior_sars_cov_2_vaccination_view"];
             ws[f"AM{i}"] = sample["purpose_of_sampling"];
             ws[f"AN{i}"] = sample["purpose_of_sequencing"];
             ws[f"AO{i}"] = sample["sars_cov_2_diag_gene_name_1"];
