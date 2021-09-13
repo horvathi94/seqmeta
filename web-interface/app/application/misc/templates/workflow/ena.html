@@ -97,6 +97,7 @@ Here we present the use of containerized version of the Webin-CLI this is much e
 	<li><code>-userName</code> the Webin submission account name.</li>
 	<li><code>-password</code> the Webin submission acccount password.</li>
 	<li><code>-manifest</code> the manifest file name.</li>
+	<li><code>-inputDir</code> input directory for files delcared in the manifest file. If you are using the Docker version, you need to specify the directory inside the container to where you mounted the files (this would be <em>/data</em> directory if you have not made any changes to the command for running docker).</li>
 	<li><code>-validate</code> validates the files defined in the manifest file.</li>
 	<li><code>-submit</code> validates and submits the files defined in the manifest file.</li>
 	<li><code>-test</code> use Webin test service instead of the production service. Please note that the Webin upload area is shared between test and production services, and that test submission files will not be archived.</li>

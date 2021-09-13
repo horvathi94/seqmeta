@@ -9,9 +9,6 @@ from .tsvs.samples import EnaTsvSamples
 from .tsvs.experiment import EnaTsvExperiment
 from .manifests.runs import EnaManifestRun
 from .manifests import assemblies as assembman
-#from .manifest import EnaManifest
-#from .runs_manifest import EnaManifestRun
-#from . import assemblies_manifest as assembman
 
 
 import sys
@@ -61,8 +58,6 @@ class EnaMeta(TempFile):
         file_in_zip = os.path.join(assembman.EnaScaffolds.zip_dir,
                             seqbunch.scaffolds_file.get_ena_filename());
         zipObj.write(tempfile, file_in_zip);
-
-
 
 
     @classmethod
