@@ -11,7 +11,7 @@ class EnaExperiment(TempFile):
 
 
     @classmethod
-    def generate_header(cls, is_paired, seq_instrument):
+    def generate_header(cls, is_paired: bool, seq_instrument) -> list:
         header = [
             "sample_alias",
             "instrument_model",

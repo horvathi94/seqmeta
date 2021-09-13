@@ -22,6 +22,14 @@ class SeqFilesBunch:
         return reads;
 
 
+    def get_read_name(self, read_type: SeqFileTypes) -> str:
+        if not self.check_reads(): return None;
+        for r in self.reads:
+            if r.seqtype == read_type:
+                return r.get_filename();
+        return None;
+
+
     def check_reads(self) -> bool:
         for read in self.reads:
             if not read.check_exists(): return False;

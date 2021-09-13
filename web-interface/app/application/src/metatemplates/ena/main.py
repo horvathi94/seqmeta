@@ -1,12 +1,12 @@
 import os.path
 from zipfile import ZipFile
 import gzip
+from ..base.tempfile import TempFile
 from application.src.samples.samples import Samples
 from application.src.seqfiles.seqfile_bunch_new import SeqFilesBunch
 from application.src.seqfiles.types import SeqFileTypes
-from ..base.tempfile import TempFile
-from .samples import EnaTsv
-from .experiment import EnaExperiment
+from .tsvs.samples import EnaTsvSamples
+from .tsvs.experiment import EnaTsvExperiment
 from .manifest import EnaManifest
 from .runs_manifest import EnaManifestRun
 from . import assemblies_manifest as assembman
@@ -85,40 +85,59 @@ class EnaMeta(TempFile):
             zipObj.write(read.get_file(), in_zip);
 
 
+
+    @classmethod
+    def write_samples_tsv(cls, samp_ids: list) -> None:
+        """Write samples.tsv for samples submission."""
+        samp_tab = "view_samples_ena";
+        samples = Samples.fetch_entries(samp_tab, sample_ids=samp_ids);
+        EnaTsvSamples.write(samples);
+        with ZipFile(cls.get_tempfile(), "w") as zipObj:
+            zipObj.write(EnaTsvSamples.get_tempfile(), EnaTsvSamples.filename);
+
+
+    @classmethod
+    def write_experiments_tsv(cls, samp_ids: list) -> None:
+        """Write experiments.tsv for experiments data submission"""
+        samp_tab = "view_samples_ena_experiment";
+        run_samples = Samples.fetch_entries(samp_tab, sample_ids=samp_ids);
+        EnaTsvExperiment.write(run_samples);
+        with ZipFile(cls.get_tempfile(), "a") as zipObj:
+            zipObj.write(EnaTsvExperiment.get_tempfile(),
+                         EnaTsvExperiment.filename);
+
+
+
     @classmethod
     def write_zip(cls, selected):
 
-        samples = Samples.fetch_entries("view_samples_ena",
-                                        sample_ids=selected);
-        EnaTsv.write(samples);
-
-        run_samples = Samples.fetch_entries("view_samples_ena_experiment",
-                                        sample_ids=selected);
+        cls.write_samples_tsv(selected);
+        cls.write_experiments_tsv(selected);
 
         assembly_samples = Samples.fetch_entries(
             "view_samples_ena_manifest_assembly", sample_ids=selected);
-        EnaExperiment.write(run_samples);
-
         samples = Samples.fetch_entries("view_samples_base",
                                         sample_ids=selected);
 
 
-        with ZipFile(cls.get_tempfile(), "w") as zipObj:
-            zipObj.write(EnaTsv.get_tempfile(), "samples.tsv");
-            zipObj.write(EnaExperiment.get_tempfile(), "experiments.tsv");
+#        with ZipFile(cls.get_tempfile(), "w") as zipObj:
+#            zipObj.write(EnaTsvSamples.get_tempfile(),
+#                         EnaTsvSamples.filename);
+#            zipObj.write(EnaTsvExperiment.get_tempfile(),
+#                         EnaTsvExperiment.filename);
 
             # Write read files: 
-            for sample in run_samples:
-                seqbunch = SeqFilesBunch(sample["sample_id"]);
-                if not seqbunch.check_reads(): continue;
-                cls.write_reads_data(zipObj, seqbunch, sample);
+#            for sample in run_samples:
+#                seqbunch = SeqFilesBunch(sample["sample_id"]);
+#                if not seqbunch.check_reads(): continue;
+#                cls.write_reads_data(zipObj, seqbunch, sample);
 
             # Write assembly files:
-            for sample in assembly_samples:
-                seqbunch = SeqFilesBunch(sample["sample_id"]);
-                if seqbunch.contigs_file.check_exists():
-                    cls.write_contigs_data(zipObj, seqbunch, sample);
-                if seqbunch.scaffolds_file.check_exists():
-                    cls.write_scaffolds_data(zipObj, seqbunch, sample);
-
+#            for sample in assembly_samples:
+#                seqbunch = SeqFilesBunch(sample["sample_id"]);
+#                if seqbunch.contigs_file.check_exists():
+#                    cls.write_contigs_data(zipObj, seqbunch, sample);
+#                if seqbunch.scaffolds_file.check_exists():
+#                    cls.write_scaffolds_data(zipObj, seqbunch, sample);
+#
 
