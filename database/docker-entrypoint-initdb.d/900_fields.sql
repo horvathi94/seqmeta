@@ -42,7 +42,7 @@ INSERT INTO fields
 	),
 	("sample_comment",
 		"Sample comment", "text", NULL, NULL, NULL,
-		"sample_comment", "sample-comment", 0, 200, NULL, NULL, NULL,
+		"sample_comment", "sample-comment", 0, 600, NULL, NULL, NULL,
 		"sample",
 		"A comment to more easily identify the sample. This will not be used for any of the uploads."
 	),
