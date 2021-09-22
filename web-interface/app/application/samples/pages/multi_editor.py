@@ -145,7 +145,7 @@ class MultiEditor(EditorBase):
 
     @classmethod
     def render_editor_tail(cls) -> "HTML":
-        return render_template("samples/form/single/tail.html");
+        return render_template("samples/form/multi/tail.html");
 
 
     @classmethod
