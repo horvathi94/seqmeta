@@ -30,8 +30,9 @@
 
 </div>
 
+	{{ import_from_other(reg_samples, form_type=form_type) }}
+
 {% if form_type == "add" %}
-	{{ import_from_other(reg_samples) }}
 	<input type="button" 
 				 id="add-new-sample"
 				 class="smbutton"

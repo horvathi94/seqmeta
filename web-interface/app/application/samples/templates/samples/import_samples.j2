@@ -1,4 +1,4 @@
-{% macro import_from_other(samples) %}
+{% macro import_from_other(samples, form_type="") %}
 
 </br>
 
@@ -16,7 +16,11 @@
 		
 	</select>
 
-	<input type="button" class="smbutton" value="Import from" onclick="importDataFromOtherSample();"/>
+	{% if form_type == "add" %}
+		<input type="button" class="smbutton" value="Import from" onclick="importDataFromOtherSample();"/>
+	{% elif form_type == "edit" %}
+		<input type="button" class="smbutton" value="Import from" onclick="importDataFromOtherToAll();"/>
+	{% endif %}
 
 {% endif %}
 

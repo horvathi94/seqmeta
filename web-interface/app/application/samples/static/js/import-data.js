@@ -43,7 +43,6 @@ function importDataFromOtherSample(){
 				
 			} else {
 				
-				console.log(className, sampleData[className]);
 				inp.value = sampleData[className];
 
 			}
@@ -52,5 +51,63 @@ function importDataFromOtherSample(){
 
 	});
 
+
+}
+
+
+
+function rewriteInpFieldData(inp, sampleValue, className){
+
+
+
+}
+
+
+function rewriteRowData(row, sampleData){
+
+	let inp;
+	Object.keys(sampleData).filter( (className) => className != "sample_id" ).forEach( (className) => {
+
+		inp = row.getElementsByClassName(className)[0];
+
+		if (inp.type == "select"){
+
+			inp.options.forEach( (opt) => {
+				if (opt.value == sampleData[className]) {opt.setAttribute("selected", "selected");}
+			});
+
+		} else if (inp.type == "select-one") {
+			
+			Array.from(row.getElementsByClassName(className)).forEach(e => {
+				if (e.value == sampleData[className]) {e.checked=true;};
+			});
+			
+		} else {
+			
+			inp.value = sampleData[className];
+
+		}
+
+	});
+
+}
+
+
+function importDataFromOtherToAll(){
+
+	const editorTable = document.getElementById("samples-editor");
+
+
+	fetchSampleData(importer.value).then( (sampleData) => {
+
+		for (let i=3; i<editorTable.rows.length; i++){
+
+			let row = editorTable.rows[i];
+			rewriteRowData(row, sampleData);	
+			
+
+		}
+
+	});
 
 }

@@ -14,7 +14,8 @@ class MultiEditor(EditorBase):
               {"filename": "tooltips.css"},
               {"filename": "info.css"}];
     scripts = [{"filename": "edit-multiple.js", "prefix": "samples"},
-               {"filename": "validate-samples.js", "prefix": "samples"}];
+               {"filename": "validate-samples.js", "prefix": "samples"},
+               {"filename": "import-data.js", "prefix": "samples"}];
 
     form_type = "edit"
 
@@ -136,9 +137,7 @@ class MultiEditor(EditorBase):
 
     @classmethod
     def render_editor_head(cls) -> "HTML":
-        reg_samples = [];
-        if cls.form_type == "add":
-            reg_samples = Samples.fetch_list();
+        reg_samples = Samples.fetch_list();
         return render_template("samples/form/multi/head.html",
                                form_type=cls.form_type,
                                reg_samples=reg_samples);
