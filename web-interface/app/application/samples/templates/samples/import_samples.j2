@@ -10,7 +10,7 @@
 
 			{% for sample in samples %}
 				<option value="{{ sample.sample_id }}">
-					{{ sample.sample_name }} : {{ sample.sample_comment }}
+					{{ sample.sample_name }} : {{ sample.sample_comment|truncate(150) }}
 				</option>
 			{% endfor %}
 		
