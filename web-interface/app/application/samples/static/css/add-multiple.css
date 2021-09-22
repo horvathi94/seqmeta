@@ -22,6 +22,16 @@
 }
 
 
+#samples-editor tr:nth-child(1){
+	position: sticky;
+	top: 0;
+	z-index: 1;
+}
+
+#samples-editor th{
+	position: relative;
+}
+
 #samples-editor td:nth-child(1),
 #samples-editor th:nth-child(1){
 	position: sticky;
@@ -34,6 +44,11 @@
 	background-color: var(--orange);
 }
 
+
+.smbutton{
+	position: sticky;
+	left: 0;
+}
 
 #add-new-sample{
 	margin-top: 2em;
