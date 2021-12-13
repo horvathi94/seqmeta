@@ -11,7 +11,7 @@ The *development* environment is recommended for debugging and developing. In th
 
 
 
-### Running on Linux:
+### Quickstart on Linux:
 
 To spin up the containers on a Linux machine you may use the `spinup.sh` script. For more information about the usage check out the help menu `./spinup.sh --help`.
 
@@ -42,7 +42,7 @@ Environment variables:
 - **MYSQL_USER** username for MySQL
 - **MYSQL_PASSWORD** a password for the MySQL user
 - **MYSQL_ROOT_PASSWORD** password for the root user.
-- **HOST_PORT** port on host machine to which to bind the web application.
+- **HOST_PORT** port on host machine to which to bind the web application (port 80 of the NGINX container).
 - **STAGING_LEVEL** accepted values are *production* and *development*. The default value for this variable is *production*. Use *development* only if you would like to modify or further develop the application.
 - **MYSQL_DATABASE_DIR** where the database is stored. Mount this to a directory on the host machine to not lose data when the container is stopped.
 - **MYSQL_BACKUPS_DIR** where the files produced by the `backup.sh` script are stored

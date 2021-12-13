@@ -64,7 +64,7 @@ case $mode in
     echo "Running in production mode...";
     docker-compose -f docker-compose.yaml \
 			--env-file run.env \
-			-d up -d --build
+			up -d --build
 		;;
 
 	down)
