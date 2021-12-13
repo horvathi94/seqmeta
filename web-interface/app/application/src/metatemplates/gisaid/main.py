@@ -10,9 +10,9 @@ import sys
 
 class GisaidMeta(TempFile):
 
-    tempfilename = "last_generated_gisaid.zip";
-    attachement_prefix = "gisaid_";
-    extension = "zip";
+    tempfilename = "last_generated_gisaid.zip"
+    attachement_prefix = "gisaid_"
+    extension = "zip"
 
     files_temp_dir = "/uploads/samples/temp"
 
@@ -20,23 +20,23 @@ class GisaidMeta(TempFile):
     def write_zip(cls, selected):
 
         samples = Samples.fetch_entries("view_samples_gisaid",
-                                        sample_ids=selected);
-        GisaidExcel.write_gisaid(samples);
+                                        sample_ids=selected)
+        GisaidExcel.write_gisaid(samples)
 
 
         with ZipFile(cls.get_tempfile(), "w") as zipObj:
-            zipObj.write(GisaidExcel.get_tempfile(), "submission.xlsx");
+            zipObj.write(GisaidExcel.get_tempfile(), "submission.xlsx")
 
 
-            tempfile = cls.get_sample_temp_file("temp_gisaid.fasta");
+            tempfile = cls.get_sample_temp_file("temp_gisaid.fasta")
 
-            sequences = [];
+            sequences = []
             for sample in samples:
-                seqbunch = SeqFilesBunch(sample["sample_id"]);
+                seqbunch = SeqFilesBunch(sample["sample_id"])
                 if not seqbunch.consensus_file.check_exists():
-                    continue;
+                    continue
 
-                sequences.append(seqbunch.get_consensus_sequence());
+                sequences.append(seqbunch.get_consensus_sequence())
 
             SeqIO.write(sequences, tempfile, "fasta")
-            zipObj.write(tempfile, GisaidExcel.sequences_file);
+            zipObj.write(tempfile, GisaidExcel.sequences_file)

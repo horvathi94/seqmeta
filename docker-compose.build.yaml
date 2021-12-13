@@ -4,22 +4,11 @@ services:
 
   nginx:
 
-    depends_on:
-      - app
-
     volumes:
       - ./nginx/nginx.dev.conf:/etc/nginx/conf.d/app.conf
 
 
   app:
-
-    build:
-      context: ./web-interface
-      target: ${STAGING_LEVEL:-development}
-      dockerfile: Dockerfile
-
-    depends_on:
-      - database
 
     volumes:
       - ./web-interface/app:/app

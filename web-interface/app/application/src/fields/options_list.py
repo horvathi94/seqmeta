@@ -54,7 +54,7 @@ _OPTIONS_LIST = {
     SF.FORWARD_READ_FILE: ReadFileTypes.fetch_select_list,
     SF.REVERSE_READ_FILE: ReadFileTypes.fetch_select_list,
 
-};
+}
 
 
 

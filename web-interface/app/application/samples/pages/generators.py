@@ -12,35 +12,35 @@ class GeneratorBase:
     @classmethod
     def write_zip(cls, selected: list) -> None:
         """Write zip files which will be sent."""
-        pass;
+        pass
 
 
     @classmethod
     def get_zip(cls) -> "zipfile":
         """Returns the zip file which will be sent."""
-        pass;
+        pass
 
 
     @classmethod
     def get_attachment_name(cls) -> str:
         """Returns the filename of the attachement."""
-        pass;
+        pass
 
 
     @classmethod
     def redirect_if_empty(cls) -> "flask.redirect":
         """Redirect to this page if there are no selected values."""
-        return redirect(url_for("samples_bp.show"));
+        return redirect(url_for("samples_bp.show"))
 
 
     @classmethod
     def render(cls, selected: list) -> "flask.send_file":
         """Returns flask.send_file of zipped data."""
         if len(selected) == 0:
-            return cls.redirect_if_empty();
-        cls.write_zip(selected);
+            return cls.redirect_if_empty()
+        cls.write_zip(selected)
         return send_file(cls.get_zip(),
-                         attachment_filename=cls.get_attachment_name());
+                         attachment_filename=cls.get_attachment_name())
 
 
 
@@ -49,17 +49,17 @@ class Gisaid(GeneratorBase):
 
     @classmethod
     def write_zip(cls, selected: list) -> None:
-        GisaidMeta.write_zip(selected);
+        GisaidMeta.write_zip(selected)
 
 
     @classmethod
     def get_zip(cls) -> "zipfile":
-        return GisaidMeta.get_tempfile();
+        return GisaidMeta.get_tempfile()
 
 
     @classmethod
     def get_attachment_name(cls) -> str:
-        return GisaidMeta.get_attachment_filename();
+        return GisaidMeta.get_attachment_filename()
 
 
 
@@ -69,17 +69,17 @@ class Ena(GeneratorBase):
 
     @classmethod
     def write_zip(cls, selected: list) -> None:
-        EnaMeta.write_zip(selected);
+        EnaMeta.write_zip(selected)
 
 
     @classmethod
     def get_zip(cls) -> "zipfile":
-        return EnaMeta.get_tempfile();
+        return EnaMeta.get_tempfile()
 
 
     @classmethod
     def get_attachment_name(cls) -> str:
-        return EnaMeta.get_attachment_filename();
+        return EnaMeta.get_attachment_filename()
 
 
 
@@ -90,17 +90,17 @@ class Ncbi(GeneratorBase):
 
     @classmethod
     def write_zip(cls, selected: list) -> None:
-        NcbiMeta.write_zip(selected);
+        NcbiMeta.write_zip(selected)
 
 
     @classmethod
     def get_zip(cls) -> "zipfile":
-        return NcbiMeta.get_tempfile();
+        return NcbiMeta.get_tempfile()
 
 
     @classmethod
     def get_attachment_name(cls) -> str:
-        return NcbiMeta.get_attachment_filename();
+        return NcbiMeta.get_attachment_filename()
 
 
 
@@ -111,17 +111,17 @@ class ConcatConsensus(GeneratorBase):
     @classmethod
     def gen_text(cls, selected: list) -> str:
         if len(selected) == 0:
-            return cls.redirect_if_empty();
-        concat = "";
+            return cls.redirect_if_empty()
+        concat = ""
         for sid in selected:
-            seqbunch = SeqFilesBunch(sid);
-            concat+= seqbunch.get_display_sequence();
-        return concat;
+            seqbunch = SeqFilesBunch(sid)
+            concat+= seqbunch.get_display_sequence()
+        return concat
 
 
     @classmethod
     def render(cls, selected: list) -> "HTML":
-        response = make_response(cls.gen_text(selected), 200);
-        response.mimetype = "text/plain";
-        return response;
+        response = make_response(cls.gen_text(selected), 200)
+        response.mimetype = "text/plain"
+        return response
 

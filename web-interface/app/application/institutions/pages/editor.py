@@ -6,13 +6,13 @@ from application.src.misc.location import Countries
 
 class EditorPage(EditorBase):
 
-    styles = [{"filename": "smbasicform.css"}];
+    styles = [{"filename": "smbasicform.css"}]
 
 
     @classmethod
     def render_editor(cls, item_id: int) -> "HTML":
-        institution = Institutions.fetch_entry(id=item_id);
+        institution = Institutions.fetch_entry(id=item_id)
         html = render_template("institutions/edit.html",
                                institution=institution,
-                               countries=Countries.fetch_list());
-        return html;
+                               countries=Countries.fetch_list())
+        return html
