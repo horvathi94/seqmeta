@@ -43,6 +43,14 @@ footer #footer-content{
 	align-items: center;
 }
 
+footer #footer-content a {
+	max-width: 300%;
+}
+
+
+footer #footer-content img {
+	max-width: 260px;
+}
 
 nav{
 	background-color: var(--dark-green);
