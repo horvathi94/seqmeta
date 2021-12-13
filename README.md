@@ -16,6 +16,11 @@ The *development* environment is recommended for debugging and developing. In th
 To spin up the containers on a Linux machine you may use the `spinup.sh` script. For more information about the usage check out the help menu `./spinup.sh --help`.
 
 
+### NGINX
+
+The compose file includes an NGINX container to route data to the Flask container. The *nginx* directory contains two configuration files for NGINX, one for development of the app, which simply routes all http requests to the Flask container and one intended for production, which serves static content and routes other requests in uswgi format to the FLask app.
+
+
 ### Starting manually
 
 Move into the main directory of the project (where the *docker-compose.yaml* file is located) and use the `docker-compose` command to spinup the containers:
