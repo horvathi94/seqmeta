@@ -7,7 +7,7 @@ A simple Python Flask application for editing and managing SARS-CoV-2 sequencing
 
 There are two modes to run the application: *development* and *production*.
 The *production* environment is recommended for use. This runs the Flask application with uWSGI server, which enhances performance, but does not give feedback in case of any errors.
-The *development* environment is recommended for debugging and developing. In this mode the Flask application is run directly with `python3` command. This is not ideal for production but gives feedback for error handling.
+The *development* environment is recommended for debugging and developing. In this mode the Flask application is run directly with `python3` command. This is not ideal for production but gives a better feedback for error handling.
 
 
 
