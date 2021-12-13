@@ -22,6 +22,7 @@ services:
 
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/app.conf
+      - ./web-interface/app/application/static:/www/data/static/
 
     networks:
       - seqmeta-routing
