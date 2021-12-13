@@ -12,8 +12,9 @@ RUN mkdir -p /uploads/samples/assemblies \
 EXPOSE 5000
 
 WORKDIR /app
-#CMD ["python3", "./wsgi.py"]
 CMD ["tail", "-f", "/etc/passwd"]
+
+#CMD ["python3", "./wsgi.py"]
 
 
 FROM development AS production
@@ -35,6 +36,5 @@ RUN groupadd --gid 5000 pyman \
 USER pyman
 EXPOSE 5000
 
-CMD gunicorn --worker-class gevent --workers 8 --bind 0.0.0.0:5000 wsgi:app --max-requests 10000 --timeout 5 --keep-alive 5 --log-level info
 
-#CMD ["python3", "/app/wsgi.py"]
+CMD ["uwsgi", "uwsgi.ini"]
