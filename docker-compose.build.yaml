@@ -2,6 +2,15 @@ version: "3.6"
 
 services:
 
+  nginx:
+
+    depends_on:
+      - app
+
+    volumes:
+      - ./nginx/nginx.dev.conf:/etc/nginx/conf.d/app.conf
+
+
   app:
 
     build:
