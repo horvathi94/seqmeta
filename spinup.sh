@@ -55,14 +55,14 @@ case $mode in
 	development)
 		echo "Running in development mode...";
 		echo "Binding to port: $HOST_PORT on localhost..."
-		docker-compose -f docker-compose.yaml -f docker-compose.build.yaml \
+		docker-compose -f docker-compose.build.prod.yaml -f docker-compose.build.dev.yaml \
 			--env-file run.env \
 			up -d --build
 		;;
 
 	production)
     echo "Running in production mode...";
-    docker-compose -f docker-compose.yaml \
+    docker-compose -f docker-compose.build.prod.yaml \
 			--env-file run.env \
 			up -d --build
 		;;
