@@ -3,70 +3,81 @@
 A simple Python Flask application for editing and managing SARS-CoV-2 sequencing metadata and data. The goal of the project is to users to format metadata for upload to EpiCov from [GISAID](https://www.gisaid.org/), [ENA](https://www.ebi.ac.uk/ena/browser/home) and [NCBI](https://www.ncbi.nlm.nih.gov) databases.
 
 
-## Running locally
+## Setting up locally
 
-To run in a local environment (without NGINX) use the *docker-compose.local.yaml* file with docker-compose: `docker-compose --env-file run.env --file docker-compose.local.yaml up -d`. This will deploy the apploication without NGINX server, thus the HTTP requests go directly to the Flask app. Do not use this in production environment.
+In the local environment only the Flask application and the database container are spined up. This means that the Flask app container also handles the routing of HTTP traffic. This is not recommended for production.
 
-
-## Howto run
-
-There are two modes to run the application: *development* and *production*.
-The *production* environment is recommended for use. This runs the Flask application with uWSGI server, which enhances performance, but does not give feedback in case of any errors.
-The *development* environment is recommended for debugging and developing. In this mode the Flask application is run directly with `python3` command. This is not ideal for production but gives a better feedback for error handling.
+To run in a local environment run the *docker-compose.local.yaml* file with docker-compose: `docker-compose --env-file run.env --file docker-compose.local.yaml up -d`.
 
 
+## Important!
 
-### Quickstart on Linux:
+1. The MySQL container will take some time to initialize the database. To follow the progress use the `docker logs <container-name> --follow` command. All tables of the database must be initialized when this process is finished the following message is displayed: *MySQL init process done. Ready for start up.*. Sometimes it is necessary to restart the Flask app container as this requires connection to the fully initialized MySQL database. For this you can use the `docker restart <app-container-name>` command.
+2. When starting the project locally or in development mode the entrypoint command for the web interface container is `tail -F uwsgi.ini`. This means that the Flask server must be started manually via the `docker exec` command from the host machine: `docker exec -it <container-name> python3 wsgi.py`
+To modify this behaviour overwrite the entrypoint command to run the Flask app at startup. This can be done by editing the Dockerfile of the web-interface and uncommenting the following line: `CMD ["python3", "./wsgi.py"]`.
 
-To spin up the containers on a Linux machine you may use the `spinup.sh` script. For more information about the usage check out the help menu `./spinup.sh --help`.
 
 
-### NGINX
 
-The compose file includes an NGINX container to route data to the Flask container. The *nginx* directory contains two configuration files for NGINX, one for development of the app, which simply routes all http requests to the Flask container and one intended for production, which serves static content and routes other requests in uswgi format to the FLask app.
+## Running behind NGINX
+
+There are two modes to run the application in this setup: *development* and *production*.
+The *production* environment is recommended for main use. This runs the Flask application in uWSGI server mode, which enhances performance, but does not give feedback in case of any errors.
+The *development* environment is recommended for debugging and developing. In this mode the Flask application is run directly with Python3 and accepts only HTTP requests. This is not ideal for production but gives a better feedback for error handling.
+
+
+
+### Quickstart on Linux machines
+
+To spin up the containers on a Linux machine you can use the `spinup.sh` script. For more information about the usage check out the help menu `./spinup.sh --help`.
 
 
 ### Starting manually
 
-Move into the main directory of the project (where the *docker-compose.yaml* file is located) and use the `docker-compose` command to spinup the containers:
+In the root directory of the project use the `docker-compose` command to spinup the containers.
 
+Basic usage:
 `docker-compose --file <compose-file> --file <compose-file-2> --env-file <environment-file> up --build -d`
 
 Where:
 - the `docker-compose up` command tells docker to spin up all containers in the compose file.
-- the `--file` options specify the docker-compose file based on which the containers will be deployed. To create the production environment simply specify the `docker-compose.yaml`. To deploy a development environment specify both the files: `--file docker-compose.yam --file docker-compose-build.yaml` in this order. Read more about extending docker-compose files [here](https://docs.docker.com/compose/extends/)
-- use the `--env-file` to specify the file containing the environment variables. In this case you may use: `--env-file run.env`
+- the `--file` option specifies the docker-compose file from which the containers will be started. Link multiple files to overwrite options. 
+- the `--env-file` option specifies the file which contains environment variables. 
 - the `--build` option is important if it is the first time you are running the application as it tells Docker to build the images for the containers.
 - the `-d` option is to run the command in detached mode, which means that it will run in the background and you will be free to use the terminal.
 
 
-The environment variables for the containers can be modified by editing the compose file or adding a .env file. More on environment variables [here](https://docs.docker.com/compose/environment-variables/).
+Example for running in development mode:
+`docker-compose --file docker-compose.build.prod.yaml docker-compose.build.dev.yaml --env-file run.env up -d`
 
-Environment variables:
+Example for running in production mode:
+`docker-compose --file docker-compose.build.prod.yaml --env-fule run.env up -d`
+
+Read more about extending docker-compose files [here](https://docs.docker.com/compose/extends/)
+
+
+#### Environment variables
+
+The repo includes a basic configuration file with environment variables *run.env* with detailed explenation for all of them. A full list of all available environment variables:
 - **MYSQL_DATABASE** the name of the MySQL database
 - **MYSQL_USER** username for MySQL
 - **MYSQL_PASSWORD** a password for the MySQL user
 - **MYSQL_ROOT_PASSWORD** password for the root user.
-- **HOST_PORT** port on host machine to which to bind the web application (port 80 of the NGINX container).
-- **MYSQL_DATABASE_DIR** where the database is stored. Mount this to a directory on the host machine to not lose data when the container is stopped.
-- **MYSQL_BACKUPS_DIR** where the files produced by the `backup.sh` script are stored
-- **MYSQL_SAMPLES_DIR** where the uploaded files are stored (sequence reads and assembly files).
+- **HOST_PORT** port on the host machine to which to bind the web application.
+- **MYSQL_DATABASE_DIR** the directory on the host machine where the database files is mounted. Use this environment variable for persistant data [1].
+- **MYSQL_BACKUPS_DIR** the directory on the host machine where */backups* directory of the container is mounted. This directory holds files produced by the *backup.sh* script are stored.
+- **APP_SAMPLES_DIR** the directory on the host machine where the directory of the web interface container is mounted which holds uploaded sequence files.
+
+[1]: Data inside the Docker containers which is created during runtime is deleted if the container is stopped. Mounting these volumes to the host machine means that they will be available even after the container is removed. Read more about Docker volumes [here](https://docs.docker.com/storage/volumes/).
 
 
-To locally mount the MySQL database volume uncomment line number 51 from the compose file and specify the **MYSQL_DIR** environment variable. Data inside the Docker containers which is created during runtime is deleted if the container is stopped mounting it locally will kepp this data persistent. Read more about Docker volumes [here](https://docs.docker.com/storage/volumes/).
+#### NGINX configuration
 
-### Important!
-
-1. The MySQL container will take some time to initialize the database. To follow the progress use the `docker logs <container-name> --follow` command. Sometimes it is necessary to restart the Flask app container as this requires connection to the MySQL database. Use the `docker restart <app-container-name>` command.
-2. When starting the project in development mode the entrypoint command for the web interface container is `tail -F uwsgi.ini`. This means that the Flask server must be started manually by using one of the following options: 
-	- starting the Flask app via `docker exec` from the host machine: `docker exec -it <container-name> python3 wsgi.py`
-	- overwrite the entrypoint command to run the Flask app at start up in the Dockerfile of the web-interface (This options makes it harder to debug the code as it will exit at every error.)
+The build compose files includes an NGINX container to route data to the Flask container. The *nginx* directory contains two configuration files for NGINX, one for development (*nginx.dev.conf*) of the app, which simply passes all HTTP requests to the Flask container and one intended for production (*nginx.conf*), which serves static content directly and routes other requests trough WSGI format to the FLask app.
 
 
-## Tips
 
-
-### Backup and restore the database
+## Backing up and restoring the database
 
 To perform backup of the database tables you may use the two scripts which can be found in the database container inside `/scripts` directory.
 
