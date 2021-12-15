@@ -96,3 +96,8 @@ Read more about extending docker-compose files [here](https://docs.docker.com/co
 #### NGINX configuration
 
 The build compose files includes an NGINX container to route data to the Flask container. The *nginx* directory contains two configuration files for NGINX, one for development (*nginx.dev.conf*) of the app, which simply passes all HTTP requests to the Flask container and one intended for production (*nginx.conf*), which serves static content directly and routes other requests trough WSGI format to the Flask app.
+
+
+## Getting started
+
+After setting up the platform visit the *Workflows* page for guidance on how use the application.
