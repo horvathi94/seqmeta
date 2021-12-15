@@ -5,6 +5,10 @@ A simple Python Flask application for editing and managing SARS-CoV-2 sequencing
 - repositories hosted by [ENA](https://www.ebi.ac.uk/ena/browser/home) 
 - SRA trough [NCBI](https://www.ncbi.nlm.nih.gov).
 
+## Requirements
+
+This project requires [Docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/).
+
 ## Setting up locally
 
 In the local environment only the Flask application and the database container are spinned up. This means that the Flask app container also handles the routing of HTTP traffic. This is not recommended for production.
