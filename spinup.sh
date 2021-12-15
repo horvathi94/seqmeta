@@ -69,7 +69,7 @@ case $mode in
 
 	down)
 		echo "Shutting down...";
-		docker-compose -env-file run.env down
+		docker-compose --env-file run.env -f docker-compose.build.prod.yaml -f docker-compose.build.dev.yaml down
 		;;
 
 	*)
