@@ -17,6 +17,20 @@ To run in a local environment run the *docker-compose.local.yaml* file with dock
 To modify this behaviour overwrite the entrypoint command to run the Flask app at startup. This can be done by editing the Dockerfile of the web-interface and uncommenting the following line: `CMD ["python3", "./wsgi.py"]`.
 
 
+## Environment variables
+
+The repo includes a basic configuration file with environment variables *run.env* with detailed explenation for all of them. A full list of all available environment variables:
+- **MYSQL_DATABASE** the name of the MySQL database
+- **MYSQL_USER** username for MySQL
+- **MYSQL_PASSWORD** a password for the MySQL user
+- **MYSQL_ROOT_PASSWORD** password for the root user.
+- **HOST_PORT** port on the host machine to which to bind the web application.
+- **MYSQL_DATABASE_DIR** the directory on the host machine where the database files is mounted. Use this environment variable for persistant data*.
+- **MYSQL_BACKUPS_DIR** the directory on the host machine where */backups* directory of the container is mounted. This directory holds files produced by the *backup.sh* script are stored.
+- **APP_SAMPLES_DIR** the directory on the host machine where the directory of the web interface container is mounted which holds uploaded sequence files.
+
+\*: Data inside the Docker containers which is created during runtime is deleted if the container is stopped. Mounting these volumes to the host machine means that they will be available even after the container is removed. Read more about Docker volumes [here](https://docs.docker.com/storage/volumes/).
+
 
 
 ## Running behind NGINX
@@ -55,20 +69,6 @@ Example for running in production mode:
 
 Read more about extending docker-compose files [here](https://docs.docker.com/compose/extends/)
 
-
-#### Environment variables
-
-The repo includes a basic configuration file with environment variables *run.env* with detailed explenation for all of them. A full list of all available environment variables:
-- **MYSQL_DATABASE** the name of the MySQL database
-- **MYSQL_USER** username for MySQL
-- **MYSQL_PASSWORD** a password for the MySQL user
-- **MYSQL_ROOT_PASSWORD** password for the root user.
-- **HOST_PORT** port on the host machine to which to bind the web application.
-- **MYSQL_DATABASE_DIR** the directory on the host machine where the database files is mounted. Use this environment variable for persistant data*.
-- **MYSQL_BACKUPS_DIR** the directory on the host machine where */backups* directory of the container is mounted. This directory holds files produced by the *backup.sh* script are stored.
-- **APP_SAMPLES_DIR** the directory on the host machine where the directory of the web interface container is mounted which holds uploaded sequence files.
-
-\*: Data inside the Docker containers which is created during runtime is deleted if the container is stopped. Mounting these volumes to the host machine means that they will be available even after the container is removed. Read more about Docker volumes [here](https://docs.docker.com/storage/volumes/).
 
 
 #### NGINX configuration
