@@ -50,7 +50,12 @@ Environment variables:
 
 To locally mount the MySQL database volume uncomment line number 51 from the compose file and specify the **MYSQL_DIR** environment variable. Data inside the Docker containers which is created during runtime is deleted if the container is stopped mounting it locally will kepp this data persistent. Read more about Docker volumes [here](https://docs.docker.com/storage/volumes/).
 
+### Important!
 
+1. The MySQL container will take some time to initialize the database. To follow the progress use the `docker logs <container-name> --follow` command. Sometimes it is necessary to restart the Flask app container as this requires connection to the MySQL database. Use the `docker restart <app-container-name>` command.
+2. When starting the project in development mode the entrypoint command for the web interface container is `tail -F uwsgi.ini`. This means that the Flask server must be started manually by using one of the following options: 
+	- starting the Flask app via `docker exec` from the host machine: `docker exec -it <container-name> python3 wsgi.py`
+	- overwrite the entrypoint command to run the Flask app at start up in the Dockerfile of the web-interface (This options makes it harder to debug the code as it will exit at every error.)
 
 
 ## Tips
