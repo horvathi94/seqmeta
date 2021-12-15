@@ -33,6 +33,22 @@ The repo includes a basic configuration file with environment variables *run.env
 
 
 
+## Backing up and restoring the database
+
+To perform backup of the database tables you may use the two scripts which can be found in the database container inside `/scripts` directory.
+
+The `backup.sh` script performs a `mysqldump` on some of the tables inside the database, the selection of the tables is performed usisng the `--data` option. The *sql* files are saved in the `/backups` directory, which can be mounted to your local machine. For more details please check the help menu:
+
+
+`docker exec -it <container-name> /scripts/backup.sh --help`
+
+
+The `restore.sh` script can be used to restore data saved from the *SQL* files created by the `backup.sh` script. The *SQL* files must be located in the `/backups` directory of the container. To see more options about the usage of the scrpt please see the help menu:
+
+
+`docker exec -it <container-name> /scripts/restore.sh --help`
+
+
 ## Running behind NGINX
 
 There are two modes to run the application in this setup: *development* and *production*.
@@ -74,21 +90,3 @@ Read more about extending docker-compose files [here](https://docs.docker.com/co
 #### NGINX configuration
 
 The build compose files includes an NGINX container to route data to the Flask container. The *nginx* directory contains two configuration files for NGINX, one for development (*nginx.dev.conf*) of the app, which simply passes all HTTP requests to the Flask container and one intended for production (*nginx.conf*), which serves static content directly and routes other requests trough WSGI format to the FLask app.
-
-
-
-## Backing up and restoring the database
-
-To perform backup of the database tables you may use the two scripts which can be found in the database container inside `/scripts` directory.
-
-The `backup.sh` script performs a `mysqldump` on some of the tables inside the database, the selection of the tables is performed usisng the `--data` option. The *sql* files are saved in the `/backups` directory, which can be mounted to your local machine. For more details please check the help menu:
-
-
-`docker exec -it <container-name> /scripts/backup.sh --help`
-
-
-The `restore.sh` script can be used to restore data saved from the *SQL* files created by the `backup.sh` script. The *SQL* files must be located in the `/backups` directory of the container. To see more options about the usage of the scrpt please see the help menu:
-
-
-`docker exec -it <container-name> /scripts/restore.sh --help`
-
