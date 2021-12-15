@@ -3,7 +3,7 @@ data/uploads/samples/*
 data/backups/*
 data/mysql
 
-
+./docker-compose.tester.yaml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

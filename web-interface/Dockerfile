@@ -1,5 +1,5 @@
 FROM python:3.6 AS development
-MAINTAINER horvathi94 
+MAINTAINER horvathi
 
 WORKDIR /temp
 COPY ./requirements/development.txt dev-requirements.txt
@@ -12,8 +12,9 @@ RUN mkdir -p /uploads/samples/assemblies \
 EXPOSE 5000
 
 WORKDIR /app
-CMD ["tail", "-f", "/etc/passwd"]
+CMD ["tail", "-f", "/app/uwsgi.ini"]
 
+# Uncomment this line to run the app on container startup in development mode.
 #CMD ["python3", "./wsgi.py"]
 
 
@@ -22,8 +23,6 @@ FROM development AS production
 COPY ./requirements/production.txt prod-requirements.txt
 RUN pip3 install --no-cache-dir -r prod-requirements.txt
 
-
-RUN pip3 install gunicorn[gevent]
 
 
 WORKDIR /app
