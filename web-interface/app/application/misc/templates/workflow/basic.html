@@ -1,4 +1,4 @@
-<h1>Basic</h1>
+<h1>Basics</h1>
 
 <p>This application is designed to manage sequencing metadata and format it for
 upload to GISAID, ENA and NCBI databases.</p>
@@ -44,23 +44,23 @@ upload to GISAID, ENA and NCBI databases.</p>
 		<a href="{{ url_for('misc_bp.edit') }}">
 			Edit virusname and isolate name,
 		</a>
-		if you haven't already edited the virsuname (required GISAID) and the 
-		isolate name (required by ENA and NCBI) please do so. These values are
+		if you haven't already edited the virusname (required by GISAID) and the 
+		isolate name (required by ENA and NCBI), please do so. These values are
 		meant to speed up your editing, by programatically generating the virus and
 		isolate names for the samples.
 	</li>
 
 	<p><strong> You are now ready to add your first samples! </strong></p>
 
-	<p><em>Note: When adding or editing samples be carefull to complete all fields that are 
+	<p><em>Note: When adding or editing samples be careful to complete all fields that are 
 	required for the desired submission. The requirement levels are represented
 	with superscript markers.</em></p>
 
 	<p>
-	After you are finished with adding the samples, select the samples wich 
+	After you are finished with adding the samples, select the samples
 	you wish to upload and select the button, which represents the upload server
 	and download the zip file, which contains all the files needed to submit the 
-	samples. The upload workflow of these files are described in more detail on
+	samples. The upload workflows of these files are described in more detail on
 	these pages:
 	<ul>
 		<li><a href="{{ url_for('misc_bp.workflow_gisaid') }}">GISAID</a></li>
@@ -70,7 +70,7 @@ upload to GISAID, ENA and NCBI databases.</p>
 	</p>
 
 
-<h3>Usefull links:</h3>
+<h3>Useful links:</h3>
 	
 <ul>
 	<li>
@@ -80,7 +80,7 @@ upload to GISAID, ENA and NCBI databases.</p>
 		A <a href="https://github.com/alakob/Metagen-FastQC-Docker">containerized version</a> of the Metagen-FastQC program to clean the human identifiable reads from the raw reads.
 	</li>
 	<li>
-		<a href="https://www.nextflow.io/">Nextflow</a>, this is needed if you wish to use the nf-core/viralrecon pipeline to assemble the reads and use the variant calling. Requires Docker or another containerization technology (e.g. Singularity)
+		<a href="https://www.nextflow.io/">Nextflow</a>, this is needed if you wish to use the nf-core/viralrecon pipeline to assemble the reads and use variant calling. Requires Docker or another containerization technology (e.g. Singularity)
 	</li>
 	<li>
 		<a href="https://nf-co.re/viralrecon/2.1">nf-core/viralrecon 2.1</a>, a pipeline designed to do the variant calling and assembly of SARS-CoV-2 sequencing data.
