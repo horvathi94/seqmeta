@@ -7,27 +7,27 @@ A simple Python Flask application for editing and managing SARS-CoV-2 sequencing
 
 ## Setting up locally
 
-In the local environment only the Flask application and the database container are spined up. This means that the Flask app container also handles the routing of HTTP traffic. This is not recommended for production.
+In the local environment only the Flask application and the database container are spinned up. This means that the Flask app container also handles the routing of HTTP traffic. This is not recommended for production.
 
 To run in a local environment run the *docker-compose.local.yaml* file with docker-compose: `docker-compose --env-file run.env --file docker-compose.local.yaml up -d`.
 
 
 ## Important!
 
-1. The MySQL container will take some time to initialize the database. To follow the progress use the `docker logs <container-name> --follow` command. All tables of the database must be initialized when this process is finished the following message is displayed: *MySQL init process done. Ready for start up.*. Sometimes it is necessary to restart the Flask app container as this requires connection to the fully initialized MySQL database. For this you can use the `docker restart <app-container-name>` command.
+1. The MySQL container will take some time to initialize the database. To follow the progress use the `docker logs <container-name> --follow` command. All tables of the database must be initialized when this process is finished and the following message is displayed: *MySQL init process done. Ready for start up.*. Sometimes it is necessary to restart the Flask app container as this requires connection to the fully initialized MySQL database. For this you can use the `docker restart <app-container-name>` command.
 2. When starting the project locally or in development mode the entrypoint command for the web interface container is `tail -F uwsgi.ini`. This means that the Flask server must be started manually via the `docker exec` command from the host machine: `docker exec -it <container-name> python3 wsgi.py`
 To modify this behaviour overwrite the entrypoint command to run the Flask app at startup. This can be done by editing the Dockerfile of the web-interface and uncommenting the following line: `CMD ["python3", "./wsgi.py"]`.
 
 
 ## Environment variables
 
-The repo includes a basic configuration file with environment variables *run.env* with detailed explenation for all of them. A full list of all available environment variables:
+The repo includes a basic configuration file with environment variables *run.env* with detailed explanation for all of them. A full list of all available environment variables:
 - **MYSQL_DATABASE** the name of the MySQL database
 - **MYSQL_USER** username for MySQL
 - **MYSQL_PASSWORD** a password for the MySQL user
-- **MYSQL_ROOT_PASSWORD** password for the root user.
-- **HOST_PORT** port on the host machine to which to bind the web application.
-- **MYSQL_DATABASE_DIR** the directory on the host machine where the database files is mounted. Use this environment variable for persistant data*.
+- **MYSQL_ROOT_PASSWORD** password for the root user
+- **HOST_PORT** port on the host machine to which to bind the web application
+- **MYSQL_DATABASE_DIR** the directory on the host machine where the database files is mounted. Use this environment variable for persistent data*.
 - **MYSQL_BACKUPS_DIR** the directory on the host machine where */backups* directory of the container is mounted. This directory holds files produced by the *backup.sh* script are stored.
 - **APP_SAMPLES_DIR** the directory on the host machine where the directory of the web interface container is mounted which holds uploaded sequence files.
 
@@ -37,7 +37,7 @@ The repo includes a basic configuration file with environment variables *run.env
 
 ## Backing up and restoring the database
 
-To perform backup of the database tables you may use the two scripts which can be found in the database container inside `/scripts` directory.
+To perform backup of the database tables you may use the two scripts which can be found in the database container inside the `/scripts` directory.
 
 The `backup.sh` script performs a `mysqldump` on some of the tables inside the database, the selection of the tables is performed usisng the `--data` option. The *sql* files are saved in the `/backups` directory, which can be mounted to your local machine. For more details please check the help menu:
 
@@ -45,7 +45,7 @@ The `backup.sh` script performs a `mysqldump` on some of the tables inside the d
 `docker exec -it <container-name> /scripts/backup.sh --help`
 
 
-The `restore.sh` script can be used to restore data saved from the *SQL* files created by the `backup.sh` script. The *SQL* files must be located in the `/backups` directory of the container. To see more options about the usage of the scrpt please see the help menu:
+The `restore.sh` script can be used to restore data saved from the *SQL* files created by the `backup.sh` script. The *SQL* files must be located in the `/backups` directory of the container. To see more options about the usage of the script please see the help menu:
 
 
 `docker exec -it <container-name> /scripts/restore.sh --help`
@@ -91,4 +91,4 @@ Read more about extending docker-compose files [here](https://docs.docker.com/co
 
 #### NGINX configuration
 
-The build compose files includes an NGINX container to route data to the Flask container. The *nginx* directory contains two configuration files for NGINX, one for development (*nginx.dev.conf*) of the app, which simply passes all HTTP requests to the Flask container and one intended for production (*nginx.conf*), which serves static content directly and routes other requests trough WSGI format to the FLask app.
+The build compose files includes an NGINX container to route data to the Flask container. The *nginx* directory contains two configuration files for NGINX, one for development (*nginx.dev.conf*) of the app, which simply passes all HTTP requests to the Flask container and one intended for production (*nginx.conf*), which serves static content directly and routes other requests trough WSGI format to the Flask app.
