@@ -45,6 +45,7 @@ services:
 
 
     volumes:
+      - ./web-interface/app:/app
       - ${APP_SAMPLES_DIR:?Specify directory}:/uploads/samples
 
     networks:

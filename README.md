@@ -3,6 +3,11 @@
 A simple Python Flask application for editing and managing SARS-CoV-2 sequencing metadata and data. The goal of the project is to users to format metadata for upload to EpiCov from [GISAID](https://www.gisaid.org/), [ENA](https://www.ebi.ac.uk/ena/browser/home) and [NCBI](https://www.ncbi.nlm.nih.gov) databases.
 
 
+## Running locally
+
+To run in a local environment (without NGINX) use the *docker-compose.local.yaml* file with docker-compose: `docker-compose --env-file run.env --file docker-compose.local.yaml up -d`. This will deploy the apploication without NGINX server, thus the HTTP requests go directly to the Flask app. Do not use this in production environment.
+
+
 ## Howto run
 
 There are two modes to run the application: *development* and *production*.
