@@ -64,11 +64,11 @@ The repo includes a basic configuration file with environment variables *run.env
 - **MYSQL_PASSWORD** a password for the MySQL user
 - **MYSQL_ROOT_PASSWORD** password for the root user.
 - **HOST_PORT** port on the host machine to which to bind the web application.
-- **MYSQL_DATABASE_DIR** the directory on the host machine where the database files is mounted. Use this environment variable for persistant data [1].
+- **MYSQL_DATABASE_DIR** the directory on the host machine where the database files is mounted. Use this environment variable for persistant data*.
 - **MYSQL_BACKUPS_DIR** the directory on the host machine where */backups* directory of the container is mounted. This directory holds files produced by the *backup.sh* script are stored.
 - **APP_SAMPLES_DIR** the directory on the host machine where the directory of the web interface container is mounted which holds uploaded sequence files.
 
-[1]: Data inside the Docker containers which is created during runtime is deleted if the container is stopped. Mounting these volumes to the host machine means that they will be available even after the container is removed. Read more about Docker volumes [here](https://docs.docker.com/storage/volumes/).
+\*: Data inside the Docker containers which is created during runtime is deleted if the container is stopped. Mounting these volumes to the host machine means that they will be available even after the container is removed. Read more about Docker volumes [here](https://docs.docker.com/storage/volumes/).
 
 
 #### NGINX configuration
