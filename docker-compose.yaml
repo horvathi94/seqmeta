@@ -65,7 +65,6 @@ services:
     volumes:
       - ${MYSQL_BACKUPS_DIR:?Specify directory}:/backups
       - ${MYSQL_DATABASE_DIR:?Sepcify directory}:/var/lib/mysql
-      - ./database/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
     networks:
       - seqmeta-database
