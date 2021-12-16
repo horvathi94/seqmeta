@@ -1,5 +1,7 @@
 # SeqMeta
 
+[![DOI](https://zenodo.org/badge/365723934.svg)](https://zenodo.org/badge/latestdoi/365723934)
+
 A simple Python Flask application for editing and managing SARS-CoV-2 sequencing metadata and data. The goal of the project is to help users with the upload of SARS-CoV-2 sequencing data the following repositories: 
 - EpiCov from [GISAID](https://www.gisaid.org/)
 - repositories hosted by [ENA](https://www.ebi.ac.uk/ena/browser/home) 
