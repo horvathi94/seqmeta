@@ -59,13 +59,13 @@ following files:
 
 <p>
 To perform this task you can use FTP clients or Webin-CLI from the command line <a href="https://ena-docs.readthedocs.io/en/latest/submit/general-guide.html">a general guide on data submission</a>). The ENA documentation on uploading SARS-CoV-2 data recommands the use of the Webin-CLI.
-Here we present the use of containerized version of the Webin-CLI this is much easier to manage than the Java client if you have Docker installed just be sure to keep your Docker image updated.
+Here we present the use of a containerized version of the Webin-CLI as this is much easier to manage than the Java client if you have Docker installed. Just be sure to keep your Docker image updated.
 </p>
 
 
 <p>
 <a href="https://docs.docker.com/get-docker/">Install docker</a> if you haven't already.
-	Use the following command to get the docker image for the webin-cli: 
+	Use the following command to get the Docker image for the webin-cli: 
 </p>
 <code>
 	docker pull enasequence/webin-cli
@@ -97,13 +97,13 @@ Here we present the use of containerized version of the Webin-CLI this is much e
 	<li><code>-userName</code> the Webin submission account name.</li>
 	<li><code>-password</code> the Webin submission acccount password.</li>
 	<li><code>-manifest</code> the manifest file name.</li>
-	<li><code>-inputDir</code> input directory for files delcared in the manifest file. If you are using the Docker version, you need to specify the directory inside the container to where you mounted the files (this would be <em>/data</em> directory if you have not made any changes to the command for running docker).</li>
+	<li><code>-inputDir</code> input directory for files declared in the manifest file. If you are using the Docker version, you need to specify the directory inside the container to where you mounted the files (this would be <em>/data</em> directory if you have not made any changes to the command for running docker).</li>
 	<li><code>-validate</code> validates the files defined in the manifest file.</li>
 	<li><code>-submit</code> validates and submits the files defined in the manifest file.</li>
 	<li><code>-test</code> use Webin test service instead of the production service. Please note that the Webin upload area is shared between test and production services, and that test submission files will not be archived.</li>
 </ul>
 
-<p>For a more detailed list of all available Webin-CLI options check out the <a href="https://ena-docs.readthedocs.io/en/latest/submit/general-guide/webin-cli.html">documentation</a>. Or use the <code>-help</code> option to display a help screen.</p>
+<p>For a more detailed list of all available Webin-CLI options check out the <a href="https://ena-docs.readthedocs.io/en/latest/submit/general-guide/webin-cli.html">documentation</a>, or use the <code>-help</code> option to display a help screen.</p>
 
 
 <a href="{{ url_for('misc_bp.workflow_basic') }}">Back</a>
