@@ -12,7 +12,8 @@ class MultiEditor(EditorBase):
     styles = [{"filename": "add-multiple.css", "prefix": "samples"},
               {"filename": "markers.css"},
               {"filename": "tooltips.css"},
-              {"filename": "info.css"}]
+              {"filename": "info.css"},
+              {"filename": "marker-legend.css"}]
     scripts = [{"filename": "edit-multiple.js", "prefix": "samples"},
                {"filename": "validate-samples.js", "prefix": "samples"},
                {"filename": "import-data.js", "prefix": "samples"}]

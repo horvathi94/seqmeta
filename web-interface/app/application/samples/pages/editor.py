@@ -7,7 +7,8 @@ from application.src.fields.sample_fields import SampleFields
 class Editor(EditorBase):
 
     styles = [{"filename": "edit.css", "prefix": "samples"},
-              {"filename": "markers.css"}]
+              {"filename": "markers.css"},
+              {"filename": "marker-legend.css"}]
     scripts = [{"filename": "validate-sample-name.js", "prefix": "samples"},
                {"filename": "edit-sample.js", "prefix": "samples"}]
 

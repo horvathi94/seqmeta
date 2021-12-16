@@ -1,4 +1,13 @@
 {% from "macros/markers.j2" import marker %}
-<div class="legend">
-	{{ marker("Test", requirement="mandatory") }}
+<div class="marker-legend-exp">
+	<dl>
+		<dt>Field name{{ marker("legend", requirement="mandatory") }}</dt>
+		<dd>Mandatory field for the <em>repo</em> repository.</dd>
+
+		<dt>Field name{{ marker("legend", requirement="recommended") }}</dt>
+		<dd>Recommended field for the <em>repo</em> repository.</dd>
+
+		<dt>Field name{{ marker("legend", requirement="optional") }}</dt>
+		<dd>Optional field for the <em>repo</em> repository.</dd>
+	</dl>
 </div>

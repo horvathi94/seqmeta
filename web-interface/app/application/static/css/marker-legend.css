@@ -1,6 +1,11 @@
-.info {
+.marker-legend-exp {
 	border: 2px solid var(--light-green);
 	border-radius: 5px;
 	padding: 1em 2em;
 	max-width: max-content;
+	margin-bottom: 0.5em;
+}
+
+.marker-legend-exp dt{
+	font-weight: bold;
 }

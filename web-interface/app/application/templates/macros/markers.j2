@@ -6,6 +6,8 @@
 		{% set label = 'ENA' %}
 	{% elif db == 'ncbi' %}
 		{% set label = 'NCBI' %}
+	{% elif db == 'legend' %}
+		{% set label = 'repo' %}
 	{% endif %}
 
 	<span class="mark {{ db }} {{ requirement }}"><sup>{{ label }}</sup></span>
