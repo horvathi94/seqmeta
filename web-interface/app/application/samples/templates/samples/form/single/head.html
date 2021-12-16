@@ -1,5 +1,7 @@
 <h1>Add/edit sample</h1>
 
+{% include("samples/form/marker_legend.j2") %}
+
 <form action="{{ url_for('samples_bp.submit') }}" method="POST" enctype="multipart/form-data">
 
 	<input type="hidden" name="sample+sample_id" value="{{ sample_id }}" />
