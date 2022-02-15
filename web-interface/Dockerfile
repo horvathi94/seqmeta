@@ -1,39 +1,29 @@
-FROM python:3.6 AS development
-MAINTAINER horvathi
+FROM python:3.10 AS development
 
-WORKDIR /temp
-COPY ./requirements/development.txt dev-requirements.txt
-RUN pip3 install --no-cache-dir -r dev-requirements.txt
+# Create seqmeta user and group
+RUN groupadd seqmeta \
+	&& useradd --shell /bin/bash --create-home --gid seqmeta seqmeta
+USER seqmeta 
 
-RUN mkdir -p /uploads/samples/assemblies \ 
-	& mkdir -p /uploads/samples/reads
+# Install required python packages
+COPY ./requirements/development.txt /tmp/dev-reqs.txt
+RUN pip3 install --no-cache-dir -r /tmp/dev-reqs.txt --user 
 
 
+# Create upload directories
+RUN mkdir -p /home/seqmeta/uploads/samples/assemblies \
+	&& mkdir -p /home/seqmeta/uploads/samples/reads
+
+
+# Expose port for access
 EXPOSE 5000
 
-WORKDIR /app
-CMD ["tail", "-f", "/app/uwsgi.ini"]
-
-# Uncomment this line to run the app on container startup in development mode.
-#CMD ["python3", "./wsgi.py"]
+ENV PYTHONPATH "${PYTHONPATH}:/opt/seqmeta"
 
 
-FROM development AS production
-
-COPY ./requirements/production.txt prod-requirements.txt
-RUN pip3 install --no-cache-dir -r prod-requirements.txt
+# Switch to work directory
+WORKDIR /home/seqmeta/app
 
 
-
-WORKDIR /app
-COPY ./app /app
-
-RUN groupadd --gid 5000 pyman \
-	&& useradd --uid 5000 --gid 5000 --shell /bin/bash pyman \
-	&& chown -R pyman:pyman /temp
-
-USER pyman
-EXPOSE 5000
-
-
-CMD ["uwsgi", "uwsgi.ini"]
+# Run a command on container spinup
+CMD ["tail","-f", "/etc/hosts"]
