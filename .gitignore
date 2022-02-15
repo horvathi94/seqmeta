@@ -1,8 +1,15 @@
+# Local data:
 data/temp/*
 data/uploads/samples/*
 data/backups/*
 data/mysql
+
+# Gulp:
 dev/
+package-lock.json
+package.json
+gulpfile.js
+
 
 ./docker-compose.tester.yaml
 
