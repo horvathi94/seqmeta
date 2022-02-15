@@ -7,12 +7,14 @@ from typing import List
 class Page:
 
     title: str = "Page title"
-    styles: List[str] = field(default_factory=lambda: [])
+    styles: List[str] = field(default_factory=lambda: ["main.css"])
     scripts: List[str] = field(default_factory=lambda: [])
 
 
     def render_head(self) -> "html":
-        return render_template("head.html", title=self.title)
+        return render_template("head.html",
+                               title=self.title,
+                               styles=self.styles)
 
 
     def render_content(self) -> "html":

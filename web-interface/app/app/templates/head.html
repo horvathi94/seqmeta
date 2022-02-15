@@ -6,6 +6,11 @@
 	<link rel="shortcut icon" href="{{ url_for("index_bp.favicon") }}" type="image/x-icon">
 	<title>{{ title }}</title>
 
+	{% for ss in styles %}
+		{% set cssf = "css/" + ss %}
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename=cssf) }}">
+	{% endfor %}
+
 {#
 	{% include("page/frame/utils/fonts.j2") %}
 	{% include("page/frame/utils/register_styles.j2") %}

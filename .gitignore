@@ -9,6 +9,7 @@ dev/
 package-lock.json
 package.json
 gulpfile.js
+node_modules
 
 
 ./docker-compose.tester.yaml

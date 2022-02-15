@@ -9,5 +9,7 @@ def create_app() -> None:
         from .index import routes as index
         app.register_blueprint(index.index_bp)
 
+        from .authors import routes as authors
+        app.register_blueprint(authors.authors_bp)
 
     return app

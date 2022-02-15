@@ -6,6 +6,9 @@ const rename = require("gulp-rename");
 const uglify = require("gulp-uglify");
 
 
+static_dir = "web-interface/app/app/static/";
+
+
 gulp.task("styles", function(){
 
 	return gulp.src("./dev/scss/*scss")
@@ -13,7 +16,7 @@ gulp.task("styles", function(){
 		.pipe(autoprefixer())
 		.pipe(cssmin())
 		.pipe(rename({sufix: ".min"}))
-		.pipe( gulp.dest("app/app/static/css") );
+		.pipe( gulp.dest(static_dir+"css") );
 
 });
 
