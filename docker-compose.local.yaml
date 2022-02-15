@@ -28,7 +28,7 @@ services:
 
     volumes:
       - ./web-interface/app:/home/seqmeta/app
-      - ./web-interface/src:/opt/seqmeta/src
+      - ./web-interface/src:/opt/seqmeta/seqmeta
       - ${APP_SAMPLES_DIR:?Specify directory}:/home/seqmeta/uploads/samples
 
     networks:

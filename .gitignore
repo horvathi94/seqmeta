@@ -2,6 +2,7 @@ data/temp/*
 data/uploads/samples/*
 data/backups/*
 data/mysql
+dev/
 
 ./docker-compose.tester.yaml
 
