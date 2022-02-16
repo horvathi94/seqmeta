@@ -1,0 +1,26 @@
+<h1>Authors</h1>
+
+{% if authors|length == 0 %}
+	<p>No authors registred, click <a href="{{ url_for('authors_bp.edit', aid='0') }}">here</a> to add a new one.</p>
+{% else %}
+
+	<table>
+		<tr>
+			<th>First name</th>
+			<th>Middle name</th>
+			<th>Last name</th>
+			<th>Edit</th>
+		</tr>
+		{% for author in authors %}
+			<tr>
+				<td>{{ author.first_name }}</td>
+				<td>{{ "" if author.middle_name is none else author.middle_name }}</td>
+				<td>{{ author.last_name }}</td>
+				<td>
+					<input type="button" onclick="location.href='{{ url_for('authors_bp.edit', aid=author.id) }}'" value="Edit">
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
+{% endif %}
+

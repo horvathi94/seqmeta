@@ -1,0 +1,9 @@
+{% from "fields/text.j2" import text_field %}
+
+{% macro switch(input_field) %}
+	{% if input_field.type == "text" %}
+		{{ text_field(input_field) }}
+	{% else %}
+		<p>Not recognized</p>
+	{% endif %}
+{% endmacro %}

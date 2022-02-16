@@ -50,7 +50,7 @@ services:
 
     volumes:
       - ${MYSQL_BACKUPS_DIR:?Specify directory}:/backups
-      - ${MYSQL_DATABASE_DIR:?Sepcify directory}:/var/lib/mysql
+        #      - ${MYSQL_DATABASE_DIR:?Sepcify directory}:/var/lib/mysql
 
     networks:
       - seqmeta-database

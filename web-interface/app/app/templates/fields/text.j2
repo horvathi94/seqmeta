@@ -1,0 +1,12 @@
+{% macro text_field(input_field) %}
+
+<div class="seqmeta field">
+	<label for="{{ input_field.name }}">{{ input_field.label }}</label>
+	<input type="text" name="{{ input_field.name }}"
+			{{ "minlength='"+input_field.minval|string+"'" if input_field.minval is not none else "" }}			
+			{{ "maxlength='"+input_field.maxval|string+"'" if input_field.maxval is not none else "" }}
+			value="{{ input_field.value }}"
+	/>
+</div>
+
+{% endmacro %}
