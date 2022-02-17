@@ -1,0 +1,41 @@
+{% from "fields/switch.j2" import switch %}
+
+{% if group_id == 0 %}
+<h1>Add author group</h1>
+{% else %}
+<h1>Edit author group</h1>
+{% endif %}
+
+<form action="{{ url_for('authors_bp.save_group', gid=group_id) }}" method="POST">
+	{% for inpf in form_fields %}
+		{{ switch(inpf) }}
+	{% endfor %}
+
+	<input type="button" onclick="addNewRowTable('authors-editor');" value="Add">
+	<table id="authors-editor">
+		<tr>
+			<th>Order</th>
+			<th>Name</th>
+		</tr>
+
+		<tr id="editor-template">
+			<td><input type="number" name="author+0+order" class="author order" min="0" value="0"></td>
+			<td>
+				<select name="author+0+id" class="author id">
+				{% for author in authors_list %}
+					<option value="{{ author.id}}">{{ author.full_name }}</option>
+				{% endfor %}
+			</td>
+		</tr>
+
+		{% for a in group %}
+			<tr>
+				<td><input type="number" name="author+{{ loop.index }}+order" class="author order" value="{{ a.order }}"></td>
+				<td><input type="hidden" name="author+{{ loop.index }}+id" class="author id" value="{{ a.author.id }}">{{ a.nametag }}</td>
+			</tr>
+		{% endfor %}
+
+	</table>
+
+	<input type="submit" value="Save">
+</form>

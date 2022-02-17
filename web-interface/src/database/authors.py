@@ -4,29 +4,29 @@ from seqmeta.database.connect import Connect
 from seqmeta.objects.author import Author
 
 
-import sys
-
 class AuthorsTable:
 
 
-    def __init__(self):
-        self.conn = Connect()
-
-
-    def get_authors(self) -> List[Author]:
+    @staticmethod
+    def select_all() -> List[Author]:
+        conn = Connect()
         query = "SELECT * FROM authors"
-        raw = self.conn.fetchall(query)
+        raw = conn.fetchall(query)
         if len(raw) == 0: return []
         return [Author(**item) for item in raw]
 
 
-    def select_author(self, id_: int) -> Author:
+    @staticmethod
+    def select(id_: int) -> Author:
+        conn = Connect()
         query = f"SELECT * FROM `authors` WHERE id = {id_}"
-        data = self.conn.fetchone(query)
+        data = conn.fetchone(query)
         return Author(**data)
 
 
-    def save(self, author: Author) -> int:
+    @staticmethod
+    def save(author: Author) -> None:
+        conn = Connect()
         if author.id == 0:
             sql = """INSERT INTO `authors`
                    (first_name, last_name, middle_name)
@@ -37,4 +37,4 @@ class AuthorsTable:
                     `middle_name` = %(middle_name)s,
                     `last_name` = %(last_name)s
                 WHERE `id` = {author.id}"""
-        self.conn.execute_sql(sql, asdict(author))
+        conn.execute_sql(sql, asdict(author))

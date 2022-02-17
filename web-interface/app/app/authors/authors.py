@@ -8,15 +8,9 @@ from seqmeta.objects.author import Author
 @dataclass
 class View(Page):
 
-
-    def list_authors(self) -> list:
-        at = AuthorsTable()
-        return at.get_authors()
-
-
     def render_content(self) -> "html":
         return render_template("authors/view.html",
-                               authors=self.list_authors())
+                               authors=AuthorsTable.select_all())
 
 
 
@@ -31,10 +25,9 @@ class Edit(Page):
         self.author_id = int(self.author_id)
 
 
-    def get_author(self):
+    def get_author(self) -> Author:
         if self.author_id == 0: return Author()
-        at = AuthorsTable()
-        return at.select_author(self.author_id)
+        return AuthorsTable.select(self.author_id)
 
 
     def render_content(self) -> "html":

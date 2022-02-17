@@ -22,5 +22,6 @@
 			</tr>
 		{% endfor %}
 	</table>
+	<input type="button" onclick="location.href='{{ url_for('authors_bp.edit', aid='0') }}'" value="Add new"/>
 {% endif %}
 

@@ -1,0 +1,22 @@
+<h1>Author groups</h1>
+
+{% if groups|length == 0 %}
+	<p>No groups defined, click <a href="{{ url_for('authors_bp.edit_group', gid='0') }}">here</a> to add a new one.</p>
+{% else %}
+	{% for group in groups %}
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Members count</th>
+				<th>Members</th>
+				<th>Edit</th>
+			</tr>
+			<tr>
+				<td>{{ group.name }}</td>
+				<td>{{ group.members_count }}</td>
+				<td>{{ group.display_members }}</td>
+				<td><input type="button" onclick="location.href='{{ url_for('authors_bp.edit_group', gid=group.id) }}'" value="Edit"></td>
+			</tr>
+		</table>
+	{% endfor %}
+{% endif %}

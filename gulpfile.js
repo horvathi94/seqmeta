@@ -23,9 +23,9 @@ gulp.task("styles", function(){
 
 gulp.task("js", function(){
 	
-	return gulp.src("./dev/assets/js/*.js")
+	return gulp.src("./dev/js/*.js")
 		.pipe(uglify())
-		.pipe(gulp.dest("app/application/static/js"));
+		.pipe(gulp.dest(static_dir+"js"));
 
 });
 
@@ -36,7 +36,7 @@ gulp.task("watch:styles", function () {
 
 
 gulp.task("watch:js", function() {
-	return gulp.watch("./dev/assets/js/*.js", gulp.series("js"));
+	return gulp.watch("./dev/js/*.js", gulp.series("js"));
 });
 
 

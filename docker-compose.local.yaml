@@ -37,9 +37,10 @@ services:
 
   database:
 
-    build:
-      context: ./database
-      dockerfile: Dockerfile
+    #    build:
+    #  context: ./database
+    #  dockerfile: Dockerfile
+    image: mysql:8.0
 
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE:-sequencing_data}
@@ -49,6 +50,7 @@ services:
 
 
     volumes:
+      - ./database/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
       - ${MYSQL_BACKUPS_DIR:?Specify directory}:/backups
         #      - ${MYSQL_DATABASE_DIR:?Sepcify directory}:/var/lib/mysql
 

@@ -18,6 +18,15 @@ class Author:
 
 
     @property
+    def full_name(self) -> str:
+        full_name = self.first_name + " "
+        if self.middle_name is not None:
+            full_name+= self.middle_name[0] + ". "
+        full_name+= self.last_name
+        return full_name
+
+
+    @property
     def first_name_field(self) -> Field:
         return Field(input_type=FieldType.TEXT,
                      name="first_name",

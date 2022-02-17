@@ -35,11 +35,15 @@ class Connect:
         del self.connection
 
 
-    def execute_sql(self, sql: str, values: any, commit: bool=True) -> None:
+    def execute_sql(self, sql: str, values: any,
+                    commit: bool=True,
+                    last_insert: bool=False) -> int:
         self.connect()
         self.cursor.execute(sql, values)
         if commit: self.connection.commit()
+        ret = self.cursor.lastrowid if last_insert else None
         self.close()
+        return ret
 
 
     def fetchall(self, sql: str) -> List[dict]:

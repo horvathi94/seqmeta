@@ -22,7 +22,8 @@ class Page:
 
 
     def render_end(self) -> "html":
-        return render_template("end.html")
+        return render_template("end.html",
+                               scripts=self.scripts)
 
 
     def render(self) -> "html":
