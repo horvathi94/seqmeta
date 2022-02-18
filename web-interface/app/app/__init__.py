@@ -12,4 +12,7 @@ def create_app() -> None:
         from .authors import routes as authors
         app.register_blueprint(authors.authors_bp)
 
+        from .samples import routes as samples
+        app.register_blueprint(samples.samples_bp)
+
     return app

@@ -1,4 +1,4 @@
-from flask import Blueprint, request, redirect, url_for, jsonify
+from flask import Blueprint, request, redirect, url_for
 from .authors import View as ViewAuthors, Edit as EditAuthors
 from .groups import View as ViewGroups, Edit as EditGroups
 from seqmeta.objects.author import Author
@@ -10,7 +10,6 @@ from seqmeta.database.groups import GroupsTable
 authors_bp = Blueprint("authors_bp", __name__, template_folder="templates")
 
 # ------ Authors
-
 @authors_bp.route("/authors")
 @authors_bp.route("/authors/view")
 def view():
@@ -54,4 +53,4 @@ def save_group(gid: int):
     data["id"] = int(gid)
     group = Group.create_from_form(data)
     GroupsTable.save(group)
-    return jsonify(data)
+    return redirect(url_for("authors_bp.view_groups"))
