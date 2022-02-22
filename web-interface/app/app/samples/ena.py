@@ -8,6 +8,7 @@ class Ena(Page):
 
     def __post_init__(self):
         self.scripts.append("ena.js")
+        self.styles.append("ena.css")
 
 
     def render_content(self) -> "html":

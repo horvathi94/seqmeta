@@ -16,3 +16,11 @@ def view():
 def ena():
     page = Ena()
     return page.render()
+
+
+
+
+@samples_bp.route("/templates/submit", methods=["POST"])
+def submit_template():
+    from flask import jsonify, request
+    return jsonify(request.form)

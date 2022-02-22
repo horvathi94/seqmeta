@@ -7,5 +7,6 @@
 <dl id="ena-checklist-info"></dl>
 
 
-<div id="fields-editor">
-</div>
+<form id="fields-editor" method="POST" action="{{ url_for('samples_bp.submit_template') }}">
+	<input type="submit" values="Save">
+</form>
