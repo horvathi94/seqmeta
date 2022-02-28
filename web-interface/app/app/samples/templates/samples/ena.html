@@ -8,5 +8,14 @@
 
 
 <form id="fields-editor" method="POST" action="{{ url_for('samples_bp.submit_template') }}">
+	<table id="fields-editor-tab">
+		<tr>
+			<th>Keep field</th>
+			<th>Label</th>
+			<th>Description</th>
+			<th>Default value</th>
+		</tr>
+		{% include("samples/template.html") %}
+	</table>
 	<input type="submit" values="Save">
 </form>

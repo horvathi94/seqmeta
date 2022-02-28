@@ -1,6 +1,6 @@
 from flask import Blueprint
 from .ena import Ena
-
+from . import submission
 
 samples_bp = Blueprint("samples_bp", __name__, template_folder="templates")
 
@@ -20,7 +20,9 @@ def ena():
 
 
 
+
 @samples_bp.route("/templates/submit", methods=["POST"])
 def submit_template():
     from flask import jsonify, request
+    submission.handle(dict(request.form))
     return jsonify(request.form)
