@@ -2,11 +2,11 @@ from dataclasses import dataclass
 from enum import Enum
 
 
-class Level(Enum):
+class Importance(Enum):
 
-    OPTIONAL = 1
-    RECOMMENDED = 2
-    MANDATORY = 3
+    OPTIONAL = "optional"
+    RECOMMENDED = "recommended"
+    MANDATORY = "mandatory"
 
 
 
@@ -14,12 +14,12 @@ class Level(Enum):
 class Attribute:
 
     name: str
-    level: Level
+    importance: Importance
     description: str
     default: any = None
     id: int = None
 
 
     def __post_init__(self):
-        self.level = Level(int(self.level))
+        self.importance = Importance(self.importance)
         if self.default == "": self.default = None

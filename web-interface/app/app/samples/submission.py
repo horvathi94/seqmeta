@@ -4,7 +4,7 @@ from seqmeta.objects.samples.template import Template
 
 import sys
 
-KEYS = ["keep", "name", "level", "default", "description"]
+KEYS = ["keep", "name", "importance", "default", "description"]
 
 def create_keys(index):
     return [f"inpfield+{index}+{k}" for k in KEYS]
