@@ -1,0 +1,26 @@
+<h1>Template editor</h1>
+
+<form action="{{ url_for('formtemplate_bp.submit') }}" method="POST">
+
+	<table id="template-editor-tab">
+		<tr>
+			<th>Name</th>
+			<th>Type</th>
+			<th>Pattern</th>
+			<th>Options</th>
+			<th>Template</th>
+			<th>Default</th>
+			<th>Description</th>
+		</tr>
+
+		{% include('templates/template.html') %}
+
+		
+
+	</table>
+
+	<input type="button" onclick="addNewRow();" value="Add">
+
+	<input type="submit" value="Save">
+
+</form>

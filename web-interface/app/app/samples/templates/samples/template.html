@@ -1,13 +1,29 @@
 <tr class="template">
 
 	<td>
-		<input type="hidden" name="inpfield+0+importance" value="optional"/>
-		<input type="hidden" name="inpfield+0+keep" value="0"/>
-		<input type="checkbox" name="ommit+0+pseudokeep" onchange="changedKeep(this);"/>
+		<select name="inpfield+0+importance">
+			<option value="optional">Optional</option>
+			<option value="recommended">Recommended</option>
+			<option value="mandatory">Mandatory</option>
+		</select>
 	</td>
 
 	<td>
-		<input type="text" name="inpfield+0+name" value=""/>
+		<input type="hidden" name="inpfield+0+ena" value="0"/>
+		<input type="checkbox" name="ommit+0+ena" onchange="changedKeep(this);"/>
+	</td>
+
+	<td>
+		<input type="text" name="inpfield+0+enalabel" value=""/>
+	</td>
+
+	<td>
+		<input type="hidden" name="inpfield+0+gisaid" value="0"/>
+		<input type="checkbox" name="ommit+0+gisaid" onchange="changedKeep(this);"/>
+	</td>
+
+	<td>
+		<input type="text" name="inpfield+0+gisaidlabel" value=""/>
 	</td>
 
 	<td>

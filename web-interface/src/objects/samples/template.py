@@ -1,11 +1,14 @@
+from dataclasses import dataclass, field
+from typing import List
 from .attribute import Attribute
 
 
+@dataclass
 class Template:
 
-
-    def __init__(self):
-        self.attributes = []
+    id: int = None
+    name: str = None
+    attributes: List[Attribute] = field(default_factory=lambda: [])
 
 
     def add_attribute(self, a: Attribute) -> None:
