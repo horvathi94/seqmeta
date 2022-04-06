@@ -1,25 +1,35 @@
-from seqmeta.objects.samples.attribute import Attribute
-from seqmeta.objects.samples.template import Template
-
+from typing import List
+from seqmeta.objects.samples.sample import Sample
 
 import sys
 
-KEYS = ["keep", "name", "importance", "default", "description"]
-
-def create_keys(index):
-    return [f"inpfield+{index}+{k}" for k in KEYS]
 
 
+def parse(raw: dict, skip_0: bool=True) -> List[dict]:
 
-def handle(data: dict):
+    samples = {}
+    for key, val in raw.items():
+        k, sts, index, attr_name = key.split("+")
+        if k != "sample": continue
+        index = int(index)
+        if skip_0 and index == 0: continue
+        if index not in samples:
+            samples[index] = {"sample_status": sts}
+        samples[index][attr_name] = val
+    return samples
 
-    indices = list(set([int(k.strip().split("+")[1]) for k in data.keys()]))
-    template = Template()
-    for index in indices:
-        keys = create_keys(index)
-        keep_key = keys.pop(0)
-        if not int(data[keep_key]): continue
-        curr = {k.strip().split("+")[-1]: data[k] for k in keys}
-        attr = Attribute(**curr)
-        template.add_attribute(attr)
-    print(f"Template: {template.attributes}", file=sys.stderr)
+
+def handle(raw: dict) -> any:
+
+    sample_data = parse(raw)
+    template_id = 6
+
+    for index in sample_data.keys():
+        s = sample_data[index]
+        sample_status = s.pop("sample_status")
+        id_ = None if sample_status == "new" else int(index)
+        sample_name = s.pop("name")
+        sample = Sample(id=id_, name=sample_name, template_id=template_id)
+        for attr in s:
+            sample.add_attribute(attr, s[attr])
+        print(f"Received: {sample}", file=sys.stderr)

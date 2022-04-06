@@ -8,6 +8,10 @@ from seqmeta.database.templates import TemplatesTable
 class Editor(Page):
 
 
+    def __post_init__(self):
+        self.scripts.append("sampleeditor.js")
+
+
     @property
     def template(self) -> "Template":
         return TemplatesTable.select(6)

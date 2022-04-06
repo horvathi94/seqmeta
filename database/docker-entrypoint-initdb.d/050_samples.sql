@@ -1,0 +1,29 @@
+CREATE TABLE IF NOT EXISTS `samples` (
+
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(200) NOT NULL UNIQUE,
+	`template_id` INT UNSIGNED,
+
+	PRIMARY KEY(id),
+
+	FOREIGN KEY(template_id)
+		REFERENCES templates(id)
+		ON DELETE SET NULL
+
+);
+
+
+CREATE TABLE IF NOT EXISTS `sample_attributes` (
+
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`sample_id` INT UNSIGNED NOT NULL,
+	`name` VARCHAR(100) NOT NULL,
+	`value` TEXT,
+
+	PRIMARY KEY(id),
+
+	FOREIGN KEY(sample_id)
+		REFERENCES samples(id)
+		ON DELETE CASCADE
+
+);

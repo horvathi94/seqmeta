@@ -1,9 +1,11 @@
 {% macro inpfield(attr) %}
 
+	{% set field_name = "sample+new+0+"+attr.name %}
+
 	{% if attr.type_.value == "text" %}
-		<input type="text">
+		<input type="text" name="{{ field_name }}" >
 	{% elif attr.type_.value == "date" %}
-		<input type="date">
+		<input type="date" name="{{ field_name }}">
 	{% endif %}
 
 {% endmacro %}

@@ -2,19 +2,38 @@
 
 <h1>Editor</h1>
 
-<table>
-	<tr>
-		<th>Field name</th>
-		<th>Value</th>
-		<th>Description</th>
-	</tr>
+<input type="button" onclick="newSample();" value="Add">
 
-	{% for attr in template.attributes %}
+
+<form action="{{ url_for('samples_bp.submit') }}" method="POST">
+
+	<table id="samples-editor">
 		<tr>
-			<td>{{ attr.name }}</td>
-			<td>{{ inpfield(attr) }}</td>
-			<td>{{ attr.description }}</td>
+			<th>Field name</th>
+			<th class="template column">Value</th>
+			<th>Description</th>
 		</tr>
-{% endfor %}
 
-</table>
+		<tr>
+			<td>Sample name</td>
+			<td class="template column">
+				<input type="text" name="sample+new+0+name">
+			</td>
+			<td>Unique name of sample (only needed for pesonal use).</td>
+		</tr>
+
+
+		{% for attr in template.attributes %}
+			<tr>
+				<td>{{ attr.name }}</td>
+				<td class="template column">{{ inpfield(attr) }}</td>
+				<td>{{ attr.description }}</td>
+			</tr>
+		{% endfor %}
+
+	</table>
+
+
+	<input type="submit" value="Save">
+
+</form>

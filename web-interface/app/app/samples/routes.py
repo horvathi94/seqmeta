@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, request
 from .ena import Ena
 from . import submission
 from. view import View
@@ -20,8 +20,13 @@ def edit():
     return page.render()
 
 
+@samples_bp.route("/samples/submit", methods=["POST"])
+def submit():
+    from flask import jsonify
+    page = submission.handle(dict(dict(request.form)))
+    return jsonify(dict(request.form))
 
-
+"""
 @samples_bp.route("/ena")
 def ena():
     page = Ena()
@@ -43,3 +48,4 @@ def single_editor():
 @samples_bp.route("/samples/multi-editor")
 def multi_editor():
     return "<h1>Multiple editor</h1>"
+"""
