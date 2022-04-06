@@ -28,7 +28,7 @@ def handle(raw: dict) -> "html":
     for d in data:
         a = Attribute(**d)
         t.add_attribute(a)
-    try:
-        TemplatesTable.save(t)
-    except:
-        return "<h1>Failed to save the template. Duplicate name.</h1>"
+    #try:
+    TemplatesTable.save(t)
+    #except:
+    #    return "<h1>Failed to save the template. Duplicate name.</h1>"

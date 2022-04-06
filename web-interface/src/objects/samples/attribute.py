@@ -39,6 +39,7 @@ class RepoField:
 class Attribute:
 
     name: str
+    label: str
     type_: FieldType
     repos: List[RepoField] = field(default_factory=lambda: [])
     has_options: bool = False
@@ -70,6 +71,7 @@ class Attribute:
         return {
             "template_id": self.template_id,
             "name": self.name,
+            "label": self.label,
             "type_": self.type_.value,
             "has_options": self.has_options,
             "description": self.description,

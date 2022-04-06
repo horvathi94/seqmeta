@@ -1,5 +1,6 @@
 from typing import List
 from seqmeta.objects.samples.sample import Sample
+from seqmeta.database.samples import SamplesTable
 
 import sys
 
@@ -32,4 +33,5 @@ def handle(raw: dict) -> any:
         sample = Sample(id=id_, name=sample_name, template_id=template_id)
         for attr in s:
             sample.add_attribute(attr, s[attr])
-        print(f"Received: {sample}", file=sys.stderr)
+        SamplesTable.save(sample)
+#        print(f"Received: {sample}", file=sys.stderr)

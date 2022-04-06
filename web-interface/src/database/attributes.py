@@ -19,12 +19,15 @@ class AttributesTable(Table):
         return [cls.select(i["id"]) for i in ids]
 
 
-    @staticmethod
-    def save(attr: Attribute) -> None:
-        sql = f"""INSERT INTO `{table_name}`
-            (name, template_id, type_, has_options, description)
+    @classmethod
+    def save(cls, attr: Attribute) -> None:
+        sql = f"""INSERT INTO `{cls.table_name}`
+            (name, label, template_id, type_, has_options, description)
             VALUES
-            (%(name)s, %(template_id)s, %(type_)s,
+            (%(name)s, %(label)s, %(template_id)s, %(type_)s,
             %(has_options)s, %(description)s)"""
         conn = Connect()
+        import sys
+        adict = attr.asdict()
+        print(f"\nAttr: {adict}", file=sys.stderr)
         conn.execute_sql(sql, attr.asdict())

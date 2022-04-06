@@ -14,7 +14,7 @@ class Editor(Page):
 
     @property
     def template(self) -> "Template":
-        return TemplatesTable.select(6)
+        return TemplatesTable.select(7)
 
 
     def render_content(self) -> "html":
