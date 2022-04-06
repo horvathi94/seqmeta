@@ -1,3 +1,8 @@
 <h1>Templates</h1>
 
+{% for t in templates %}
+	<p>{{ t.name }}: {{ t.attribute_count }} attributes</p>
+{% endfor %}
+
+
 <a href="{{ url_for('formtemplate_bp.edit') }}">Create new</a>

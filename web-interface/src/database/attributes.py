@@ -1,22 +1,27 @@
+from typing import List
 from seqmeta.database.connect import Connect
+from seqmeta.database.table import Table
 from seqmeta.objects.samples.attribute import Attribute
 
 
-class AttributesTable:
+class AttributesTable(Table):
 
-    @staticmethod
-    def select_all():
-        pass
+    table_name = "attributes"
+    object_class = Attribute
 
 
-    @staticmethod
-    def select():
-        pass
+    @classmethod
+    def select_all_in_template(cls, template_id: int) -> List[Attribute]:
+        query = f"SELECT id FROM {cls.table_name} "\
+            f"WHERE template_id = {template_id}"
+        conn = Connect()
+        ids = conn.fetchall(query)
+        return [cls.select(i["id"]) for i in ids]
 
 
     @staticmethod
     def save(attr: Attribute) -> None:
-        sql = """INSERT INTO `attributes`
+        sql = f"""INSERT INTO `{table_name}`
             (name, template_id, type_, has_options, description)
             VALUES
             (%(name)s, %(template_id)s, %(type_)s,

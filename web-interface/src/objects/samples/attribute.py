@@ -41,6 +41,7 @@ class Attribute:
     name: str
     type_: FieldType
     repos: List[RepoField] = field(default_factory=lambda: [])
+    has_options: bool = False
     options: List[str] = field(default_factory=lambda: [])
     pattern: str = None
     template_id: int = None
@@ -53,12 +54,16 @@ class Attribute:
         if self.default == "": self.default = None
         if not isinstance(self.type_, FieldType):
             self.type_ = FieldType(self.type_)
+        self._check_has_options()
 
 
-    def has_options(self) -> bool:
-        if self.type_ is not FieldType.SELECT: return False
-        if len(self.options) == 0: return False
-        return True
+    def _check_has_options(self) -> None:
+        if self.has_options is not None:
+            self.has_options = bool(self.has_options)
+            return
+        if self.type_ is FieldType.SELECT and len(self.options) > 0:
+            self.has_options = True
+        self.has_options = False
 
 
     def asdict(self) -> dict:
@@ -66,6 +71,6 @@ class Attribute:
             "template_id": self.template_id,
             "name": self.name,
             "type_": self.type_.value,
-            "has_options": self.has_options(),
+            "has_options": self.has_options,
             "description": self.description,
         }

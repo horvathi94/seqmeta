@@ -10,22 +10,37 @@ import sys
 class TemplatesTable:
 
 
-    @staticmethod
-    def select_all():
-        pass
+    table_name = "templates"
 
 
-    @staticmethod
-    def select():
-        pass
+    @classmethod
+    def select_all(cls):
+        query = f"SELECT id FROM {cls.table_name}"
+        conn = Connect()
+        ids = conn.fetchall(query)
+        templates = [cls.select(i["id"]) for i in ids]
+        print(f"\n\nTemplates: {templates}", file=sys.stderr)
+        return templates
 
 
-    @staticmethod
-    def save(t: Template) -> None:
+    @classmethod
+    def select(cls, id_: int):
+        query = f"SELECT * FROM `{cls.table_name}` WHERE id = {id_}"
+        conn = Connect()
+        data = conn.fetchone(query)
+        t = Template(**data)
+        attrs = AttributesTable.select_all_in_template(id_)
+        for a in attrs:
+            t.add_attribute(a)
+        return t
+
+
+    @classmethod
+    def save(cls, t: Template) -> None:
         print(f"\nSaving template: {t}", file=sys.stderr)
         conn = Connect()
         if t.id is None:
-            sql = "INSERT INTO `templates` (name) VALUES (%s)"
+            sql = f"INSERT INTO `{table_name}` (name) VALUES (%s)"
 
 #        try:
 #            tid = conn.execute_sql(sql, (t.name,), last_insert=True)

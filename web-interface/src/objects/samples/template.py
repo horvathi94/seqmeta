@@ -17,3 +17,8 @@ class Template:
 
     def asdict(self) -> dict:
         return asdict(self)
+
+
+    @property
+    def attribute_count(self) -> int:
+        return len(self.attributes)
