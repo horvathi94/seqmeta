@@ -1,0 +1,9 @@
+{% macro inpfield(attr) %}
+
+	{% if attr.type_.value == "text" %}
+		<input type="text">
+	{% elif attr.type_.value == "date" %}
+		<input type="date">
+	{% endif %}
+
+{% endmacro %}

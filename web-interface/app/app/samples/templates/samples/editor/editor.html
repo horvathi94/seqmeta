@@ -1,0 +1,20 @@
+{% from "samples/editor/row.j2" import inpfield %}
+
+<h1>Editor</h1>
+
+<table>
+	<tr>
+		<th>Field name</th>
+		<th>Value</th>
+		<th>Description</th>
+	</tr>
+
+	{% for attr in template.attributes %}
+		<tr>
+			<td>{{ attr.name }}</td>
+			<td>{{ inpfield(attr) }}</td>
+			<td>{{ attr.description }}</td>
+		</tr>
+{% endfor %}
+
+</table>

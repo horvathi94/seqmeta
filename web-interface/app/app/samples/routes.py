@@ -1,6 +1,8 @@
 from flask import Blueprint
 from .ena import Ena
 from . import submission
+from. view import View
+from .editor import Editor
 
 samples_bp = Blueprint("samples_bp", __name__, template_folder="templates")
 
@@ -8,7 +10,15 @@ samples_bp = Blueprint("samples_bp", __name__, template_folder="templates")
 @samples_bp.route("/samples")
 @samples_bp.route("/samples/view")
 def view():
-    return "Samples"
+    page = View()
+    return page.render()
+
+
+@samples_bp.route("/samples/edit")
+def edit():
+    page = Editor()
+    return page.render()
+
 
 
 
