@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 from typing import List
 from .attribute import Attribute
 
@@ -13,3 +13,7 @@ class Template:
 
     def add_attribute(self, a: Attribute) -> None:
         self.attributes.append(a)
+
+
+    def asdict(self) -> dict:
+        return asdict(self)

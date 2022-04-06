@@ -9,6 +9,7 @@ class Editor(Page):
 
     def __post_init__(self):
         self.scripts.append("templates.js")
+        self.styles.append("editor.css")
 
 
     def render_content(self) -> "html":
