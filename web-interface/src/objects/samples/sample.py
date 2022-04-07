@@ -9,6 +9,7 @@ class Sample:
     name: str = None
     template_id: int = None
     attributes: dict = field(default_factory=lambda: {})
+    short_description: str = None
 
 
     def add_attribute(self, name: str, val: any) -> None:

@@ -1,4 +1,4 @@
-{% from "samples/editor/row.j2" import inpfield %}
+{% from "samples/editor/row.j2" import inpfield, editall %}
 
 <h1>Editor</h1>
 
@@ -8,10 +8,12 @@
 <form action="{{ url_for('samples_bp.submit') }}" method="POST">
 
 	<table id="samples-editor">
+
 		<tr>
 			<th>Field name</th>
 			<th class="template column">Value</th>
-			<th>Description</th>
+			<th class="editall column">Edit all</th>
+			<th class="description column">Description</th>
 		</tr>
 
 		<tr>
@@ -19,15 +21,17 @@
 			<td class="template column">
 				<input type="text" name="sample+new+0+name">
 			</td>
+			<td>Unique sample name</td>
 			<td>Unique name of sample (only needed for pesonal use).</td>
 		</tr>
 
 
 		{% for attr in template.attributes %}
-			<tr>
+			<tr class="attr {{ attr.name }}">
 				<td>{{ attr.name }}</td>
 				<td class="template column">{{ inpfield(attr) }}</td>
-				<td>{{ attr.description }}</td>
+				<td class="editall column">{{ editall(attr) }}</td>
+				<td class="description column">{{ attr.description }}</td>
 			</tr>
 		{% endfor %}
 

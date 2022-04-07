@@ -9,3 +9,19 @@
 	{% endif %}
 
 {% endmacro %}
+
+
+
+
+{% macro editall(attr) %}
+
+	{% set field_name = "sample+editall+"+attr.name %}
+
+	{% if attr.type_.value == "text" %}
+		<input type="text" name="{{ field_name }}" onchange="editAll(this);">
+	{% elif attr.type_.value == "date" %}
+		<input type="date" name="{{ field_name }}" onchange="editAll(this);">
+	{% endif %}
+
+
+{% endmacro %}
