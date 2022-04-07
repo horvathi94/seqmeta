@@ -1,5 +1,7 @@
 <h1>Template editor</h1>
 
+{% include("templates/enachecklist.html") %}
+
 <form action="{{ url_for('formtemplate_bp.submit') }}" method="POST">
 
 
@@ -21,11 +23,9 @@
 
 		{% include('templates/template.html') %}
 
-		
-
 	</table>
 
-	<input type="button" onclick="addNewRow();" value="Add">
+	<input type="button" onclick="newAttributeRow();" value="Add">
 
 	<input type="submit" value="Save">
 

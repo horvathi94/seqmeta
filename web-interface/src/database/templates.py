@@ -41,12 +41,11 @@ class TemplatesTable:
         if t.id is None:
             sql = f"INSERT INTO `{cls.table_name}` (name) VALUES (%s)"
 
-#        try:
-#            tid = conn.execute_sql(sql, (t.name,), last_insert=True)
-#        except mysql.connector.IntegrityError as e:
-#            raise Exception("Failed to save, duplicate template name.")
+        try:
+            tid = conn.execute_sql(sql, (t.name,), last_insert=True)
+        except mysql.connector.IntegrityError as e:
+            raise Exception("Failed to save, duplicate template name.")
 
-        tid = 7
         for a in t.attributes:
             a.template_id = tid
             AttributesTable.save(a)

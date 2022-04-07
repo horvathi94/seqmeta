@@ -1,13 +1,14 @@
 <tr class="template-row">
-	<td>
+	<td class="name column">
 		<input type="text" name="attr+0+name">
 	</td>
-	<td>
+
+	<td class="label column">
 		<input type="text" name="attr+0+label">
 	</td>
 
-	<td>
-		<select name="attr+0+type_" onchange="changedType(this);">
+	<td class="type column">
+		<select name="attr+0+type_" onchange="changedType(this.parentElement.parentElement, this.value);">
 			<option value="text">text</option>
 			<option value="select">select</option>
 			<option value="date">date</option>
@@ -15,23 +16,23 @@
 		</select>
 	</td>
 
-	<td>
+	<td class="pattern column">
 		<input type="text" name="attr+0+pattern">
 	</td>
 
-	<td>
+	<td class="options column">
 		<input type="text" name="attr+0+options" disabled="disabled">
 	</td>
 
-	<td>
+	<td class="template column">
 		<input type="text" name="attr+0+template" disabled="disabled">
 	</td>
 
-	<td>
+	<td class="default column">
 		<input type="text" name="attr+0+default">
 	</td>
 
-	<td>
+	<td class="description column">
 		<input type="text" name="attr+0+description">
 	</td>
 

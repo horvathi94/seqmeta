@@ -1,3 +1,13 @@
 <h1>Samples</h1>
 
-<a href="{{ url_for('samples_bp.edit') }}">Create new</a>
+<form action="{{ url_for('samples_bp.edit') }}" method="POST">
+
+	<label for="template_id">Select template</label>
+	<select id="" name="template_id">
+		{% for template in templates %}
+		<option value="{{ template.id }}">{{ template.name }}</option>
+		{% endfor %}
+	</select>
+
+	<input type="submit" value="Create">
+</form>

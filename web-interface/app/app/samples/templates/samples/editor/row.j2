@@ -6,6 +6,10 @@
 		<input type="text" name="{{ field_name }}" >
 	{% elif attr.type_.value == "date" %}
 		<input type="date" name="{{ field_name }}">
+	{% elif attr.type_.value == "select" %}
+		<select name="{{ field_name }}">
+			<option value="0">PALCEHOLDER</option>
+		</select>
 	{% endif %}
 
 {% endmacro %}
@@ -21,6 +25,10 @@
 		<input type="text" name="{{ field_name }}" onchange="editAll(this);">
 	{% elif attr.type_.value == "date" %}
 		<input type="date" name="{{ field_name }}" onchange="editAll(this);">
+	{% elif attr.type_.value == "select" %}
+		<select name="{{ field_name }}" onchange="editAll(this);">
+			<option value="0">PALCEHOLDER</option>
+		</select>
 	{% endif %}
 
 

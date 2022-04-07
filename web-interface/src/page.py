@@ -11,6 +11,16 @@ class Page:
     scripts: List[str] = field(default_factory=lambda: [])
 
 
+    def add_style(self, stylessheet: str) -> None:
+        if stylesheet not in self.styles:
+            self.styles.append(stylesheet)
+
+
+    def add_script(self, script: str) -> None:
+        if script not in self.scripts:
+            self.scripts.append(script)
+
+
     def render_head(self) -> "html":
         return render_template("head.html",
                                title=self.title,

@@ -14,9 +14,10 @@ def view():
     return page.render()
 
 
-@samples_bp.route("/samples/edit")
+@samples_bp.route("/samples/edit", methods=["POST"])
 def edit():
-    page = Editor()
+    template_id = int(request.form.get("template_id"))
+    page = Editor(template_id=template_id)
     return page.render()
 
 

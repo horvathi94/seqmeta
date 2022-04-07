@@ -7,6 +7,7 @@ from seqmeta.database.templates import TemplatesTable
 @dataclass
 class Editor(Page):
 
+    template_id: int = 0
 
     def __post_init__(self):
         self.scripts.append("sampleeditor.js")
@@ -15,7 +16,9 @@ class Editor(Page):
 
     @property
     def template(self) -> "Template":
-        return TemplatesTable.select(7)
+        if self.template_id == 0:
+            return None
+        return TemplatesTable.select(self.template_id)
 
 
     def render_content(self) -> "html":
