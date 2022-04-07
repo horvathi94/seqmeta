@@ -10,6 +10,7 @@ class Editor(Page):
 
     def __post_init__(self):
         self.scripts.append("sampleeditor.js")
+        self.styles.append("sampleeditor.css")
 
 
     @property
