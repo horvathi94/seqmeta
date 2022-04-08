@@ -60,6 +60,15 @@ class Attribute:
 
 
     @property
+    def form_name(self) -> str:
+        fname = self.name.replace(" ", "__")
+        fname = fname.replace("/", "___")
+        fname = fname.replace("(", "____")
+        fname = fname.replace(")", "____")
+        return fname
+
+
+    @property
     def options_csv(self) -> str:
         if self.options is None: return None
         return ",".join(self.options)

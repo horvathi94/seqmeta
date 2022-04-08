@@ -10,8 +10,11 @@ def parse(raw: dict, skip_0: bool=True) -> List[dict]:
 
     samples = {}
     for key, val in raw.items():
-        k, sts, index, attr_name = key.split("+")
+        k, sts = key.split("+")[:2]
         if k != "sample": continue
+        if sts == "editall": continue
+
+        k, sts, index, attr_name = key.split("+")
         index = int(index)
         if skip_0 and index == 0: continue
         if index not in samples:
@@ -23,7 +26,9 @@ def parse(raw: dict, skip_0: bool=True) -> List[dict]:
 def handle(raw: dict) -> any:
 
     sample_data = parse(raw)
-    template_id = 6
+    for item in sample_data:
+        print(f"\n{sample_data}", file=sys.stderr)
+    return
 
     for index in sample_data.keys():
         s = sample_data[index]
@@ -33,5 +38,5 @@ def handle(raw: dict) -> any:
         sample = Sample(id=id_, name=sample_name, template_id=template_id)
         for attr in s:
             sample.add_attribute(attr, s[attr])
-        SamplesTable.save(sample)
-#        print(f"Received: {sample}", file=sys.stderr)
+#        SamplesTable.save(sample)
+        print(f"Received: {sample}", file=sys.stderr)

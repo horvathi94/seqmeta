@@ -3,11 +3,11 @@
 	{% set field_name = "sample+new+0+"+attr.name %}
 
 	{% if attr.type_.value == "text" %}
-		<input type="text" name="{{ field_name }}" onchange="updateTemplateFields(this);">
+		<input type="text" name="{{ field_name }}" onchange="updateTemplateFields();">
 	{% elif attr.type_.value == "date" %}
-		<input type="date" name="{{ field_name }}" onchange="updateTemplateFields(this);">
+		<input type="date" name="{{ field_name }}" onchange="updateTemplateFields();">
 	{% elif attr.type_.value == "select" %}
-		<select name="{{ field_name }}" onchange="updateTemplateFields(this);">
+		<select name="{{ field_name }}" onchange="updateTemplateFields();">
 			{% for opt in attr.options %}
 				<option value="{{ opt }}">{{ opt }}</option>
 			{% endfor %}
@@ -23,7 +23,7 @@
 
 {% macro editall(attr) %}
 
-	{% set field_name = "sample+editall+"+attr.name %}
+	{% set field_name = "sample+editall+"+attr.form_name %}
 
 	{% if attr.type_.value == "text" %}
 		<input type="text" name="{{ field_name }}" onchange="editAll(this);">

@@ -28,7 +28,7 @@
 
 
 		{% for attr in template.attributes %}
-			<tr class="attr {{ attr.name }}">
+			<tr class="attr {{ attr.form_name }}">
 				<td class="fieldname column">{{ attr.label }}</td>
 				<td class="template column">{{ inpfield(attr) }}</td>
 				<td class="editall column">{{ editall(attr) }}</td>
