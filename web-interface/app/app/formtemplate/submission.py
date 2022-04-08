@@ -32,7 +32,7 @@ def handle(raw: dict) -> "html":
     for a in t.attributes:
        print(f"\n{a}", file=sys.stderr)
 
-    #try:
-    TemplatesTable.save(t)
-    #except:
-    #    return "<h1>Failed to save the template. Duplicate name.</h1>"
+    try:
+        TemplatesTable.save(t)
+    except:
+        return "<h1>Failed to save the template. Duplicate name.</h1>"

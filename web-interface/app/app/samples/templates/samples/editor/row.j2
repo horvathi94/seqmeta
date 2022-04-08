@@ -3,7 +3,7 @@
 	{% set field_name = "sample+new+0+"+attr.name %}
 
 	{% if attr.type_.value == "text" %}
-		<input type="text" name="{{ field_name }}" onchange="updateTemplateFields();">
+		<input type="text" name="{{ field_name }}" onchange="updateTemplateFields();" {{ "pattern='"+attr.pattern+"'" if attr.pattern != None else "" }}>
 	{% elif attr.type_.value == "date" %}
 		<input type="date" name="{{ field_name }}" onchange="updateTemplateFields();">
 	{% elif attr.type_.value == "select" %}
@@ -26,7 +26,7 @@
 	{% set field_name = "sample+editall+"+attr.form_name %}
 
 	{% if attr.type_.value == "text" %}
-		<input type="text" name="{{ field_name }}" onchange="editAll(this);">
+		<input type="text" name="{{ field_name }}" onchange="editAll(this);" {{ "pattern='"+attr.pattern+"'" if attr.pattern != None else "" }}>
 	{% elif attr.type_.value == "date" %}
 		<input type="date" name="{{ field_name }}" onchange="editAll(this);">
 	{% elif attr.type_.value == "select" %}
