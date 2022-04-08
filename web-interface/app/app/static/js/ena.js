@@ -1,28 +1,29 @@
 const rawXML=`
 <CHECKLIST_SET>
-<CHECKLIST accession="ERC000033" checklistType="Sample">
-<IDENTIFIERS>
-<PRIMARY_ID>ERC000033</PRIMARY_ID>
-</IDENTIFIERS>
-<DESCRIPTOR>
-<LABEL>ENA virus pathogen reporting standard checklist</LABEL>
-<NAME>ENA virus pathogen reporting standard checklist</NAME>
-<DESCRIPTION>Minimum information about a virus pathogen. A checklist for reporting metadata of virus pathogen samples associated with genomic data. This minimum metadata standard was developed by the COMPARE platform for submission of virus surveillance and outbreak data (such as Ebola) as well as virus isolate information.</DESCRIPTION>
-<AUTHORITY>ENA</AUTHORITY>
-<FIELD_GROUP restrictionType="Any number or none of the fields">
-<NAME>Human surveillance data</NAME>
-<DESCRIPTION>Information associated with a human influenza surveillance sample.</DESCRIPTION>
-<FIELD>
-<LABEL>subject exposure</LABEL>
-<NAME>subject exposure</NAME>
-<DESCRIPTION>Exposure of the subject to infected human or animals, such as poultry, wild bird or swine. If multiple exposures are applicable, please state them separated by semicolon. Example: poultry; wild bird</DESCRIPTION>
-<FIELD_TYPE>
-<TEXT_FIELD/>
-</FIELD_TYPE>
-<MANDATORY>optional</MANDATORY>
-<MULTIPLICITY>multiple</MULTIPLICITY>
-</FIELD>
-<FIELD>
+	<CHECKLIST accession="ERC000033" checklistType="Sample">
+	<IDENTIFIERS>
+		<PRIMARY_ID>ERC000033</PRIMARY_ID>
+	</IDENTIFIERS>
+	<DESCRIPTOR>
+		<LABEL>ENA virus pathogen reporting standard checklist</LABEL>
+		<NAME>ENA virus pathogen reporting standard checklist</NAME>
+		<DESCRIPTION>Minimum information about a virus pathogen. A checklist for reporting metadata of virus pathogen samples associated with genomic data. This minimum metadata standard was developed by the COMPARE platform for submission of virus surveillance and outbreak data (such as Ebola) as well as virus isolate information.</DESCRIPTION>
+		<AUTHORITY>ENA</AUTHORITY>
+		<FIELD_GROUP restrictionType="Any number or none of the fields">
+			<NAME>Human surveillance data</NAME>
+			<DESCRIPTION>Information associated with a human influenza surveillance sample.</DESCRIPTION>
+			<FIELD>
+				<LABEL>subject exposure</LABEL>
+				<NAME>subject exposure</NAME>
+				<DESCRIPTION>Exposure of the subject to infected human or animals, such as poultry, wild bird or swine. If multiple exposures are applicable, please state them separated by semicolon. Example: poultry; wild bird</DESCRIPTION>
+				<FIELD_TYPE>
+					<TEXT_FIELD/>
+				</FIELD_TYPE>
+				<MANDATORY>optional</MANDATORY>
+				<MULTIPLICITY>multiple</MULTIPLICITY>
+			</FIELD>
+
+			<FIELD>
 <LABEL>subject exposure duration</LABEL>
 <NAME>subject exposure duration</NAME>
 <DESCRIPTION>Duration of the exposure of the subject to an infected human or animal. If multiple exposures are applicable, please state their duration in the same order in which you reported the exposure in the field 'subject exposure'. Example: 1 day; 0.33 days</DESCRIPTION>
