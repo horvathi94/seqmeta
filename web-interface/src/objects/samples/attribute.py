@@ -45,6 +45,7 @@ class Attribute:
     options: List[str] = None
     pattern: str = None
     template_id: int = None
+    template: str = None
     description: str = None
     default: any = None
     id: int = None
@@ -71,5 +72,6 @@ class Attribute:
             "label": self.label,
             "type_": self.type_.value,
             "options": self.options_csv,
+            "template": self.template,
             "description": self.description,
         }

@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS `attributes` (
 	`template_id` INT UNSIGNED NOT NULL,
 	`type_` VARCHAR(20) NOT NULL,
 	`description` VARCHAR(500) DEFAULT NULL,
+	`template` VARCHAR(200) DEFAULT NULL,
 	`default` VARCHAR(200) DEFAULT NULL,
 	`pattern` VARCHAR(200) DEFAULT NULL,
 	`options` TEXT DEFAULT NULL,

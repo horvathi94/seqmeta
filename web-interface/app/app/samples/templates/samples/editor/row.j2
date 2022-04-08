@@ -3,15 +3,17 @@
 	{% set field_name = "sample+new+0+"+attr.name %}
 
 	{% if attr.type_.value == "text" %}
-		<input type="text" name="{{ field_name }}" >
+		<input type="text" name="{{ field_name }}" onchange="updateTemplateFields(this);">
 	{% elif attr.type_.value == "date" %}
-		<input type="date" name="{{ field_name }}">
+		<input type="date" name="{{ field_name }}" onchange="updateTemplateFields(this);">
 	{% elif attr.type_.value == "select" %}
-		<select name="{{ field_name }}">
+		<select name="{{ field_name }}" onchange="updateTemplateFields(this);">
 			{% for opt in attr.options %}
 				<option value="{{ opt }}">{{ opt }}</option>
 			{% endfor %}
 		</select>
+	{% elif attr.type_.value == "template" %}
+	<input type="text" name="{{ field_name }}" class="template field" template-string="{{ attr.template }}" disabled="disabled">
 	{% endif %}
 
 {% endmacro %}
@@ -33,6 +35,8 @@
 				<option value="{{ opt }}">{{ opt }}</option>
 			{% endfor %}
 		</select>
+	{% elif attr.type_.value == "template" %}
+		<p>Template</p>
 	{% endif %}
 
 

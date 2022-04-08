@@ -22,10 +22,10 @@ class AttributesTable(Table):
     @classmethod
     def save(cls, attr: Attribute) -> None:
         sql = f"""INSERT INTO `{cls.table_name}`
-            (name, label, template_id, type_, options, description)
+            (name, label, template_id, type_, options, template, description)
             VALUES
             (%(name)s, %(label)s, %(template_id)s, %(type_)s,
-            %(options)s, %(description)s)"""
+            %(options)s, %(template)s, %(description)s)"""
         conn = Connect()
         import sys
         adict = attr.asdict()
