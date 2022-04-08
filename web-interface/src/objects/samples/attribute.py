@@ -57,6 +57,10 @@ class Attribute:
             self.type_ = FieldType(self.type_)
         if isinstance(self.options, str):
             self.options = self.options.split(",")
+        if self.pattern == "":
+            self.pattern = None
+        if self.type_ is not FieldType.TEXT:
+            self.pattern = None
 
 
     @property
