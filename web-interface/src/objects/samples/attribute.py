@@ -42,8 +42,7 @@ class Attribute:
     label: str
     type_: FieldType
     repos: List[RepoField] = field(default_factory=lambda: [])
-    has_options: bool = False
-    options: List[str] = field(default_factory=lambda: [])
+    options: List[str] = None
     pattern: str = None
     template_id: int = None
     description: str = None
@@ -55,16 +54,14 @@ class Attribute:
         if self.default == "": self.default = None
         if not isinstance(self.type_, FieldType):
             self.type_ = FieldType(self.type_)
-        self._check_has_options()
+        if isinstance(self.options, str):
+            self.options = self.options.split(",")
 
 
-    def _check_has_options(self) -> None:
-        if self.has_options is not None:
-            self.has_options = bool(self.has_options)
-            return
-        if self.type_ is FieldType.SELECT and len(self.options) > 0:
-            self.has_options = True
-        self.has_options = False
+    @property
+    def options_csv(self) -> str:
+        if self.options is None: return None
+        return ",".join(self.options)
 
 
     def asdict(self) -> dict:
@@ -73,6 +70,6 @@ class Attribute:
             "name": self.name,
             "label": self.label,
             "type_": self.type_.value,
-            "has_options": self.has_options,
+            "options": self.options_csv,
             "description": self.description,
         }

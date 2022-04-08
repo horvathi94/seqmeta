@@ -28,6 +28,10 @@ def handle(raw: dict) -> "html":
     for d in data:
         a = Attribute(**d)
         t.add_attribute(a)
+
+    for a in t.attributes:
+       print(f"\n{a}", file=sys.stderr)
+
     #try:
     TemplatesTable.save(t)
     #except:

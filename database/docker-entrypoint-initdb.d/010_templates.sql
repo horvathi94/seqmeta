@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `attributes` (
 	`description` VARCHAR(500) DEFAULT NULL,
 	`default` VARCHAR(200) DEFAULT NULL,
 	`pattern` VARCHAR(200) DEFAULT NULL,
-	`has_options` TINYINT(1) DEFAULT 0,
+	`options` TEXT DEFAULT NULL,
 
 
 	PRIMARY KEY (id),
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `attributes` (
 
 );
 
-
+/*
 CREATE TABLE IF NOT EXISTS `options`(
 
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -42,3 +42,4 @@ CREATE TABLE IF NOT EXISTS `options`(
 		ON DELETE CASCADE
 
 );
+*/
