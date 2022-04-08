@@ -3,14 +3,14 @@
 	<tr>
 		<th>Sample name</th>
 		<th>Short description</th>
-		<th>Template ID</th>
+		<th>Template</th>
 	</tr>
 
 	{% for sample in samples %}
 	<tr>
 		<td>{{ sample.name }}</td>
 		<td>{{ sample.short_description }}</td>
-		<td>{{ sample.template_id }}</td>
+		<td>{{ sample.template_name }}</td>
 	</tr>
 	{% endfor %}
 

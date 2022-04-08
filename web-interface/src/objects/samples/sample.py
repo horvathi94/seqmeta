@@ -1,5 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List
+from seqmeta.database.templates import TemplatesTable
+
 
 
 @dataclass
@@ -15,6 +17,11 @@ class Sample:
     def add_attribute(self, name: str, value: any) -> None:
         if name in self.attributes: return
         self.attributes[name] = value if value != "" else None
+
+
+    @property
+    def template_name(self) -> str:
+        return TemplatesTable.select(self.template_id).name
 
 
     def asdict(self) -> dict:

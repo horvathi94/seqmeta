@@ -1,26 +1,15 @@
 import mysql.connector
 from seqmeta.database.connect import Connect
+from seqmeta.database.table import Table
 from seqmeta.database.attributes import AttributesTable
 from seqmeta.objects.samples.template import Template
 
 
-import sys
 
-
-class TemplatesTable:
+class TemplatesTable(Table):
 
 
     table_name = "templates"
-
-
-    @classmethod
-    def select_all(cls):
-        query = f"SELECT id FROM {cls.table_name}"
-        conn = Connect()
-        ids = conn.fetchall(query)
-        templates = [cls.select(i["id"]) for i in ids]
-        print(f"\n\nTemplates: {templates}", file=sys.stderr)
-        return templates
 
 
     @classmethod
