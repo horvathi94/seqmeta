@@ -87,5 +87,6 @@ class Attribute:
             "options": self.options_csv,
             "template": self.template,
             "pattern": self.pattern,
+            "default": self.default,
             "description": self.description,
         }
