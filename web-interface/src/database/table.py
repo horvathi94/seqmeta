@@ -17,8 +17,8 @@ class Table:
 
     @classmethod
     def select_all(cls) -> list:
-        query = f"SELECT * FROM `{cls.table_name}`"
+        query = f"SELECT `id` FROM `{cls.table_name}`"
         conn = Connect()
-        raw = conn.fetchall(query)
-        if len(raw) == 0: return []
-        return [cls.object_class(**item) for item in raw]
+        ids = [i["id"] for i in conn.fetchall(query)]
+        if len(ids) == 0: return []
+        return [cls.select(i) for i in ids]

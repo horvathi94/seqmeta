@@ -12,6 +12,14 @@ class Sample:
     short_description: str = None
 
 
-    def add_attribute(self, name: str, val: any) -> None:
+    def add_attribute(self, name: str, value: any) -> None:
         if name in self.attributes: return
-        self.attributes[name] = val
+        self.attributes[name] = value if value != "" else None
+
+
+    def asdict(self) -> dict:
+        return {
+            "name": self.name,
+            "template_id": self.template_id,
+            "short_description": self.short_description
+        }

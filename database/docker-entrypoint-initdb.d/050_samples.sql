@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS `samples` (
 
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(200) NOT NULL UNIQUE,
+	`short_description` VARCHAR(500),
 	`template_id` INT UNSIGNED,
 
 	PRIMARY KEY(id),

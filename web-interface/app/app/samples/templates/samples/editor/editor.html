@@ -7,6 +7,9 @@
 
 <form action="{{ url_for('samples_bp.submit') }}" method="POST" onkeydown="return event.key != 'Enter';">
 
+
+	<input type="hidden" name="template_id" value="{{ template.id }}">
+
 	<div id="table-container">
 	<table id="samples-editor">
 
@@ -17,13 +20,24 @@
 			<th class="description column">Description</th>
 		</tr>
 
-		<tr>
+		<tr class="attr name">
 			<td class="fieldname column">Sample name</td>
 			<td class="template column">
 				<input type="text" name="sample+new+0+name">
 			</td>
 			<td class="editall column">Unique sample name</td>
 			<td class="description column">Unique name of sample (only needed for pesonal use).</td>
+		</tr>
+
+		<tr class="attr short_description">
+			<td class="fieldname column">Sample short description</td>
+			<td class="template column">
+				<input type="text" name="sample+new+0+short_description">
+			</td>
+			<td class="editall column">
+				<input type="text" name="sample+editall+short_description" onchange="editAll(this);">
+			</td>
+			<td class="description column">A short description for easier identification of the sample (will not be submitted).</td>
 		</tr>
 
 
