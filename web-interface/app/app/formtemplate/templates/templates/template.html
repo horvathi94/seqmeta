@@ -1,14 +1,14 @@
 <tr class="template-row">
 	<td class="name column">
-		<input type="text" name="attr+0+name">
+		<input type="text" class="attr field" name="attr+0+name">
 	</td>
 
 	<td class="label column">
-		<input type="text" name="attr+0+label">
+		<input type="text" class="attr field" name="attr+0+label">
 	</td>
 
 	<td class="type column">
-		<select name="attr+0+type_" onchange="changedType(this.parentElement.parentElement, this.value);">
+		<select name="attr+0+type_" class="attr field" onchange="changedType(this.parentElement.parentElement, this.value);">
 			<option value="text">text</option>
 			<option value="select">select</option>
 			<option value="date">date</option>
@@ -16,16 +16,34 @@
 		</select>
 	</td>
 
+	<td class="ena column">
+		{#
+			<input type="hidden" class="attr field requirement" name="attr+0+ena_include" value="0">
+			<label for="attr+0+ena_include">Include in ENA</label>
+			<input type="checkbox" class="attr field pseudorequirement" name="pseudo+0+ena_include" onchange="changedRequirement(this.parentElement);">
+		#}
+
+		<label for="attr+0+ena_name">Upload name</label>
+		<input type="text" class="attr field" name="attr+0+ena_name">
+
+		<select name="attr+0+ena_requirement" class="attr field requirement" onchange="changedRequirement(this);">
+			<option value="exclude">Exclude</option>
+			<option value="optional">Optional</option>
+			<option value="recommended">Recommended</option>
+			<option value="mandatory">Mandatory</option>
+		</select>
+	</td>
+
 	<td class="pattern column">
-		<input type="text" name="attr+0+pattern">
+		<input type="text" class="attr field" name="attr+0+pattern">
 	</td>
 
 	<td class="options column">
-		<input type="text" name="attr+0+options" disabled="disabled" onchange="updateDefaultCell(this.parentElement.parentElement);">
+		<input type="text" class="attr field" name="attr+0+options" disabled="disabled" onchange="updateDefaultCell(this.parentElement.parentElement);">
 	</td>
 
 	<td class="template column">
-		<input type="text" name="attr+0+template" disabled="disabled">
+		<input type="text" class="attr field" name="attr+0+template" disabled="disabled">
 	</td>
 
 
@@ -34,7 +52,7 @@
 	</td>
 
 	<td class="description column">
-		<input type="text" name="attr+0+description">
+		<input type="text" class="attr field" name="attr+0+description">
 	</td>
 
 	<td class="rmrow column">
