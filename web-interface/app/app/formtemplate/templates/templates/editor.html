@@ -8,26 +8,18 @@
 	<label for="template+0+name">Template name:</label>
 	<input type="text" name="template+0+name" required="required">
 
-
-	{#
-	<table id="template-editor-tab">
-		<tr>
-			<th>Name</th>
-			<th>Label</th>
-			<th>Type</th>
-			<th>ENA</th>
-			<th>Extra</th>
-			<th>Default</th>
-			<th>Description</th>
-		</tr>
-
-		{% include('templates/template.html') %}
-
-	</table>
-
-	#}
-	
-	<div id="template-editor"></div>
+	<div id="template-editor">
+		<div class="row header">
+			<div class="cell rm">Remove</div>
+			<div class="cell">General name</div>
+			<div class="cell">Label</div>
+			<div class="cell">Type</div>
+			<div class="cell">ENA</div>
+			<div class="cell">Field attrib</div>
+			<div class="cell">Default</div>
+			<div class="cell">Description</div>
+		</div>
+	</div>
 
 	<input type="button" onclick="appendNewRow();" value="Add">
 
