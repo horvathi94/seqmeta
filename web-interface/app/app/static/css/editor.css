@@ -1,1 +1,1 @@
-#editor-template,.template-row{visibility:collapse}
+.attr.row{display:flex;flex-direction:row;border:2px solid #000;padding:.2em .5em}.attr.row .cell{display:block;padding:5px;border:1px solid grey}

@@ -9,6 +9,7 @@
 	<input type="text" name="template+0+name" required="required">
 
 
+	{#
 	<table id="template-editor-tab">
 		<tr>
 			<th>Name</th>
@@ -24,7 +25,11 @@
 
 	</table>
 
-	<input type="button" onclick="newAttributeRow();" value="Add">
+	#}
+	
+	<div id="template-editor"></div>
+
+	<input type="button" onclick="appendNewRow();" value="Add">
 
 	<input type="submit" value="Save">
 
