@@ -22,16 +22,16 @@ def parse_list(raw: dict, fkey: str, skip_0: bool=True) -> List[dict]:
 
 def handle(raw: dict) -> "html":
 
-    data = parse_list(raw, "attr")
-    tdata = parse_list(raw, "template", skip_0=False)[0]
-    t = Template(**tdata)
-    for d in data:
-        a = Attribute(**d)
-        t.add_attribute(a)
+    attr_data = parse_list(raw, "attr")
+    template_data = parse_list(raw, "template", skip_0=False)[0]
+    template = Template(**template_data)
 
-    for a in t.attributes:
-       print(f"\n{a}", file=sys.stderr)
+    for adata in attr_data:
+        a = Attribute(**adata)
+        template.add_attribute(a)
 
+    TemplatesTable.save(template)
+    return
     try:
         TemplatesTable.save(t)
     except:

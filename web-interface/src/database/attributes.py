@@ -22,11 +22,13 @@ class AttributesTable(Table):
     @classmethod
     def save(cls, attr: Attribute) -> None:
         sql = f"INSERT INTO `{cls.table_name}` "\
-            "(name, label, template_id, type_, "\
-            "options, template, pattern, `default`, description) "\
+            "(general_name, label, template_id, type_, "\
+            "options, template, pattern, `default`, description, "\
+            "ena_name, ena_requirement, gisaid_name, gisaid_requirement) "\
             "VALUES "\
-            "(%(name)s, %(label)s, %(template_id)s, %(type_)s, "\
+            "(%(general_name)s, %(label)s, %(template_id)s, %(type_)s, "\
             "%(options)s, %(template)s, %(pattern)s, %(default)s, "\
-            "%(description)s)"
+            "%(description)s, %(ena_name)s, %(ena_requirement)s, "\
+            "%(gisaid_name)s, %(gisaid_requirement)s) "
         conn = Connect()
         conn.execute_sql(sql, attr.asdict())

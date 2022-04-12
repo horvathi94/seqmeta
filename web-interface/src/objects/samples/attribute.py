@@ -5,7 +5,7 @@ from enum import Enum
 
 class Requirement(Enum):
 
-    NONE = "none"
+    EXCLUDE = "exclude"
     OPTIONAL = "optional"
     RECOMMENDED = "recommended"
     MANDATORY = "mandatory"
@@ -38,10 +38,9 @@ class RepoField:
 @dataclass
 class Attribute:
 
-    name: str
+    general_name: str
     label: str
     type_: FieldType
-    repos: List[RepoField] = field(default_factory=lambda: [])
     options: List[str] = None
     pattern: str = None
     template_id: int = None
@@ -49,6 +48,10 @@ class Attribute:
     description: str = None
     default: any = None
     id: int = None
+    ena_name: str = None
+    ena_requirement: str = None
+    gisaid_name: str = None
+    gisaid_requirement: str = None
 
 
     def __post_init__(self):
@@ -61,6 +64,24 @@ class Attribute:
             self.pattern = None
         if self.type_ is not FieldType.TEXT:
             self.pattern = None
+        self._ena_requirement()
+        self._gisaid_requirement()
+
+
+    def _ena_requirement(self) -> None:
+        if self.ena_name is None or self.ena_name == "":
+            self.ena_requirement = "exclude"
+        if self.ena_requirement is None or self.ena_requirement == "":
+            self.ena_requirement = "exclude"
+        self.ena_requirement = Requirement(self.ena_requirement)
+
+
+    def _gisaid_requirement(self) -> None:
+        if self.gisaid_name is None or self.gisaid_name == "":
+            self.gisaid_requirement = "exclude"
+        if self.gisaid_requirement is None or self.gisaid_requirement == "":
+            self.gisaid_requirement = "exclude"
+        self.gisaid_requirement = Requirement(self.gisaid_requirement)
 
 
     @property
@@ -81,7 +102,7 @@ class Attribute:
     def asdict(self) -> dict:
         return {
             "template_id": self.template_id,
-            "name": self.name,
+            "general_name": self.general_name,
             "label": self.label,
             "type_": self.type_.value,
             "options": self.options_csv,
@@ -89,4 +110,8 @@ class Attribute:
             "pattern": self.pattern,
             "default": self.default,
             "description": self.description,
+            "ena_name": self.ena_name,
+            "ena_requirement": self.ena_requirement.value,
+            "gisaid_name": self.gisaid_name,
+            "gisaid_requirement": self.gisaid_requirement.value,
         }

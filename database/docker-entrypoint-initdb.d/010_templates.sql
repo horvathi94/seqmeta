@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `templates` (
 CREATE TABLE IF NOT EXISTS `attributes` (
 
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	`name` VARCHAR(100) NOT NULL,
+	`general_name` VARCHAR(100) NOT NULL,
 	`label` VARCHAR(100) NOT NULL,
 	`template_id` INT UNSIGNED NOT NULL,
 	`type_` VARCHAR(20) NOT NULL,
@@ -19,6 +19,10 @@ CREATE TABLE IF NOT EXISTS `attributes` (
 	`default` VARCHAR(200) DEFAULT NULL,
 	`pattern` VARCHAR(200) DEFAULT NULL,
 	`options` TEXT DEFAULT NULL,
+	`ena_name` VARCHAR(200),
+	`ena_requirement` VARCHAR(50),
+	`gisaid_name` VARCHAR(200),
+	`gisaid_requirement` VARCHAR(50),
 
 
 	PRIMARY KEY (id),
