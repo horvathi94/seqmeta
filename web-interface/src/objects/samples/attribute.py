@@ -55,7 +55,8 @@ class Attribute:
 
 
     def __post_init__(self):
-        if self.default == "": self.default = None
+        if self.default == "" and self.type_ is not FieldType.SELECT:
+            self.default = None
         if not isinstance(self.type_, FieldType):
             self.type_ = FieldType(self.type_)
         if isinstance(self.options, str):
@@ -115,3 +116,7 @@ class Attribute:
             "gisaid_name": self.gisaid_name,
             "gisaid_requirement": self.gisaid_requirement.value,
         }
+
+
+    def asjson(self) -> dict:
+        return self.asdict()

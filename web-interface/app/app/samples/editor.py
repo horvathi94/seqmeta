@@ -10,7 +10,8 @@ class Editor(Page):
     template_id: int = 0
 
     def __post_init__(self):
-        self.scripts.append("sampleeditor.js")
+        self.add_script("fields.js")
+        self.add_script("sampleeditor.js")
         self.styles.append("sampleeditor.css")
 
 
@@ -23,4 +24,4 @@ class Editor(Page):
 
     def render_content(self) -> "html":
         return render_template("samples/editor/editor.html",
-                               template=self.template)
+                               template_id=self.template_id)

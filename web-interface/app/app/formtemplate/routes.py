@@ -25,3 +25,11 @@ def submit():
     from . import submission
     submission.handle(dict(request.form))
     return jsonify(dict(request.form))
+
+
+from flask import jsonify
+from seqmeta.database.templates import TemplatesTable
+@formtemplate_bp.route("/templates/json/<template_id>")
+def json(template_id: int):
+    template = TemplatesTable.select(template_id)
+    return jsonify(template.asjson())

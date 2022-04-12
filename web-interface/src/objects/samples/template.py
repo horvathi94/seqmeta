@@ -19,6 +19,13 @@ class Template:
         return asdict(self)
 
 
+    def asjson(self) -> dict:
+        return {
+            "id": self.id,
+            "name": self.name,
+            "attributes": [a.asjson() for a in self.attributes]
+        }
+
     @property
     def attribute_count(self) -> int:
         return len(self.attributes)
