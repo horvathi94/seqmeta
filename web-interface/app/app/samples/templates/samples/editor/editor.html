@@ -1,16 +1,22 @@
 <h1>Samples editor</h1>
 
-<table id="sample-editor">
-	<thead>
-		<th>Attribute</th>
-		<th>Description</th>
-	</thead>
-	<tbody>
-	</tbody>
-</table>
+<form action="{{ url_for('samples_bp.submit') }}" method="POST">
+
+	<input type="hidden" name="template_id" value="{{ template_id }}">
+
+	<table id="sample-editor">
+		<thead>
+			<th>Attribute</th>
+			<th>Description</th>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
 
 
-<input type="button" class="addnew" onclick="addNewSample();" value="Add">
+	<input type="button" class="addnew" onclick="addNewSample();" value="Add">
+	<input type="submit" value="Save">
 
+</form>
 
 <script> const TEMPLATE_ID = {{ template_id }};</script>

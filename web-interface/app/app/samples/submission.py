@@ -6,17 +6,15 @@ import sys
 
 
 
-def parse(raw: dict, skip_0: bool=True) -> List[dict]:
+def parse(raw: dict) -> List[dict]:
 
     samples = {}
     for key, val in raw.items():
         k, sts = key.split("+")[:2]
         if k != "sample": continue
-        if sts == "editall": continue
 
         k, sts, index, attr_name = key.split("+")
         index = int(index)
-        if skip_0 and index == 0: continue
         if index not in samples:
             samples[index] = {"sample_status": sts}
         samples[index][attr_name] = val
@@ -27,6 +25,11 @@ def handle(raw: dict) -> any:
 
     template_id = int(raw.pop("template_id"))
     sample_data = parse(raw)
+
+    for s in sample_data:
+        print(f"\n\n{sample_data[s]}", file=sys.stderr)
+
+    return
 
     for index in sample_data.keys():
         s = sample_data[index]
