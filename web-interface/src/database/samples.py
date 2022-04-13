@@ -21,7 +21,7 @@ class SamplesTable(Table):
 
     @classmethod
     def save(cls, sample: Sample) -> None:
-        if sample.id is None:
+        if sample.status == "new":
             # Insert
             sql = f"INSERT INTO {cls.table_name} "\
                 f"(name, template_id, short_description) "\
@@ -29,16 +29,15 @@ class SamplesTable(Table):
             conn = Connect()
             sample.id = conn.execute_sql(sql, sample.asdict(),
                                          last_insert=True)
-        for attr in sample.attributes.items():
-            cls.save_attribute(sample.id, attr[0], attr[1])
+        for attr_name, attr_value in sample.attributes.items():
+            cls.save_attribute(sample.id, attr_name, attr_value)
 
 
     @classmethod
     def save_attribute(cls, sample_id: int, name: str, val: str) -> None:
-        # Insert
-        sql = f"INSERT INTO `sample_attributes` "\
-            "(sample_id, name, value) VALUES (%s, %s, %s)"
-        conn = Connect()
-        conn.execute_sql(sql, (sample_id, name, val))
+       sql = f"INSERT INTO `sample_attributes` "\
+           "(sample_id, name, value) VALUES (%s, %s, %s)"
+       conn = Connect()
+       conn.execute_sql(sql, (sample_id, name, val))
 
 

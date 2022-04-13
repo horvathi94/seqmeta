@@ -1,8 +1,22 @@
 <h1>Templates</h1>
 
-{% for t in templates %}
-	<p>{{ t.name }}: {{ t.attribute_count }} attributes</p>
-{% endfor %}
+<table id="templates-view" class="view">
+
+	<tr>
+		<th>Name</th>
+		<th>Attributes</th>
+		<th>Edit</th>
+	</tr>
+
+	{% for template in templates %}
+		<tr>
+			<td class="title">{{ template.name }}</td>
+			<td>{{ template.attribute_count }}</td>
+			<td><input type="button" onclick="location.href='{{ url_for('formtemplate_bp.edit', template_id=template.id) }}';" value="Edit"></td>
+		</tr>
+	{% endfor %}
+
+</table>
 
 
-<a href="{{ url_for('formtemplate_bp.edit') }}">Create new</a>
+<input type="button" onclick="location.href='{{ url_for('formtemplate_bp.edit') }}';" value="Create new">

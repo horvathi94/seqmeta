@@ -4,6 +4,8 @@ from seqmeta.database.templates import TemplatesTable
 
 
 
+
+
 @dataclass
 class Sample:
 
@@ -12,6 +14,7 @@ class Sample:
     template_id: int = None
     attributes: dict = field(default_factory=lambda: {})
     short_description: str = None
+    status: str = None
 
 
     def add_attribute(self, name: str, value: any) -> None:

@@ -11,7 +11,7 @@ class Page:
     scripts: List[str] = field(default_factory=lambda: [])
 
 
-    def add_style(self, stylessheet: str) -> None:
+    def add_style(self, stylesheet: str) -> None:
         if stylesheet not in self.styles:
             self.styles.append(stylesheet)
 

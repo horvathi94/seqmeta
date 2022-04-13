@@ -26,22 +26,19 @@ def handle(raw: dict) -> any:
     template_id = int(raw.pop("template_id"))
     sample_data = parse(raw)
 
-    for s in sample_data:
-        print(f"\n\n{sample_data[s]}", file=sys.stderr)
 
-    return
-
-    for index in sample_data.keys():
-        s = sample_data[index]
-        sample_status = s.pop("sample_status")
-        id_ = None if sample_status == "new" else int(index)
-        sample_name = s.pop("name")
-        short_description = s.pop("short_description")
-        sample = Sample(id=id_,
-                        name=sample_name,
+    for index, data in sample_data.items():
+        sample_name = data.pop("name")
+        short_description = data.pop("short_description")
+        status = data.pop("sample_status")
+        sample = Sample(name=sample_name,
                         template_id=template_id,
-                        short_description=short_description)
-        for attr in s:
-            sample.add_attribute(attr, s[attr])
+                        short_description=short_description,
+                        status=status)
+        if status == "registered":
+            sample.id = index
+
+        for attr_name, attr_value in data.items():
+            sample.add_attribute(attr_name, attr_value)
+
         SamplesTable.save(sample)
-        print(f"Sample: {sample}", file=sys.stderr)

@@ -15,7 +15,8 @@ def view():
 
 @formtemplate_bp.route("/templates/edit")
 def edit():
-    page = Editor()
+    template_id = request.args.get("template_id");
+    page = Editor(template_id=template_id)
     return page.render()
 
 
@@ -23,7 +24,7 @@ def edit():
 def submit():
     from flask import jsonify
     from . import submission
-    submission.handle(dict(request.form))
+#    submission.handle(dict(request.form))
     return jsonify(dict(request.form))
 
 

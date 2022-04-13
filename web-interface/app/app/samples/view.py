@@ -9,6 +9,10 @@ from seqmeta.database.samples import SamplesTable
 class View(Page):
 
 
+    def __post_init__(self):
+        self.add_style("view.css");
+
+
     def render_content(self) -> "html":
         templates = TemplatesTable.select_all()
         samples = SamplesTable.select_all()
