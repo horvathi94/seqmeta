@@ -41,7 +41,7 @@ class Attribute:
     general_name: str
     label: str
     type_: FieldType
-    options: List[str] = None
+    options: List[str] = field(default_factory=lambda: [])
     pattern: str = None
     template_id: int = None
     template: str = None
@@ -59,14 +59,23 @@ class Attribute:
             self.default = None
         if not isinstance(self.type_, FieldType):
             self.type_ = FieldType(self.type_)
+        self._clean_options()
+        self._clean_pattern()
+        self._ena_requirement()
+        self._gisaid_requirement()
+
+
+    def _clean_options(self) -> None:
+        if self.options is None: self.options = []
         if isinstance(self.options, str):
             self.options = self.options.split(",")
+
+
+    def _clean_pattern(self) -> None:
         if self.pattern == "":
             self.pattern = None
         if self.type_ is not FieldType.TEXT:
             self.pattern = None
-        self._ena_requirement()
-        self._gisaid_requirement()
 
 
     def _ena_requirement(self) -> None:
@@ -119,4 +128,7 @@ class Attribute:
 
 
     def asjson(self) -> dict:
-        return self.asdict()
+        data = self.asdict()
+        data["id"] = self.id
+        data["options"] = self.options
+        return data
