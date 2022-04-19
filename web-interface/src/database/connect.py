@@ -46,6 +46,12 @@ class Connect:
         return ret
 
 
+    def call_procedure(self, proc_name: str, values: tuple) -> None:
+        self.connect()
+        self.cursor.callproc(proc_name, values)
+        self.close()
+
+
     def fetchall(self, sql: str) -> List[dict]:
         self.connect()
         self.cursor.execute(sql)

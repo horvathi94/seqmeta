@@ -53,6 +53,9 @@ class Attribute:
     gisaid_name: str = None
     gisaid_requirement: str = None
 
+    status: str = "new"
+    deleted: bool = False
+
 
     def __post_init__(self):
         if self.default == "" and self.type_ is not FieldType.SELECT:
@@ -63,6 +66,7 @@ class Attribute:
         self._clean_pattern()
         self._ena_requirement()
         self._gisaid_requirement()
+        self.deleted = bool(self.deleted)
 
 
     def _clean_options(self) -> None:

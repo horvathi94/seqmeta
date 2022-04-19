@@ -19,18 +19,38 @@ def parse_list(raw: dict, fkey: str, skip_0: bool=True) -> List[dict]:
     return list(datad.values())
 
 
+def parse_submission(raw_data: dict, key: str) -> List[dict]:
+
+    cleaned = []
+    current = {"id": None, "status": None}
+    keep = False
+
+    for rname, rvalue in raw_data.items():
+        if rname.split("+")[0] != key: continue
+        k, status, index, name = rname.split("+")
+        index = int(index)
+        if current["status"] != status or current["id"] != index:
+            cleaned.append(current)
+            current = {"status": status, "id": index}
+        current[name] = rvalue
+    cleaned = cleaned[1:]
+    cleaned.append(current)
+    return cleaned
+
+
 
 def handle(raw: dict) -> "html":
 
-    attr_data = parse_list(raw, "attr")
-    template_data = parse_list(raw, "template", skip_0=False)[0]
-    template = Template(**template_data)
+    template_id = raw.pop("template_id")
+    template_name = raw.pop("template_name")
+    template = Template(id=template_id, name=template_name)
+    attrs = parse_submission(raw, "attr")
+    for a in attrs:
+        attr = Attribute(**a)
+        template.add_attribute(attr)
 
-    for adata in attr_data:
-        a = Attribute(**adata)
-        template.add_attribute(a)
 
-    TemplatesTable.save(template)
+#    TemplatesTable.save(template)
     return
     try:
         TemplatesTable.save(t)

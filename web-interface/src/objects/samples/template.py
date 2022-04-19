@@ -11,6 +11,10 @@ class Template:
     attributes: List[Attribute] = field(default_factory=lambda: [])
 
 
+    def __post_init__(self):
+        if self.id is not None: self.id = int(self.id)
+
+
     def add_attribute(self, a: Attribute) -> None:
         self.attributes.append(a)
 

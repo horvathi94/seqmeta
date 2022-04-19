@@ -24,7 +24,7 @@ def edit():
 def submit():
     from flask import jsonify
     from . import submission
-#    submission.handle(dict(request.form))
+    submission.handle(dict(request.form))
     return jsonify(dict(request.form))
 
 
