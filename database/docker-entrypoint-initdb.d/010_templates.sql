@@ -29,22 +29,7 @@ CREATE TABLE IF NOT EXISTS `attributes` (
 
 	FOREIGN KEY (template_id)
 		REFERENCES templates(id)
+		ON UPDATE CASCADE
 		ON DELETE CASCADE
 
 );
-
-/*
-CREATE TABLE IF NOT EXISTS `options`(
-
-	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	`attribute_id` INT UNSIGNED NOT NULL,
-	`option` VARCHAR(100) NOT NULL,
-
-	PRIMARY KEY (id),
-
-	FOREIGN KEY (attribute_id)
-		REFERENCES attributes(id)
-		ON DELETE CASCADE
-
-);
-*/

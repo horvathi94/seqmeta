@@ -50,7 +50,7 @@ def handle(raw: dict) -> "html":
         template.add_attribute(attr)
 
 
-#    TemplatesTable.save(template)
+    TemplatesTable.save(template)
     return
     try:
         TemplatesTable.save(t)

@@ -66,7 +66,7 @@ class Attribute:
         self._clean_pattern()
         self._ena_requirement()
         self._gisaid_requirement()
-        self.deleted = bool(self.deleted)
+        self.deleted = bool(int(self.deleted))
 
 
     def _clean_options(self) -> None:
@@ -136,3 +136,12 @@ class Attribute:
         data["id"] = self.id
         data["options"] = self.options
         return data
+
+
+    @property
+    def upsert_values(self) -> tuple:
+        return (self.id, self.template_id, self.deleted, self.general_name,
+                self.label, self.type_.value, self.description, self.template,
+                self.default, self.pattern, self.options_csv,
+                self.ena_name, self.ena_requirement.value,
+                self.gisaid_name, self.gisaid_requirement.value)
