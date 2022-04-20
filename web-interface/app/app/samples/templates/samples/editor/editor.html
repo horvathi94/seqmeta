@@ -2,7 +2,7 @@
 
 <form action="{{ url_for('samples_bp.submit') }}" method="POST">
 
-	<input type="hidden" name="template_id" value="{{ template_id }}">
+	<input type="hidden" id="template-id" name="template_id" value="{{ template_id }}">
 
 	<table id="sample-editor">
 		<thead>
@@ -20,5 +20,3 @@
 	<input type="submit" value="Save">
 
 </form>
-
-<script> const TEMPLATE_ID = {{ template_id }};</script>

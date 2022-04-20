@@ -27,11 +27,8 @@ class TemplatesTable(Table):
     @classmethod
     def save(cls, t: Template) -> None:
         conn = Connect()
-        #res = conn.call_procedure("upsert_template", (t.id, t.name, 0))
-        #tid = list(res.values())[2]
-        tid = 4
-        import sys
-        #print(f"\n\n{res}", file=sys.stderr)
+        res = conn.call_procedure("upsert_template", (t.id, t.name, 0))
+        tid = list(res.values())[2]
         for a in t.attributes:
             a.template_id = tid
             AttributesTable.save(a)

@@ -22,6 +22,4 @@ class AttributesTable(Table):
     @classmethod
     def save(cls, attr: Attribute) -> None:
         conn = Connect()
-        import sys
-        print(f"\n\nSaving: {attr}", file=sys.stderr)
         conn.call_procedure("upsert_attribute", attr.upsert_values)

@@ -5,11 +5,12 @@ CREATE TABLE IF NOT EXISTS `samples` (
 	`short_description` VARCHAR(500),
 	`template_id` INT UNSIGNED,
 
-	PRIMARY KEY(id),
+	PRIMARY KEY(`id`),
 
-	FOREIGN KEY(template_id)
-		REFERENCES templates(id)
+	FOREIGN KEY(`template_id`)
+		REFERENCES `templates`(`id`)
 		ON DELETE SET NULL
+		ON UPDATE CASCADE
 
 );
 
@@ -21,10 +22,11 @@ CREATE TABLE IF NOT EXISTS `sample_attributes` (
 	`name` VARCHAR(100) NOT NULL,
 	`value` TEXT,
 
-	PRIMARY KEY(id),
+	PRIMARY KEY(`id`),
 
-	FOREIGN KEY(sample_id)
-		REFERENCES samples(id)
+	FOREIGN KEY(`sample_id`)
+		REFERENCES `samples`(`id`)
 		ON DELETE CASCADE
+		ON UPDATE CASCADE
 
 );
