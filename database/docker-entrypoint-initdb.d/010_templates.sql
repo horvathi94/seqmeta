@@ -27,8 +27,9 @@ CREATE TABLE IF NOT EXISTS `attributes` (
 
 	PRIMARY KEY (id),
 
-	FOREIGN KEY (template_id)
-		REFERENCES templates(id)
+	CONSTRAINT `tid_fk`
+	FOREIGN KEY (`template_id`)
+		REFERENCES `templates`(`id`)
 		ON UPDATE CASCADE
 		ON DELETE CASCADE
 

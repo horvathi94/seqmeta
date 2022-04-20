@@ -67,6 +67,7 @@ new_attr:BEGIN
 			`id` = in_id AND
 			`template_id` = in_template_id);
 
+
 	IF (@is_reg IS NULL) THEN
 
 		INSERT 
@@ -75,9 +76,9 @@ new_attr:BEGIN
 				`template`, `default`, `pattern`, `options`,
 				`ena_name`, `ena_requirement`, `gisaid_name`, `gisaid_requirement`)
 		VALUES
-			(template_id, in_general_name, in_label, in_type_, in_description,
-				template, in_default, in_pattern, in_options,
-				ena_name, in_ena_requirement, in_gisaid_name, in_gisaid_requirement);
+			(in_template_id, in_general_name, in_label, in_type_, in_description,
+				in_template, in_default, in_pattern, in_options,
+				in_ena_name, in_ena_requirement, in_gisaid_name, in_gisaid_requirement);
 
 	ELSE
 
