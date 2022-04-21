@@ -5,7 +5,6 @@ from seqmeta.database.templates import TemplatesTable
 
 
 
-
 @dataclass
 class Sample:
 

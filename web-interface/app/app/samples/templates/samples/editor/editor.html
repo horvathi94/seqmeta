@@ -3,6 +3,7 @@
 <form action="{{ url_for('samples_bp.submit') }}" method="POST">
 
 	<input type="hidden" id="template-id" name="template_id" value="{{ template_id }}">
+	<input type="hidden" id="sample-ids" value="{{ samples }}">
 
 	<table id="sample-editor">
 		<thead>

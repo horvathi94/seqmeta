@@ -17,8 +17,13 @@ def view():
 
 @samples_bp.route("/samples/edit", methods=["POST"])
 def edit():
-    template_id = int(request.form.get("template_id"))
-    page = Editor(template_id=template_id)
+    submission = dict(request.form)
+    template_id = int(submission.pop("template_id"))
+    samples = []
+    action = submission.pop("action")
+    if action == "Edit samples":
+        samples = [int(k) for k in submission.keys()]
+    page = Editor(template_id=template_id, samples=samples)
     return page.render()
 
 

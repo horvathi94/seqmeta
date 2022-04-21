@@ -4,6 +4,7 @@
 		<th>Sample name</th>
 		<th>Short description</th>
 		<th>Template</th>
+		<th>Select</th>
 	</tr>
 
 	{% for sample in samples %}
@@ -11,6 +12,7 @@
 		<td class="title">{{ sample.name }}</td>
 		<td>{{ sample.short_description }}</td>
 		<td>{{ sample.template_name }}</td>
+		<td><input type="checkbox" name="{{ sample.id }}"></td>
 	</tr>
 	{% endfor %}
 

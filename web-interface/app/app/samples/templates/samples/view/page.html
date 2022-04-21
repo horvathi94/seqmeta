@@ -1,9 +1,10 @@
 <h1>Samples</h1>
 
-{% include("samples/view/samples.j2") %}
-
-
 <form action="{{ url_for('samples_bp.edit') }}" method="POST">
+
+	{% include("samples/view/samples.j2") %}
+	<input type="submit" name="action" value="Edit samples">
+
 
 	<p>To register new samples select a <em>template</em> and click the <em>Register samples</em> button.</p>
 	<label for="template_id">Template</label>
@@ -12,8 +13,8 @@
 		<option value="{{ template.id }}">{{ template.name }}</option>
 		{% endfor %}
 	</select>
+	
 
-	<input type="submit" value="Register samples">
-
+	<input type="submit" name="action" value="Register samples">
 
 </form>

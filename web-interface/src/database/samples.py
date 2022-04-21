@@ -33,8 +33,6 @@ class SamplesTable(Table):
 
     @classmethod
     def save(cls, sample: Sample) -> None:
-        sample.id = 1 if sample.name == "S01" else 4
-        sample.status = "registered"
         args = (sample.id, sample.template_id, sample.name,
                 sample.short_description, sample.status, 0)
         conn = Connect()
