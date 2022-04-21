@@ -3,6 +3,7 @@ from . import submission
 from .view import View
 from .editor import Editor
 
+from .generate import generate_upload
 from seqmeta.database.samples import SamplesTable
 
 samples_bp = Blueprint("samples_bp", __name__, template_folder="templates")
@@ -19,11 +20,15 @@ def view():
 def edit():
     submission = dict(request.form)
     template_id = int(submission.pop("template_id"))
-    samples = []
     action = submission.pop("action")
     if action == "Edit samples":
         samples = [int(k) for k in submission.keys()]
-    page = Editor(template_id=template_id, samples=samples)
+        page = Editor(template_id=template_id, samples=samples)
+    elif action == "Generate":
+        data = generate_upload([int(k) for k in submission.keys()])
+        return jsonify(data)
+    else:
+        page = Editor(template_id=template_id)
     return page.render()
 
 
