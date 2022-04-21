@@ -17,8 +17,13 @@ class Sample:
     status: str = None
 
 
+    def __post_init__(self):
+        if self.status == "new": self.id = 0
+
+
     def add_attribute(self, name: str, value: any) -> None:
         if name in self.attributes: return
+        if value is not None: value = value.strip()
         self.attributes[name] = value if value != "" else None
 
 

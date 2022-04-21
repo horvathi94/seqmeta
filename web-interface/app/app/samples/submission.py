@@ -5,40 +5,41 @@ from seqmeta.database.samples import SamplesTable
 import sys
 
 
+def parse_submission(raw_data: dict, key: str) -> List[dict]:
 
-def parse(raw: dict) -> List[dict]:
+    cleaned = []
 
-    samples = {}
-    for key, val in raw.items():
-        k, sts = key.split("+")[:2]
-        if k != "sample": continue
-
-        k, sts, index, attr_name = key.split("+")
+    for rname, rvalue in raw_data.items():
+        if rname.split("+")[0] != key: continue
+        k, status, index, name = rname.split("+")
         index = int(index)
-        if index not in samples:
-            samples[index] = {"sample_status": sts}
-        samples[index][attr_name] = val
-    return samples
+
+        item_index = -1
+        for i, item in enumerate(cleaned):
+            if item["status"] == status and item["id"] == index:
+                item_index = i
+
+        if item_index == -1:
+            cleaned.append({"status": status, "id": index})
+
+        cleaned[item_index][name] = rvalue
+
+    return cleaned
+
 
 
 def handle(raw: dict) -> any:
 
     template_id = int(raw.pop("template_id"))
-    sample_data = parse(raw)
-
-
-    for index, data in sample_data.items():
-        sample_name = data.pop("name")
-        short_description = data.pop("short_description")
-        status = data.pop("sample_status")
-        sample = Sample(name=sample_name,
-                        template_id=template_id,
-                        short_description=short_description,
-                        status=status)
-        if status == "registered":
-            sample.id = index
-
-        for attr_name, attr_value in data.items():
-            sample.add_attribute(attr_name, attr_value)
+    sample_data = parse_submission(raw, "sample")
+    for sd in sample_data:
+        s = {"template_id": template_id}
+        s["id"] = sd.pop("id")
+        s["name"] = sd.pop("name")
+        s["status"] = sd.pop("status")
+        s["short_description"] = sd.pop("short_description")
+        sample = Sample(**s)
+        for aname, aval in sd.items():
+            sample.add_attribute(aname, aval)
 
         SamplesTable.save(sample)

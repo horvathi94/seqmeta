@@ -21,23 +21,21 @@ class SamplesTable(Table):
 
     @classmethod
     def save(cls, sample: Sample) -> None:
-        if sample.status == "new":
-            # Insert
-            sql = f"INSERT INTO {cls.table_name} "\
-                f"(name, template_id, short_description) "\
-                f"VALUES (%(name)s, %(template_id)s, %(short_description)s)"
-            conn = Connect()
-            sample.id = conn.execute_sql(sql, sample.asdict(),
-                                         last_insert=True)
+        sample.id = 1 if sample.name == "S01" else 4
+        sample.status = "registered"
+        args = (sample.id, sample.template_id, sample.name,
+                sample.short_description, sample.status, 0)
+        conn = Connect()
+
+#        try:
+        res = conn.call_procedure("upsert_sample", args)
+        sample.id = int(list(res.values())[-1])
+#        except:
+#            raise Exception("Failed to save.");
+
+        print(f"\n\nSaved: {sample}", file=sys.stderr)
+
+
         for attr_name, attr_value in sample.attributes.items():
-            cls.save_attribute(sample.id, attr_name, attr_value)
-
-
-    @classmethod
-    def save_attribute(cls, sample_id: int, name: str, val: str) -> None:
-       sql = f"INSERT INTO `sample_attributes` "\
-           "(sample_id, name, value) VALUES (%s, %s, %s)"
-       conn = Connect()
-       conn.execute_sql(sql, (sample_id, name, val))
-
-
+            args = (sample.id, attr_name, attr_value, sample.status)
+            conn.call_procedure("upsert_sample_attribute", args)
