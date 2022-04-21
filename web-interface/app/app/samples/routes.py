@@ -1,7 +1,9 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from . import submission
 from .view import View
 from .editor import Editor
+
+from seqmeta.database.samples import SamplesTable
 
 samples_bp = Blueprint("samples_bp", __name__, template_folder="templates")
 
@@ -20,8 +22,14 @@ def edit():
     return page.render()
 
 
+@samples_bp.route("/samples/json")
+def json():
+    sample_id = int(request.args.get("id"))
+    sample = SamplesTable.select(sample_id)
+    return jsonify(sample.asjson())
+
+
 @samples_bp.route("/samples/submit", methods=["POST"])
 def submit():
-    from flask import jsonify
     page = submission.handle(dict(request.form))
     return jsonify(dict(request.form))

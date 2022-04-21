@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 from typing import List
 from seqmeta.database.templates import TemplatesTable
 
@@ -38,3 +38,7 @@ class Sample:
             "template_id": self.template_id,
             "short_description": self.short_description
         }
+
+
+    def asjson(self) -> dict:
+        return asdict(self)

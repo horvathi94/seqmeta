@@ -16,7 +16,19 @@ class SamplesTable(Table):
         query = f"SELECT * FROM {cls.table_name} WHERE `id` = {id_}"
         conn = Connect()
         data = conn.fetchone(query)
-        return Sample(**data)
+        sample = Sample(**data)
+        attributes = cls.select_attributes(id_)
+        for a in attributes:
+            sample.add_attribute(a["name"], a["value"])
+        return sample
+
+
+    @classmethod
+    def select_attributes(cls, id_: int) -> dict:
+        query = f"SELECT * FROM `sample_attributes` WHERE `sample_id` = {id_}"
+        conn = Connect()
+        data = conn.fetchall(query)
+        return data
 
 
     @classmethod
@@ -32,9 +44,6 @@ class SamplesTable(Table):
         sample.id = int(list(res.values())[-1])
 #        except:
 #            raise Exception("Failed to save.");
-
-        print(f"\n\nSaved: {sample}", file=sys.stderr)
-
 
         for attr_name, attr_value in sample.attributes.items():
             args = (sample.id, attr_name, attr_value, sample.status)
