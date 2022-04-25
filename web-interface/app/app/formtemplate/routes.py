@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from .editor import Editor
 from .view import View
 
@@ -15,22 +15,28 @@ def view():
 
 @formtemplate_bp.route("/templates/edit")
 def edit():
-    template_id = request.args.get("template_id");
-    page = Editor(template_id=template_id)
+    template_name = request.args.get("name");
+    page = Editor(template_name=template_name)
     return page.render()
 
 
 @formtemplate_bp.route("/templates/submit", methods=["POST"])
 def submit():
-    from flask import jsonify
     from . import submission
     submission.handle(dict(request.form))
     return jsonify(dict(request.form))
 
 
-from flask import jsonify
-from seqmeta.database.templates import TemplatesTable
-@formtemplate_bp.route("/templates/json/<template_id>")
-def json(template_id: int):
-    template = TemplatesTable.select(template_id)
+from seqmeta.objects.samples.template import Template, list_templates
+@formtemplate_bp.route("/templates/json")
+def json():
+    template_name = request.args.get("name")
+    template = Template(name=template_name)
+    template.load()
     return jsonify(template.asjson())
+
+
+@formtemplate_bp.route("/templates/names")
+def names():
+    templates = list_templates()
+    return jsonify([t.name for t in templates])
