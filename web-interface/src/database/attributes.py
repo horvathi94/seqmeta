@@ -20,6 +20,15 @@ class AttributesTable(Table):
 
 
     @classmethod
+    def select_by_name(cls, name: str) -> Attribute:
+        query = f"SELECT `id` FROM {cls.table_name} "\
+            f"WHERE `general_name` = '{name}'"
+        conn = Connect()
+        i = conn.fetchone(query)
+        return cls.select(i["id"])
+
+
+    @classmethod
     def save(cls, attr: Attribute) -> None:
         conn = Connect()
         conn.call_procedure("upsert_attribute", attr.upsert_values)

@@ -1,6 +1,7 @@
 from typing import List
 from seqmeta.objects.samples.sample import Sample
 from seqmeta.database.samples import SamplesTable
+from seqmeta.database.attributes import AttributesTable
 
 import sys
 
@@ -40,6 +41,7 @@ def handle(raw: dict) -> any:
         s["short_description"] = sd.pop("short_description")
         sample = Sample(**s)
         for aname, aval in sd.items():
-            sample.add_attribute(aname, aval)
-
+            attr = AttributesTable.select_by_name(aname)
+            attr.value = aval
+            sample.add_attribute(attr)
         SamplesTable.save(sample)

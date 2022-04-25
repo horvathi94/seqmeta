@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field, asdict
 from typing import List
 from seqmeta.database.templates import TemplatesTable
+from seqmeta.objects.samples.attribute import Attribute, Requirement
 
 
 
@@ -11,7 +12,7 @@ class Sample:
     id: int = None
     name: str = None
     template_id: int = None
-    attributes: dict = field(default_factory=lambda: {})
+    attributes: List[Attribute] = field(default_factory=lambda: [])
     short_description: str = None
     status: str = None
 
@@ -20,10 +21,8 @@ class Sample:
         if self.status == "new": self.id = 0
 
 
-    def add_attribute(self, name: str, value: any) -> None:
-        if name in self.attributes: return
-        if value is not None: value = value.strip()
-        self.attributes[name] = value if value != "" else None
+    def add_attribute(self, a: Attribute) -> None:
+        self.attributes.append(a)
 
 
     @property
@@ -40,4 +39,27 @@ class Sample:
 
 
     def asjson(self) -> dict:
-        return asdict(self)
+        json = self.asdict()
+        json["attributes"] = {a.general_name: a.value for a in self.attributes}
+        return json
+
+
+    @property
+    def ena_list(self) -> list:
+        atts = []
+        for a in self.attributes:
+            if a.ena_requirement is Requirement.EXCLUDE: continue
+            if a.value is None or a.value == "": continue
+            atts.append({"tag": a.ena_name, "value": a.value})
+        return atts
+
+
+    @property
+    def gisaid_attributes(self) -> List[dict]:
+        atts = []
+        i = 0
+        for a in self.attributes:
+            if a.gisaid_requirement is Requirement.EXCLUDE: continue
+            atts.append({"tag": a.gisaid_name, "value": a.value, "index": i})
+            i += 1
+        return atts

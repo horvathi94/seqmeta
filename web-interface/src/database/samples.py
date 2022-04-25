@@ -1,5 +1,6 @@
 from typing import List
 from seqmeta.database.table import Table
+from seqmeta.database.attributes import AttributesTable
 from seqmeta.database.connect import Connect
 from seqmeta.objects.samples.sample import Sample
 
@@ -19,7 +20,7 @@ class SamplesTable(Table):
         sample = Sample(**data)
         attributes = cls.select_attributes(id_)
         for a in attributes:
-            sample.add_attribute(a["name"], a["value"])
+            sample.add_attribute(a)
         return sample
 
 
@@ -27,8 +28,13 @@ class SamplesTable(Table):
     def select_attributes(cls, id_: int) -> dict:
         query = f"SELECT * FROM `sample_attributes` WHERE `sample_id` = {id_}"
         conn = Connect()
-        data = conn.fetchall(query)
-        return data
+        satts = conn.fetchall(query)
+        attributes = []
+        for sa in satts:
+            a = AttributesTable.select_by_name(sa["name"])
+            a.value = sa["value"]
+            attributes.append(a)
+        return attributes
 
 
     @classmethod
@@ -43,6 +49,6 @@ class SamplesTable(Table):
 #        except:
 #            raise Exception("Failed to save.");
 
-        for attr_name, attr_value in sample.attributes.items():
-            args = (sample.id, attr_name, attr_value, sample.status)
+        for attr in sample.attributes:
+            args = (sample.id, attr.general_name, attr.value, sample.status)
             conn.call_procedure("upsert_sample_attribute", args)

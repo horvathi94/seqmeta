@@ -16,6 +16,7 @@ def view():
     return page.render()
 
 
+from flask import Response
 @samples_bp.route("/samples/edit", methods=["POST"])
 def edit():
     submission = dict(request.form)
@@ -26,6 +27,7 @@ def edit():
         page = Editor(template_id=template_id, samples=samples)
     elif action == "Generate":
         data = generate_upload([int(k) for k in submission.keys()])
+#        return Response(data, mimetype="application/xml")
         return jsonify(data)
     else:
         page = Editor(template_id=template_id)

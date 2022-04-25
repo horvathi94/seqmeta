@@ -55,6 +55,7 @@ class Attribute:
 
     status: str = "new"
     deleted: bool = False
+    value: any = None
 
 
     def __post_init__(self):
