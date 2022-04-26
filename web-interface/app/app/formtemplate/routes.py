@@ -27,16 +27,16 @@ def submit():
     return jsonify(dict(request.form))
 
 
-from seqmeta.objects.samples.template import Template, list_templates
+from seqmeta.objects.samples.templates import TemplatesList
 @formtemplate_bp.route("/templates/json")
 def json():
     template_name = request.args.get("name")
-    template = Template(name=template_name)
-    template.load()
+    tl = TemplatesList()
+    template = tl.load_by_name(template_name)
     return jsonify(template.asjson())
 
 
 @formtemplate_bp.route("/templates/names")
 def names():
-    templates = list_templates()
-    return jsonify([t.name for t in templates])
+    tl = TemplateList()
+    return jsonify(tl.load_names())

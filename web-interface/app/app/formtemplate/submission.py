@@ -1,7 +1,7 @@
 from typing import List
 from seqmeta.objects.samples.attribute import Attribute
 from seqmeta.objects.samples.template import Template
-from seqmeta.database.templates import TemplatesTable
+from seqmeta.objects.samples.templates import TemplatesList
 
 
 import sys
@@ -37,4 +37,5 @@ def handle(raw: dict) -> "html":
         attr = Attribute(**a)
         template.add_attribute(attr)
 
-    template.save()
+    tl = TemplatesList()
+    tl.save(template)

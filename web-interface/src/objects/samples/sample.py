@@ -9,9 +9,8 @@ from seqmeta.objects.samples.attribute import Attribute, Requirement
 @dataclass
 class Sample:
 
-    id: int = None
     name: str = None
-    template_id: int = None
+    template_name: str = None
     attributes: List[Attribute] = field(default_factory=lambda: [])
     short_description: str = None
     status: str = None
@@ -25,15 +24,10 @@ class Sample:
         self.attributes.append(a)
 
 
-    @property
-    def template_name(self) -> str:
-        return TemplatesTable.select(self.template_id).name
-
-
     def asdict(self) -> dict:
         return {
             "name": self.name,
-            "template_id": self.template_id,
+            "template_name": self.template_name,
             "short_description": self.short_description
         }
 
@@ -50,7 +44,8 @@ class Sample:
         for a in self.attributes:
             if a.ena_requirement is Requirement.EXCLUDE: continue
             if a.value is None or a.value == "": continue
-            atts.append({"tag": a.ena_name, "value": a.value})
+            atts.append({"tag": a.ena_name, "value": a.value,
+                         "units": a.units})
         return atts
 
 
@@ -60,6 +55,7 @@ class Sample:
         i = 0
         for a in self.attributes:
             if a.gisaid_requirement is Requirement.EXCLUDE: continue
-            atts.append({"tag": a.gisaid_name, "value": a.value, "index": i})
+            atts.append({"tag": a.gisaid_name, "value": a.value, "index": i,
+                         "header": a.gisaid_header})
             i += 1
         return atts

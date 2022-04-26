@@ -49,9 +49,10 @@ class Attribute:
     default: any = None
     id: int = None
     ena_name: str = None
-    ena_requirement: str = None
+    ena_requirement: Requirement = Requirement.EXCLUDE
     gisaid_name: str = None
-    gisaid_requirement: str = None
+    gisaid_requirement: Requirement = Requirement.EXCLUDE
+    gisaid_header: str = None
     units: str = None
 
     status: str = "new"
@@ -130,6 +131,7 @@ class Attribute:
             "ena_requirement": self.ena_requirement.value,
             "gisaid_name": self.gisaid_name,
             "gisaid_requirement": self.gisaid_requirement.value,
+            "gisaid_header": self.gisaid_header,
             "units": self.units,
         }
 

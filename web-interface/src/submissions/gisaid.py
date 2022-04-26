@@ -33,6 +33,7 @@ class Metadata:
 
     def create_header(self, sample: "Sample") -> None:
         for a in sample.gisaid_attributes:
+            self.write_cell(1, a["index"], a["header"])
             self.write_cell(2, a["index"], a["tag"])
 
 

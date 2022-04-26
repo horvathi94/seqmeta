@@ -1,8 +1,8 @@
 from dataclasses import dataclass
+from typing import List
 from flask import render_template
 from seqmeta.page import Page
-from seqmeta.database.templates import TemplatesTable
-from seqmeta.database.samples import SamplesTable
+from seqmeta.objects.samples.templates import TemplatesList, SamplesList
 
 
 @dataclass
@@ -13,9 +13,19 @@ class View(Page):
         self.add_style("view.css");
 
 
+    @property
+    def templates(self) -> List["Template"]:
+        tl = TemplatesList()
+        return tl.load_names()
+
+
+    @property
+    def samples(self) -> List["Sample"]:
+        sl = SamplesList()
+        return sl.load()
+
+
     def render_content(self) -> "html":
-        templates = TemplatesTable.select_all()
-        samples = SamplesTable.select_all()
         return render_template("samples/view/page.html",
-                               templates=templates,
-                               samples=samples)
+                               templates=self.templates,
+                               samples=self.samples)

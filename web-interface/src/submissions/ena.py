@@ -21,5 +21,8 @@ def sample_set(samples: List["Sample"]) -> "xml":
             tag.text = a["tag"]
             value = ET.SubElement(sample_attribute, "VALUE")
             value.text = a["value"]
+            if a["units"]:
+                units = ET.SubElement(sample_attribute, "UNITS")
+                units.text = a["units"]
 
     return ET.tostring(sample_set)

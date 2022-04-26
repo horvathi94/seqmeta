@@ -4,18 +4,20 @@
 
 	{% include("samples/view/samples.j2") %}
 	<input type="submit" name="action" value="Edit samples">
-	<input type="submit" name="action" value="Generate">
+	<input type="submit" name="action" value="Generate ENA">
+	<input type="submit" name="action" value="Generate GISAID">
 
 
 	<p>To register new samples select a <em>template</em> and click the <em>Register samples</em> button.</p>
-	<label for="template_id">Template</label>
-	<select id="" name="template_id">
+	<label for="template_name">Template</label>
+	<select id="" name="template_name">
 		{% for template in templates %}
-		<option value="{{ template.id }}">{{ template.name }}</option>
+		<option value="{{ template }}">{{ template }}</option>
 		{% endfor %}
 	</select>
 	
 
 	<input type="submit" name="action" value="Register samples">
+
 
 </form>

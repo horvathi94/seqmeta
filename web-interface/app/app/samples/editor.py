@@ -8,7 +8,7 @@ from seqmeta.database.templates import TemplatesTable
 @dataclass
 class Editor(Page):
 
-    template_id: int = 0
+    template_name: str = None
     samples: List[int] = field(default_factory=lambda: [])
 
 
@@ -20,11 +20,11 @@ class Editor(Page):
 
 
     @property
-    def sample_ids(self) -> str:
-        return ",".join([str(sid) for sid in self.samples])
+    def sample_names(self) -> str:
+        return ",".join(self.samples)
 
 
     def render_content(self) -> "html":
         return render_template("samples/editor/editor.html",
-                               template_id=self.template_id,
-                               samples=self.sample_ids)
+                               template_name=self.template_name,
+                               samples=self.sample_names)

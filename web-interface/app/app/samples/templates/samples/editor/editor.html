@@ -2,8 +2,8 @@
 
 <form action="{{ url_for('samples_bp.submit') }}" method="POST">
 
-	<input type="hidden" id="template-id" name="template_id" value="{{ template_id }}">
-	<input type="hidden" id="sample-ids" value="{{ samples }}">
+	<input type="hidden" id="template-name" name="template_name" value="{{ template_name }}">
+	<input type="hidden" id="sample-names" value="{{ samples }}">
 
 	<table id="sample-editor">
 		<thead>

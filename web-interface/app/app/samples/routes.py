@@ -3,7 +3,7 @@ from . import submission
 from .view import View
 from .editor import Editor
 
-from .generate import generate_upload
+from . import generate
 from seqmeta.database.samples import SamplesTable
 
 samples_bp = Blueprint("samples_bp", __name__, template_folder="templates")
@@ -20,24 +20,28 @@ from flask import Response
 @samples_bp.route("/samples/edit", methods=["POST"])
 def edit():
     submission = dict(request.form)
-    template_id = int(submission.pop("template_id"))
+    template_name = submission.pop("template_name")
     action = submission.pop("action")
     if action == "Edit samples":
-        samples = [int(k) for k in submission.keys()]
-        page = Editor(template_id=template_id, samples=samples)
-    elif action == "Generate":
-        data = generate_upload([int(k) for k in submission.keys()])
-#        return Response(data, mimetype="application/xml")
+        samples = submission.keys()
+        page = Editor(template_name=template_name, samples=samples)
+    elif action == "Generate ENA":
+        data = generate.ena(submission.keys())
+        return Response(data, mimetype="application/xml")
+    elif action == "Generate GISAID":
+        data = generate.gisaid(submission.keys())
         return jsonify(data)
     else:
-        page = Editor(template_id=template_id)
+        page = Editor(template_name=template_name)
     return page.render()
 
 
+from seqmeta.objects.samples.templates import SamplesList
 @samples_bp.route("/samples/json")
 def json():
-    sample_id = int(request.args.get("id"))
-    sample = SamplesTable.select(sample_id)
+    sample_name = request.args.get("name")
+    sl = SamplesList()
+    sample = sl.load_by_name(sample_name)
     return jsonify(sample.asjson())
 
 
