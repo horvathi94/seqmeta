@@ -52,6 +52,7 @@ class Attribute:
     ena_requirement: str = None
     gisaid_name: str = None
     gisaid_requirement: str = None
+    units: str = None
 
     status: str = "new"
     deleted: bool = False
@@ -129,6 +130,7 @@ class Attribute:
             "ena_requirement": self.ena_requirement.value,
             "gisaid_name": self.gisaid_name,
             "gisaid_requirement": self.gisaid_requirement.value,
+            "units": self.units,
         }
 
 

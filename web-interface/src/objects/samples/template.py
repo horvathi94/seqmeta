@@ -60,6 +60,7 @@ class Template:
 
     def load(self) -> None:
         t = load_pickle(self.pickle_file)
+        print(t)
         for a in t.attributes:
             self.add_attribute(a)
 

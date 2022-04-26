@@ -30,7 +30,6 @@ def parse_submission(raw_data: dict, key: str) -> List[dict]:
 
 def handle(raw: dict) -> "html":
 
-#    template_id = raw.pop("template_id")
     template_name = raw.pop("template_name")
     template = Template(name=template_name)
     attrs = parse_submission(raw, "attr")
@@ -39,4 +38,3 @@ def handle(raw: dict) -> "html":
         template.add_attribute(attr)
 
     template.save()
-#    TemplatesTable.save(template)
