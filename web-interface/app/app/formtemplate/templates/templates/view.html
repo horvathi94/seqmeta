@@ -12,7 +12,7 @@
 		<tr>
 			<td class="title">{{ template.name }}</td>
 			<td>{{ template.attribute_count }}</td>
-			<td><input type="button" onclick="location.href='{{ url_for('formtemplate_bp.edit', template_id=template.id) }}';" value="Edit"></td>
+			<td><input type="button" onclick="location.href='{{ url_for('formtemplate_bp.edit', name=template.name) }}';" value="Edit"></td>
 		</tr>
 	{% endfor %}
 

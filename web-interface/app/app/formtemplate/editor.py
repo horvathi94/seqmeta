@@ -15,7 +15,6 @@ class Editor(Page):
         self.add_script("templates.js")
         self.add_script("ena.js")
         self.add_script("importena.js")
-        if self.template_id is None: self.template_id = 0
 
 
     def render_content(self) -> "html":
