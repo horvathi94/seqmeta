@@ -4,7 +4,7 @@
 
 <form action="{{ url_for('formtemplate_bp.submit') }}" method="POST">
 
-	<input type="hidden" id="loaded-template-name" name="template_id" value="{{ template_name }}">
+	<input type="hidden" id="loaded-template-name" name="loaded_template_name" value="{{ template_name }}">
 
 	<label for="template_name">Template name:</label>
 	<input type="text" id="template-name-field" name="template_name" required="required" value="{{ template_name }}"/>

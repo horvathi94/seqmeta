@@ -1,6 +1,6 @@
 <h1>Samples editor</h1>
 
-<form action="{{ url_for('samples_bp.submit') }}" method="POST">
+<form action="{{ url_for('samples_bp.submit') }}" method="POST" enctype="multipart/form-data">
 
 	<input type="hidden" id="template-name" name="template_name" value="{{ template_name }}">
 	<input type="hidden" id="sample-names" value="{{ samples }}">

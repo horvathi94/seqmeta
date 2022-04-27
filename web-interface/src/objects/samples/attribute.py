@@ -17,6 +17,7 @@ class FieldType(Enum):
     DATE = "date"
     SELECT = "select"
     TEMPLATE = "template"
+    FILE = "file"
 
 
 class Repo(Enum):
@@ -43,7 +44,6 @@ class Attribute:
     type_: FieldType
     options: List[str] = field(default_factory=lambda: [])
     pattern: str = None
-    template_id: int = None
     template: str = None
     description: str = None
     default: any = None
@@ -54,9 +54,6 @@ class Attribute:
     gisaid_requirement: Requirement = Requirement.EXCLUDE
     gisaid_header: str = None
     units: str = None
-
-    status: str = "new"
-    deleted: bool = False
     value: any = None
 
 
@@ -69,7 +66,6 @@ class Attribute:
         self._clean_pattern()
         self._ena_requirement()
         self._gisaid_requirement()
-        self.deleted = bool(int(self.deleted))
 
 
     def _clean_options(self) -> None:

@@ -47,5 +47,5 @@ def json():
 
 @samples_bp.route("/samples/submit", methods=["POST"])
 def submit():
-    page = submission.handle(dict(request.form))
+    page = submission.handle(dict(request.form), dict(request.files))
     return jsonify(dict(request.form))

@@ -1,8 +1,9 @@
+import pathlib
 from dataclasses import dataclass, field, asdict
 from typing import List
 from seqmeta.database.templates import TemplatesTable
 from seqmeta.objects.samples.attribute import Attribute, Requirement
-
+from .attribute import FieldType
 
 
 
@@ -59,3 +60,20 @@ class Sample:
                          "header": a.gisaid_header})
             i += 1
         return atts
+
+
+    def save_files(self) -> None:
+        for a in self.attributes:
+            if a.type_ is FieldType.FILE:
+                ext = a.value.filename.split(".")[-1]
+                file = pathlib.Path("/home/seqmeta/uploads/samples",
+                        self.name + "." + ext)
+                a.value.save(file)
+
+
+    @property
+    def files(self) -> list:
+        files = []
+        for a in self.attributes:
+            if a.type_ is FieldType.FILE: files.append(a.value)
+        return files

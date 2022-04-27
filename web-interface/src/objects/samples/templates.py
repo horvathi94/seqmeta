@@ -2,6 +2,7 @@ import pathlib
 import pickle
 from typing import List
 from .template import Template
+from werkzeug.utils import secure_filename
 
 
 class PickleList:
