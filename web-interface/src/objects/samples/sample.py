@@ -14,7 +14,6 @@ class Sample:
     template_name: str = None
     attributes: List[Attribute] = field(default_factory=lambda: [])
     short_description: str = None
-    status: str = None
 
 
     def __post_init__(self):
@@ -35,7 +34,8 @@ class Sample:
 
     def asjson(self) -> dict:
         json = self.asdict()
-        json["attributes"] = {a.general_name: a.value for a in self.attributes}
+        json["attributes"] = {a.general_name: a.json_value \
+                              for a in self.attributes}
         return json
 
 
@@ -69,3 +69,4 @@ class Sample:
                 file = pathlib.Path("/home/seqmeta/uploads/samples",
                         self.name + "." + ext)
                 a.value.save(file)
+                a.value = file

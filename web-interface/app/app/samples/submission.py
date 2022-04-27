@@ -21,5 +21,5 @@ def handle(raw: dict, files: any) -> None:
             attr = template.get_attribute(aname)
             attr.value = aval
             sample.add_attribute(attr)
-        sl.save(sample)
         sample.save_files()
+        sl.save(sample)

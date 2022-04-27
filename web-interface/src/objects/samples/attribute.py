@@ -112,6 +112,13 @@ class Attribute:
         return ",".join(self.options)
 
 
+    @property
+    def json_value(self) -> any:
+        if self.type_ is FieldType.FILE:
+            return str(self.value)
+        return self.value
+
+
     def asdict(self) -> dict:
         return {
             "general_name": self.general_name,
@@ -128,6 +135,7 @@ class Attribute:
             "gisaid_requirement": self.gisaid_requirement.value,
             "gisaid_header": self.gisaid_header,
             "units": self.units,
+            "value": self.json_value,
         }
 
 

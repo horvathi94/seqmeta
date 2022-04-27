@@ -13,6 +13,9 @@ class Template:
     attributes: List[Attribute] = field(default_factory=lambda: [])
     short_description: str = None
     ena_checklist: str = None
+    taxonomy_id: int = None
+    scientific_name: str = None
+    common_name: str = None
 
 
     def get_attribute(self, name: str) -> Attribute:
@@ -34,6 +37,9 @@ class Template:
             "name": self.name,
             "short_description": self.short_description,
             "ena_checklist": self.ena_checklist,
+            "taxonomy_id": self.taxonomy_id,
+            "scientific_name": self.scientific_name,
+            "common_name": self.common_name,
             "attributes": [a.asjson() for a in self.attributes]
         }
 

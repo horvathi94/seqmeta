@@ -7,14 +7,12 @@ from seqmeta.form import submission
 def handle(raw: dict) -> None:
 
     template_name = raw.pop("loaded_template_name")
-    template_short_description = raw.pop("template_short_description")
-    template = Template(name=template_name,
-                        short_description=template_short_description)
-    if "ena_checklist" in raw:
-        template.ena_checklist = raw.pop("ena_checklist")
     new_name = raw.pop("template_name")
-    attrs = submission.parse(raw, "attr")
 
+    template_data = submission.parse(raw, "template")[0]
+    template = Template(name=template_name, **template_data)
+
+    attrs = submission.parse(raw, "attr")
     for a in attrs:
         attr = Attribute(**a)
         template.add_attribute(attr)
