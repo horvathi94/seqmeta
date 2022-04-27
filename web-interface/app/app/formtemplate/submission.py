@@ -10,6 +10,8 @@ def handle(raw: dict) -> None:
     template_short_description = raw.pop("template_short_description")
     template = Template(name=template_name,
                         short_description=template_short_description)
+    if "ena_checklist" in raw:
+        template.ena_checklist = raw.pop("ena_checklist")
     new_name = raw.pop("template_name")
     attrs = submission.parse(raw, "attr")
 

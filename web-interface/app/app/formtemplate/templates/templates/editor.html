@@ -1,8 +1,9 @@
 <h1>Template editor</h1>
 
-{% include("templates/enachecklist.html") %}
 
 <form action="{{ url_for('formtemplate_bp.submit') }}" method="POST">
+
+	{% include("templates/enachecklist.html") %}
 
 	<input type="hidden" id="loaded-template-name" name="loaded_template_name" value="{{ template.name }}">
 

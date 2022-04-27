@@ -6,6 +6,7 @@
 		<th>Name</th>
 		<th>Attributes</th>
 		<th>Short description</th>
+		<th>ENA checklist</th>
 		<th>Edit</th>
 	</tr>
 
@@ -14,6 +15,7 @@
 			<td class="title">{{ template.name }}</td>
 			<td>{{ template.attribute_count }}</td>
 			<td>{{ template.short_description }}</td>
+			<td>{{ template.ena_checklist }}</td>
 			<td><input type="button" onclick="location.href='{{ url_for('formtemplate_bp.edit', name=template.name) }}';" value="Edit"></td>
 		</tr>
 	{% endfor %}

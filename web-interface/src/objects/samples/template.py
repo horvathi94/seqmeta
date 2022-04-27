@@ -32,6 +32,8 @@ class Template:
     def asjson(self) -> dict:
         return {
             "name": self.name,
+            "short_description": self.short_description,
+            "ena_checklist": self.ena_checklist,
             "attributes": [a.asjson() for a in self.attributes]
         }
 
