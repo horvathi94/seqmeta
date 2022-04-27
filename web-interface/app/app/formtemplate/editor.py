@@ -10,12 +10,12 @@ class Editor(Page):
 
 
     def __post_init__(self):
-        self.styles.append("editor.css")
+        self.add_style("editor.css")
         self.add_script("fields.js")
         self.add_script("parsetemplate.js")
         self.add_script("templates.js")
-        self.add_script("ena.js")
         self.add_script("importena.js")
+        self.add_script("importtaxonomy.js")
 
 
     def render_content(self) -> "html":

@@ -1,10 +1,8 @@
 import pathlib
 from dataclasses import dataclass, field, asdict
 from typing import List
-from seqmeta.database.templates import TemplatesTable
-from seqmeta.objects.samples.attribute import Attribute, Requirement
-from .attribute import FieldType
-
+from seqmeta.objects.samples.attribute import Attribute, Requirement, FieldType
+from seqmeta.objects.samples.templates import TemplatesList
 
 
 @dataclass
@@ -14,10 +12,32 @@ class Sample:
     template_name: str = None
     attributes: List[Attribute] = field(default_factory=lambda: [])
     short_description: str = None
+    template: "Template" = None
 
 
     def __post_init__(self):
-        if self.status == "new": self.id = 0
+        self._load_template()
+
+
+    def _load_template(self) -> None:
+        if self.template_name is None: return
+        tl = TemplatesList()
+        self.template = tl.load_by_name(self.template_name)
+
+
+    @property
+    def taxonomy_id(self) -> str:
+        return self.template.taxonomy_id
+
+
+    @property
+    def scientific_name(self) -> str:
+        return self.template.scientific_name
+
+
+    @property
+    def common_name(self) -> str:
+        return self.template.common_name
 
 
     def add_attribute(self, a: Attribute) -> None:

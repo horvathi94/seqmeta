@@ -1,7 +1,7 @@
 <h1>Template editor</h1>
 
 
-<form action="{{ url_for('formtemplate_bp.submit') }}" method="POST">
+<form action="{{ url_for('formtemplate_bp.submit') }}" method="POST" onkeydown="return event.key != 'Enter';">
 
 	{% include("templates/enachecklist.html") %}
 
@@ -14,6 +14,13 @@
 
 
 	<div id="taxonomy">
+		<label for="search-term">Search</label>
+		<input type="text" name="search-term" id="taxonomy-search-term">
+		<input type="button" onclick="fetchTaxonomyData();" value="Search">
+		<select id="taxonomy-selector" onchange="changeTaxonomy();">
+			<option value=""></option>
+		</select>
+
 		<label for="template+0+taxonomy_id">Taxonomy ID:</label>
 		<input type="text" id="taxonomy-id" name="template+0+taxonomy_id" pattern="^[0-9]+$" required="required">
 

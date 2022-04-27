@@ -61,3 +61,12 @@ class SamplesList(PickleList):
 
     path = pathlib.Path("/home/seqmeta/uploads/samples/")
     extension = ".sample"
+
+
+    @classmethod
+    def load_pickle(cls, pickle_file: pathlib.Path) -> object:
+        if not pathlib.Path(pickle_file).is_file(): return
+        with open(pickle_file, "rb") as f:
+            sample = pickle.load(f)
+        sample._load_template()
+        return sample

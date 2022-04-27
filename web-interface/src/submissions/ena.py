@@ -10,8 +10,12 @@ def sample_set(samples: List["Sample"]) -> "xml":
         title = ET.SubElement(sample, "TITLE")
         sample_name = ET.SubElement(sample, "SAMPLE_NAME")
         taxon_id = ET.SubElement(sample_name, "TAXON_ID")
+        taxon_id.text = s.taxonomy_id
         scientific_name = ET.SubElement(sample_name, "SCIENTIFIC_NAME")
-        common_name = ET.SubElement(sample_name, "COMMON_NAME")
+        scientific_name.text = s.scientific_name
+        if s.common_name:
+            common_name = ET.SubElement(sample_name, "COMMON_NAME")
+            common_name.text = s.common_name
 
         sample_attributes = ET.SubElement(sample, "SAMPLE_ATTRIBUTES")
         for a in s.ena_list:

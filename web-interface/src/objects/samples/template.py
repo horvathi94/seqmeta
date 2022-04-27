@@ -24,8 +24,12 @@ class Template:
         return None
 
 
-    def add_attribute(self, a: Attribute) -> None:
-        self.attributes.append(a)
+    def add_attribute(self, new_attr: Attribute) -> None:
+        for i, attr in enumerate(self.attributes):
+            if attr.general_name == new_attr.general_name:
+                self.attributes[i] = new_attr
+                return
+        self.attributes.append(new_attr)
 
 
     def asdict(self) -> dict:
