@@ -5,6 +5,7 @@
 	<tr>
 		<th>Name</th>
 		<th>Attributes</th>
+		<th>Short description</th>
 		<th>Edit</th>
 	</tr>
 
@@ -12,6 +13,7 @@
 		<tr>
 			<td class="title">{{ template.name }}</td>
 			<td>{{ template.attribute_count }}</td>
+			<td>{{ template.short_description }}</td>
 			<td><input type="button" onclick="location.href='{{ url_for('formtemplate_bp.edit', name=template.name) }}';" value="Edit"></td>
 		</tr>
 	{% endfor %}

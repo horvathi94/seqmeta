@@ -6,7 +6,7 @@ from seqmeta.page import Page
 @dataclass
 class Editor(Page):
 
-    template_name: str = None
+    template: "Template" = None
 
 
     def __post_init__(self):
@@ -19,5 +19,4 @@ class Editor(Page):
 
 
     def render_content(self) -> "html":
-        return render_template("templates/editor.html",
-                               template_name=self.template_name)
+        return render_template("templates/editor.html", template=self.template)

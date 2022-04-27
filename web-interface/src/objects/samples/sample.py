@@ -69,11 +69,3 @@ class Sample:
                 file = pathlib.Path("/home/seqmeta/uploads/samples",
                         self.name + "." + ext)
                 a.value.save(file)
-
-
-    @property
-    def files(self) -> list:
-        files = []
-        for a in self.attributes:
-            if a.type_ is FieldType.FILE: files.append(a.value)
-        return files

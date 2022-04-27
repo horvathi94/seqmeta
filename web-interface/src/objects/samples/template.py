@@ -10,8 +10,9 @@ class Template:
 
     path: pathlib.Path = pathlib.Path("/home/seqmeta/uploads/samples/")
     name: str = None
-    short_description: str = None
     attributes: List[Attribute] = field(default_factory=lambda: [])
+    short_description: str = None
+    ena_checklist: str = None
 
 
     def get_attribute(self, name: str) -> Attribute:

@@ -13,10 +13,13 @@ def view():
     return page.render()
 
 
+from seqmeta.objects.samples.templates import TemplatesList
 @formtemplate_bp.route("/templates/edit")
 def edit():
-    template_name = request.args.get("name");
-    page = Editor(template_name=template_name)
+    template_name = request.args.get("name")
+    tl = TemplatesList()
+    template = tl.load_by_name(template_name)
+    page = Editor(template=template)
     return page.render()
 
 

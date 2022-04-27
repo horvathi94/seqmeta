@@ -4,10 +4,12 @@
 
 <form action="{{ url_for('formtemplate_bp.submit') }}" method="POST">
 
-	<input type="hidden" id="loaded-template-name" name="loaded_template_name" value="{{ template_name }}">
+	<input type="hidden" id="loaded-template-name" name="loaded_template_name" value="{{ template.name }}">
 
 	<label for="template_name">Template name:</label>
-	<input type="text" id="template-name-field" name="template_name" required="required" value="{{ template_name }}"/>
+	<input type="text" id="template-name-field" name="template_name" required="required" value="{{ template.name }}"/>
+
+	<textarea name="template_short_description" cols="30" rows="10">{{ template.short_description }}</textarea>
 
 	<div id="template-editor">
 		<div class="row header">

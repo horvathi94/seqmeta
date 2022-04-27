@@ -114,7 +114,6 @@ class Attribute:
 
     def asdict(self) -> dict:
         return {
-            "template_id": self.template_id,
             "general_name": self.general_name,
             "label": self.label,
             "type_": self.type_.value,
