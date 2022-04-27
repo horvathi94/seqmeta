@@ -21,6 +21,7 @@ def handle(raw: dict) -> None:
         template.common_name = template_data["common_name"]
         template.name = new_name
 
+    template.clear_attributes()
     attrs = submission.parse(raw, "attr")
     for a in attrs:
         attr = Attribute(**a)

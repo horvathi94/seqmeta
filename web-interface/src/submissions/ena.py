@@ -29,4 +29,12 @@ def sample_set(samples: List["Sample"]) -> "xml":
                 units = ET.SubElement(sample_attribute, "UNITS")
                 units.text = a["units"]
 
+
+        sample_attribute = ET.SubElement(sample_attributes, "SAMPLE_ATTRIBUTE")
+        tag = ET.SubElement(sample_attribute, "TAG")
+        tag.text = "ENA-CHECKLIST"
+        value = ET.SubElement(sample_attribute, "VALUE")
+        value.text = s.ena_checklist
+
+
     return ET.tostring(sample_set)

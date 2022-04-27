@@ -8,7 +8,7 @@
 	<input type="hidden" id="loaded-template-name" name="loaded_template_name" value="{{ template.name }}">
 
 	<label for="template_name">Template name:</label>
-	<input type="text" id="template-name-field" name="template_name" required="required" value="{{ template.name }}"/>
+	<input type="text" id="template-name-field" name="template_name" required="required" pattern="\w+" value="{{ template.name }}"/>
 
 	<textarea name="template+0+short_description" cols="30" rows="10">{{ template.short_description }}</textarea>
 

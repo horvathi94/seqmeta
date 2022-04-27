@@ -24,6 +24,10 @@ class Template:
         return None
 
 
+    def clear_attributes(self) -> None:
+        self.attributes = []
+
+
     def add_attribute(self, new_attr: Attribute) -> None:
         for i, attr in enumerate(self.attributes):
             if attr.general_name == new_attr.general_name:

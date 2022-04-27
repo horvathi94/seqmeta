@@ -40,6 +40,11 @@ class Sample:
         return self.template.common_name
 
 
+    @property
+    def ena_checklist(self) -> str:
+        return self.template.ena_checklist
+
+
     def add_attribute(self, a: Attribute) -> None:
         self.attributes.append(a)
 
@@ -65,6 +70,7 @@ class Sample:
         for a in self.attributes:
             if a.ena_requirement is Requirement.EXCLUDE: continue
             if a.value is None or a.value == "": continue
+            if a.type_ is FieldType.FILE: continue
             atts.append({"tag": a.ena_name, "value": a.value,
                          "units": a.units})
         return atts
