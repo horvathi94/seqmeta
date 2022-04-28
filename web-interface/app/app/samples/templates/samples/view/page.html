@@ -3,6 +3,7 @@
 <form action="{{ url_for('samples_bp.edit') }}" method="POST">
 
 	<p>To register new samples select a <em>template</em> and click the <em>Register samples</em> button.</p>
+
 	<label for="template_name">Template</label>
 	<select id="selected-template" name="template_name" onchange="updateView();">
 		{% for template in templates %}
@@ -11,15 +12,13 @@
 	</select>
 
 
+	<input type="submit" name="action" value="Register samples">
+
 	{% include("samples/view/samples.j2") %}
 
 
 	<input type="submit" name="action" value="Edit samples">
 	<input type="submit" name="action" value="Generate ENA">
 	<input type="submit" name="action" value="Generate GISAID">
-	
-
-	<input type="submit" name="action" value="Register samples">
-
 
 </form>

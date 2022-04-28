@@ -32,9 +32,9 @@ class Metadata:
 
 
     def create_header(self, sample: "Sample") -> None:
-        for a in sample.gisaid_attributes:
-            self.write_cell(1, a["index"], a["header"])
-            self.write_cell(2, a["index"], a["tag"])
+        for index, a in enumerate(sample.list_gisaid()):
+            self.write_cell(1, index, a.gisaid_header)
+            self.write_cell(2, index, a.gisaid_name)
 
 
     @property
@@ -43,8 +43,8 @@ class Metadata:
 
 
     def add_sample(self, sample: "Sample") -> None:
-        for a in sample.gisaid_attributes:
-            self.write_cell(self.row_index, a["index"], a["value"])
+        for index, a in enumerate(sample.list_gisaid()):
+            self.write_cell(self.row_index, index, a.value)
         self.sample_count += 1
 
 

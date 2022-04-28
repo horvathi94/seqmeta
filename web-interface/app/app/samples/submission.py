@@ -16,10 +16,13 @@ def handle(raw: dict, files: any) -> None:
         name = sd.pop("name")
         short_description = sd.pop("short_description")
         sample = Sample(name, short_description, template_name=template_name)
+        sample.taxonomy = template.taxonomy
+        sample.ena_checklist = template.ena_checklist
 
         for aname, aval in sd.items():
             attr = template.get_attribute(aname)
             sample_attr = attr.as_sample_attribute()
+            sample_attr.value = aval
             sample.add_attribute(sample_attr)
 
         sample.save()

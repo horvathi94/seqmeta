@@ -27,3 +27,12 @@ class SampleAttribute:
             "value": self.value,
         }
 
+
+    def ena_include(self) -> bool:
+        if self.ena_requirement is Requirement.EXCLUDE: return False
+        return True
+
+
+    def gisaid_include(self) -> bool:
+        if self.gisaid_requirement is Requirement.EXCLUDE: return False
+        return True
