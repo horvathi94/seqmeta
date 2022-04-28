@@ -9,9 +9,9 @@
 
 	{% for sample in samples %}
 	<tr>
-		<td class="title">{{ sample.name }}</td>
+		<th>{{ sample.name }}</th>
 		<td>{{ sample.short_description }}</td>
-		<td>{{ sample.template_name }}</td>
+		<td class="template">{{ sample.template_name }}</td>
 		<td><input type="checkbox" name="{{ sample.name }}"></td>
 	</tr>
 	{% endfor %}

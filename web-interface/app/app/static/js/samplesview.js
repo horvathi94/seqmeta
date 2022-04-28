@@ -1,0 +1,1 @@
+function updateView(){const r=document.querySelector("#selected-template").value;var e=document.querySelector("#samples-view").tBodies[0];Array.from(e.rows).forEach(e=>{var t=e.querySelector(".template");t&&(t.innerText==r?e.classList.toggle("hidden",!1):e.classList.toggle("hidden",!0))})}updateView();

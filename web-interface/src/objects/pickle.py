@@ -24,13 +24,9 @@ class PickleFile:
         return self.create_file(self.filename)
 
 
-    def save(self, overwrite: str=None) -> None:
+    def save(self) -> None:
         with open(self.file, "wb") as f:
             pickle.dump(self, f)
-        if overwrite is None: return
-        old_filename = self.create_filename(overwrite)
-        old_file = self.create_file(old_filename)
-        old_file.unlink()
 
 
     @classmethod

@@ -5,11 +5,9 @@ from seqmeta.objects.attributes.attribute import Attribute
 
 def handle(raw: dict) -> None:
 
-    loaded_name = raw.pop("loaded_template_name")
-    if loaded_name == "": loaded_name = None
-    new_name = raw.pop("template_name")
+    template_name = raw.pop("template_name")
 
-    template = SampleTemplate(new_name)
+    template = SampleTemplate(template_name)
     taxonomy = submission.parse(raw, "taxonomy")[0]
     template.taxonomy.update(taxonomy)
 
@@ -23,4 +21,4 @@ def handle(raw: dict) -> None:
     for a in attrs:
         template.add_attribute(Attribute(**a))
 
-    template.save(overwrite=loaded_name)
+    template.save()

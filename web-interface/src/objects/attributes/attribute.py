@@ -18,7 +18,7 @@ class Attribute:
     default: any = None
     ena_name: str = None
     ena_requirement: Requirement = Requirement.EXCLUDE
-    ena_units: str = None
+    ena_units: List[str] = field(default_factory=lambda: [])
     gisaid_name: str = None
     gisaid_requirement: Requirement = Requirement.EXCLUDE
     gisaid_header: str = None
