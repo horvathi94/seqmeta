@@ -4,6 +4,8 @@ from flask import render_template
 from seqmeta.page import Page
 from seqmeta.objects.samples.templates import TemplatesList
 
+from seqmeta.objects.template import SampleTemplate
+
 
 @dataclass
 class View(Page):
@@ -15,8 +17,7 @@ class View(Page):
 
     @property
     def templates(self) -> List["Template"]:
-        tl = TemplatesList()
-        return tl.load()
+        return SampleTemplate.list_all()
 
 
     def render_content(self) -> "html":

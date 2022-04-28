@@ -8,7 +8,7 @@
 	<input type="hidden" id="loaded-template-name" name="loaded_template_name" value="{{ template.name }}">
 
 	<label for="template_name">Template name:</label>
-	<input type="text" id="template-name-field" name="template_name" required="required" pattern="\w+" value="{{ template.name }}"/>
+	<input type="text" id="template-name-field" name="template_name" required="required" pattern="[a-zA-z0-9_-]+" value="{{ template.name }}"/>
 
 	<textarea name="template+0+short_description" cols="30" rows="10">{{ template.short_description }}</textarea>
 
@@ -21,14 +21,14 @@
 			<option value=""></option>
 		</select>
 
-		<label for="template+0+taxonomy_id">Taxonomy ID:</label>
-		<input type="text" id="taxonomy-id" name="template+0+taxonomy_id" pattern="^[0-9]+$" required="required">
+		<label for="taxonomy+0+taxonomy_id">Taxonomy ID:</label>
+		<input type="text" id="taxonomy-id" name="taxonomy+0+taxonomy_id" pattern="^[0-9]+$" required="required">
 
-		<label for="template+0+scientific_name">Scientific name:</label>
-		<input type="text" id="scientific-name" name="template+0+scientific_name" required="required">
+		<label for="taxonomy+0+scientific_name">Scientific name:</label>
+		<input type="text" id="scientific-name" name="taxonomy+0+scientific_name" required="required">
 
-		<label for="template+0+common_name">Common name:</label>
-		<input type="text" id="common-name" name="template+0+common_name">
+		<label for="taxonomy+0+common_name">Common name:</label>
+		<input type="text" id="common-name" name="taxonomy+0+common_name">
 	</div>
 
 	<div id="template-editor">

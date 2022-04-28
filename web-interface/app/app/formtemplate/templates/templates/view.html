@@ -17,7 +17,7 @@
 			<td>{{ template.attribute_count }}</td>
 			<td>{{ template.short_description }}</td>
 			<td>{{ template.ena_checklist }}</td>
-			<td>{{ template.scientific_name }} ({{ template.taxonomy_id }})</td>
+			<td>{{ template.taxonomy.display_string }}</td>
 			<td><input type="button" onclick="location.href='{{ url_for('formtemplate_bp.edit', name=template.name) }}';" value="Edit"></td>
 		</tr>
 	{% endfor %}

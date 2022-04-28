@@ -1,30 +1,26 @@
-from seqmeta.objects.samples.attribute import Attribute
-from seqmeta.objects.samples.template import Template
-from seqmeta.objects.samples.templates import TemplatesList
 from seqmeta.form import submission
+from seqmeta.objects.template import SampleTemplate
+from seqmeta.objects.attributes.attribute import Attribute
 
 
 def handle(raw: dict) -> None:
 
     loaded_name = raw.pop("loaded_template_name")
+    if loaded_name == "": loaded_name = None
     new_name = raw.pop("template_name")
+
+    template = SampleTemplate(new_name)
+    taxonomy = submission.parse(raw, "taxonomy")[0]
+    template.taxonomy.update(taxonomy)
+
+    ena_checklist = submission.parse(raw, "ena_checklist")[0]
+    template.ena_checklist = ena_checklist["ena_checklist"]
+
     template_data = submission.parse(raw, "template")[0]
-    tl = TemplatesList()
+    template.short_description = template_data["short_description"]
 
-    if loaded_name == "":
-        template = Template(name=new_name, **template_data)
-    else:
-        template = tl.load_by_name(loaded_name)
-        template.short_description = template_data["short_description"]
-        template.taxonomy_id = template_data["taxonomy_id"]
-        template.scientific_name = template_data["scientific_name"]
-        template.common_name = template_data["common_name"]
-        template.name = new_name
-
-    template.clear_attributes()
     attrs = submission.parse(raw, "attr")
     for a in attrs:
-        attr = Attribute(**a)
-        template.add_attribute(attr)
+        template.add_attribute(Attribute(**a))
 
-    tl.save(template)
+    template.save(overwrite=loaded_name)

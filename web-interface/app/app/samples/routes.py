@@ -5,6 +5,7 @@ from .editor import Editor
 
 from . import generate
 from seqmeta.database.samples import SamplesTable
+from seqmeta.objects.sample import Sample
 
 samples_bp = Blueprint("samples_bp", __name__, template_folder="templates")
 
@@ -36,12 +37,10 @@ def edit():
     return page.render()
 
 
-from seqmeta.objects.samples.templates import SamplesList
 @samples_bp.route("/samples/json")
 def json():
     sample_name = request.args.get("name")
-    sl = SamplesList()
-    sample = sl.load_by_name(sample_name)
+    sample = Sample.load(sample_name)
     return jsonify(sample.asjson())
 
 
