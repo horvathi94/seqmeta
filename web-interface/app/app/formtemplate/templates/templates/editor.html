@@ -5,6 +5,8 @@
 
 	<template-editor>
 
+		<custom-input id="test"></custom-input>
+
 		{% include("templates/editor/ena-checklist.html") %}
 		{% include("templates/editor/name.html") %}
 		{% include("templates/editor/taxonomy.html") %}
@@ -25,8 +27,13 @@
 	</template-editor>
 
 
-	<input type="button" onclick="appendBlankRow();" value="Add">
+	<input type="button" onclick="TEMPLATE_EDITOR.appendBlankRow();" value="Add">
 
 	<input type="submit" value="Save">
 
 </form>
+
+<script>
+	const TEMPLATE_NAME = "{{ template.name }}";
+	const TEMPLATE_EDITOR = document.querySelector("template-editor");
+</script>
