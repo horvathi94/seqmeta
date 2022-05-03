@@ -14,10 +14,10 @@ class Editor(Page):
         self.add_script("fields.js")
         self.add_script("parsetemplate.js")
         self.add_script("templates-cell.js")
+        self.add_script("templates-row.js")
         self.add_script("templates-editor.js")
         self.add_script("import-ena.js")
         self.add_script("import-taxonomy.js")
-#        self.add_script("dragger.js")
 
 
     def render_content(self) -> "html":
