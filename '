@@ -1,0 +1,427 @@
+const TEMPLATE_NAME = document.querySelector("#template-name-field").value
+const TEMPLATE_EDITOR = document.querySelector("#template-editor");
+const FIELD_TYPES = ["text", "select", "date", "template", "file"];
+const REQUIREMENT_LEVELS = ["exclude", "optional", "recommended", "mandatory"];
+const FIXED_VALUES = ["sample_name", "ena_checklist"];
+
+let dragSource;
+
+
+ATTRIBUTE = {
+	general_name: "",
+	label: "",
+	type_: "text",
+	description: "",
+	ena_requirement: "exclude",
+	ena_name: "",
+	ena_units: [],
+	gisaid_requirement: "exclude",
+	gisaid_name: "",
+	gisaid_header: "",
+	pattern: "",
+	options: [],
+	default: "",
+}
+
+
+class EditorRow extends HTMLElement {
+
+	constructor() {
+		super();
+		this.cells = {};
+		if ( this.children.length == 0 ){
+			this.initCells();
+		}
+		else { this.readCells(); }
+
+		this.addEventListener("dragstart", this.handleDragStart);
+		this.addEventListener("dragend", this.handleDragEnd);
+		this.addEventListener("dragover", this.handleDragOver);
+		this.addEventListener("dragenter", this.handleDragEnter);
+		this.addEventListener("dragleave", this.handleDragLeave);
+		this.addEventListener("drop", this.handleDrop);
+
+	}
+
+
+	connectedCallback() {
+		Object.values(this.cells).forEach(c => { this.appendChild(c) });
+		this.draggable = true;
+	}
+	
+	wrapCell(name, fields=[]) {
+		const cell = EditorCell.create(name, fields);
+		cell.classList.add(name);
+		return cell;
+	}
+
+	readCells() {
+		this.cells.removeCell = this.querySelector("attr-cell.remove");
+		this.cells.generalNameCell = this.querySelector("attr-cell.general_name");
+		this.cells.labelCell = this.querySelector("attr-cell.label");
+		this.cells.typeCell = this.querySelector("attr-cell.type_");
+		this.cells.enaCell = this.querySelector("attr-cell.ena");
+		this.cells.gisaidCell = this.querySelector("attr-cell.gisaid");
+		this.cells.paramsCell = this.querySelector("attr-cell.params");
+		this.cells.defaultCell = this.querySelector("attr-cell.default");
+		this.cells.descriptionCell = this.querySelector("attr-cell.description");
+	}
+
+	initCells() {
+		this.cells.removeCell = this.wrapCell("remove", [this.removeButton]);
+		this.cells.generalNameCell = this.wrapCell("general_name", [this.generalNameField]);
+		this.cells.labelCell = this.wrapCell("label", [this.labelField]);
+		this.cells.typeCell = this.wrapCell("type_", [this.typeField]);
+		this.cells.enaCell = this.wrapCell("ena", this.enaFields);
+		this.cells.gisaidCell = this.wrapCell("gisaid", this.gisaidFields);
+		this.cells.paramsCell = this.wrapCell("params", [this.paramsField]);
+		this.cells.defaultCell = this.wrapCell("default", [this.defaultField]);
+		this.cells.descriptionCell = this.wrapCell("description", [this.descriptionField]);
+	}
+
+	get removeButton() {
+		const button = document.createElement("input");
+		button.type = "button";
+		button.classList.add("rmbutton");
+		button.value = "X";
+		button.onclick = function(){ this.closest("padded-row").remove(); };
+		return button;
+	}
+
+	genName(name) {
+		return `attr+${this.index}+${name}`;
+	}
+
+	get generalNameField() {
+		const field = new TextField(this.genName("general_name"));
+		return field.input;
+	}
+
+	get labelField() {
+		const field = new TextField(this.genName("label"));
+		return field.input;
+	}
+
+	get typeField() {
+		const field = new SelectField(this.genName("type_"), FIELD_TYPES);
+		field.input.onchange = function(){ this.closest("attr-row").type = this.value; };
+		return field.input;
+	}
+
+	get paramsField() {
+		let field;
+		switch (this.type) {
+			case "text":
+				field = new TextField(this.genName("pattern"));
+				field.input.placeholder = "Regex for input.";
+				break; 
+			case "select":
+				field = new TextAreaField(this.genName("options"));
+				field.input.placeholder = "Comma separated list of options.";
+				break;
+			case "template":
+				field = new TextField(this.genName("template"));
+				field.input.placeholder = "Template for input.";
+				break;
+			case "date":
+			case "file":
+				field = new TextField(name="junk");
+				field.input.placeholder = "N/A";
+				field.input.disabled = true;
+				break;
+			default:
+				console.log("Failed to create paramters cell.");
+				return;
+		}
+
+		field.input.onchange = function(){ this.closest("attr-row").modifiedParams(this.value) };
+		return field.input;
+	}
+
+	get defaultField() {
+		let field;
+		const name = this.genName("default");
+		switch (this.type) {
+			case "text":
+				field = new TextField(name);
+				field.input.placeholder = "Default value for field.";
+				break;
+			case "select":
+				field = new SelectField(name, this.options);
+				break;
+			case "date":
+				field = new DateField(name);
+				break;
+			case "template":
+			case "file":
+				field = new TextField("junk");
+				field.input.placeholder = "N/A";
+				field.input.disabled = true;
+				break;
+			default:
+				console.log("Failed to create default cell.");
+				return;
+		}
+
+		return field.input;
+	}
+
+	createEnaUnitsField(units=[]) {
+		const name = this.genName("ena_units");
+		let field;
+		if ( units.length == 0 ) {
+			field = new TextField(name);
+			field.input.placeholder = "ENA unit.";
+		} else {
+			field = new SelectField(name, options=units);
+		}
+		return field;
+	}
+
+	get enaFields() {
+		const nameField = new TextField(this.genName("ena_name"));
+		nameField.input.placeholder = "ENA Checklist name.";
+		const reqField = new SelectField(this.genName("ena_requirement"), REQUIREMENT_LEVELS);
+		reqField.input.onchange = function(){ this.closest("attr-row").modifiedRequirements(this.value) };
+		const unitsField = this.createEnaUnitsField();
+		return [nameField.input, reqField.input, unitsField.input];
+	}
+
+	get gisaidFields() {
+		const nameField = new TextField(this.genName("gisaid_name"));
+		nameField.input.placeholder = "GISAID 2 row";
+		const reqField = new SelectField(this.genName("gisaid_requirement"), REQUIREMENT_LEVELS);
+		reqField.input.onchange = function(){ this.closest("attr-row").modifiedRequirements(this.value) };
+		const headerField = new TextField(this.genName("gisaid_header"));
+		headerField.input.placeholder = "GISAID header.";
+		return [nameField.input, reqField.input, headerField.input];
+	}
+
+	get descriptionField() {
+		const field = new TextAreaField(this.genName("description"));
+		field.input.placeholder = "Short description of the field.";
+		return field.input;
+	}
+	set index(index) {
+		this.dataset.index = index;
+		Object.values(this.cells).forEach(c => {
+			c.index = index;
+		});
+	}
+
+	get index() {
+		return this.dataset.index;
+	}
+
+	get generalName() {
+		return this.cells.generalNameCell.getValue("general_name");
+	}
+
+	set generalName(gname) {
+		this.cells.generalNameCell.setValue("general_name", gname);
+	}
+
+	set label(label) {
+		this.cells.labelCell.setValue("label", label);
+	}
+
+	set type(type) {
+		this.cells.typeCell.setValue("type_", type);
+		this.cells.paramsCell.update([this.paramsField])
+		this.cells.defaultCell.update([this.defaultField])
+	}
+
+	get type() {
+		return this.cells.typeCell.getValue("type_");
+	}
+
+	get options() {
+		if ( this.type != "select" ) { return; }
+		return this.cells.paramsCell.getValue("options").split(",");
+	}
+
+	set options(opts=[]) {
+		if ( opts === null ) { return; }
+		if ( this.type != "select" ) { return; }
+		this.cells.paramsCell.setValue("options", opts.join(","));
+		this.cells.defaultCell.update([this.defaultField]);
+	}
+
+	get pattern() {
+		if ( this.type != "text" ) { return; }
+		this.cells.paramsCell.getValue("pattern");
+	}
+
+	set pattern(pattern="") {	
+		if ( pattern === null ) { return; }
+		if ( this.type != "text" ) { return; }
+		this.cells.paramsCell.setValue("pattern", pattern);
+		this.cells.defaultCell.setPattern("default", pattern);
+	}
+
+	set description(descript) {
+		this.cells.descriptionCell.setValue("description", descript);
+	}
+
+	get maxRequirement() {
+		const reqs = [];
+		reqs.push(this.enaRequirement);
+		reqs.push(this.gisaidRequirement);
+		let maxReq = REQUIREMENT_LEVELS[0];
+		REQUIREMENT_LEVELS.forEach(r => {
+			if( reqs.includes(r) ) { maxReq = r; }
+		});
+		return maxReq;
+	}
+
+	set enaName(name) {
+		this.cells.enaCell.setValue("ena_name", name);
+	}
+
+	get enaRequirement() {
+		return this.cells.enaCell.getValue("ena_requirement");
+	}
+
+	set enaRequirement(req) {
+		this.cells.enaCell.setValue("ena_requirement", req);
+	}
+
+	set enaUnits(units) {
+		this.cells.enaCell.setValue("ena_units", units);
+	}
+
+	set gisaidName(name) {
+		this.cells.gisaidCell.setValue("gisaid_name", name);
+	}
+
+	get gisaidRequirement() {
+		return this.cells.gisaidCell.getValue("gisaid_requirement");
+	}
+
+	set gisaidRequirement(req) {
+		this.cells.gisaidCell.setValue("gisaid_requirement", req);
+	}
+
+	set gisaidHeader(header) {
+		this.cells.gisaidCell.setValue("gisaid_header", header);
+	}
+
+	set default(defval) {
+		this.cells.defaultCell.setValue("default", defval);
+	}
+
+	verifyTemplate(templateString) {
+		const t = parseTemplateString(templateString);
+		this.cells.paramsCell.toggleInvalid("template", false);
+
+		t.filter(item => item.type == "var").forEach(item => {
+			let isOK = false;
+			TEMPLATE_EDITOR.querySelectorAll("padded-row > attr-row").forEach(row => {
+				if ( row.generalName == item.value ) { isOK = true; }
+				if ( FIXED_VALUES.includes(item.value) ) { isOK = true; }
+			});
+			if ( !isOK ) {
+				this.cells.paramsCell.toggleInvalid("template", true);
+				return;
+			}
+		});
+	}
+
+	modifiedParams(value) {
+		switch ( this.type ) {
+			case "text":
+				this.pattern = value;
+				break;
+			case "select":
+				this.options = value.split(",");
+				break;
+			case "template":
+				this.verifyTemplate(value);
+				break;
+			case "date":
+			case "file":
+				break;
+			default:
+				return;
+		}
+	}
+
+	modifiedRequirements() {
+		switch( this.maxRequirement ) {
+			case "exclude": 
+			case "optional": 
+			case "recommended": 
+				this.cells.removeCell.querySelector(".rmbutton").disabled = false;
+				break;
+			case "mandatory":
+				this.cells.removeCell.querySelector(".rmbutton").disabled = true;
+				break;
+			default:
+				return;
+		}
+	}
+
+	setFromAttribute(attr) {
+		this.generalName = attr.general_name;
+		this.label = attr.label;
+		this.type = attr.type_;
+		this.enaName = attr.ena_name;
+		this.enaRequirement = attr.ena_requirement;
+		this.enaUnits = attr.ena_units;
+		this.gisaidName = attr.gisaid_name;
+		this.gisaidRequirement = attr.gisaid_requirement;
+		this.gisaidHeader = attr.gisaid_header;
+		this.pattern = attr.pattern;
+		this.options = attr.options;
+		this.template = attr.template;
+		this.default = attr.default;
+		this.description = attr.description;
+		this.modifiedRequirements();
+	}
+
+	handleDragStart(e) {
+		dragSource = this;
+		this.classList.add("moving");
+		e.dataTransfer.effectAllowed = "move";
+	}
+
+	handleDragEnd() {
+		this.classList.remove("moving");
+		dragSource = null;
+	}
+
+	handleDragEnter() {
+		this.classList.add("over");
+	}
+
+	handleDragLeave() {
+		this.classList.remove("over");
+	}
+
+	handleDragOver(e) {
+		e.preventDefault();
+		return false;
+	}
+
+	clearDragClasses() {
+		this.classList.remove("moving");
+		this.classList.remove("over");
+	}
+
+	handleDrop(e) {
+		e.stopPropagation();
+		if ( this === dragSource ) { return false; }
+
+		const dragSourceCopy = dragSource.cloneNode(true);
+		dragSourceCopy.clearDragClasses();
+		dragSourceCopy.index = this.index;
+		this.index = dragSource.index;
+		TEMPLATE_EDITOR.replaceChild(dragSourceCopy, this);
+		TEMPLATE_EDITOR.replaceChild(this, dragSource);
+		this.clearDragClasses();
+		return false;
+	}
+}
+
+
+customElements.define("editor-row", EditorRow);
