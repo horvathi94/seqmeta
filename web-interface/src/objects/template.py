@@ -25,13 +25,17 @@ class SampleTemplate(PickleFile):
     short_description: str = ""
     taxonomy: Taxonomy = Taxonomy()
     attributes: List[Attribute] = field(default_factory=lambda: [])
-    path_base: pathlib.Path = pathlib.Path("/home/seqmeta/uploads/samples/")
     extension: str = "template"
 
 
     def __post_init__(self):
         self.add_attribute(SAMPLE_NAME_ATTR)
         self.add_attribute(SAMPLE_DESCRIPTION_ATTR)
+
+
+    @property
+    def template_name(self) -> str:
+        return self.name
 
 
     def add_attribute(self, new_a: Attribute) -> None:
@@ -84,6 +88,12 @@ class SampleTemplate(PickleFile):
     @classmethod
     def list_names(cls) -> list:
         names = []
-        for d in cls.path_base.iterdir():
+        for d in cls.BASE_PATH.iterdir():
             if d.is_dir(): names.append(d.name)
         return names
+
+
+    @classmethod
+    def load(cls, name: str) -> "SampleTemplate":
+        t = SampleTemplate(name=name)
+        return cls.load_pickle(t.file)

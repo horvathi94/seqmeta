@@ -14,10 +14,18 @@
 
 	<input type="submit" name="action" value="Register samples">
 
-	{% include("samples/view/samples.j2") %}
+	<table id="samples-view" class="view">
 
+		<tr class="head">
+			<th>Sample name</th>
+			<th>Short description</th>
+			<th>Select</th>
+		</tr>
 
-	<input type="submit" name="action" value="Edit samples">
+	</table>
+
+	<button type="submit" name="action" value="edit">Edit samples</button>
+
 	<input type="submit" name="action" value="Generate ENA">
 	<input type="submit" name="action" value="Generate GISAID">
 

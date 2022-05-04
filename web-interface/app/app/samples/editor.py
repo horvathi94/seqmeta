@@ -2,7 +2,6 @@ from dataclasses import dataclass, field
 from typing import List
 from flask import render_template
 from seqmeta.page import Page
-from seqmeta.database.templates import TemplatesTable
 
 
 @dataclass

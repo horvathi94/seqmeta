@@ -13,7 +13,6 @@ class Sample(PickleFile):
     short_description: str = ""
     template_name: str = None
     attributes: List[SampleAttribute] = field(default_factory=lambda: [])
-    path: pathlib.Path = pathlib.Path("/home/seqmeta/uploads/samples/")
     extension: str = "sample"
     taxonomy: Taxonomy = None
     ena_checklist: str = None
@@ -38,3 +37,19 @@ class Sample(PickleFile):
 
     def list_gisaid(self) -> List[SampleAttribute]:
         return [a for a in self.attributes if a.gisaid_include()]
+
+
+    @classmethod
+    def list_names(cls, template_name: str) -> list:
+        names = []
+        s = Sample(name="", template_name=template_name)
+        for f in s.path.iterdir():
+            if cls.check_extension(f.name):
+                names.append(f.stem)
+        return names
+
+
+    @classmethod
+    def load(cls, name: str, template_name: str) -> "Sample":
+        s = Sample(name=name, template_name=template_name)
+        return cls.load_pickle(s.file)

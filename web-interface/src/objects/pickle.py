@@ -4,26 +4,35 @@ import pickle
 
 class PickleFile:
 
-    @classmethod
-    def filename(cls, name: str) -> str:
-        return name + "." + cls.extension
+    BASE_PATH = pathlib.Path("/home/seqmeta/uploads/samples/")
 
 
     @classmethod
-    def path(cls, name: str) -> str:
-        return pathlib.Path(cls.path_base, name)
+    def check_extension(cls, fname: str) -> bool:
+        if fname.split(".")[-1] == cls.extension: return True
+        return False
 
 
-    @classmethod
-    def file(cls, name: str) -> pathlib.Path:
-        return pathlib.Path(cls.path(name), cls.filename(name))
+    @property
+    def filename(self) -> str:
+        return self.name + "." + self.extension
+
+
+    @property
+    def path(self) -> str:
+        return pathlib.Path(self.BASE_PATH, self.template_name)
+
+
+    @property
+    def file(self) -> pathlib.Path:
+        return pathlib.Path(self.path, self.filename)
 
 
     def save(self, create_path: bool=False) -> None:
-        path = self.path(self.name)
+        path = pathlib.Path(self.path)
         if create_path: path.mkdir(parents=True, exist_ok=True)
         if not path.is_dir: return
-        with open(self.file(self.name), "wb") as f:
+        with open(self.file, "wb") as f:
             pickle.dump(self, f)
 
 
@@ -36,11 +45,6 @@ class PickleFile:
 
 
     @classmethod
-    def load(cls, name: str) -> None:
-        return cls.load_pickle(cls.file(name))
-
-
-    @classmethod
     def list_names(cls) -> list:
         return []
 
@@ -48,6 +52,6 @@ class PickleFile:
     @classmethod
     def list_all(cls) -> list:
         items = []
-        for n in cls.list_names():
-            items.append(cls.load_pickle(cls.file(n)))
+        for name in cls.list_names():
+            items.append(cls.load(name))
         return items

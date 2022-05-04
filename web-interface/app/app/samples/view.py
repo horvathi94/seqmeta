@@ -21,12 +21,5 @@ class View(Page):
         return [t.name for t in templates]
 
 
-    @property
-    def samples(self) -> List["Sample"]:
-        return Sample.list_all()
-
-
     def render_content(self) -> "html":
-        return render_template("samples/view/page.html",
-                               templates=self.templates,
-                               samples=self.samples)
+        return render_template("samples/view.html", templates=self.templates)
