@@ -25,7 +25,7 @@ class SampleTemplate(PickleFile):
     short_description: str = ""
     taxonomy: Taxonomy = Taxonomy()
     attributes: List[Attribute] = field(default_factory=lambda: [])
-    path: pathlib.Path = pathlib.Path("/home/seqmeta/uploads/samples/")
+    path_base: pathlib.Path = pathlib.Path("/home/seqmeta/uploads/samples/")
     extension: str = "template"
 
 
@@ -79,3 +79,11 @@ class SampleTemplate(PickleFile):
         a = Attribute("ena_checklist", "ENA Checklist", is_fixed=True,
                       value=ena_checklist)
         self.add_attribute(a)
+
+
+    @classmethod
+    def list_names(cls) -> list:
+        names = []
+        for d in cls.path_base.iterdir():
+            if d.is_dir(): names.append(d.name)
+        return names

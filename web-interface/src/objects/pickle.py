@@ -5,32 +5,30 @@ import pickle
 class PickleFile:
 
     @classmethod
-    def create_filename(cls, fname: str) -> str:
-        return fname + "." + cls.extension
+    def filename(cls, name: str) -> str:
+        return name + "." + cls.extension
 
 
     @classmethod
-    def create_file(cls, fname: str) -> pathlib.Path:
-        return pathlib.Path(cls.path, fname)
+    def path(cls, name: str) -> str:
+        return pathlib.Path(cls.path_base, name)
 
 
-    @property
-    def filename(self) -> str:
-        return self.create_filename(self.name)
+    @classmethod
+    def file(cls, name: str) -> pathlib.Path:
+        return pathlib.Path(cls.path(name), cls.filename(name))
 
 
-    @property
-    def file(self) -> pathlib.Path:
-        return self.create_file(self.filename)
-
-
-    def save(self) -> None:
-        with open(self.file, "wb") as f:
+    def save(self, create_path: bool=False) -> None:
+        path = self.path(self.name)
+        if create_path: path.mkdir(parents=True, exist_ok=True)
+        if not path.is_dir: return
+        with open(self.file(self.name), "wb") as f:
             pickle.dump(self, f)
 
 
-    @classmethod
-    def load_pickle(cls, pickle_file: pathlib.Path) -> object:
+    @staticmethod
+    def load_pickle(pickle_file: pathlib.Path) -> object:
         if not pathlib.Path(pickle_file).is_file(): return
         with open(pickle_file, "rb") as f:
             obj = pickle.load(f)
@@ -39,15 +37,17 @@ class PickleFile:
 
     @classmethod
     def load(cls, name: str) -> None:
-        filename = cls.create_filename(name)
-        file = cls.create_file(filename)
-        return cls.load_pickle(file)
+        return cls.load_pickle(cls.file(name))
+
+
+    @classmethod
+    def list_names(cls) -> list:
+        return []
 
 
     @classmethod
     def list_all(cls) -> list:
         items = []
-        for f in list(cls.path.glob("*."+cls.extension)):
-            items.append(cls.load_pickle(f))
+        for n in cls.list_names():
+            items.append(cls.load_pickle(cls.file(n)))
         return items
-
