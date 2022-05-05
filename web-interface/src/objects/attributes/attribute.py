@@ -66,6 +66,7 @@ class Attribute:
             "gisaid_requirement": self.gisaid_requirement.value,
             "gisaid_header": self.gisaid_header,
             "value": self.json_value,
+            "is_fixed": self.is_fixed,
         }
 
 

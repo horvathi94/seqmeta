@@ -11,7 +11,7 @@ SAMPLE_NAME_ATTR = Attribute("sample_name", "Sample name",
                 "(will not be submitted).",
     is_fixed = True)
 
-SAMPLE_DESCRIPTION_ATTR = Attribute("description", "Description",
+SAMPLE_DESCRIPTION_ATTR = Attribute("short_description", "Short description",
     description="Sample short description for easier identification "\
                 "(will not be submitted).",
     is_fixed = True)
@@ -52,10 +52,6 @@ class SampleTemplate(PickleFile):
         return None
 
 
-    def editor_attributes(self) -> List[Attribute]:
-        return [a for a in self.attributes if not a.is_fixed]
-
-
     @property
     def attribute_count(self) -> int:
         return len(self.editor_attributes())
@@ -67,7 +63,7 @@ class SampleTemplate(PickleFile):
             "short_description": self.short_description,
             "taxonomy": self.taxonomy,
             "ena_checklist": self.ena_checklist,
-            "attributes": [a.asjson() for a in self.editor_attributes()]
+            "attributes": [a.asjson() for a in self.attributes]
         }
 
 

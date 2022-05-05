@@ -44,9 +44,11 @@ def handle_submission(raw: dict) -> None:
         template.add_attribute(Attribute(**a))
     template.save(create_path=True)
 
+
 @formtemplate_bp.route("/templates/submit", methods=["POST"])
 def submit():
     handle_submission(dict(request.form))
+    return jsonify(dict(request.form))
     return redirect(url_for("formtemplate_bp.view"))
 
 
