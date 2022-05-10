@@ -19,11 +19,14 @@ class Attribute:
     ena_name: str = None
     ena_requirement: Requirement = Requirement.EXCLUDE
     ena_units: List[str] = field(default_factory=lambda: [])
+    ena_read_files: bool = True
+    ena_assembly_files: bool = True
     gisaid_name: str = None
     gisaid_requirement: Requirement = Requirement.EXCLUDE
     gisaid_header: str = None
     value: any = None
     is_fixed: bool = False
+    is_invisible: bool = False
 
 
     def __post_init__(self):
@@ -67,6 +70,7 @@ class Attribute:
             "gisaid_header": self.gisaid_header,
             "value": self.json_value,
             "is_fixed": self.is_fixed,
+            "is_invisible": self.is_invisible,
         }
 
 

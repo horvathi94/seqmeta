@@ -4,6 +4,7 @@ from typing import List
 from .pickle import PickleFile
 from .taxonomy import Taxonomy
 from .attributes.attribute import Attribute
+from .attributes.enums import FieldType
 
 
 SAMPLE_NAME_ATTR = Attribute("sample_name", "Sample name",
@@ -14,6 +15,11 @@ SAMPLE_NAME_ATTR = Attribute("sample_name", "Sample name",
 SAMPLE_DESCRIPTION_ATTR = Attribute("short_description", "Short description",
     description="Sample short description for easier identification "\
                 "(will not be submitted).",
+    is_fixed = True)
+
+SAMPLE_ENA_READ_FILES = Attribute("ena_read_files", "ENA read files",
+    type_ = FieldType.FILE,
+    description="Cleaned and prepared read files to upload.",
     is_fixed = True)
 
 
@@ -31,6 +37,7 @@ class SampleTemplate(PickleFile):
     def __post_init__(self):
         self.add_attribute(SAMPLE_NAME_ATTR)
         self.add_attribute(SAMPLE_DESCRIPTION_ATTR)
+        self.add_attribute(SAMPLE_ENA_READ_FILES)
 
 
     @property
@@ -57,13 +64,17 @@ class SampleTemplate(PickleFile):
         return len(self.editor_attributes())
 
 
+    def list_attributes_for_json(self) -> List[Attribute]:
+        return [a.asjson() for a in self.attributes if not a.is_invisible]
+
+
     def asjson(self) -> dict:
         return {
             "name": self.name,
             "short_description": self.short_description,
             "taxonomy": self.taxonomy,
             "ena_checklist": self.ena_checklist,
-            "attributes": [a.asjson() for a in self.attributes]
+            "attributes": self.list_attributes_for_json()
         }
 
 
@@ -76,7 +87,7 @@ class SampleTemplate(PickleFile):
 
     @ena_checklist.setter
     def ena_checklist(self, ena_checklist: str) -> None:
-        a = Attribute("ena_checklist", "ENA Checklist", is_fixed=True,
+        a = Attribute("ena_checklist", "ENA Checklist", is_invisible=True,
                       value=ena_checklist)
         self.add_attribute(a)
 
