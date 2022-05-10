@@ -70,7 +70,7 @@ def handle_submission(raw: dict, files: list) -> None:
         seqfile = SeqFile()
         seqfile.path = template.path
         seqfile.filedata = f
-        seqfiles.append(f)
+        seqfiles.append(seqfile)
 
 
     for sd in sample_data:
@@ -86,6 +86,12 @@ def handle_submission(raw: dict, files: list) -> None:
             sample_attr.value = aval
             sample.add_attribute(sample_attr)
 
+        for sf in seqfiles:
+            print(f"\n{sf.name} == {sample.name}\n")
+            if sf.name == sample.name:
+                print(f"\nAdding {sf}\n")
+                sample.add_file(sf)
+        print(sample)
 #        sample.save()
 
 

@@ -18,6 +18,7 @@ class Sample(PickleFile):
     ena_checklist: str = None
 
 
+
     def add_attribute(self, a: SampleAttribute) -> None:
         self.attributes.append(a)
 
@@ -29,6 +30,13 @@ class Sample(PickleFile):
             "template_name": self.template_name,
             "attributes": [a.asjson() for a in self.attributes]
         }
+
+
+    def add_file(self, seqfile: "SeqFile") -> None:
+        if self.name != seqfile.name: return
+        a = SampleAttribute(general_name="ena_file_replace",
+                            value=seqfile)
+        self.add_attribute(a)
 
 
     def list_ena(self) -> List[SampleAttribute]:
