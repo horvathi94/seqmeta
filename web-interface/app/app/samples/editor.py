@@ -25,6 +25,6 @@ class Editor(Page):
 
 
     def render_content(self) -> "html":
-        return render_template("samples/editor/editor.html",
+        return render_template("samples/editor.html",
                                template_name=self.template_name,
                                samples=self.sample_names)

@@ -13,7 +13,7 @@ def handle(raw: dict, files: any) -> None:
     sample_data = submission.parse(raw, "sample")
 
     for sd in sample_data:
-        name = sd.pop("name")
+        name = sd.pop("sample_name")
         short_description = sd.pop("short_description")
         sample = Sample(name, short_description, template_name=template_name)
         sample.taxonomy = template.taxonomy
