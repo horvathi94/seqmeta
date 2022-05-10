@@ -1,10 +1,12 @@
 from flask import Blueprint, request, jsonify
-from . import submission
 from .view import View
 from .editor import Editor
 
 from . import generate
+from seqmeta.form import submission
+from seqmeta.objects.template import SampleTemplate
 from seqmeta.objects.sample import Sample
+
 
 samples_bp = Blueprint("samples_bp", __name__, template_folder="templates")
 
@@ -54,7 +56,42 @@ def names():
     return jsonify(names)
 
 
+
+from seqmeta.objects.seqfiles import SeqFile
+def handle_submission(raw: dict, files: list) -> None:
+
+    template_name = raw.pop("template_name")
+    template = SampleTemplate.load(template_name)
+
+    sample_data = submission.parse(raw, "sample")
+
+    seqfiles = []
+    for f in files:
+        seqfile = SeqFile()
+        seqfile.path = template.path
+        seqfile.filedata = f
+        seqfiles.append(f)
+
+
+    for sd in sample_data:
+        name = sd.pop("sample_name")
+        short_description = sd.pop("short_description")
+        sample = Sample(name, short_description, template_name=template_name)
+        sample.taxonomy = template.taxonomy
+        sample.ena_checklist = template.ena_checklist
+
+        for aname, aval in sd.items():
+            attr = template.get_attribute(aname)
+            sample_attr = attr.as_sample_attribute()
+            sample_attr.value = aval
+            sample.add_attribute(sample_attr)
+
+#        sample.save()
+
+
+
 @samples_bp.route("/samples/submit", methods=["POST"])
 def submit():
-    page = submission.handle(dict(request.form), dict(request.files))
+    files = request.files.getlist("uploadedfiles")
+    page = handle_submission(dict(request.form), files)
     return jsonify(dict(request.form))
