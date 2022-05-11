@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, redirect, url_for
 from .view import View
 from .editor import Editor
 
@@ -28,6 +28,13 @@ def edit():
     if action == "edit":
         samples = submission.keys()
         page = Editor(template_name=template_name, samples=samples)
+    elif action == "delete":
+        samples = submission.keys()
+        print(f"\n\nDeleteing: {samples}")
+        for sample_name in samples:
+            sample = Sample.load(sample_name, template_name=template_name)
+            sample.delete()
+        return redirect(url_for("samples_bp.view"))
 
 
     elif action == "Generate ENA":
@@ -103,7 +110,7 @@ def handle_submission(raw: dict, files: list) -> None:
             for f in sample_files:
                 sample.save_file("ena_read_files", f)
         else:
-            sample.load_files_attribute("ena_read_files")
+            sample.check_files("ena_read_files")
 
         sample.save()
 

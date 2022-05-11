@@ -90,5 +90,39 @@ class Sample(PickleFile):
         seqfile.save()
 
 
+    @property
+    def file_attributes(self) -> List[SampleAttribute]:
+        return [a for a in self.attributes if a.is_file]
+
+
+    def delete(self) -> None:
+        for a in self.file_attributes:
+            for f in self.load_files(a.general_name):
+                f.delete()
+        self.file.unlink()
+
+
+    def check_files(self, name: str) -> bool:
+        for a in self.attributes:
+            if a.general_name == name: return True
+        seqfile = SeqFile()
+        seqfile.path_base = self.path
+        seqfile.name = self.name
+        seqfile.type_ = SeqFileType.READ
+        if not seqfile.check_files(): return False
+        a = SampleAttribute(general_name=name,
+                            value=seqfile.filename, is_file=True)
+        self.add_attribute(a)
+        return True
+
+
     def load_files(self, name: str) -> List["file"]:
-        pass
+        seqfiles = []
+        for a in self.file_attributes:
+            if a.general_name == name:
+                seqfile = SeqFile()
+                seqfile.path_base = self.path
+                seqfile.filename = a.value
+                seqfile.type_ = SeqFileType.READ
+                seqfiles.append(seqfile)
+        return seqfiles

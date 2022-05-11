@@ -71,10 +71,22 @@ class SeqFile:
         return pathlib.Path(self.path, self.filename)
 
 
+    def delete(self) -> None:
+        self.file.unlink()
+
+
     def save(self) -> None:
         chk = pathlib.Path(self.path)
-        if not chk.is_dir: chk.mkdir(parents=True, exist_ok=True)
+        if not chk.is_dir(): chk.mkdir(parents=True, exist_ok=True)
         self.data.save(self.file)
+
+
+    def check_files(self) -> bool:
+        for f in self.path.iterdir():
+            if f.stem == self.me:
+                self.filename = f
+                return True
+        return False
 
 
     @property
