@@ -4,6 +4,7 @@ from typing import List
 from .pickle import PickleFile
 from .attributes.sampleattr import SampleAttribute
 from .taxonomy import Taxonomy
+from .seqfiles import SeqFile, SeqFileType
 
 
 @dataclass
@@ -18,6 +19,26 @@ class Sample(PickleFile):
     ena_checklist: str = None
 
 
+    def __getstate__(self):
+        return {
+            "name": self.name,
+            "short_description": self.short_description,
+            "template_name": self.template_name,
+            "taxonomy": self.taxonomy,
+            "attributes": self.attributes,
+        }
+
+
+    def __setstate__(self, state):
+        self.name = state["name"]
+        self.short_description = state["short_description"]
+        self.template_name = state["template_name"]
+        self.taxonomy = state["taxonomy"]
+        self.attributes = []
+        for a in state["attributes"]:
+            self.add_attribute(a)
+        self.files = []
+
 
     def add_attribute(self, a: SampleAttribute) -> None:
         self.attributes.append(a)
@@ -30,13 +51,6 @@ class Sample(PickleFile):
             "template_name": self.template_name,
             "attributes": [a.asjson() for a in self.attributes]
         }
-
-
-    def add_file(self, seqfile: "SeqFile") -> None:
-        if self.name != seqfile.name: return
-        a = SampleAttribute(general_name="ena_file_replace",
-                            value=seqfile)
-        self.add_attribute(a)
 
 
     def list_ena(self) -> List[SampleAttribute]:
@@ -61,3 +75,20 @@ class Sample(PickleFile):
     def load(cls, name: str, template_name: str) -> "Sample":
         s = Sample(name=name, template_name=template_name)
         return cls.load_pickle(s.file)
+
+
+    def save_file(self, name: str, file: "FileStorage") -> None:
+        if file.filename == "": return
+        seqfile = SeqFile()
+        seqfile.path_base = self.path
+        seqfile.filedata = file
+        seqfile.name = self.name
+        seqfile.type_ = SeqFileType.READ
+        a = SampleAttribute(general_name=name,
+                            value=seqfile.filename, is_file=True)
+        self.add_attribute(a)
+        seqfile.save()
+
+
+    def load_files(self, name: str) -> List["file"]:
+        pass

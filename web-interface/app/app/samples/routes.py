@@ -58,46 +58,58 @@ def names():
 
 
 from seqmeta.objects.seqfiles import SeqFile
+def sort_files(files: list) -> dict:
+    sorted_files = {}
+    sorted_files["all"] = \
+        [f for f in files.getlist("uploadedfiles") if f.filename]
+    for field in files:
+        if field == "uploadedfiles": continue
+        index = int(field.split("+")[1])
+        sorted_files[index] = [f for f in files.getlist(field) if f.filename]
+    return sorted_files
+
+
 def handle_submission(raw: dict, files: list) -> None:
 
     template_name = raw.pop("template_name")
     template = SampleTemplate.load(template_name)
 
     sample_data = submission.parse(raw, "sample")
-
-    seqfiles = []
-    for f in files:
-        seqfile = SeqFile()
-        seqfile.path = template.path
-        seqfile.filedata = f
-        seqfiles.append(seqfile)
+    sorted_files = sort_files(files)
 
 
-    for sd in sample_data:
-        name = sd.pop("sample_name")
-        short_description = sd.pop("short_description")
+    for index in sample_data:
+        name = sample_data[index].pop("sample_name")
+        short_description = sample_data[index].pop("short_description")
         sample = Sample(name, short_description, template_name=template_name)
         sample.taxonomy = template.taxonomy
         sample.ena_checklist = template.ena_checklist
 
-        for aname, aval in sd.items():
+        for aname, aval in sample_data[index].items():
             attr = template.get_attribute(aname)
             sample_attr = attr.as_sample_attribute()
             sample_attr.value = aval
             sample.add_attribute(sample_attr)
 
-        for sf in seqfiles:
-            print(f"\n{sf.name} == {sample.name}\n")
-            if sf.name == sample.name:
-                print(f"\nAdding {sf}\n")
-                sample.add_file(sf)
-        print(sample)
-#        sample.save()
+        sample_files = []
+        if len(sorted_files[index]) > 0:
+            sample_files = [f for f in sorted_files[index]]
+        else:
+            for f in sorted_files["all"]:
+                fname = f.filename.split(".")[0]
+                if fname == sample.name: sample_files.append(f)
+
+        if len(sample_files) > 0:
+            for f in sample_files:
+                sample.save_file("ena_read_files", f)
+        else:
+            sample.load_files_attribute("ena_read_files")
+
+        sample.save()
 
 
 
 @samples_bp.route("/samples/submit", methods=["POST"])
 def submit():
-    files = request.files.getlist("uploadedfiles")
-    page = handle_submission(dict(request.form), files)
+    page = handle_submission(dict(request.form), request.files)
     return jsonify(dict(request.form))

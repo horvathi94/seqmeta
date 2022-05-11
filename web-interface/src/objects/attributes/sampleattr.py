@@ -7,11 +7,12 @@ class SampleAttribute:
 
     general_name: str
     ena_name: str = None
-    ena_requirement: Requirement = None
+    ena_requirement: Requirement = Requirement.EXCLUDE
     ena_units: str = None
     gisaid_name: str = None
-    gisaid_requirement: Requirement = None
+    gisaid_requirement: Requirement = Requirement.EXCLUDE
     gisaid_header: str = None
+    is_file: bool = False
     value: any = None
 
 

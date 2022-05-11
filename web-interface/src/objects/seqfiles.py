@@ -3,11 +3,23 @@ from dataclasses import dataclass
 from enum import Enum
 
 
-class SeqFileType:
+class SeqFileType(Enum):
 
     READ = "read"
     ASSEMBLY = "assembly"
 
+
+FILE_DIR = {
+    SeqFileType.READ: "reads",
+    SeqFileType.ASSEMBLY: "assemblies",
+}
+
+
+EXTENSIONS = {
+    "fasta": ["fa", "fasta"],
+    "bam": ["bam"],
+    "fastq": ["fastq"],
+}
 
 
 @dataclass
@@ -15,9 +27,22 @@ class SeqFile:
 
     name: str = ""
     type_: SeqFileType = SeqFileType.READ
-    extension: str = ""
+    _extension: str = ""
     data: any = None
-    path: pathlib.Path = None
+    path_base: pathlib.Path = None
+
+
+    @property
+    def extension(self) -> str:
+        return self._extension
+
+
+    @extension.setter
+    def extension(self, ext: str) -> None:
+        for ekey in EXTENSIONS:
+            if ext in EXTENSIONS[ekey]:
+                self._extension = ekey
+                return
 
 
     @property
@@ -47,4 +72,11 @@ class SeqFile:
 
 
     def save(self) -> None:
-        self.data.save(self.filename)
+        chk = pathlib.Path(self.path)
+        if not chk.is_dir: chk.mkdir(parents=True, exist_ok=True)
+        self.data.save(self.file)
+
+
+    @property
+    def path(self) -> pathlib.Path:
+        return pathlib.Path(self.path_base, FILE_DIR[self.type_])

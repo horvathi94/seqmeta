@@ -40,6 +40,7 @@ def handle_submission(raw: dict) -> None:
     template_data = submission.parse(raw, "template")[0]
     template.short_description = template_data["short_description"]
     attrs = submission.parse(raw, "attr")
+    attrs = list(attrs.values())
     for a in attrs:
         template.add_attribute(Attribute(**a))
     template.save(create_path=True)
