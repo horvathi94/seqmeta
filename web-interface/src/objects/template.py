@@ -32,6 +32,10 @@ class SampleTemplate(PickleFile):
     taxonomy: Taxonomy = Taxonomy()
     attributes: List[Attribute] = field(default_factory=lambda: [])
     extension: str = "template"
+    gisaid_assembly: bool = False
+    ena_reads: bool = False
+    ena_scaffold: bool = False
+    ena_contig: bool = False
 
 
     def __post_init__(self):
@@ -104,3 +108,10 @@ class SampleTemplate(PickleFile):
     def load(cls, name: str) -> "SampleTemplate":
         t = SampleTemplate(name=name)
         return cls.load_pickle(t.file)
+
+
+    def set_files_from_submission(self, raw: dict) -> None:
+        if "ena_reads" in raw: self.ena_reads = True
+        if "ena_scaffold" in raw: self.ena_scaffold = True
+        if "ena_contig" in raw: self.ena_contig = True
+        if "gisaid_assembly" in raw: self.gisaid_assembly = True

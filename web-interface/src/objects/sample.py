@@ -19,27 +19,6 @@ class Sample(PickleFile):
     ena_checklist: str = None
 
 
-    def __getstate__(self):
-        return {
-            "name": self.name,
-            "short_description": self.short_description,
-            "template_name": self.template_name,
-            "taxonomy": self.taxonomy,
-            "attributes": self.attributes,
-        }
-
-
-    def __setstate__(self, state):
-        self.name = state["name"]
-        self.short_description = state["short_description"]
-        self.template_name = state["template_name"]
-        self.taxonomy = state["taxonomy"]
-        self.attributes = []
-        for a in state["attributes"]:
-            self.add_attribute(a)
-        self.files = []
-
-
     def add_attribute(self, a: SampleAttribute) -> None:
         self.attributes.append(a)
 

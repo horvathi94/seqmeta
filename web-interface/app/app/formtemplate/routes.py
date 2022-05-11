@@ -39,9 +39,10 @@ def handle_submission(raw: dict) -> None:
     template.ena_checklist = ena_checklist["ena_checklist"]
     template_data = submission.parse(raw, "template")[0]
     template.short_description = template_data["short_description"]
+    files = submission.parse(raw, "submission_files")[0]
+    template.set_files_from_submission(files)
     attrs = submission.parse(raw, "attr")
-    attrs = list(attrs.values())
-    for a in attrs:
+    for a in list(attrs.values()):
         template.add_attribute(Attribute(**a))
     template.save(create_path=True)
 
