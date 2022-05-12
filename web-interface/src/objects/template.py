@@ -1,4 +1,5 @@
 import pathlib
+import shutil
 from dataclasses import dataclass, field
 from typing import List
 from .pickle import PickleFile
@@ -110,8 +111,14 @@ class SampleTemplate(PickleFile):
         return cls.load_pickle(t.file)
 
 
-    def set_files_from_submission(self, raw: dict) -> None:
-        if "ena_reads" in raw: self.ena_reads = True
-        if "ena_scaffold" in raw: self.ena_scaffold = True
-        if "ena_contig" in raw: self.ena_contig = True
-        if "gisaid_assembly" in raw: self.gisaid_assembly = True
+    def delete(self) -> None:
+        shutil.rmtree(self.path)
+
+
+    def files_from_list(self, files: List[str]) -> None:
+        for f in files:
+            setattr(self, f, True)
+#        if "ena_reads" in raw: self.ena_reads = True
+#        if "ena_scaffold" in raw: self.ena_scaffold = True
+#        if "ena_contig" in raw: self.ena_contig = True
+#        if "gisaid_assembly" in raw: self.gisaid_assembly = True

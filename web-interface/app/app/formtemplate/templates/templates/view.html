@@ -9,6 +9,7 @@
 		<th>ENA checklist</th>
 		<th>Taxonomy</th>
 		<th>Edit</th>
+		<th>Delete</th>
 	</tr>
 
 	{% for template in templates %}
@@ -19,6 +20,7 @@
 			<td>{{ template.ena_checklist }}</td>
 			<td>{{ template.taxonomy.display_string }}</td>
 			<td><input type="button" onclick="location.href='{{ url_for('formtemplate_bp.edit', name=template.name) }}';" value="Edit"></td>
+			<td><input type="button" onclick="location.href='{{ url_for('formtemplate_bp.delete', name=template.name) }}';" value="Delete"></td>
 		</tr>
 	{% endfor %}
 

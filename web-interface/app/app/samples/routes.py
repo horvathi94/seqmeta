@@ -18,6 +18,8 @@ def view():
     return page.render()
 
 
+
+
 from flask import Response
 @samples_bp.route("/samples/edit", methods=["POST"])
 def edit():

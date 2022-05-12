@@ -29,6 +29,13 @@ def edit():
     return page.render()
 
 
+@formtemplate_bp.route("/templates/delete")
+def delete():
+    template_name = request.args.get("name")
+    template = SampleTemplate.load(template_name)
+    template.delete()
+    return redirect(url_for("formtemplate_bp.view"))
+
 
 def handle_submission(raw: dict) -> None:
     template_name = raw.pop("template_name")
@@ -40,7 +47,7 @@ def handle_submission(raw: dict) -> None:
     template_data = submission.parse(raw, "template")[0]
     template.short_description = template_data["short_description"]
     files = submission.parse(raw, "submission_files")[0]
-    template.set_files_from_submission(files)
+    template.files_from_list(list(files.keys()))
     attrs = submission.parse(raw, "attr")
     for a in list(attrs.values()):
         template.add_attribute(Attribute(**a))
