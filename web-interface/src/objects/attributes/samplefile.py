@@ -13,6 +13,28 @@ class SeqFileType(Enum):
     SCAFFOLDS = "scaffolds"
 
 
+EXTENSIONS = {
+    "fasta": ["fa", "fasta"],
+    "bam": ["bam"],
+    "fastq": ["fastq"],
+}
+
+VALID_EXTENSIONS = {
+    "fasta": {
+        "accepted_by": [SeqFileType.ASSEMBLY, SeqFileType.CONTIGS, SeqFileType.SCAFFOLDS],
+        "same_as": ["fa", "fasta"],
+    },
+    "bam": {
+        "accepted_by": [SeqFileType.ASSEMBLY, SeqFileType.CONTIGS, SeqFileType.SCAFFOLDS],
+        "same_as": ["bam"],
+    },
+    "fastq": {
+        "accepted_by": [SeqFileType.READ],
+        "same_as": ["fastq"],
+    },
+}
+
+
 
 @dataclass
 class SampleFile:
@@ -23,6 +45,13 @@ class SampleFile:
     short_description: str = ""
     is_active: bool = False
     repos: List[str] = field(default_factory=lambda: [])
+
+
+    @property
+    def accepted_extensions(self) -> List[str]:
+        for ext in VALID_EXTENSIONS.values():
+            if self.filetype in ext["accepted_by"]:
+                return ext["same_as"]
 
 
     def add_repo(self, repo: str) -> None:
@@ -43,23 +72,22 @@ class SampleFile:
             "short_description": self.short_description,
             "is_active": self.is_active,
             "filetype": self.filetype.value,
-            "repos": self.repos
+            "repos": self.repos,
+            "accepted_extensions": self.accepted_extensions
         }
 
 
     def as_attribute(self) -> Attribute:
         return Attribute(self.general_name, self.label, type_=FieldType.FILE,
-                    description=self.short_description)
+                    description=self.short_description,
+                    options=self.accepted_extensions)
 
 
     @classmethod
     def valid_extension(cls, ext: str) -> str:
-        EXTENSIONS = {
-            "fasta": ["fa", "fasta"],
-            "bam": ["bam"],
-            "fastq": ["fastq"],
-        }
-        return EXTENSIONS[ext]
+        for valid_ext in VALID_EXTENSIONS:
+            if ext in VALID_EXTENSIONS[valid_ext]["same_as"]:
+                return valid_ext
 
 
     @classmethod
