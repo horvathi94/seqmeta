@@ -33,10 +33,10 @@ class SampleTemplate(PickleFile):
     taxonomy: Taxonomy = Taxonomy()
     attributes: List[Attribute] = field(default_factory=lambda: [])
     extension: str = "template"
-    gisaid_assembly: bool = False
-    ena_reads: bool = False
-    ena_scaffold: bool = False
-    ena_contig: bool = False
+    files: dict = field(default_factory=lambda: {"gisaid_assembly": False,
+                                         "ena_reads": False,
+                                         "ena_scaffold": False,
+                                         "ena_contig": False})
 
 
     def __post_init__(self):
@@ -66,7 +66,7 @@ class SampleTemplate(PickleFile):
 
     @property
     def attribute_count(self) -> int:
-        return len(self.editor_attributes())
+        return len(self.attributes)
 
 
     def list_attributes_for_json(self) -> List[Attribute]:
@@ -79,7 +79,8 @@ class SampleTemplate(PickleFile):
             "short_description": self.short_description,
             "taxonomy": self.taxonomy,
             "ena_checklist": self.ena_checklist,
-            "attributes": self.list_attributes_for_json()
+            "files": self.files,
+            "attributes": self.list_attributes_for_json(),
         }
 
 
@@ -117,8 +118,5 @@ class SampleTemplate(PickleFile):
 
     def files_from_list(self, files: List[str]) -> None:
         for f in files:
-            setattr(self, f, True)
-#        if "ena_reads" in raw: self.ena_reads = True
-#        if "ena_scaffold" in raw: self.ena_scaffold = True
-#        if "ena_contig" in raw: self.ena_contig = True
-#        if "gisaid_assembly" in raw: self.gisaid_assembly = True
+            if f in self.files:
+                self.files[f] = True
