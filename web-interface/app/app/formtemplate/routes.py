@@ -47,7 +47,7 @@ def handle_submission(raw: dict) -> None:
     template_data = submission.parse(raw, "template")[0]
     template.short_description = template_data["short_description"]
     files = submission.parse(raw, "submission_files")[0]
-    template.files_from_list(list(files.keys()))
+    template.set_files_from_list(list(files.keys()))
     attrs = submission.parse(raw, "attr")
     for a in list(attrs.values()):
         template.add_attribute(Attribute(**a))
@@ -57,7 +57,6 @@ def handle_submission(raw: dict) -> None:
 @formtemplate_bp.route("/templates/submit", methods=["POST"])
 def submit():
     handle_submission(dict(request.form))
-    return jsonify(dict(request.form))
     return redirect(url_for("formtemplate_bp.view"))
 
 

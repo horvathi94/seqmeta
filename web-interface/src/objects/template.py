@@ -6,6 +6,7 @@ from .pickle import PickleFile
 from .taxonomy import Taxonomy
 from .attributes.attribute import Attribute
 from .attributes.enums import FieldType
+from .attributes.samplefile import SampleFile
 
 
 SAMPLE_NAME_ATTR = Attribute("sample_name", "Sample name",
@@ -33,10 +34,8 @@ class SampleTemplate(PickleFile):
     taxonomy: Taxonomy = Taxonomy()
     attributes: List[Attribute] = field(default_factory=lambda: [])
     extension: str = "template"
-    files: dict = field(default_factory=lambda: {"gisaid_assembly": False,
-                                         "ena_reads": False,
-                                         "ena_scaffold": False,
-                                         "ena_contig": False})
+    files: List[SampleFile] = field(init=False,
+                        default_factory=lambda: SampleFile.create_full_list())
 
 
     def __post_init__(self):
@@ -78,16 +77,16 @@ class SampleTemplate(PickleFile):
             "short_description": self.short_description,
             "taxonomy": self.taxonomy,
             "ena_checklist": self.ena_checklist,
-            "files": self.files,
+            "files": [f.asjson() for f in self.files],
             "attributes": self.list_attributes_for_json(),
         }
 
 
     def list_attributes_for_sample_editor(self) -> List[Attribute]:
         atts = self.list_attributes_for_json()
-        for fkey in self.files:
-            if not self.files[fkey]: continue
-            a = Attribute(fkey, fkey.upper(), type_=FieldType.FILE)
+        for samplefile in self.files:
+            if not samplefile.is_active: continue
+            a = samplefile.as_attribute()
             atts.append(a.asjson())
         return atts
 
@@ -134,7 +133,21 @@ class SampleTemplate(PickleFile):
         shutil.rmtree(self.path)
 
 
-    def files_from_list(self, files: List[str]) -> None:
-        for f in files:
-            if f in self.files:
-                self.files[f] = True
+    def switch_files_on(self, name: str, repo: str) -> None:
+        for sampfile in self.files:
+            if sampfile.general_name == name:
+                sampfile.switch_on(repo)
+                return
+
+
+    def set_files_from_list(self, files: List[str]) -> None:
+        for fname in files:
+            if fname == "gisaid_assembly":
+                self.switch_files_on("gisaid_assembly", "gisaid")
+            elif fname == "ena_reads":
+                self.switch_files_on("raw_reads", "ena")
+            elif fname == "ena_contigs":
+                self.switch_files_on("contigs_file", "ena")
+            elif fname == "ena_scaffolds":
+                self.switch_files_on("scaffolds_file", "ena")
+

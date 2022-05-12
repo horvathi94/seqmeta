@@ -1,12 +1,7 @@
 import pathlib
 from dataclasses import dataclass
-from enum import Enum
+from .attributes.samplefile import SampleFile, SeqFileType
 
-
-class SeqFileType(Enum):
-
-    READ = "read"
-    ASSEMBLY = "assembly"
 
 
 FILE_DIR = {
@@ -14,12 +9,6 @@ FILE_DIR = {
     SeqFileType.ASSEMBLY: "assemblies",
 }
 
-
-EXTENSIONS = {
-    "fasta": ["fa", "fasta"],
-    "bam": ["bam"],
-    "fastq": ["fastq"],
-}
 
 
 @dataclass
@@ -39,10 +28,7 @@ class SeqFile:
 
     @extension.setter
     def extension(self, ext: str) -> None:
-        for ekey in EXTENSIONS:
-            if ext in EXTENSIONS[ekey]:
-                self._extension = ekey
-                return
+        self._extension = SampleFile.valid_extension(ext)
 
 
     @property
