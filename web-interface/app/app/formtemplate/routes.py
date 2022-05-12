@@ -51,7 +51,6 @@ def handle_submission(raw: dict) -> None:
     attrs = submission.parse(raw, "attr")
     for a in list(attrs.values()):
         template.add_attribute(Attribute(**a))
-    print(f"\n\n{template}")
     template.save(create_path=True)
 
 
@@ -65,8 +64,11 @@ def submit():
 @formtemplate_bp.route("/templates/json")
 def json():
     template_name = request.args.get("name")
+    use = request.args.get("use")
     template = SampleTemplate.load(template_name)
     if template is None: return jsonify({})
+    if use == "sample_editor":
+        return jsonify(template.sample_editor_json())
     return jsonify(template.asjson())
 
 

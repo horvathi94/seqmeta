@@ -42,7 +42,6 @@ class SampleTemplate(PickleFile):
     def __post_init__(self):
         self.add_attribute(SAMPLE_NAME_ATTR)
         self.add_attribute(SAMPLE_DESCRIPTION_ATTR)
-        self.add_attribute(SAMPLE_ENA_READ_FILES)
 
 
     @property
@@ -81,6 +80,25 @@ class SampleTemplate(PickleFile):
             "ena_checklist": self.ena_checklist,
             "files": self.files,
             "attributes": self.list_attributes_for_json(),
+        }
+
+
+    def list_attributes_for_sample_editor(self) -> List[Attribute]:
+        atts = self.list_attributes_for_json()
+        for fkey in self.files:
+            if not self.files[fkey]: continue
+            a = Attribute(fkey, fkey.upper(), type_=FieldType.FILE)
+            atts.append(a.asjson())
+        return atts
+
+
+    def sample_editor_json(self) -> dict:
+        return {
+            "name": self.name,
+            "short_description": self.short_description,
+            "taxonomy": self.taxonomy,
+            "ena_checklist": self.ena_checklist,
+            "attributes": self.list_attributes_for_sample_editor(),
         }
 
 
