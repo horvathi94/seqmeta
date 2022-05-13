@@ -7,6 +7,8 @@ from .attributes.samplefile import SampleFile, SeqFileType
 FILE_DIR = {
     SeqFileType.READ: "reads",
     SeqFileType.ASSEMBLY: "assemblies",
+    SeqFileType.CONTIGS: "contigs",
+    SeqFileType.SCAFFOLDS: "scaffolds"
 }
 
 
@@ -14,11 +16,38 @@ FILE_DIR = {
 @dataclass
 class SeqFile:
 
-    name: str = ""
+    _name: str = ""
     type_: SeqFileType = SeqFileType.READ
     _extension: str = ""
     data: any = None
     path_base: pathlib.Path = None
+    order: int = 0
+
+
+    def __lt__(self, other):
+        return self.order < other.order
+
+
+    def __gt__(self, other):
+        return self.order > other.order
+
+
+    def __eq__(self, other):
+        return self.order == other.order
+
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+
+    @name.setter
+    def name(self, name: str) -> None:
+        if len(name.split("_")) == 1:
+            self._name = name
+        else:
+            self._name = name.split("_")[0]
+            self.order = int(name.split("_")[1])
 
 
     @property
@@ -33,12 +62,18 @@ class SeqFile:
 
     @property
     def filename(self) -> str:
-        return self.name + "." + self.extension
+        if self.order == 0:
+            return self.name + "." + self.extension
+        return self.name + "_" + str(self.order) + "." + self.extension
 
 
     @filename.setter
     def filename(self, filename: str) -> None:
-        self.name, self.extension = filename.split(".")
+        for ext in SampleFile.all_extensions():
+            if filename.endswith(ext):
+                self.extension = ext
+                self.name = filename.split(ext)[0].replace(".", "")
+                return
 
 
     @property
@@ -78,3 +113,4 @@ class SeqFile:
     @property
     def path(self) -> pathlib.Path:
         return pathlib.Path(self.path_base, FILE_DIR[self.type_])
+

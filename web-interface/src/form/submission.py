@@ -1,5 +1,6 @@
 from typing import List
 
+
 def parse(raw: dict, main_key: str) -> List[dict]:
     cleaned = {}
     for item, value in raw.items():

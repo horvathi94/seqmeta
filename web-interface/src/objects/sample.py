@@ -5,6 +5,7 @@ from .pickle import PickleFile
 from .attributes.sampleattr import SampleAttribute
 from .taxonomy import Taxonomy
 from .seqfiles import SeqFile, SeqFileType
+from .seqfile_bunch import SeqFileBunch
 
 
 @dataclass
@@ -17,6 +18,7 @@ class Sample(PickleFile):
     extension: str = "sample"
     taxonomy: Taxonomy = None
     ena_checklist: str = None
+    seqfiles: SeqFileBunch = SeqFileBunch()
 
 
     def add_attribute(self, a: SampleAttribute) -> None:
@@ -56,17 +58,26 @@ class Sample(PickleFile):
         return cls.load_pickle(s.file)
 
 
-    def save_file(self, name: str, file: "FileStorage") -> None:
-        if file.filename == "": return
+    def save_file(self, file: "FileStorage", tp: SeqFileType) -> str:
         seqfile = SeqFile()
         seqfile.path_base = self.path
         seqfile.filedata = file
         seqfile.name = self.name
-        seqfile.type_ = SeqFileType.READ
-        a = SampleAttribute(general_name=name,
-                            value=seqfile.filename, is_file=True)
-        self.add_attribute(a)
+        seqfile.type_ = tp
         seqfile.save()
+        return seqfile.file
+
+
+    def save_files(self, sample_file: "SampleFile", files: list) -> None:
+        seqfiles = []
+        for file in files:
+            if file.filename == "": continue
+            sf = self.save_file(file, sample_file.filetype)
+            seqfiles.append(sf)
+
+        a = SampleAttribute(general_name=sample_file.general_name,
+                            value=seqfiles, is_file=True)
+        self.add_attribute(a)
 
 
     @property

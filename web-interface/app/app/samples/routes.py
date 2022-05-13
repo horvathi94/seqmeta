@@ -32,7 +32,6 @@ def edit():
         page = Editor(template_name=template_name, samples=samples)
     elif action == "delete":
         samples = submission.keys()
-        print(f"\n\nDeleteing: {samples}")
         for sample_name in samples:
             sample = Sample.load(sample_name, template_name=template_name)
             sample.delete()
@@ -66,26 +65,15 @@ def names():
 
 
 
-from seqmeta.objects.seqfiles import SeqFile
-def sort_files(files: list) -> dict:
-    sorted_files = {}
-    sorted_files["all"] = \
-        [f for f in files.getlist("uploadedfiles") if f.filename]
-    for field in files:
-        if field == "uploadedfiles": continue
-        index = int(field.split("+")[1])
-        sorted_files[index] = [f for f in files.getlist(field) if f.filename]
-    return sorted_files
-
-
+from seqmeta.form import file_submission
 def handle_submission(raw: dict, files: list) -> None:
 
     template_name = raw.pop("template_name")
     template = SampleTemplate.load(template_name)
 
     sample_data = submission.parse(raw, "sample")
-    sorted_files = sort_files(files)
-
+    sample_names = {index:sample_data[index]["sample_name"] \
+                    for index in sample_data}
 
     for index in sample_data:
         name = sample_data[index].pop("sample_name")
@@ -100,19 +88,11 @@ def handle_submission(raw: dict, files: list) -> None:
             sample_attr.value = aval
             sample.add_attribute(sample_attr)
 
-        sample_files = []
-        if len(sorted_files[index]) > 0:
-            sample_files = [f for f in sorted_files[index]]
-        else:
-            for f in sorted_files["all"]:
-                fname = f.filename.split(".")[0]
-                if fname == sample.name: sample_files.append(f)
 
-        if len(sample_files) > 0:
-            for f in sample_files:
-                sample.save_file("ena_read_files", f)
-        else:
-            sample.check_files("ena_read_files")
+        for f in template.active_files():
+            sample_files = file_submission.fetch_files(files, sample.name,
+                                                       index, f.general_name)
+            sample.save_files(f, sample_files)
 
         sample.save()
 

@@ -13,12 +13,6 @@ class SeqFileType(Enum):
     SCAFFOLDS = "scaffolds"
 
 
-EXTENSIONS = {
-    "fasta": ["fa", "fasta"],
-    "bam": ["bam"],
-    "fastq": ["fastq"],
-}
-
 VALID_EXTENSIONS = {
     "fasta": {
         "accepted_by": [SeqFileType.ASSEMBLY, SeqFileType.CONTIGS, SeqFileType.SCAFFOLDS],
@@ -28,12 +22,11 @@ VALID_EXTENSIONS = {
         "accepted_by": [SeqFileType.ASSEMBLY, SeqFileType.CONTIGS, SeqFileType.SCAFFOLDS],
         "same_as": ["bam"],
     },
-    "fastq": {
+    "fastq.gz": {
         "accepted_by": [SeqFileType.READ],
-        "same_as": ["fastq"],
+        "same_as": ["fastq.gz"],
     },
 }
-
 
 
 @dataclass
@@ -45,6 +38,14 @@ class SampleFile:
     short_description: str = ""
     is_active: bool = False
     repos: List[str] = field(default_factory=lambda: [])
+
+
+    @classmethod
+    def all_extensions(cls) -> List[str]:
+        exts = []
+        for ext_dict in VALID_EXTENSIONS.values():
+            exts += ext_dict["same_as"]
+        return exts
 
 
     @property
@@ -118,3 +119,24 @@ class SampleFile:
                 "Contigs file.")
 
         return [gisaid_assembly, raw_reads, scaffolds_file, contigs_file]
+
+
+
+FILE_FIELDS = [
+    SampleFile(
+        general_name="gisaid_assembly", label="GISAID assembly",
+        filetype=SeqFileType.ASSEMBLY,
+        short_description="Assembled sequence for upload to GISAID database."),
+    SampleFile(
+        general_name="raw_reads", label="Raw reads",
+        filetype=SeqFileType.READ,
+        short_description="Raw reads for uploading to SRA database."),
+    SampleFile(
+        general_name="scaffolds_file", label="Scaffolds file",
+        filetype=SeqFileType.ASSEMBLY,
+        short_description="Scaffolds file."),
+    SampleFile(
+        general_name="contigs_file",
+        label="Contigs file",
+        filetype=SeqFileType.ASSEMBLY,short_description="Contigs file.")
+]
