@@ -1,7 +1,9 @@
 import pathlib
 from typing import List
 from openpyxl import Workbook
-
+from Bio import SeqIO
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
 
 COLUMNS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K",
            "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
@@ -19,6 +21,7 @@ class Metadata:
         self.workbook = Workbook()
         self.worksheet = self.workbook.active
         self.worksheet.title = self.title
+        self.records = []
 
 
     @property
@@ -42,7 +45,18 @@ class Metadata:
         return self.sample_count + 3
 
 
+    def append_assembly(self, sample: "Sample") -> None:
+        assembly_file = sample.load_gisaid_assembly()
+        rec = SeqIO.read(assembly_file.file, "fasta")
+        self.records.append(rec.seq)
+        print(assembly_file)
+        print(rec)
+        print(f"Virusname: {sample.gisaid_virusname}")
+#        print(rec.seq)
+
+
     def add_sample(self, sample: "Sample") -> None:
+        self.append_assembly(sample)
         for index, a in enumerate(sample.list_gisaid()):
             self.write_cell(self.row_index, index, a.value)
         self.sample_count += 1

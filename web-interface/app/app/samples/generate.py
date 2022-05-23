@@ -6,7 +6,7 @@ from seqmeta.submissions import gisaid as gisaid_metadata
 
 
 
-def gisaid(sample_names: List[str]) -> dict:
+def gisaid(template_name: str, sample_names: List[str]) -> dict:
     samples = [Sample.load(name, template_name) for name in sample_names]
     md = gisaid_metadata.Metadata()
     md.add_samples(samples)

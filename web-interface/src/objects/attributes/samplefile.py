@@ -16,7 +16,7 @@ class SeqFileType(Enum):
 VALID_EXTENSIONS = {
     "fasta": {
         "accepted_by": [SeqFileType.ASSEMBLY, SeqFileType.CONTIGS, SeqFileType.SCAFFOLDS],
-        "same_as": ["fa", "fasta"],
+        "same_as": ["fa", "fasta", "fna"],
     },
     "bam": {
         "accepted_by": [SeqFileType.ASSEMBLY, SeqFileType.CONTIGS, SeqFileType.SCAFFOLDS],

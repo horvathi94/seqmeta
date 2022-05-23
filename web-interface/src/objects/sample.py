@@ -100,7 +100,7 @@ class Sample(PickleFile):
         seqfile.type_ = SeqFileType.READ
         if not seqfile.check_files(): return False
         a = SampleAttribute(general_name=name,
-                            value=seqfile.filename, is_file=True)
+                            value=str(seqfile.file), is_file=True)
         self.add_attribute(a)
         return True
 
@@ -117,5 +117,23 @@ class Sample(PickleFile):
         return seqfiles
 
 
-    def load_files(self, repo: str) -> any:
+    def load_gisaid_assembly(self) -> SeqFile:
+        for a in self.attributes:
+            if a.general_name != "gisaid_assembly":
+                continue
+            fname = a.value[0]
+            seqfile = SeqFile.load(self.path, fname, SeqFileType.ASSEMBLY)
+            return seqfile
+
+
+    @property
+    def gisaid_virusname(self) -> str:
+        for a in self.attributes:
+            print(a.general_name)
+            if a.general_name == "gisaid_virusname":
+                return a.value
+
+
+
+    def load_seqfiles(self, repo: str) -> any:
         print(f"Loading files for: {repo}")

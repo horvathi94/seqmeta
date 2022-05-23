@@ -19,7 +19,6 @@ def view():
 
 
 
-
 from flask import Response
 @samples_bp.route("/samples/edit", methods=["POST"])
 def edit():
@@ -41,7 +40,7 @@ def edit():
         data = generate.ena(template_name, submission.keys())
         return Response(data, mimetype="application/xml")
     elif action == "gisaid":
-        data = generate.gisaid(submission.keys())
+        data = generate.gisaid(template_name, submission.keys())
         return jsonify(data)
     else:
         page = Editor(template_name=template_name)

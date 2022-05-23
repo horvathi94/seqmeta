@@ -102,9 +102,21 @@ class SeqFile:
         self.data.save(self.file)
 
 
+    @classmethod
+    def load(cls, path: pathlib.Path, fname: str, tp: SeqFileType) -> "SeqFile":
+        if tp is SeqFileType.READ:
+            return
+
+        seqfile = SeqFile()
+        seqfile.path_base = path
+        seqfile.filename = fname
+        seqfile.type_ = tp
+        return seqfile
+
+
     def check_files(self) -> bool:
         for f in self.path.iterdir():
-            if f.stem == self.me:
+            if f.stem == self.name:
                 self.filename = f
                 return True
         return False
