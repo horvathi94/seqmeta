@@ -20,7 +20,6 @@ class Attribute:
     ena_requirement: Requirement = Requirement.EXCLUDE
     ena_units: List[str] = field(default_factory=lambda: [])
     ena_read_files: bool = True
-    ena_assembly_files: bool = True
     gisaid_name: str = None
     gisaid_requirement: Requirement = Requirement.EXCLUDE
     gisaid_header: str = None

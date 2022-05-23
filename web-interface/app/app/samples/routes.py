@@ -23,10 +23,11 @@ def view():
 from flask import Response
 @samples_bp.route("/samples/edit", methods=["POST"])
 def edit():
+
     submission = dict(request.form)
-    print(f"\n\nSub: {submission}\n");
     template_name = submission.pop("template_name")
     action = submission.pop("action")
+
     if action == "edit":
         samples = submission.keys()
         page = Editor(template_name=template_name, samples=samples)
@@ -36,12 +37,10 @@ def edit():
             sample = Sample.load(sample_name, template_name=template_name)
             sample.delete()
         return redirect(url_for("samples_bp.view"))
-
-
-    elif action == "Generate ENA":
-        data = generate.ena(submission.keys())
+    elif action == "ena":
+        data = generate.ena(template_name, submission.keys())
         return Response(data, mimetype="application/xml")
-    elif action == "Generate GISAID":
+    elif action == "gisaid":
         data = generate.gisaid(submission.keys())
         return jsonify(data)
     else:
@@ -93,7 +92,6 @@ def handle_submission(raw: dict, files: list) -> None:
             sample_files = file_submission.fetch_files(files, sample.name,
                                                        index, f.general_name)
             sample.save_files(f, sample_files)
-
         sample.save()
 
 

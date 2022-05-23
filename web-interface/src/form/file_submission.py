@@ -29,6 +29,7 @@ def fetch_files(raw: dict, sample_name: str, sid: int, ftype: str) -> list:
 
                 single_field.append(upfile)
 
-        if len(single_field) > 0:
-            return single_field
-        return all_field
+    if len(single_field) > 0:
+        return single_field
+
+    return all_field

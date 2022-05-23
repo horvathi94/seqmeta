@@ -151,5 +151,6 @@ class SampleTemplate(PickleFile):
             elif fname == "ena_scaffolds":
                 self.switch_files_on("scaffolds_file", "ena")
 
+
     def active_files(self) -> List[SampleFile]:
         return [sf for sf in self.files if sf.is_active]

@@ -18,7 +18,6 @@ class Sample(PickleFile):
     extension: str = "sample"
     taxonomy: Taxonomy = None
     ena_checklist: str = None
-    seqfiles: SeqFileBunch = SeqFileBunch()
 
 
     def add_attribute(self, a: SampleAttribute) -> None:
@@ -65,7 +64,7 @@ class Sample(PickleFile):
         seqfile.name = self.name
         seqfile.type_ = tp
         seqfile.save()
-        return seqfile.file
+        return seqfile
 
 
     def save_files(self, sample_file: "SampleFile", files: list) -> None:
@@ -73,7 +72,7 @@ class Sample(PickleFile):
         for file in files:
             if file.filename == "": continue
             sf = self.save_file(file, sample_file.filetype)
-            seqfiles.append(sf)
+            seqfiles.append(sf.filename)
 
         a = SampleAttribute(general_name=sample_file.general_name,
                             value=seqfiles, is_file=True)
@@ -116,3 +115,7 @@ class Sample(PickleFile):
                 seqfile.type_ = SeqFileType.READ
                 seqfiles.append(seqfile)
         return seqfiles
+
+
+    def load_files(self, repo: str) -> any:
+        print(f"Loading files for: {repo}")
