@@ -1,0 +1,1 @@
+GISAID_VIRUSNAME={general_name:"gisaid_virusname",label:"GISAID virusname",type_:"text",description:"Virusname of the sample.",ena_requirement:"exclude",ena_name:"",ena_units:[],gisaid_requirement:"mandatory",gisaid_name:"Virusname",gisaid_header:"virusname",pattern:"",options:[],default:""};
