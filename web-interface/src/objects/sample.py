@@ -129,7 +129,6 @@ class Sample(PickleFile):
     @property
     def gisaid_virusname(self) -> str:
         for a in self.attributes:
-            print(a.general_name)
             if a.general_name == "gisaid_virusname":
                 return a.value
 

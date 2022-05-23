@@ -16,17 +16,24 @@ class Metadata:
     filename = "test.xlsx"
     path = "/home/seqmeta/uploads/samples"
 
+
     def __init__(self):
         self.sample_count = 0
         self.workbook = Workbook()
         self.worksheet = self.workbook.active
         self.worksheet.title = self.title
-        self.records = []
+        self.sequences = []
+        self.assemblies_filename = "all.fasta"
 
 
     @property
-    def file(self) -> pathlib.PurePath:
-        return pathlib.PurePath(self.path, self.filename)
+    def file(self) -> pathlib.Path:
+        return pathlib.Path(self.path, self.filename)
+
+
+    @property
+    def assemblies_file(self) -> pathlib.Path:
+        return pathlib.Path(self.path, self.assemblies_filename)
 
 
     def write_cell(self, rindex: int, cindex: int, val: any) -> None:
@@ -48,11 +55,10 @@ class Metadata:
     def append_assembly(self, sample: "Sample") -> None:
         assembly_file = sample.load_gisaid_assembly()
         rec = SeqIO.read(assembly_file.file, "fasta")
-        self.records.append(rec.seq)
-        print(assembly_file)
-        print(rec)
-        print(f"Virusname: {sample.gisaid_virusname}")
-#        print(rec.seq)
+        rec.id = sample.gisaid_virusname
+        rec.name = sample.gisaid_virusname
+        rec.description = ""
+        self.sequences.append(rec)
 
 
     def add_sample(self, sample: "Sample") -> None:
@@ -64,9 +70,12 @@ class Metadata:
 
     def add_samples(self, samples: List["Sample"]) -> None:
         self.create_header(samples[0])
+        self.assemblies_filename = samples[0].gisaid_filename
         for s in samples:
             self.add_sample(s)
 
 
     def write(self) -> None:
         self.workbook.save(filename=self.file)
+        with open(self.assemblies_file, "w") as f:
+            SeqIO.write(self.sequences, f, "fasta")
