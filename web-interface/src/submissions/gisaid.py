@@ -1,6 +1,5 @@
 import pathlib
 from typing import List
-from openpyxl import Workbook
 from zipfile import ZipFile
 from Bio import SeqIO
 from Bio.Seq import Seq
@@ -17,17 +16,43 @@ class Metadata:
 
     path = "/home/seqmeta/uploads/samples"
 
+
     def __init__(self):
         self.sample_count = 0
         self.excel = ExcelFile(filename="upload", title="Submission")
         self.sequences = []
-        self.assemblies_filename = "all"
+        self._assemblies_filename = "all"
+        self.zipname = "gisaid_upload"
+
+
+    @property
+    def zip_filename(self) -> str:
+        return self.zipname.split(".")[0] + ".zip"
+
+
+    @zip_filename.setter
+    def zip_filename(self, fname: str) -> None:
+        self.zipname = fname.split(".")[0] = ".zip"
+
+
+    @property
+    def zipfile(self) -> pathlib.Path:
+        return pathlib.Path(self.path, self.zip_filename)
+
+
+    @property
+    def assemblies_filename(self) -> str:
+        return self._assemblies_filename.split(".")[0] + ".fasta"
+
+
+    @assemblies_filename.setter
+    def assemblies_filename(self, fname: str) -> None:
+        self._assemblies_filename = fname.split(".")[0] + ".fasta"
 
 
     @property
     def assemblies_file(self) -> pathlib.Path:
-        fname = self.assemblies_filename.split(".")[0] + ".fasta"
-        return pathlib.Path(self.path, fname)
+        return pathlib.Path(self.path, self.assemblies_filename)
 
 
     def create_header(self, sample: "Sample") -> None:
@@ -67,3 +92,10 @@ class Metadata:
     def write(self) -> None:
         self.excel.write()
         SeqIO.write(self.sequences, self.assemblies_file, "fasta")
+        self.zip_files()
+
+
+    def zip_files(self) -> None:
+        with ZipFile(self.zipfile, "w") as zipf:
+            zipf.write(self.excel.file, self.excel.filename)
+            zipf.write(self.assemblies_file, self.assemblies_filename)

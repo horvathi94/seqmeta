@@ -13,16 +13,25 @@ class ExcelFile:
 
 
     def __init__(self, filename="upload", title="Submission"):
-        self.filename = filename
+        self._fname = filename
         self.workbook = Workbook()
         self.worksheet = self.workbook.active
         self.worksheet.title = title
 
 
     @property
+    def filename(self) -> str:
+        return self._fname.split(".")[0] + ".xlsx"
+
+
+    @filename.setter
+    def filename(self, fname: str) -> None:
+        self._fname = fname.split(".")[0] + ".xlsx"
+
+
+    @property
     def file(self) -> pathlib.Path:
-        fname = self.filename.split(".")[0] + ".xlsx"
-        return pathlib.Path(self.path, fname)
+        return pathlib.Path(self.path, self.filename)
 
 
     def write_cell(self, rindex: int, cindex: int, val: any) -> None:

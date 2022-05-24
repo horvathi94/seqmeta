@@ -1,5 +1,22 @@
+import pathlib
 from typing import List
 import xml.etree.ElementTree as ET
+
+
+class Metadata:
+
+    path = "/home/seqmeta/uploads/samples/"
+
+
+    def __init__(self):
+        self.filename = "ena_upload"
+
+
+    def file(self) -> pathlib.Path:
+        fname = self.filename.split(".")[0] + ".xml"
+        return pathlib.Path(self.path, fname)
+
+    
 
 
 def attribute_xml(a: "SampleAttribute") -> ET.Element:
