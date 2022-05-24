@@ -9,68 +9,73 @@ class Metadata:
 
 
     def __init__(self):
-        self.filename = "ena_upload"
+        self._samples_xml_filename = "ena_upload"
+        self.sample_set = ET.Element("SAMPLE_SET")
+        self.xml_tree = ET.ElementTree(self.sample_set)
 
 
-    def file(self) -> pathlib.Path:
-        fname = self.filename.split(".")[0] + ".xml"
-        return pathlib.Path(self.path, fname)
-
-    
+    @property
+    def samples_xml_filename(self) -> str:
+        return self._samples_xml_filename.split(".")[0] + ".xml"
 
 
-def attribute_xml(a: "SampleAttribute") -> ET.Element:
-
-    sample_attribute = ET.Element("SAMPLE_ATTRIBUTE")
-    tag = ET.SubElement(sample_attribute, "TAG")
-    tag.text = a.ena_name
-    value = ET.SubElement(sample_attribute, "VALUE")
-    value.text = a.value
-    if a.ena_units:
-        units = ET.SubElement(sample_attribute, "UNITS")
-        units.text = a.ena_units
-
-    return sample_attribute
+    @samples_xml_filename.setter
+    def samples_xml_filename(self, fname: str) -> None:
+        self._samples_xml_filename = fname.split(".")[0] + ".xml"
 
 
-def sample_xml(s: "Sample") -> ET.Element:
-
-    sample = ET.Element("SAMPLE")
-    title = ET.SubElement(sample, "TITLE")
-    sample_name = ET.SubElement(sample, "SAMPLE_NAME")
-    taxon_id = ET.SubElement(sample_name, "TAXON_ID")
-    taxon_id.text = s.taxonomy.taxonomy_id
-    scientific_name = ET.SubElement(sample_name, "SCIENTIFIC_NAME")
-    scientific_name.text = s.taxonomy.scientific_name
-    if s.taxonomy.common_name:
-        common_name = ET.SubElement(sample_name, "COMMON_NAME")
-        common_name.text = s.taxonomy.common_name
-
-    sample_attributes = ET.SubElement(sample, "SAMPLE_ATTRIBUTES")
-    for a in s.list_ena():
-        attr = attribute_xml(a)
-        sample_attributes.append(attr)
-
-    return sample
+    @property
+    def samples_xml_file(self) -> pathlib.Path:
+        return pathlib.Path(self.path, self.samples_xml_filename)
 
 
+    def create_attribute_xml(self, attr: "SampleAttribute") -> ET.Element:
+        xml = ET.Element("SAMPLE_ATTRIBUTE")
+        tag = ET.SubElement(xml, "TAG")
+        tag.text = attr.ena_name
+        value = ET.SubElement(xml, "VALUE")
+        value.text = attr.value
+        if attr.ena_units:
+            units = ET.SubElement(xml, "UNITS")
+            units.text = attr.ena_units
+        return xml
 
-def sample_set(samples: List["Sample"]) -> "xml":
 
-    sample_set = ET.Element("SAMPLE_SET")
-    for s in samples:
-        sample = sample_xml(s)
-        sample_set.append(sample)
+    def create_sample_xml(self, sample: "Sample") -> ET.Element:
+        xml = ET.Element("SAMPLE")
+        title = ET.SubElement(xml, "TITLE")
+        sample_name = ET.SubElement(xml, "SAMPLE_NAME")
+        taxon_id = ET.SubElement(xml, "TAXON_ID")
+        taxon_id.text = sample.taxonomy.taxonomy_id
+        scientific_name = ET.SubElement(sample_name, "SCIENTIFIC_NAME")
+        scientific_name.text = sample.taxonomy.scientific_name
+        if sample.taxonomy.common_name:
+            common_name = ET.SubElement(sample_name, "COMMON_NAME")
+            common_name.text = sample.taxonomy.common_name
 
-    """
-        for a in s.ena_list:
+        sample_attributes = ET.SubElement(xml, "SAMPLE_ATTRIBUTES")
+        for attr in sample.list_ena():
+            attr_xml = self.create_attribute_xml(attr)
+            sample_attributes.append(attr_xml)
+        return xml
 
 
-        sample_attribute = ET.SubElement(sample_attributes, "SAMPLE_ATTRIBUTE")
-        tag = ET.SubElement(sample_attribute, "TAG")
-        tag.text = "ENA-CHECKLIST"
-        value = ET.SubElement(sample_attribute, "VALUE")
-        value.text = s.ena_checklist
-    """
 
-    return ET.tostring(sample_set)
+    def add_sample(self, sample: "Sample") -> None:
+        sample_xml = self.create_sample_xml(sample)
+        self.sample_set.append(sample_xml)
+
+
+    def add_samples(self, samples: List["Sample"]) -> None:
+        for sample in samples:
+            self.add_sample(sample)
+
+
+    @property
+    def xml(self) -> str:
+        return ET.tostring(self.sample_set)
+
+
+    def write(self) -> None:
+#        with open(self.samples_xml_file, "w") as xmlf:
+        self.xml_tree.write(self.samples_xml_file)

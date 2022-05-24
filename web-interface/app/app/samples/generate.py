@@ -16,4 +16,7 @@ def gisaid(template_name: str, sample_names: List[str]) -> dict:
 
 def ena(template_name: str, sample_names: List[str]) -> str:
     samples = [Sample.load(name, template_name) for name in sample_names]
-    return ena_metadata.sample_set(samples)
+    md = ena_metadata.Metadata()
+    md.add_samples(samples)
+    md.write()
+    return md.xml
