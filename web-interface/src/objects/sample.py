@@ -117,21 +117,26 @@ class Sample(PickleFile):
         return seqfiles
 
 
-    def load_gisaid_assembly(self) -> SeqFile:
+    def get_attribute(self, name: str) -> SampleAttribute:
         for a in self.attributes:
-            if a.general_name != "gisaid_assembly":
-                continue
-            fname = a.value[0]
-            seqfile = SeqFile.load(self.path, fname, SeqFileType.ASSEMBLY)
-            return seqfile
+            if a.general_name == name:
+                return a.value
 
 
     @property
     def gisaid_virusname(self) -> str:
-        for a in self.attributes:
-            if a.general_name == "gisaid_virusname":
-                return a.value
+        return self.get_attribute("gisaid_virusname")
 
+
+    @property
+    def gisaid_filename(self) -> str:
+        return self.get_attribute("gisaid_filename")
+
+
+    def load_gisaid_assembly(self) -> SeqFile:
+        attr = self.get_attribute("gisaid_assembly")
+        seqfile = SeqFile.load(self.path, attr[0], SeqFileType.ASSEMBLY)
+        return seqfile
 
 
     def load_seqfiles(self, repo: str) -> any:
