@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 class Metadata:
 
     path = "/home/seqmeta/uploads/samples/"
-
+    tmp_manifest = "tmp.txt"
 
     def __init__(self):
         self._samples_xml_filename = "ena_upload"
@@ -27,6 +27,11 @@ class Metadata:
     @property
     def samples_xml_file(self) -> pathlib.Path:
         return pathlib.Path(self.path, self.samples_xml_filename)
+
+
+    @property
+    def tmp_manifest_file(self) -> pathlib.Path:
+        return pathlib.Path(self.path, self.tmp_manifest)
 
 
     def create_attribute_xml(self, attr: "SampleAttribute") -> ET.Element:
@@ -64,6 +69,7 @@ class Metadata:
     def add_sample(self, sample: "Sample") -> None:
         sample_xml = self.create_sample_xml(sample)
         self.sample_set.append(sample_xml)
+        self.write_experiment_manifest(sample)
 
 
     def add_samples(self, samples: List["Sample"]) -> None:
@@ -78,3 +84,10 @@ class Metadata:
 
     def write(self) -> None:
         self.xml_tree.write(self.samples_xml_file)
+
+
+    def write_experiment_manifest(self, sample: "Sample") -> None:
+        with open(self.tmp_manifest_file, "w") as mf:
+            for item in sample.list_ena_experiment():
+                mf.write(f"{item['name']} {item['value']}\n")
+

@@ -104,9 +104,6 @@ class SeqFile:
 
     @classmethod
     def load(cls, path: pathlib.Path, fname: str, tp: SeqFileType) -> "SeqFile":
-        if tp is SeqFileType.READ:
-            return
-
         seqfile = SeqFile()
         seqfile.path_base = path
         seqfile.filename = fname

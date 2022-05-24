@@ -117,27 +117,49 @@ class Sample(PickleFile):
         return seqfiles
 
 
+    def list_ena_experiment(self) -> List[dict]:
+        items = []
+        items.append({"name": "SAMPLE", "value": self.name})
+        elems = ["ena_study", "ena_experiment_name", "platform", "instrument",
+                 "insert_size", "library_name", "library_source",
+                 "library_selection", "library_strategy",
+                 "ena_experiment_description"]
+        for e in elems:
+            attr = self.get_attribute(e)
+            items.append({"name": attr.ena_name, "value": attr.value})
+
+        for seqfile in self.load_read_files():
+            items.append({"name": "FASTQ", "value": seqfile.filename})
+        return items
+
+
     def get_attribute(self, name: str) -> SampleAttribute:
         for a in self.attributes:
             if a.general_name == name:
-                return a.value
+                return a
+
+
+    def get_attribute_value(self, name: str) -> any:
+        attr = self.get_attribute(name)
+        return attr.value
 
 
     @property
     def gisaid_virusname(self) -> str:
-        return self.get_attribute("gisaid_virusname")
+        return self.get_attribute_value("gisaid_virusname")
 
 
     @property
     def gisaid_filename(self) -> str:
-        return self.get_attribute("gisaid_filename")
+        return self.get_attribute_value("gisaid_filename")
 
 
     def load_gisaid_assembly(self) -> SeqFile:
-        attr = self.get_attribute("gisaid_assembly")
-        seqfile = SeqFile.load(self.path, attr[0], SeqFileType.ASSEMBLY)
+        vals = self.get_attribute_value("gisaid_assembly")
+        seqfile = SeqFile.load(self.path, vals[0], SeqFileType.ASSEMBLY)
         return seqfile
 
 
-    def load_seqfiles(self, repo: str) -> any:
-        print(f"Loading files for: {repo}")
+    def load_read_files(self) -> List[SeqFile]:
+        vals = self.get_attribute_value("raw_reads")
+        return [SeqFile.load(self.path, v, SeqFileType.READ) for v in vals]
