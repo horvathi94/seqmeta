@@ -77,5 +77,4 @@ class Metadata:
 
 
     def write(self) -> None:
-#        with open(self.samples_xml_file, "w") as xmlf:
         self.xml_tree.write(self.samples_xml_file)

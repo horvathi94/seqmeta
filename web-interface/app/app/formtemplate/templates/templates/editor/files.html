@@ -6,15 +6,15 @@
 		<label for="submission_files+0+gisaid_assembly">GISAID assembly</label>
 	</div>
 	<div>
-		<input type="checkbox" name="submission_files+0+ena_reads" data-ftype="read" data-repo="ena"/>
+		<input type="checkbox" name="submission_files+0+ena_reads" data-ftype="read" data-repo="ena" onchange="TEMPLATE_EDITOR.switchUploadFiles(this);"/>
 		<label for="submission_files+0+ena_reads">ENA reads</label>
 	</div>
 	<div>
-		<input type="checkbox" name="submission_files+0+ena_scaffolds" data-ftype="scaffolds" data-repo="ena"/>
+		<input type="checkbox" name="submission_files+0+ena_scaffolds" data-ftype="scaffolds" data-repo="ena" onchange="TEMPLATE_EDITOR.switchUploadFiles(this);"/>
 		<label for="submission_files+0+ena_scaffolds">ENA scaffold</label>
 	</div>
 	<div>
-		<input type="checkbox" name="submission_files+0+ena_contigs" data-ftype="contigs" data-repo="ena"/>
+		<input type="checkbox" name="submission_files+0+ena_contigs" data-ftype="contigs" data-repo="ena" onchange="TEMPLATE_EDITOR.switchUploadFiles(this);"/>
 		<label for="submission_files+0+ena_contigs">ENA contig</label>
 	</div>
 
