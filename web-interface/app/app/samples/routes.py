@@ -36,9 +36,14 @@ def edit():
             sample = Sample.load(sample_name, template_name=template_name)
             sample.delete()
         return redirect(url_for("samples_bp.view"))
-    elif action == "ena":
+    elif action == "ena-generate":
         data = generate.ena(template_name, submission.keys())
         return Response(data, mimetype="application/xml")
+    elif action == "ena-submit":
+        data = generate.submit_to_ena(template_name, submission.keys())
+        return data, 200, {'Content-Type': 'text/xsl', }
+#        return Response(data, mimetype="application/xml")
+#        return Response(data, mimetype="application/xml")
     elif action == "gisaid":
         data = generate.gisaid(template_name, submission.keys())
         return jsonify(data)

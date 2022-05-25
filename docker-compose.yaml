@@ -10,6 +10,10 @@ services:
       #target: ${STAGING_LEVEL:-interface}
       dockerfile: Dockerfile
 
+    environment:
+      WEBIN_CLI_USER: ${WEBIN_CLI_USER}
+      WEBIN_CLI_PASSWORD: ${WEBIN_CLI_PASSWORD}
+
     ports:
       - ${HOST_PORT}:5000
 

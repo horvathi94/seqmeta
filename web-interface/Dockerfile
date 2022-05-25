@@ -15,8 +15,7 @@ RUN apt install software-properties-common --yes
 RUN add-apt-repository ppa:deadsnakes/ppa --yes
 RUN apt install python3.10 --yes 
 RUN apt install python3-pip --yes
-#RUN apt install  python3 --yes \
-#	&& python3 -m ensurepip 
+
 
 # Install Python packages
 COPY ./requirements/development.txt /tmp/dev-reqs.txt

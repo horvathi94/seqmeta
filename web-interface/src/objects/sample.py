@@ -7,6 +7,10 @@ from .taxonomy import Taxonomy
 from .seqfiles import SeqFile, SeqFileType
 from .seqfile_bunch import SeqFileBunch
 
+READ_ELEMENTS = ["ena_study", "ena_experiment_name", "platform", "instrument",
+         "insert_size", "library_name", "library_source",
+         "library_selection", "library_strategy",
+         "ena_experiment_description"]
 
 @dataclass
 class Sample(PickleFile):
@@ -29,12 +33,19 @@ class Sample(PickleFile):
             "name": self.name,
             "short_description": self.short_description,
             "template_name": self.template_name,
+            "ena_checklist": self.ena_checklist,
             "attributes": [a.asjson() for a in self.attributes]
         }
 
 
     def list_ena(self) -> List[SampleAttribute]:
-        return [a for a in self.attributes if a.ena_include()]
+        attribs = []
+        for a in self.attributes:
+            if not a.ena_include(): continue
+            if a.general_name in READ_ELEMENTS: continue
+            if a.general_name == "ena_title": continue
+            attribs.append(a)
+        return attribs
 
 
     def list_gisaid(self) -> List[SampleAttribute]:
@@ -120,11 +131,7 @@ class Sample(PickleFile):
     def list_ena_experiment(self) -> List[dict]:
         items = []
         items.append({"name": "SAMPLE", "value": self.name})
-        elems = ["ena_study", "ena_experiment_name", "platform", "instrument",
-                 "insert_size", "library_name", "library_source",
-                 "library_selection", "library_strategy",
-                 "ena_experiment_description"]
-        for e in elems:
+        for e in READ_ELEMENTS:
             attr = self.get_attribute(e)
             items.append({"name": attr.ena_name, "value": attr.value})
 
@@ -142,6 +149,11 @@ class Sample(PickleFile):
     def get_attribute_value(self, name: str) -> any:
         attr = self.get_attribute(name)
         return attr.value
+
+
+    @property
+    def ena_title(self) -> str:
+        return self.get_attribute_value("ena_title")
 
 
     @property

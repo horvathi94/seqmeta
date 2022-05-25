@@ -91,3 +91,6 @@ class Metadata:
             for item in sample.list_ena_experiment():
                 mf.write(f"{item['name']} {item['value']}\n")
 
+
+
+
