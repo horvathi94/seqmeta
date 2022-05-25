@@ -1,0 +1,19 @@
+version: "3.6"
+
+
+services:
+
+  app:
+
+    build:
+      context: ./web-interface
+      #target: ${STAGING_LEVEL:-interface}
+      dockerfile: Dockerfile
+
+    ports:
+      - ${HOST_PORT}:5000
+
+    volumes:
+      - ./web-interface/app:/home/seqmeta/app
+      - ./web-interface/src:/opt/seqmeta/seqmeta
+      - ${APP_SAMPLES_DIR:?Specify directory}:/home/seqmeta/uploads/samples
