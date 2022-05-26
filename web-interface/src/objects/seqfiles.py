@@ -1,3 +1,4 @@
+import hashlib
 import pathlib
 from dataclasses import dataclass
 from .attributes.samplefile import SampleFile, SeqFileType
@@ -123,3 +124,10 @@ class SeqFile:
     def path(self) -> pathlib.Path:
         return pathlib.Path(self.path_base, FILE_DIR[self.type_])
 
+
+    def md5_checksum(self) -> str:
+        hash_md5 = hashlib.md5()
+        with open(self.file, "rb") as f:
+            for chunk in iter(lambda: f.read(4096), b""):
+                hash_md5.update(chunk)
+        return hash_md5.hexdigest()

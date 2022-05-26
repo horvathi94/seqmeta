@@ -1,55 +1,83 @@
 import os
+import requests
 import subprocess
 from typing import List
 from .ena.submission import SubmissionXML
 from .ena.sample_set import SampleSetXML
+from .ena.experiment import ExperimentSetXML
+from .ena.xml import XML
+from .ena.receipt import ReceiptXML
 
 
-def get_webin_login():
-    login = {"user": None, "pass": None}
-    if "WEBIN_CLI_USER" in os.environ:
-        login["user"] = os.environ["WEBIN_CLI_USER"]
-    if "WEBIN_CLI_PASSWORD" in os.environ:
-        login["pass"] = os.environ["WEBIN_CLI_PASSWORD"]
-    return login
+# TODO: production url in get_url
 
 
-
-import requests
-def submit(submission_file, samples_file, mode="test") -> str:
-    login = get_webin_login()
-
-    url = "https://wwwdev.ebi.ac.uk/ena/submit/drop-box/submit/"
-    if mode == "test":
-        url = "https://wwwdev.ebi.ac.uk/ena/submit/drop-box/submit/"
+class EnaSubmission:
 
 
-    submission_xml = open(submission_file, "rb")
-    samples_xml = open(samples_file, "rb")
+    def __init__(self):
+        self.webin_user = None
+        if "WEBIN_CLI_USER" in os.environ:
+            self.webin_user = os.environ["WEBIN_CLI_USER"]
+        self.webin_pass = None
+        if "WEBIN_CLI_PASSWORD" in os.environ:
+            self.webin_pass = os.environ["WEBIN_CLI_PASSWORD"]
 
-    files = {
-        "SUBMISSION": submission_xml,
-        "SAMPLE": samples_xml,
-    }
 
-    result = requests.post(url,
-                           files=files,
-                           auth=(login["user"], login["pass"]))
-
-    print(f"\n\nRaw: {result.__dict__}")
-    return result
+    def get_url(self, mode: str="test") -> str:
+        if mode == "test":
+            return "https://wwwdev.ebi.ac.uk/ena/submit/drop-box/submit/"
+        return "https://wwwdev.ebi.ac.uk/ena/submit/drop-box/submit/"
 
 
 
-def samples(samples: List["Sample"]):
+    def submit(self, files: dict, mode: str="test") -> ReceiptXML:
+        result = requests.post(self.get_url(mode=mode), files=files,
+                               auth=(self.webin_user, self.webin_pass))
 
-    sub_xml = SubmissionXML(action="VALIDATE")
-    sub_xml.write()
+        if result.status_code != 200:
+            raise Exception(f"Failed: status code {result.status_code}")
 
-    sample_set_xml = SampleSetXML()
-    for s in samples:
-        sample_set_xml.add_sample(s)
-    sample_set_xml.write()
+        receipt = ReceiptXML(create=False)
+        receipt.xml_string = result.content
+        return receipt
 
-    result = submit(sub_xml.file, sample_set_xml.file, mode="test")
-    return result.content
+
+    def submit_samples(self, samples: List["Sample"]) -> ReceiptXML:
+        sub_xml = SubmissionXML(action="VALIDATE")
+        sub_xml.write()
+
+        samples_xml = SampleSetXML()
+        for s in samples: samples_xml.add_sample(s)
+        samples_xml.write()
+
+        sub_file = open(sub_xml.file, "r")
+        samples_file = open(samples_xml.file, "r")
+
+        files = {
+            "SUBMISSION": sub_file,
+            "SAMPLE": samples_file,
+        }
+
+        try:
+            receipt = self.submit(files=files, mode="test")
+        except Exception as e:
+            raise e
+        finally:
+            sub_file.close()
+            samples_file.close()
+
+        return receipt
+
+
+    def submit_experiments(self, samples: List["Sample"]) -> any:
+        sub_xml = SubmissionXML(action="VALIDATE")
+        sub_xml.write()
+
+        experiments_xml = ExperimentSetXML()
+        for sample in samples:
+            experiments_xml.add_sample(sample)
+
+        print(experiments_xml.xml_string)
+
+        return experiments_xml.xml_string

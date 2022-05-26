@@ -23,11 +23,14 @@ def ena(template_name: str, sample_names: List[str]) -> str:
     return md.xml
 
 
-from seqmeta.submissions import ena_submission
+from seqmeta.submissions.ena_submission import EnaSubmission
 def submit_to_ena(template_name: str, sample_names: List[str]) -> any:
     samples = [Sample.load(name, template_name) for name in sample_names]
-    result = ena_submission.samples(samples)
-    return result
+    sub = EnaSubmission()
+#    receipt = sub.submit_samples(samples)
+    receipt = sub.submit_experiments(samples)
+    return receipt
+    return receipt.get_messages()
 #    result = subprocess.run(
 #        ["java", "-jar", "/opt/webin-cli/webin-cli-4.4.0.jar", "-help"],
 #        capture_output=True, text=True)

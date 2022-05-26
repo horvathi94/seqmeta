@@ -5,7 +5,6 @@ from .pickle import PickleFile
 from .attributes.sampleattr import SampleAttribute
 from .taxonomy import Taxonomy
 from .seqfiles import SeqFile, SeqFileType
-from .seqfile_bunch import SeqFileBunch
 
 READ_ELEMENTS = ["ena_study", "ena_experiment_name", "platform", "instrument",
          "insert_size", "library_name", "library_source",

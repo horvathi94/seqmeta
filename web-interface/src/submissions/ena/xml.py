@@ -6,9 +6,15 @@ PATH = "/home/seqmeta/uploads/samples"
 
 class XML:
 
-    def __init__(self, root, fname="tmp", path=PATH):
+    def __init__(self, root: str, fname: str="tmp",
+                 path: str=PATH, create: bool=True):
         self.fname = fname
         self.path = path
+        if create:
+            self._create(root)
+
+
+    def _create(self, root: str) -> None:
         self.root = minidom.Document()
         self.xml = self.root.createElement(root)
         self.root.appendChild(self.xml)
@@ -32,6 +38,11 @@ class XML:
     @property
     def xml_string(self) -> str:
         return self.root.toprettyxml(indent=" "*3)
+
+
+    @xml_string.setter
+    def xml_string(self, xml: str) -> None:
+        self.root = minidom.parseString(xml)
 
 
     def create_element(self, name: str, text: str="") -> minidom.Element:
