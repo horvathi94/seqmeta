@@ -16,20 +16,26 @@ def get_webin_login():
 
 
 import requests
-def submit(sub, mode="test") -> str:
+def submit(submission_file, samples_file, mode="test") -> str:
     login = get_webin_login()
 
     url = "https://wwwdev.ebi.ac.uk/ena/submit/drop-box/submit/"
     if mode == "test":
         url = "https://wwwdev.ebi.ac.uk/ena/submit/drop-box/submit/"
 
+
+    submission_xml = open(submission_file, "rb")
+    samples_xml = open(samples_file, "rb")
+
     files = {
-        "SUBMISSION": str(sub["submission"]),
-        "SAMPLE": str(sub["value"])
-        }
+        "SUBMISSION": submission_xml,
+        "SAMPLE": samples_xml,
+    }
 
     result = requests.post(url,
-                           files=files, auth=(login["user"], login["pass"]))
+                           files=files,
+                           auth=(login["user"], login["pass"]))
+
     print(f"\n\nRaw: {result.__dict__}")
     return result
 
@@ -37,7 +43,7 @@ def submit(sub, mode="test") -> str:
 
 def samples(samples: List["Sample"]):
 
-    sub_xml = SubmissionXML()
+    sub_xml = SubmissionXML(action="VALIDATE")
     sub_xml.write()
 
     sample_set_xml = SampleSetXML()
@@ -45,12 +51,5 @@ def samples(samples: List["Sample"]):
         sample_set_xml.add_sample(s)
     sample_set_xml.write()
 
-    return "<repsonse/>"
-    sub = {
-        "submission": sub_xml.file,
-        "name": "SAMPLE",
-        "value": sample_set_xml.file,
-    }
-
-    result = submit(sub, mode="test")
+    result = submit(sub_xml.file, sample_set_xml.file, mode="test")
     return result.content

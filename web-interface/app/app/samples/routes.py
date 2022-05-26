@@ -41,7 +41,7 @@ def edit():
         return Response(data, mimetype="application/xml")
     elif action == "ena-submit":
         data = generate.submit_to_ena(template_name, submission.keys())
-        return data, 200, {'Content-Type': 'text/xsl', }
+        return data, 200, {'Content-Type': 'application/xsl', }
 #        return Response(data, mimetype="application/xml")
 #        return Response(data, mimetype="application/xml")
     elif action == "gisaid":

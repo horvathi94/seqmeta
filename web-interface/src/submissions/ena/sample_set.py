@@ -1,5 +1,5 @@
 from .xml import XML
-import xml.etree.ElementTree as ET
+from xml.dom import minidom
 
 
 class SampleSetXML(XML):
@@ -9,50 +9,46 @@ class SampleSetXML(XML):
         super().__init__(root="SAMPLE_SET", fname=fname)
 
 
-    def create_attribute_xml(self, name: str, value: any,
-                             units: str="") -> ET.Element:
-        xml = ET.Element("SAMPLE_ATTRIBUTE")
-        tag = ET.SubElement(xml, "TAG")
-        tag.text = name
-        value_tag = ET.SubElement(xml, "VALUE")
-        value_tag.text = value
+    def attr_xml(self, tag: str, value: str, units: str="") -> minidom.Element:
+        xml = self.create_element("SAMPLE_ATTRIBUTE")
+        tag_xml = self.create_element("TAG", text=tag)
+        xml.appendChild(tag_xml)
+        value_xml = self.create_element("VALUE", text=value)
+        xml.appendChild(value_xml)
         if units:
-            units_tag = ET.SubElement(xml, "UNITS")
-            units_tag.text = units
+            units_xml = self.create_element("UNITS", text=units)
+            xml.appendChild(units_xml)
         return xml
 
 
-    def sample_attribute_xml(self, attr: "SampleAttribute") -> ET.Element:
-        return self.create_attribute_xml(attr.ena_name, attr.value,
-                                         attr.ena_units)
+    def sample_name_xml(self, taxon: "Taxonomy") -> minidom.Element:
+        sample_name = self.create_element("SAMPLE_NAME")
+        tid = self.create_element("TAXON_ID", text=taxon.taxonomy_id)
+        sample_name.appendChild(tid)
+        sn = self.create_element("SCIENTIFIC_NAME", text=taxon.scientific_name)
+        sample_name.appendChild(sn)
+        cn = self.create_element("COMMON_NAME", text=taxon.common_name)
+        sample_name.appendChild(cn)
+        return sample_name
 
 
-    def create_sample_xml(self, sample: "Sample") -> ET.Element:
-        xml = ET.Element("SAMPLE")
-        xml.set("alias", sample.name)
-        title = ET.SubElement(xml, "TITLE")
-        title.text = sample.ena_title
-        sample_name = ET.SubElement(xml, "SAMPLE_NAME")
-        taxon_id = ET.SubElement(sample_name, "TAXON_ID")
-        taxon_id.text = sample.taxonomy.taxonomy_id
-        scientific_name = ET.SubElement(sample_name, "SCIENTIFIC_NAME")
-        scientific_name.text = sample.taxonomy.scientific_name
-        if sample.taxonomy.common_name:
-            common_name = ET.SubElement(sample_name, "COMMON_NAME")
-            common_name.text = sample.taxonomy.common_name
-        sample_attributes = ET.SubElement(xml, "SAMPLE_ATTRIBUTES")
+    def sample_xml(self, sample: "Sample") -> minidom.Element:
+        xml = self.create_element("SAMPLE")
+        xml.setAttribute("alias", sample.name)
+        title = self.create_element("TITLE", text=sample.ena_title)
+        xml.appendChild(title)
+        xml.appendChild(self.sample_name_xml(sample.taxonomy))
+        attrs_xml = self.create_element("SAMPLE_ATTRIBUTES")
         for attr in sample.list_ena():
-            attr_xml = self.sample_attribute_xml(attr)
-            sample_attributes.append(attr_xml)
-
-        print(sample.ena_checklist)
-        checklist = self.create_attribute_xml("ENA-CHECKLIST",
-                                              sample.ena_checklist)
-        sample_attributes.append(checklist)
+            attr_xml = self.attr_xml(attr.ena_name, attr.value, attr.ena_units)
+            attrs_xml.appendChild(attr_xml)
+        xml.appendChild(attrs_xml)
+        checklist = self.attr_xml("ENA-CHECKLIST", sample.ena_checklist)
+        attrs_xml.appendChild(checklist)
         return xml
 
 
     def add_sample(self, sample: "Sample") -> None:
-        sample_xml = self.create_sample_xml(sample)
-        self.elemtree.append(sample_xml)
+        sample_xml = self.sample_xml(sample)
+        self.append_element(sample_xml)
 

@@ -1,5 +1,5 @@
 from .xml import XML
-import xml.etree.ElementTree as ET
+from xml.dom import minidom
 
 
 class SubmissionXML(XML):
@@ -12,6 +12,9 @@ class SubmissionXML(XML):
 
 
     def create(self) -> None:
-        actions_tag = ET.SubElement(self.elemtree, "ACTIONS")
-        action_tag = ET.SubElement(actions_tag, "ACTION")
-        action = ET.SubElement(action_tag, self.action.upper())
+        actions = self.create_element("ACTIONS")
+        self.append_element(actions)
+        action = self.create_element("ACTION")
+        actions.appendChild(action)
+        a = self.create_element(self.action.upper())
+        action.appendChild(a)

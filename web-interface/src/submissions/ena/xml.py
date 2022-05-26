@@ -1,5 +1,4 @@
 import pathlib
-import xml.etree.ElementTree as ET
 from xml.dom import minidom
 
 PATH = "/home/seqmeta/uploads/samples"
@@ -10,8 +9,9 @@ class XML:
     def __init__(self, root, fname="tmp", path=PATH):
         self.fname = fname
         self.path = path
-        self.elemtree = ET.Element(root)
-        self.xmltree = ET.ElementTree(self.elemtree)
+        self.root = minidom.Document()
+        self.xml = self.root.createElement(root)
+        self.root.appendChild(self.xml)
 
 
     @property
@@ -31,11 +31,22 @@ class XML:
 
     @property
     def xml_string(self) -> str:
-        return ET.tostring(self.elemtree)
+        return self.root.toprettyxml(indent=" "*3)
+
+
+    def create_element(self, name: str, text: str="") -> minidom.Element:
+        elem = self.root.createElement(name)
+        if not text:
+            return elem
+        text_node = self.root.createTextNode(text)
+        elem.appendChild(text_node)
+        return elem
+
+
+    def append_element(self, elem: minidom.Element) -> None:
+        self.xml.appendChild(elem)
 
 
     def write(self) -> None:
-        xml = minidom.parseString(self.xml_string).toprettyxml(indent="  ",
-                                                               encoding="UTF-8")
-        with open(self.file, "wb") as f:
-            f.write(xml)
+        with open(self.file, "w") as f:
+            f.write(self.xml_string)
