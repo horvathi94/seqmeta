@@ -13,6 +13,7 @@ gulpfile.js
 node_modules
 
 
+./web-interface/webin-cli-4.4.0.jar
 ./docker-compose.tester.yaml
 
 # Byte-compiled / optimized / DLL files
