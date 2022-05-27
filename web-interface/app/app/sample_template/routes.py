@@ -1,40 +1,40 @@
 from flask import Blueprint, request, jsonify, redirect, url_for
-from .editor import Editor
 from .view import View
-from seqmeta.objects.template import SampleTemplate
+from .editor import Editor
+
+from seqmeta.objects.sample_template import SampleTemplate
+from seqmeta.objects.attributes.list_attrs import list_fields
 from seqmeta.form import submission
 from seqmeta.objects.attributes.attribute import Attribute
 
 
 
-formtemplate_bp = Blueprint("formtemplate_bp", __name__,
-                            template_folder="templates")
+sample_template_bp = Blueprint("sample_template_bp", __name__,
+                               template_folder="templates")
 
 
 
-@formtemplate_bp.route("/templates")
-@formtemplate_bp.route("/templates/view")
+@sample_template_bp.route("/templates")
+@sample_template_bp.route("/templates/view")
 def view():
     page = View()
     return page.render()
 
 
-@formtemplate_bp.route("/templates/edit")
+@sample_template_bp.route("/templates/edit")
 def edit():
     template_name = request.args.get("name")
-    template = None
-    if template_name:
-        template = SampleTemplate.load(template_name)
+    template = SampleTemplate.load(template_name) if template_name else None
     page = Editor(template=template)
     return page.render()
 
 
-@formtemplate_bp.route("/templates/delete")
+@sample_template_bp.route("/templates/delete")
 def delete():
     template_name = request.args.get("name")
     template = SampleTemplate.load(template_name)
     template.delete()
-    return redirect(url_for("formtemplate_bp.view"))
+    return redirect(url_for("sample_template_bp.view"))
 
 
 def handle_submission(raw: dict) -> None:
@@ -54,23 +54,31 @@ def handle_submission(raw: dict) -> None:
     template.save(create_path=True)
 
 
-@formtemplate_bp.route("/templates/submit", methods=["POST"])
+@sample_template_bp.route("/templates/submit", methods=["POST"])
 def submit():
     handle_submission(dict(request.form))
-    return redirect(url_for("formtemplate_bp.view"))
+    return redirect(url_for("sample_template_bp.view"))
 
 
-@formtemplate_bp.route("/templates/json")
+@sample_template_bp.route("/templates/json")
 def json():
     template_name = request.args.get("name")
     use = request.args.get("use")
     template = SampleTemplate.load(template_name)
+    return jsonify(template.asjson())
     if template is None: return jsonify({})
     if use == "sample_editor":
         return jsonify(template.sample_editor_json())
     return jsonify(template.asjson())
 
 
-@formtemplate_bp.route("/templates/names")
+@sample_template_bp.route("/templates/names")
 def names():
     return jsonify(SampleTemplate.list_names())
+
+
+
+@sample_template_bp.route("/templates/attributes")
+def attributes():
+    which = request.args.get("for")
+    return jsonify([f.as_json() for f in list_fields(which)])

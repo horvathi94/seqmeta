@@ -9,13 +9,10 @@ def create_app() -> None:
         from .index import routes as index
         app.register_blueprint(index.index_bp)
 
-#        from .authors import routes as authors
-#        app.register_blueprint(authors.authors_bp)
-
         from .samples import routes as samples
         app.register_blueprint(samples.samples_bp)
 
-        from .formtemplate import routes as formtemplate
-        app.register_blueprint(formtemplate.formtemplate_bp)
+        from .sample_template import routes as sample_template
+        app.register_blueprint(sample_template.sample_template_bp)
 
     return app
