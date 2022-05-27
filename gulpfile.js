@@ -3,8 +3,7 @@ const sass = require("gulp-sass")(require("sass"));
 const autoprefixer = require("gulp-autoprefixer");
 const cssmin = require("gulp-cssmin");
 const rename = require("gulp-rename");
-//const uglify = require("gulp-uglify");
-const minify = require("gulp-babel-minify");
+const uglify = require("gulp-uglify");
 
 
 static_dir = "web-interface/app/app/static/";
@@ -25,8 +24,7 @@ gulp.task("styles", function(){
 gulp.task("js", function(){
 	
 	return gulp.src("./dev/js/*.js")
-//		.pipe(uglify())
-		.pipe(minify())
+		.pipe(uglify())
 		.pipe(gulp.dest(static_dir+"js"));
 
 });
