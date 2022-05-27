@@ -41,7 +41,8 @@ class Sample(PickleFile):
         attribs = []
         for a in self.attributes:
             if not a.ena_include(): continue
-            if a.general_name in READ_ELEMENTS: continue
+            if not a.ena_name: continue
+#            if a.general_name in READ_ELEMENTS: continue
             if a.general_name == "ena_title": continue
             attribs.append(a)
         return attribs
@@ -174,3 +175,11 @@ class Sample(PickleFile):
     def load_read_files(self) -> List[SeqFile]:
         vals = self.get_attribute_value("raw_reads")
         return [SeqFile.load(self.path, v, SeqFileType.READ) for v in vals]
+
+
+    @property
+    def library_layout(self) -> str:
+        reads = self.load_read_files()
+        if len(reads) == 2: return "paired"
+        if len(reads) == 1: return "single"
+        return None

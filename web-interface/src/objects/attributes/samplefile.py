@@ -17,14 +17,17 @@ VALID_EXTENSIONS = {
     "fasta": {
         "accepted_by": [SeqFileType.ASSEMBLY, SeqFileType.CONTIGS, SeqFileType.SCAFFOLDS],
         "same_as": ["fa", "fasta", "fna"],
+        "ena_file_type": "fasta",
     },
     "bam": {
         "accepted_by": [SeqFileType.ASSEMBLY, SeqFileType.CONTIGS, SeqFileType.SCAFFOLDS],
         "same_as": ["bam"],
+        "ena_file_type": "bam",
     },
     "fastq.gz": {
         "accepted_by": [SeqFileType.READ],
         "same_as": ["fastq.gz"],
+        "ena_file_type": "fastq",
     },
 }
 
@@ -67,16 +70,6 @@ class SampleFile:
 
 
     def asjson(self) -> dict:
-        d =  {
-            "general_name": self.general_name,
-            "label": self.label,
-            "short_description": self.short_description,
-            "is_active": self.is_active,
-            "filetype": self.filetype.value,
-            "repos": self.repos,
-            "accepted_extensions": self.accepted_extensions
-        }
-        print(f"\n\nSampleFile as json: {d}")
         return {
             "general_name": self.general_name,
             "label": self.label,
@@ -104,6 +97,11 @@ class SampleFile:
     @classmethod
     def create_full_list(cls) -> List["SampleFile"]:
         return FILE_FIELDS
+
+
+    @classmethod
+    def get_ena_file_type(cls, ext: str) -> str:
+        return VALID_EXTENSIONS[ext]["ena_file_type"]
 
 
 

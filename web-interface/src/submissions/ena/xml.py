@@ -45,8 +45,12 @@ class XML:
         self.root = minidom.parseString(xml)
 
 
-    def create_element(self, name: str, text: str="") -> minidom.Element:
+    def create_element(self, name: str, text: str="",
+                       attrs: dict=None) -> minidom.Element:
         elem = self.root.createElement(name)
+        if attrs is not None:
+            for label, value in attrs.items():
+                elem.setAttribute(label, value)
         if not text:
             return elem
         text_node = self.root.createTextNode(text)

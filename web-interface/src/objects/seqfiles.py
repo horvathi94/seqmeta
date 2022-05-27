@@ -131,3 +131,8 @@ class SeqFile:
             for chunk in iter(lambda: f.read(4096), b""):
                 hash_md5.update(chunk)
         return hash_md5.hexdigest()
+
+
+    @property
+    def filetype(self) -> str:
+        return SampleFile.get_ena_file_type(self.extension)

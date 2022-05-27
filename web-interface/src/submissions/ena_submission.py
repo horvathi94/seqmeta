@@ -5,6 +5,7 @@ from typing import List
 from .ena.submission import SubmissionXML
 from .ena.sample_set import SampleSetXML
 from .ena.experiment import ExperimentSetXML
+from .ena.run import RunSetXML
 from .ena.xml import XML
 from .ena.receipt import ReceiptXML
 
@@ -75,9 +76,13 @@ class EnaSubmission:
         sub_xml.write()
 
         experiments_xml = ExperimentSetXML()
+        runs_xml = RunSetXML()
         for sample in samples:
             experiments_xml.add_sample(sample)
+            runs_xml.add_sample(sample)
 
-        print(experiments_xml.xml_string)
+#        print(experiments_xml.xml_string)
+        print(runs_xml.xml_string)
+
 
         return experiments_xml.xml_string
