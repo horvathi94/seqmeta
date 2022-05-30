@@ -3,6 +3,7 @@ from .view import View
 from .editor import Editor
 
 from seqmeta.objects.sample_template import SampleTemplate
+from seqmeta.objects.attributes.attr_field import AttributeField
 from seqmeta.objects.attributes.list_attrs import list_fields
 from seqmeta.form import submission
 from seqmeta.objects.attributes.attribute import Attribute
@@ -45,12 +46,16 @@ def handle_submission(raw: dict) -> None:
     ena_checklist = submission.parse(raw, "ena_checklist")[0]
     template.ena_checklist = ena_checklist["ena_checklist"]
     template_data = submission.parse(raw, "template")[0]
-    template.short_description = template_data["short_description"]
+    template.description = template_data["short_description"]
+
     files = submission.parse(raw, "submission_files")[0]
-    template.set_files_from_list(list(files.keys()))
+    for f in files.keys():
+        setattr(template, f, True)
+
     attrs = submission.parse(raw, "attr")
     for a in list(attrs.values()):
-        template.add_attribute(Attribute(**a))
+        attr = AttributeField.from_dict(a)
+        template.add_attribute(attr)
     template.save(create_path=True)
 
 

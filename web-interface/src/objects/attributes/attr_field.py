@@ -17,10 +17,10 @@ class AttributeField:
     _pattern: str = ""
     _template: str = ""
     ena_name: str = ""
-    ena_requirement: Requirement = Requirement.EXCLUDE
+    _ena_requirement: str = "exclude"
     ena_units: str = ""
     gisaid_name: str = ""
-    gisaid_requirement: Requirement = Requirement.EXCLUDE
+    _gisaid_requirement: str = "exclude"
     gisaid_header: str = ""
     is_hidden: bool = False
     is_unique: bool = False
@@ -30,10 +30,29 @@ class AttributeField:
     def __post_init__(self):
         if not isinstance(self.type_, FieldType):
             self.type_ = FieldType(self.type_)
-        if not isinstance(self.ena_requirement, Requirement):
-            self.ena_requirement = Requirement(self.ena_requirement)
-        if not isinstance(self.gisaid_requirement, Requirement):
-            self.gisaid_requirement = Requirement(self.gisaid_requirement)
+
+    @property
+    def gisaid_requirement(self) -> Requirement:
+        return Requirement(self._gisaid_requirement)
+
+
+    @gisaid_requirement.setter
+    def gisaid_requirement(self, req: any) -> None:
+        if isinstance(req, Requirement):
+            req = req.value
+        self._gisaid_requirement = req
+
+
+    @property
+    def ena_requirement(self) -> Requirement:
+        return Requirement(self._ena_requirement)
+
+
+    @ena_requirement.setter
+    def ena_requirement(self, req: any) -> None:
+        if isinstance(req, Requirement):
+            req = req.value
+        self._ena_requirement = req
 
 
     @property
@@ -95,3 +114,20 @@ class AttributeField:
             "is_unique": self.is_unique,
             "is_fixed": self.is_fixed,
         }
+
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "AttributeField":
+        a = AttributeField(data["general_name"], data["label"],
+                type_=data["type_"])
+        if "options" in data: a.options = data["options"]
+        if "template" in data: a.template = data["template"]
+        if "pattern" in data: a.pattern = data["pattern"]
+        if "default" in data: a.default = data["default"]
+        a.ena_name = data["ena_name"]
+        a.ena_requirement = data["ena_requirement"]
+        a.ena_units = data["ena_units"]
+        a.gisaid_name = data["gisaid_name"]
+        a.gisaid_requirement = data["gisaid_requirement"]
+        a.gisaid_header = data["gisaid_header"]
+        return a
