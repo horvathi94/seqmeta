@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List
 from .enums import FieldType, Requirement
+from .sample_attr import SampleAttribute
 
 
 @dataclass
@@ -133,3 +134,11 @@ class AttributeField:
         a.gisaid_requirement = data["gisaid_requirement"]
         a.gisaid_header = data["gisaid_header"]
         return a
+
+
+    def as_sample_attribute(self) -> SampleAttribute:
+        return SampleAttribute(self.general_name, ena_name=self.ena_name,
+                ena_requirement=self.ena_requirement, ena_units=self.ena_units,
+                gisaid_name=self.gisaid_name,
+                gisaid_requirement=self.gisaid_requirement,
+                gisaid_header=self.gisaid_header)

@@ -71,7 +71,8 @@ def names():
 from seqmeta.form import file_submission
 def handle_submission(raw: dict, files: list) -> None:
 
-    template_name = raw.pop("template_name")
+#    template_name = raw.pop("template_name")
+    template_name = raw["template_name"]
     template = SampleTemplate.load(template_name)
 
     sample_data = submission.parse(raw, "sample")
@@ -79,24 +80,22 @@ def handle_submission(raw: dict, files: list) -> None:
                     for index in sample_data}
 
     for index in sample_data:
-        name = sample_data[index].pop("sample_name")
-        short_description = sample_data[index].pop("short_description")
-        sample = Sample(name, short_description, template_name=template_name)
+        sample = Sample(template_name)
         sample.taxonomy = template.taxonomy
         sample.ena_checklist = template.ena_checklist
 
         for aname, aval in sample_data[index].items():
-            attr = template.get_attribute(aname)
-            sample_attr = attr.as_sample_attribute()
-            sample_attr.value = aval
-            sample.add_attribute(sample_attr)
-
+            field = template.get_field(aname)
+            attr = field.as_sample_attribute()
+            attr.value = aval
+            sample.add_attribute(attr)
 
         for f in template.active_files():
             sample_files = file_submission.fetch_files(files, sample.name,
                                                        index, f.general_name)
-            sample.save_files(f, sample_files)
-        sample.save()
+            print(sample_files)
+#            sample.save_files(f, sample_files)
+#        sample.save()
 
 
 

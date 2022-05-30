@@ -83,5 +83,15 @@ class SampleTemplate(PickleFile):
         return False
 
 
+    def active_files(self) -> List[FileField]:
+        return [f for f in self.file_fields if f.is_active]
+
+
+    def get_field(self, name: str) -> AttributeField:
+        for f in self.fields:
+            if f.general_name == name:
+                return f
+
+
     def delete(self) -> None:
         shutil.rmtree(self.path)
