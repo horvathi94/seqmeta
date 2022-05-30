@@ -1,8 +1,10 @@
 from dataclasses import dataclass, field
 from typing import List
+import shutil
 from .pickle import PickleFile
 from .taxonomy import Taxonomy
 from .attributes.attr_field import AttributeField
+from .attributes.file_field import FileField, ALL_FIELDS, REPO_FIELDS
 
 
 @dataclass
@@ -12,10 +14,9 @@ class SampleTemplate(PickleFile):
     description: str = "No description available."
     extension: str = "template"
     fields: List[AttributeField] = field(default_factory=lambda: [])
+    file_fields: List[FileField] = field(default_factory=lambda: ALL_FIELDS)
     taxonomy: Taxonomy = Taxonomy()
     ena_checklist: str = "N/A"
-    gisaid_assembly: bool = False
-    ena_reads: bool = False
 
 
     def add_attribute(self, a: AttributeField) -> None:
@@ -51,3 +52,36 @@ class SampleTemplate(PickleFile):
     def load(cls, name: str) -> "SampleTemplate":
         t = SampleTemplate(name=name)
         return cls.load_pickle(t.file)
+
+
+    def as_json(self) -> dict:
+        return {
+            "name": self.name,
+            "description": self.description,
+            "taxonomy": self.taxonomy,
+            "ena_checklist": self.ena_checklist,
+            "gisaid_assembly": self.check_file_field("gisaid_assembly"),
+            "ena_reads": self.check_file_field("ena_reads"),
+            "fields": [f.as_json() for f in self.fields],
+            "file_fields": [f.as_json() for f in self.file_fields],
+        }
+
+
+    def set_file_field(self, fname: str) -> None:
+        for file_field in self.file_fields:
+            if file_field.general_name == REPO_FIELDS[fname]["type"]:
+                file_field.add_repo(REPO_FIELDS[fname]["repo"])
+                return
+
+
+    def check_file_field(self, fname: str) -> bool:
+        for file_field in self.file_fields:
+            if file_field.general_name != REPO_FIELDS[fname]["type"]:
+                continue
+            if REPO_FIELDS[fname]["repo"] in file_field.repos:
+                return True
+        return False
+
+
+    def delete(self) -> None:
+        shutil.rmtree(self.path)

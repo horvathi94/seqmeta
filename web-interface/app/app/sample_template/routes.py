@@ -50,7 +50,7 @@ def handle_submission(raw: dict) -> None:
 
     files = submission.parse(raw, "submission_files")[0]
     for f in files.keys():
-        setattr(template, f, True)
+        template.set_file_field(f)
 
     attrs = submission.parse(raw, "attr")
     for a in list(attrs.values()):
@@ -70,7 +70,7 @@ def json():
     template_name = request.args.get("name")
     use = request.args.get("use")
     template = SampleTemplate.load(template_name)
-    return jsonify(template.asjson())
+    return jsonify(template.as_json())
     if template is None: return jsonify({})
     if use == "sample_editor":
         return jsonify(template.sample_editor_json())

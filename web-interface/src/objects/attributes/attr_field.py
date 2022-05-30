@@ -31,6 +31,7 @@ class AttributeField:
         if not isinstance(self.type_, FieldType):
             self.type_ = FieldType(self.type_)
 
+
     @property
     def gisaid_requirement(self) -> Requirement:
         return Requirement(self._gisaid_requirement)
@@ -124,6 +125,7 @@ class AttributeField:
         if "template" in data: a.template = data["template"]
         if "pattern" in data: a.pattern = data["pattern"]
         if "default" in data: a.default = data["default"]
+        a.description = data["description"]
         a.ena_name = data["ena_name"]
         a.ena_requirement = data["ena_requirement"]
         a.ena_units = data["ena_units"]
