@@ -4,7 +4,7 @@ from .editor import Editor
 
 from . import generate
 from seqmeta.form import submission
-from seqmeta.objects.template import SampleTemplate
+from seqmeta.objects.sample_template import SampleTemplate
 from seqmeta.objects.sample import Sample
 from seqmeta.objects.seqfiles import SeqFile
 
@@ -58,7 +58,7 @@ def json():
     template_name = request.args.get("template_name")
     sample_name = request.args.get("name")
     sample = Sample.load(sample_name, template_name)
-    return jsonify(sample.asjson())
+    return jsonify(sample.as_json())
 
 
 @samples_bp.route("/samples/names")
@@ -71,8 +71,7 @@ def names():
 
 def handle_submission(raw: dict, files: dict) -> None:
 
-#    template_name = raw.pop("template_name")
-    template_name = raw["template_name"]
+    template_name = raw.pop("template_name")
     template = SampleTemplate.load(template_name)
 
     sample_data = submission.parse(raw, "sample")
@@ -104,7 +103,7 @@ def handle_submission(raw: dict, files: dict) -> None:
                 seqfile.filename = f.filename
                 seqfile.name = sample.name
                 seqfile.save_data(f)
-                seqfiles.append(seqfile)
+                seqfiles.append(seqfile.filename)
             attr.value = seqfiles
             sample.add_attribute(attr)
         sample.save()

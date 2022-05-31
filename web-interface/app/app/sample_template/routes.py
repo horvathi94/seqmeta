@@ -6,7 +6,6 @@ from seqmeta.objects.sample_template import SampleTemplate
 from seqmeta.objects.attributes.attr_field import AttributeField
 from seqmeta.objects.attributes.list_attrs import list_fields
 from seqmeta.form import submission
-from seqmeta.objects.attributes.attribute import Attribute
 
 
 

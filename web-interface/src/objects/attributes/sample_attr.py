@@ -40,3 +40,33 @@ class SampleAttribute:
             req = req.value
         self._ena_requirement = req
 
+
+    def gisaid_include(self) -> bool:
+        if self.gisaid_requirement is Requirement.EXCLUDE: return False
+        return True
+
+
+    def ena_include(self) -> bool:
+        if self.ena_requirement is Requirement.EXCLUDE: return False
+        return True
+
+
+    def has_value(self) -> bool:
+        if self.value is None: return False
+        if len(self.value) == 0: return False
+        return True
+
+
+    def as_json(self) -> dict:
+        return {
+            "general_name": self.general_name,
+            "value": self.value,
+            "ena_name": self.ena_name,
+            "ena_requirement": self.ena_requirement.value,
+            "ena_units": self.ena_units,
+            "gisaid_name": self.gisaid_name,
+            "gisaid_requirement": self.gisaid_requirement.value,
+            "gisaid_header": self.gisaid_header,
+            "seqfile_type": self.seqfile_type.value \
+                if self.seqfile_type is not None else None,
+        }

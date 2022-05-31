@@ -9,6 +9,7 @@ class Requirement(Enum):
     MANDATORY = "mandatory"
 
 
+
 class FieldType(Enum):
 
     TEXT = "text"

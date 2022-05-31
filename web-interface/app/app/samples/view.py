@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List
 from flask import render_template
 from seqmeta.page import Page
-from seqmeta.objects.template import SampleTemplate
+from seqmeta.objects.sample_template import SampleTemplate
 from seqmeta.objects.sample import Sample
 
 
@@ -17,8 +17,7 @@ class View(Page):
 
     @property
     def templates(self) -> List["Template"]:
-        templates = SampleTemplate.list_all()
-        return [t.name for t in templates]
+        return SampleTemplate.list_names()
 
 
     def render_content(self) -> "html":
