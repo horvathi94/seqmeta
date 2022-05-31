@@ -81,6 +81,9 @@ def handle_submission(raw: dict, files: dict) -> None:
     cleaned_files = submission.files_to_dict(files)
 
     for index in sample_data:
+        Sample.from_sub(template, sample_data[index])
+        continue
+
         sample = Sample(template_name)
         sample.taxonomy = template.taxonomy
         sample.ena_checklist = template.ena_checklist

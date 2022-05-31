@@ -4,6 +4,7 @@ from .pickle import PickleFile
 from .taxonomy import Taxonomy
 from .seqfiles import SeqFile
 from .attributes.enums import Requirement
+from .sample_template import SampleTemplate
 
 
 
@@ -16,6 +17,10 @@ class Sample(PickleFile):
     extension: str = "sample"
     ena_checklist: str = ""
     _name: str = None
+
+
+    def get_template(self) -> SampleTemplate:
+        return SampleTemplate.load(self.template_name)
 
 
     def add_attribute(self, attr: "SampleAttribute") -> None:
@@ -98,3 +103,22 @@ class Sample(PickleFile):
             "attributes": [a.as_json() for a in self.attributes],
             "ena_checklist": self.ena_checklist,
         }
+
+
+    @classmethod
+    def from_sub(cls, template: "SampleTemplate", atts: dict) -> "Sample":
+        s = Sample(template.name)
+        s.taxonomy = template.taxonomy
+        s.ena_checklist = template.ena_checklist
+        for aname, aval in atts.items():
+            field = template.get_field(aname)
+            a = field.as_sample_attribute()
+            a.value = aval
+            s.add_attribute(a)
+        return s
+
+
+    def save_files(self, files: any) -> None:
+        pass
+
+
