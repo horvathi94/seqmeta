@@ -91,6 +91,9 @@ class Sample(PickleFile):
         return {
             "name": self.name,
             "template_name": self.template_name,
+            "short_description": str(self.get_value("short_description")),
+            "is_ena_complete": self.is_ena_complete(),
+            "is_gisaid_complete": self.is_gisaid_complete(),
             "taxonomy": self.taxonomy,
             "attributes": [a.as_json() for a in self.attributes],
             "ena_checklist": self.ena_checklist,
