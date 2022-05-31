@@ -29,10 +29,15 @@ class Sample(PickleFile):
         return attr.value
 
 
+    def set_value(self, name: str, value: any) -> None:
+        attr = self.get_attribute(name)
+        attr.value = value
+
+
     @property
     def name(self) -> str:
         return str(self.get_value("sample_name"))
 
 
-    def save_files(self, ):
+    def save_files(self, files: list) -> None:
         pass

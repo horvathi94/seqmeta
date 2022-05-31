@@ -93,7 +93,7 @@ def handle_submission(raw: dict, files: list) -> None:
         for f in template.active_files():
             sample_files = file_submission.fetch_files(files, sample.name,
                                                        index, f.general_name)
-            print(sample_files)
+            print(f.general_name, index, sample_files)
 #            sample.save_files(f, sample_files)
 #        sample.save()
 

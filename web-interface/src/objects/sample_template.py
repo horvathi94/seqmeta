@@ -5,6 +5,7 @@ from .pickle import PickleFile
 from .taxonomy import Taxonomy
 from .attributes.attr_field import AttributeField
 from .attributes.file_field import FileField, ALL_FIELDS, REPO_FIELDS
+from .seqfiles import SeqFile
 
 
 @dataclass
