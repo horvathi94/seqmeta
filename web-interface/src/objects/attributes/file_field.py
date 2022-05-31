@@ -3,7 +3,7 @@ from typing import List
 from .enums import FieldType
 from .attr_field import AttributeField
 from .file_types import FILE_TYPES, SeqFileType
-
+from .sample_attr import SampleAttribute
 
 
 @dataclass
@@ -54,6 +54,18 @@ class FileField(AttributeField):
             "description": self.description,
             "options": self.valid_extensions()
         }
+
+
+    def as_sample_attribute(self) -> SampleAttribute:
+        attr = SampleAttribute(self.general_name)
+        attr.seqfile_type = self.file_type
+        if "gisaid" in self.repos:
+            attr.gisaid_requirement = "mandatory"
+        if "ena" in self.repos:
+            attr.ena_requirement = "mandatory"
+        return attr
+
+
 
 
 ALL_FIELDS = [

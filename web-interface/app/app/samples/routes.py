@@ -6,6 +6,7 @@ from . import generate
 from seqmeta.form import submission
 from seqmeta.objects.template import SampleTemplate
 from seqmeta.objects.sample import Sample
+from seqmeta.objects.seqfiles import SeqFile
 
 
 samples_bp = Blueprint("samples_bp", __name__, template_folder="templates")
@@ -68,8 +69,7 @@ def names():
 
 
 
-from seqmeta.form import file_submission
-def handle_submission(raw: dict, files: list) -> None:
+def handle_submission(raw: dict, files: dict) -> None:
 
 #    template_name = raw.pop("template_name")
     template_name = raw["template_name"]
@@ -78,6 +78,8 @@ def handle_submission(raw: dict, files: list) -> None:
     sample_data = submission.parse(raw, "sample")
     sample_names = {index:sample_data[index]["sample_name"] \
                     for index in sample_data}
+
+    cleaned_files = submission.files_to_dict(files)
 
     for index in sample_data:
         sample = Sample(template_name)
@@ -90,13 +92,22 @@ def handle_submission(raw: dict, files: list) -> None:
             attr.value = aval
             sample.add_attribute(attr)
 
-        for f in template.active_files():
-            sample_files = file_submission.fetch_files(files, sample.name,
-                                                       index, f.general_name)
-            print(f.general_name, index, sample_files)
-#            sample.save_files(f, sample_files)
-#        sample.save()
-
+        for field in template.active_files():
+            files = submission.fetch_files(cleaned_files, field.general_name,
+                                           sample.name, index)
+            attr = field.as_sample_attribute()
+            seqfiles = []
+            for f in files:
+                if not f.filename: continue
+                seqfile = SeqFile(sample.path)
+                seqfile.file_type = attr.seqfile_type
+                seqfile.filename = f.filename
+                seqfile.name = sample.name
+                seqfile.save_data(f)
+                seqfiles.append(seqfile)
+            attr.value = seqfiles
+            sample.add_attribute(attr)
+        sample.save()
 
 
 @samples_bp.route("/samples/submit", methods=["POST"])

@@ -57,17 +57,22 @@ class SeqFile:
 
     @filename.setter
     def filename(self, fname: str) -> None:
-        self.name, self.extension = fname.split(".")
+        for ft in FILE_TYPES:
+            for ext in ft.extensions:
+                if fname.endswith(ext):
+                    self.extension = ext
+                    self.name = fname.split(ext)[0].replace(".", "")
+                    return
 
 
     @property
     def path(self) -> pathlib.Path:
-        return pathlib.Path(self.path_base, FILE_DIR[self.file_type])
+        return pathlib.Path(self.path_base, DIRNAMES[self.file_type])
 
 
     @property
     def file(self) -> pathlib.Path:
-        return pathlib.Path(self.path, self.file)
+        return pathlib.Path(self.path, self.filename)
 
 
     @property

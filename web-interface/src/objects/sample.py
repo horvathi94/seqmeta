@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 from typing import List
 from .pickle import PickleFile
 from .taxonomy import Taxonomy
+from .seqfiles import SeqFile
 
 
 @dataclass
@@ -37,7 +38,3 @@ class Sample(PickleFile):
     @property
     def name(self) -> str:
         return str(self.get_value("sample_name"))
-
-
-    def save_files(self, files: list) -> None:
-        pass

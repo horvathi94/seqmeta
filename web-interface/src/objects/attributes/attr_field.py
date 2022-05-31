@@ -137,8 +137,9 @@ class AttributeField:
 
 
     def as_sample_attribute(self) -> SampleAttribute:
-        return SampleAttribute(self.general_name, ena_name=self.ena_name,
-                ena_requirement=self.ena_requirement, ena_units=self.ena_units,
-                gisaid_name=self.gisaid_name,
-                gisaid_requirement=self.gisaid_requirement,
+        attr = SampleAttribute(self.general_name, ena_name=self.ena_name,
+                ena_units=self.ena_units, gisaid_name=self.gisaid_name,
                 gisaid_header=self.gisaid_header)
+        attr.gisaid_requirement = self.gisaid_requirement
+        attr.ena_requirement = self.ena_requirement
+        return attr
