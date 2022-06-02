@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, redirect, url_for
 from .view import View
 from .editor import Editor
 
-from . import generate
+from seqmeta.submissions.submission import Factory
 from seqmeta.form import submission
 from seqmeta.objects.sample_template import SampleTemplate
 from seqmeta.objects.sample import Sample
@@ -38,15 +38,18 @@ def edit():
             sample.delete()
         return redirect(url_for("samples_bp.view"))
     elif action == "ena-generate":
-        data = generate.ena(template_name, submission.keys())
+        sub = Factory("ena", template_name, submission.keys())
+        data = sub.generate()
         return Response(data, mimetype="application/xml")
     elif action == "ena-submit":
-        data = generate.submit_to_ena(template_name, submission.keys())
+#        data = generate.submit_to_ena(template_name, submission.keys())
+        data = []
         return str(data)
         return data, 200, {'Content-Type': 'application/xml', }
 #        return Response(data, mimetype="application/xml")
     elif action == "gisaid":
-        data = generate.gisaid(template_name, submission.keys())
+        sub = Factory("gisaid", template_name, submission.keys())
+        data = sub.generate()
         return jsonify(data)
     else:
         page = Editor(template_name=template_name)
@@ -95,7 +98,6 @@ def handle_submission(raw: dict, files: dict) -> None:
             new_atts.append(a)
         sample.update_attributes(new_atts)
 
-
         new_file_atts = []
         save_files = {}
         for field in template.active_files():
@@ -106,7 +108,7 @@ def handle_submission(raw: dict, files: dict) -> None:
             save_files[attr.general_name] = files
         sample.update_files(new_file_atts, save_files)
 
-    sample.save()
+        sample.save()
 
 
 

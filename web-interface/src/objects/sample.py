@@ -5,6 +5,7 @@ from .taxonomy import Taxonomy
 from .seqfiles import SeqFile
 from .attributes.enums import Requirement
 from .sample_template import SampleTemplate
+from .attributes import list_attrs
 
 
 
@@ -177,3 +178,12 @@ class Sample(PickleFile):
         for a in self.list_file_attributes():
             self.clear_files(a)
         self.file.unlink()
+
+
+    def list_gisaid_attributes(self) -> List["SampleAttribute"]:
+        return [a for a in self.attributes if a.gisaid_include()]
+
+
+    def list_ena_sample_attributes(self) -> List["SampleAttribute"]:
+        list_attrs.list_fields("ena_read")
+        return

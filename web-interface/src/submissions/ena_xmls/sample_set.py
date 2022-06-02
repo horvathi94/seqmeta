@@ -35,11 +35,11 @@ class SampleSetXML(XML):
     def sample_xml(self, sample: "Sample") -> minidom.Element:
         xml = self.create_element("SAMPLE")
         xml.setAttribute("alias", sample.name)
-        title = self.create_element("TITLE", text=sample.ena_title)
+        title = self.create_element("TITLE",text=sample.get_value("ena_title"))
         xml.appendChild(title)
         xml.appendChild(self.sample_name_xml(sample.taxonomy))
         attrs_xml = self.create_element("SAMPLE_ATTRIBUTES")
-        for attr in sample.list_ena():
+        for attr in sample.list_ena_attributes():
             attr_xml = self.attr_xml(attr.ena_name, attr.value, attr.ena_units)
             attrs_xml.appendChild(attr_xml)
         xml.appendChild(attrs_xml)

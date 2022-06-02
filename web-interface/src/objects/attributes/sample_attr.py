@@ -2,6 +2,8 @@ from dataclasses import dataclass
 from .file_types import SeqFileType
 from .enums import Requirement
 
+BASIC_FIELDS = ["sample_name", "short_description"]
+
 
 @dataclass
 class SampleAttribute:
@@ -54,11 +56,15 @@ class SampleAttribute:
 
 
     def gisaid_include(self) -> bool:
+        if self.is_file(): return False
+        if self.general_name in BASIC_FIELDS: return False
         if self.gisaid_requirement is Requirement.EXCLUDE: return False
         return True
 
 
     def ena_include(self) -> bool:
+        if self.is_file(): return False
+        if self.general_name in BASIC_FIELDS: return False
         if self.ena_requirement is Requirement.EXCLUDE: return False
         return True
 

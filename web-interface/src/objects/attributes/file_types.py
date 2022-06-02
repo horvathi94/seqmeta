@@ -20,6 +20,7 @@ class FileType:
     extensions: List[str]
     valid_for: List[SeqFileType]
     ena_name: str = ""
+    seqio_type: str = ""
 
 
     def is_valid_for(self, stype: SeqFileType) -> bool:
@@ -35,14 +36,18 @@ class FileType:
 
 
 FILE_TYPES = [
-    FileType("fasta", "fa", ["fasta", "fa", "fna"], ena_name="fasta",
+    FileType("fasta", "fa", ["fasta", "fa", "fna"],
+             ena_name="fasta", seqio_type="fasta",
              valid_for=[SeqFileType.ASSEMBLY,
                         SeqFileType.CONTIGS, SeqFileType.SCAFFOLDS]),
-    FileType("fastq", "fastq.gz", ["fastq.gz"], ena_name="fastq",
+    FileType("fastq", "fastq.gz", ["fastq.gz"],
+             ena_name="fastq", seqio_type="",
              valid_for=[SeqFileType.READ]),
-    FileType("bam", "bam", ["bam"], ena_name="bam",
+    FileType("bam", "bam", ["bam"],
+             ena_name="bam", seqio_type="",
              valid_for=[SeqFileType.READ]),
-    FileType("cram", "cram", ["cram"], ena_name="cram",
+    FileType("cram", "cram", ["cram"],
+             ena_name="cram", seqio_type="",
              valid_for=[SeqFileType.READ]),
     FileType("nanopore", "tar.gz", ["tar.gz"],ena_name="OxfordNanopore_native",
              valid_for=[SeqFileType.READ]),

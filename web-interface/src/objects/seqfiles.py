@@ -60,6 +60,14 @@ class SeqFile:
 
 
     @property
+    def seqio_type(self) -> str:
+        for ft in FILE_TYPES:
+            for ext in ft.extensions:
+                if self.filename.endswith(ext):
+                    return ft.seqio_type
+
+
+    @property
     def path(self) -> pathlib.Path:
         return pathlib.Path(self.path_base, DIRNAMES[self.file_type])
 
