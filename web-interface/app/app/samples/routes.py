@@ -80,36 +80,34 @@ def handle_submission(raw: dict, files: dict) -> None:
 
     cleaned_files = submission.files_to_dict(files)
 
-    for index in sample_data:
-        Sample.from_sub(template, sample_data[index])
-        continue
 
-        sample = Sample(template_name)
+    for index in sample_data:
+
+        sample = Sample.load(sample_names[index], template_name)
         sample.taxonomy = template.taxonomy
         sample.ena_checklist = template.ena_checklist
 
+        new_atts = []
         for aname, aval in sample_data[index].items():
             field = template.get_field(aname)
-            attr = field.as_sample_attribute()
-            attr.value = aval
-            sample.add_attribute(attr)
+            a = field.as_sample_attribute()
+            a.value = aval
+            new_atts.append(a)
+        sample.update_attributes(new_atts)
 
+
+        new_file_atts = []
+        save_files = {}
         for field in template.active_files():
             files = submission.fetch_files(cleaned_files, field.general_name,
                                            sample.name, index)
             attr = field.as_sample_attribute()
-            seqfiles = []
-            for f in files:
-                if not f.filename: continue
-                seqfile = SeqFile(sample.path)
-                seqfile.file_type = attr.seqfile_type
-                seqfile.filename = f.filename
-                seqfile.name = sample.name
-                seqfile.save_data(f)
-                seqfiles.append(seqfile.filename)
-            attr.value = seqfiles
-            sample.add_attribute(attr)
-        sample.save()
+            new_file_atts.append(attr)
+            save_files[attr.general_name] = files
+        sample.update_files(new_file_atts, save_files)
+
+    sample.save()
+
 
 
 @samples_bp.route("/samples/submit", methods=["POST"])

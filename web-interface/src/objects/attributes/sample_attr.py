@@ -17,6 +17,18 @@ class SampleAttribute:
     seqfile_type: SeqFileType = None
 
 
+    def __eq__(self, other):
+        if self.__class__ != other.__class__:
+            raise ValueError
+        if self.general_name == other.general_name: return True
+        return False
+
+
+    def is_file(self) -> bool:
+        if self.seqfile_type is not None: return True
+        return False
+
+
     @property
     def gisaid_requirement(self) -> Requirement:
         return Requirement(self._gisaid_requirement)
@@ -57,10 +69,16 @@ class SampleAttribute:
         return True
 
 
+    def value_as_json(self) -> any:
+        if not self.is_file():
+            return self.value
+        return [sf.as_json() for sf in self.value]
+
+
     def as_json(self) -> dict:
         return {
             "general_name": self.general_name,
-            "value": self.value,
+            "value": self.value_as_json(),
             "ena_name": self.ena_name,
             "ena_requirement": self.ena_requirement.value,
             "ena_units": self.ena_units,

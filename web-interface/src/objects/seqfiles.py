@@ -15,25 +15,19 @@ DIRNAMES = {
 class SeqFile:
 
     def __init__(self, path_base: str):
-        self._name = ""
+        self.sample_name = ""
         self.order = 0
         self._extension = ""
         self.path_base = path_base
         self._filetype = None
 
 
-    @property
-    def name(self) -> str:
-        return self._name
-
-
-    @name.setter
-    def name(self, name: str) -> None:
+    def set_from_filename(self, name: str) -> None:
         split = name.split("_")
         if len(split) > 1:
             name = split[0]
             self.order = int(split[1])
-        self._name = name
+        self.sample_name = name
 
 
     @property
@@ -51,8 +45,8 @@ class SeqFile:
     @property
     def filename(self) -> str:
         if self.order == 0:
-            return self.name + "." + self.extension
-        return self.name + "_" + str(self.order) + "." + self.extension
+            return self.sample_name + "." + self.extension
+        return self.sample_name + "_" + str(self.order) + "." + self.extension
 
 
     @filename.setter
@@ -61,7 +55,7 @@ class SeqFile:
             for ext in ft.extensions:
                 if fname.endswith(ext):
                     self.extension = ext
-                    self.name = fname.split(ext)[0].replace(".", "")
+                    self.set_from_filename(fname.split(ext)[0].replace(".",""))
                     return
 
 
@@ -99,3 +93,12 @@ class SeqFile:
         chk = pathlib.Path(self.path)
         if not chk.is_dir(): chk.mkdir(parents=True, exist_ok=True)
         fdata.save(self.file)
+
+
+    def as_json(self) -> str:
+        return self.filename
+
+
+    def delete(self) -> None:
+        if self.file.is_file():
+            self.file.unlink()
