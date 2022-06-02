@@ -39,7 +39,7 @@ class SampleSetXML(XML):
         xml.appendChild(title)
         xml.appendChild(self.sample_name_xml(sample.taxonomy))
         attrs_xml = self.create_element("SAMPLE_ATTRIBUTES")
-        for attr in sample.list_ena_attributes():
+        for attr in sample.list_ena_sample_attributes():
             attr_xml = self.attr_xml(attr.ena_name, attr.value, attr.ena_units)
             attrs_xml.appendChild(attr_xml)
         xml.appendChild(attrs_xml)

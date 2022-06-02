@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 from .file_types import SeqFileType
 from .enums import Requirement
+from .builtin_fields import basic
+from .builtin_fields import ena
 
-BASIC_FIELDS = ["sample_name", "short_description"]
 
 
 @dataclass
@@ -57,15 +58,20 @@ class SampleAttribute:
 
     def gisaid_include(self) -> bool:
         if self.is_file(): return False
-        if self.general_name in BASIC_FIELDS: return False
+        basic_fields = [f["general_name"] for f in basic.ALL_FIELDS]
+        if self.general_name in basic_fields: return False
         if self.gisaid_requirement is Requirement.EXCLUDE: return False
         return True
 
 
     def ena_include(self) -> bool:
         if self.is_file(): return False
-        if self.general_name in BASIC_FIELDS: return False
+        basic_fields = [f["general_name"] for f in basic.ALL_FIELDS]
+        if self.general_name in basic_fields: return False
+        ena_fields = [f["general_name"] for f in ena.ALL_FIELDS]
+        if self.general_name in ena_fields: return False
         if self.ena_requirement is Requirement.EXCLUDE: return False
+        if not self.has_value(): return False
         return True
 
 

@@ -19,7 +19,7 @@ class FileType:
     main_extension: str
     extensions: List[str]
     valid_for: List[SeqFileType]
-    ena_name: str = ""
+    ena_file_type: str = ""
     seqio_type: str = ""
 
 
@@ -37,19 +37,23 @@ class FileType:
 
 FILE_TYPES = [
     FileType("fasta", "fa", ["fasta", "fa", "fna"],
-             ena_name="fasta", seqio_type="fasta",
+             ena_file_type="fasta", seqio_type="fasta",
              valid_for=[SeqFileType.ASSEMBLY,
                         SeqFileType.CONTIGS, SeqFileType.SCAFFOLDS]),
     FileType("fastq", "fastq.gz", ["fastq.gz"],
-             ena_name="fastq", seqio_type="",
+             ena_file_type="fastq",
+             seqio_type="",
              valid_for=[SeqFileType.READ]),
     FileType("bam", "bam", ["bam"],
-             ena_name="bam", seqio_type="",
+             ena_file_type="bam", seqio_type="bam",
              valid_for=[SeqFileType.READ]),
     FileType("cram", "cram", ["cram"],
-             ena_name="cram", seqio_type="",
+             ena_file_type="cram",
+             seqio_type="",
              valid_for=[SeqFileType.READ]),
-    FileType("nanopore", "tar.gz", ["tar.gz"],ena_name="OxfordNanopore_native",
+    FileType("nanopore", "tar.gz", ["tar.gz"],
+             ena_file_type="OxfordNanopore_native",
+             seqio_type="",
              valid_for=[SeqFileType.READ]),
 ]
 

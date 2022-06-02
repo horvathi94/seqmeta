@@ -13,33 +13,32 @@ class ExperimentSetXML(XML):
         name = self.create_element("LIBRARY_NAME")
         lib.appendChild(name)
         strategy = self.create_element("LIBRARY_STRATEGY",
-                text=sample.get_attribute_value("library_strategy"))
+                text=sample.get_value("library_strategy"))
         lib.appendChild(strategy)
         source = self.create_element("LIBRARY_SOURCE",
-                text=sample.get_attribute_value("library_source"))
+                text=sample.get_value("library_source"))
         lib.appendChild(source)
         selection = self.create_element("LIBRARY_SELECTION",
-                text=sample.get_attribute_value("library_selection"))
+                text=sample.get_value("library_selection"))
         lib.appendChild(selection)
         layout = self.create_element("LIBRARY_LAYOUT")
-        ltype = self.create_element(sample.library_layout.upper())
+        ltype = self.create_element('sample.get_value("library_layout").upper()')
         ltype.setAttribute("NOMINAL_LENGTH",
-                           sample.get_attribute_value("insert_size"))
+                           sample.get_value("insert_size"))
         layout.appendChild(ltype)
         lib.appendChild(layout)
         construct = self.create_element("LIBRARY_CONSTRUCTION_PROTOCOL",
-            text=sample.get_attribute_value("ena_experiment_description"))
+            text=sample.get_value("library_construction_protocol"))
         lib.appendChild(construct)
         return lib
 
 
     def platform_xml(self, sample: "Sample") -> minidom.Element:
         platform = self.create_element("PLATFORM")
-        pname = self.create_element(
-            sample.get_attribute_value("platform").upper())
+        pname = self.create_element(sample.get_value("platform").upper())
         platform.appendChild(pname)
         model = self.create_element("INSTRUMENT_MODEL",
-                                text=sample.get_attribute_value("instrument"))
+                                text=sample.get_value("instrument"))
         pname.appendChild(model)
         return platform
 
@@ -48,24 +47,23 @@ class ExperimentSetXML(XML):
         attrs = self.create_element("EXPERIMENT_ATTRIBUTES")
         attr = self.create_element("EXPERIMENT_ATTRIBUTE")
         prep_date_tag = self.create_element("TAG",
-                                    text="library preparation date")
+            text="library preparation date")
         attr.appendChild(prep_date_tag)
         prep_date_val = self.create_element("VALUE",
-                                    text="sample.get_attribute_value()")
+            text=sample.get_value("library_preparation_date"))
         attr.appendChild(prep_date_val)
         attrs.appendChild(attr)
         return attrs
 
 
     def experiment_xml(self, sample: "Sample") -> minidom.Element:
-        exp = self.create_element("EXPERIMENT")
-        exp.setAttribute("alias",
-                         sample.get_attribute_value("ena_experiment_name"))
-        title = self.create_element("TITLE", text="EXPERIMENT TITLE")
+        exp = self.create_element("EXPERIMENT",
+            attrs={"alias": sample.get_value("ena_experiment_alias")})
+        title = self.create_element("TITLE",
+            text=sample.get_value("ena_experiment_title"))
         exp.appendChild(title)
-        study = self.create_element("STUDY_REF")
-        study.setAttribute("accession",
-                           sample.get_attribute_value("ena_study"))
+        study = self.create_element("STUDY_REF",
+            attrs={"accession": sample.get_value("ena_study")})
         exp.appendChild(study)
         design = self.create_element("DESIGN")
         design_descript = self.create_element("DESIGN_DESCRIPTION")

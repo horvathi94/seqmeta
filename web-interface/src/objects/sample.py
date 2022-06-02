@@ -5,8 +5,6 @@ from .taxonomy import Taxonomy
 from .seqfiles import SeqFile
 from .attributes.enums import Requirement
 from .sample_template import SampleTemplate
-from .attributes import list_attrs
-
 
 
 @dataclass
@@ -185,5 +183,4 @@ class Sample(PickleFile):
 
 
     def list_ena_sample_attributes(self) -> List["SampleAttribute"]:
-        list_attrs.list_fields("ena_read")
-        return
+        return [a for a in self.attributes if a.ena_include()]

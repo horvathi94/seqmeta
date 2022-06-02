@@ -5,7 +5,6 @@ from .builtin_fields import gisaid
 from .builtin_fields import ena
 
 
-
 def list_fields(which: str) -> List[AttributeField]:
     if which == "empty":
         return [AttributeField("", "")]

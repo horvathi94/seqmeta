@@ -120,6 +120,15 @@ LIBRARY_STRATEGY = {
     "Synthetic-Long-Read","Targeted-Capture",
     "Tethered Chromatin Conformation Capture","OTHER"]}
 
+LIBRARY_LAYOUT = {
+    "general_name": "library_layout",
+    "label": "Library layout",
+    "type_": "select",
+    "description": "Library layout single or paired end reads.",
+    "_ena_requirement": "mandatory",
+    "_options": ["single", "paired"]}
+
+
 LIBRARY_CONSTRUCTION_PROTOCOL = {
     "general_name": "library_construction_protocol",
     "label": "Library construction protocol",
@@ -138,4 +147,5 @@ LIBRARY_PREPARATION_DATE = {
 ALL_FIELDS = [SAMPLE_TITLE, ENA_STUDY, EXPERIMENT_TITLE, EXPERIMENT_ALIAS,
               RUN_ALIAS, PLATFORM, INSTRUMENT, INSERT_SIZE,
               LIBRARY_SOURCE, LIBRARY_SELECTION, LIBRARY_STRATEGY,
+              LIBRARY_LAYOUT,
               LIBRARY_CONSTRUCTION_PROTOCOL, LIBRARY_PREPARATION_DATE]

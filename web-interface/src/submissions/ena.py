@@ -3,6 +3,8 @@ from .repo_sub import RepoSubmission
 from .ena_xmls.receipt import ReceiptXML
 from .ena_xmls.submission import SubmissionXML
 from .ena_xmls.sample_set import SampleSetXML
+from .ena_xmls.experiment_set import ExperimentSetXML
+from .ena_xmls.run_set import RunSetXML
 
 
 class EnaSubmission(RepoSubmission):
@@ -44,6 +46,7 @@ class EnaSubmission(RepoSubmission):
         for s in self.samples:
             samples_xml.add_sample(s)
         samples_xml.write()
+        print(samples_xml.xml_string)
         return samples_xml
 
         sub_file = open(sub_xml.file, "r")
@@ -65,6 +68,22 @@ class EnaSubmission(RepoSubmission):
         return receipt
 
 
+
+    def submit_experiments(self) -> ReceiptXML:
+        sub_xml = SubmissionXML(action="VALIDATE")
+        sub_xml.write()
+
+        experiments_xml = ExperimentSetXML()
+        runs_xml = RunSetXML()
+        for sample in self.samples:
+            experiments_xml.add_sample(sample)
+            runs_xml.add_sample(sample)
+
+        print(experiments_xml.xml_string)
+#        print(runs_xml.xml_string)
+
+
     def generate(self) -> any:
-        return self.submit_samples()
+        #self.submit_samples()
+        self.submit_experiments()
 
