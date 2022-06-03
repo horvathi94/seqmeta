@@ -102,9 +102,10 @@ class AttributeField:
         self._template = t
 
 
-    def set_mandatory(self) -> None:
-        self.gisaid_requirement = Requirement.MANDATORY
-        self.ena_requirement = Requirement.MANDATORY
+    @property
+    def max_requirement_level(self) -> Requirement:
+        if self.is_mandatory: return Requirement.MANDATORY
+        return max(self.ena_requirement, self.gisaid_requirement)
 
 
     def as_json(self) -> dict:
@@ -127,6 +128,7 @@ class AttributeField:
             "is_unique": self.is_unique,
             "must_be_unique": self.must_be_unique,
             "is_mandatory": self.is_mandatory,
+            "max_requirement_level": self.max_requirement_level.value,
         }
 
 

@@ -55,7 +55,6 @@ def handle_submission(raw: dict) -> None:
 
     attrs = submission.parse(raw, "attr")
     for a in list(attrs.values()):
-        print(f" - {a}")
         attr = AttributeField.from_dict(a)
         template.add_attribute(attr)
     template.save(create_path=True)
