@@ -52,7 +52,8 @@ class FileField(AttributeField):
             "label": self.label,
             "type_": self.type_.value,
             "description": self.description,
-            "options": self.valid_extensions()
+            "options": self.valid_extensions(),
+            "is_active": self.is_active,
         }
 
 
