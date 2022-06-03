@@ -23,14 +23,25 @@ class AttributeField:
     gisaid_name: str = ""
     _gisaid_requirement: str = "exclude"
     gisaid_header: str = ""
-    is_hidden: bool = False
-    is_unique: bool = False
-    is_fixed: bool = False
+    has_fixed_name: bool = False
+    _is_unique: bool = False
+    must_be_unique: bool = False
+    is_mandatory: bool = False
 
 
     def __post_init__(self):
         if not isinstance(self.type_, FieldType):
             self.type_ = FieldType(self.type_)
+
+
+    @property
+    def is_unique(self) -> bool:
+        return self._is_unique or self.must_be_unique
+
+
+    @is_unique.setter
+    def is_unique(self, is_unqiue: bool) -> None:
+        self._is_unique = is_unique
 
 
     @property
@@ -112,9 +123,10 @@ class AttributeField:
             "gisaid_name": self.gisaid_name,
             "gisaid_requirement": self.gisaid_requirement.value,
             "gisaid_header": self.gisaid_header,
-            "is_hidden": self.is_hidden,
+            "has_fixed_name": self.has_fixed_name,
             "is_unique": self.is_unique,
-            "is_fixed": self.is_fixed,
+            "must_be_unique": self.must_be_unique,
+            "is_mandatory": self.is_mandatory,
         }
 
 
