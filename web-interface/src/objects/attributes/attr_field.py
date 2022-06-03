@@ -40,7 +40,7 @@ class AttributeField:
 
 
     @is_unique.setter
-    def is_unique(self, is_unqiue: bool) -> None:
+    def is_unique(self, is_unique: bool) -> None:
         self._is_unique = is_unique
 
 
@@ -145,6 +145,11 @@ class AttributeField:
         a.gisaid_name = data["gisaid_name"]
         a.gisaid_requirement = data["gisaid_requirement"]
         a.gisaid_header = data["gisaid_header"]
+        if "is_unique" in data:
+            if data["is_unique"] == "on": a.is_unique = True
+        a.must_be_unique = bool(int(data["must_be_unique"]))
+        a.has_fixed_name = bool(int(data["has_fixed_name"]))
+        a.is_mandatory = bool(int(data["is_mandatory"]))
         return a
 
 

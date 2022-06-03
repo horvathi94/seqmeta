@@ -49,11 +49,13 @@ def handle_submission(raw: dict) -> None:
 
     files = submission.parse(raw, "submission_files")
     if files:
+        print(f"Files:\n{files}")
         for f in files[0].keys():
             template.set_file_field(f)
 
     attrs = submission.parse(raw, "attr")
     for a in list(attrs.values()):
+        print(f" - {a}")
         attr = AttributeField.from_dict(a)
         template.add_attribute(attr)
     template.save(create_path=True)
