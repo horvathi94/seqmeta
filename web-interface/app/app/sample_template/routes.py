@@ -47,9 +47,10 @@ def handle_submission(raw: dict) -> None:
     template_data = submission.parse(raw, "template")[0]
     template.description = template_data["short_description"]
 
-    files = submission.parse(raw, "submission_files")[0]
-    for f in files.keys():
-        template.set_file_field(f)
+    files = submission.parse(raw, "submission_files")
+    if files:
+        for f in files[0].keys():
+            template.set_file_field(f)
 
     attrs = submission.parse(raw, "attr")
     for a in list(attrs.values()):
