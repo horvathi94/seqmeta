@@ -1,11 +1,15 @@
 <h1>Samples</h1>
 
+<p>Manage samples. To register new samples use the editor, by selecting the desired template and clicking the <em>Register samples</em> button.</p>
+<p>To modify existing samples, mark the checkbox next to the samples and click the <em>Edit selected</em>button.</p>
+<p>To delete any samples, mark the checkbox next to the samples and click the <em>Delete samples</em> button.</p>
+<p>To start a submission process, mark the checkbox next to the samples, which you wish to upload and click the button for the desired submission.</p>
+
 <form action="{{ url_for('samples_bp.edit') }}" method="POST">
 
-	<p>To register new samples select a <em>template</em> and click the <em>Register samples</em> button.</p>
 
 	<label for="template_name">Template</label>
-	<select id="selected-template" name="template_name" onchange="updateView();">
+	<select id="selected-template" name="template_name" onchange="updateView();" style="min-width: 12em;">
 		{% for template in templates %}
 		<option value="{{ template }}">{{ template }}</option>
 		{% endfor %}
@@ -26,10 +30,12 @@
 
 	</table>
 
-	<button type="submit" name="action" value="edit">Edit samples</button>
+	<button type="submit" name="action" value="edit">Edit selected</button>
 	<button type="submit" name="action" value="delete">Delete samples</button>
-	<button type="submit" name="action" value="ena-generate">Gnerate ENA</button>
+	<button type="submit" name="action" value="ena-generate">Generate ENA</button>
 	<button type="submit" name="action" value="ena-submit">Submit ENA</button>
 	<button type="submit" name="action" value="gisaid">Generate GISAID</button>
 
 </form>
+
+
