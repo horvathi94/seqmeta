@@ -89,6 +89,19 @@ class Sample(PickleFile):
 
 
     @classmethod
+    def list_all_attributes(cls, template_name: str, attr_name: str,
+                            skip: str=None) -> list:
+        attrs = []
+        sample_names = cls.list_names(template_name)
+        for sname in sample_names:
+            if skip is not None and sname == skip: continue
+            s = Sample.load(sname, template_name=template_name)
+            a = s.get_value(attr_name)
+            if a is not None: attrs.append(a)
+        return attrs
+
+
+    @classmethod
     def load(cls, name: str, template_name: str) -> "Sample":
         s = Sample(template_name=template_name)
         s.name = name

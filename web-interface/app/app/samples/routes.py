@@ -72,6 +72,17 @@ def names():
 
 
 
+@samples_bp.route("/samples/list-attributes/")
+def list_attribute():
+    template_name = request.args.get("template_name")
+    attribute_name = request.args.get("attribute_name")
+    skip = request.args.get("skip")
+    attributes = Sample.list_all_attributes(template_name, attribute_name,
+                                            skip=skip)
+    return jsonify(attributes)
+
+
+
 def handle_submission(raw: dict, files: dict) -> None:
 
     template_name = raw.pop("template_name")
