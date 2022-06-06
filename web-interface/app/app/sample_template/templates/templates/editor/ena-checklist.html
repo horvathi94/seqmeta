@@ -1,10 +1,10 @@
 <div id="ena-import" class="mini-editor">
 
-	<h4>Import from ENA checklist</h4>
-	<label for="ena_checklist+0+ena_checklist"></label>
-	<input type="text" id="ena-checklist" name="ena_checklist+0+ena_checklist"/>
+	<label class="main-label" for="ena_checklist+0+ena_checklist">ENA checklist accession</label>
+	<input type="text" id="ena-checklist" name="ena_checklist+0+ena_checklist" placeholder="ERC00000X"/>
 	<input type="button" id="fetch-ena-button" onclick="fetchEnaData();" value="GET">
 
+	<p>Specify the ENA checklist agianst which the submission will be validated. To import the checklist and create fields from it click the <em>GET</em> button, information about the checklist will appear below.</p>
 	<div id="ena-info"></div>
 
 </div>

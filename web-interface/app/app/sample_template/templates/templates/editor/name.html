@@ -1,9 +1,10 @@
 <div id="name" class="mini-editor">
 
-	<h4>Template info</h4>
-	<label for="template_name">Template name:</label>
-	<input type="text" id="template-name-field" name="template_name" required="required" pattern="[a-zA-z0-9_-]+"/>
-	<label for="template+0+short_description">Short description:</label>
-	<textarea id="template-description-field" name="template+0+short_description" cols="30" rows="10"></textarea>
+	<label class="main-label" for="template_name">Template name:</label>
+	<input type="text" id="template-name-field" name="template_name" required="required" pattern="[a-zA-z0-9_-]+" placeholder="Unique template name"/>
+	<label class="main-label" for="template+0+short_description">Short description:</label>
+	<textarea id="template-description-field" name="template+0+short_description" cols="30" rows="10" placeholder="A few phrases about what the template will be used to."></textarea>
+
+	<p>Once saved, the template name can not be changed. These fields will not be part of any submission.</p>
 
 </div>

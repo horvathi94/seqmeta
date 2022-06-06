@@ -10,7 +10,7 @@ class Editor(Page):
 
 
     def __post_init__(self):
-        self.add_style("editor.css")
+        self.add_style("template-editor.css")
         self.add_script("fields.js")
         self.add_script("parsetemplate.js")
         self.add_script("templates-cell.js")

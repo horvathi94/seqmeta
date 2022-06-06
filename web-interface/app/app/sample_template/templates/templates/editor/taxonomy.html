@@ -1,25 +1,21 @@
 <div id="taxonomy" class="mini-editor">
 
-	<h4>Search taxonomy:</h4>
-
-	<label for="search-term">Search</label>
-	<input type="text" name="search-term" id="taxonomy-search-term">
+	<p>Search for taxonomy data trough the service provided by ENA or specify data manually. To search the ENA service: specify the common name or scientific name of the organism to search for and hit the <em>Search</em> button, finally select the organism from the drop-down menu, which best fits your needs.</p>
+	<label class="main-label" for="search-term">Search taxonomy:</label>
+	<input type="text" name="search-term" id="taxonomy-search-term" placeholder="Common or scientific name of the organism (ex. dog, cat, sars, homo sapiens)">
 	<input type="button" name="search-button" onclick="fetchTaxonomyData();" value="Search">
 	<label for="taxonomy-selector">Select organism:</label>
 	<select id="taxonomy-selector" name="taxonomy-selector" onchange="changeTaxonomy();">
 		<option value=""></option>
 	</select>
 
-
-	<h4>Taxonomy details:</h4>
-
-	<label for="taxonomy+0+taxonomy_id">Taxonomy ID:</label>
+	<label class="main-label" for="taxonomy+0+taxonomy_id">Taxonomy ID:</label>
 	<input type="text" id="taxonomy-id" name="taxonomy+0+taxonomy_id" pattern="^[0-9]+$" required="required">
 
-	<label for="taxonomy+0+scientific_name">Scientific name:</label>
+	<label class="main-label" for="taxonomy+0+scientific_name">Scientific name:</label>
 	<input type="text" id="scientific-name" name="taxonomy+0+scientific_name" required="required">
 
-	<label for="taxonomy+0+common_name">Common name:</label>
+	<label class="main-label" for="taxonomy+0+common_name">Common name:</label>
 	<input type="text" id="common-name" name="taxonomy+0+common_name">
 
 </div>
