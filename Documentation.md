@@ -40,10 +40,11 @@ A sample template has main attributes and field attributes. The main attributes 
  \* These values can be easily fetched from the ENA servers by using the search option. This feature makes use of ENA's taxonomy service (https://ena-docs.readthedocs.io/en/latest/faq/taxonomy.html)
 
 
-Field attributes describe the fields that will appear in the sample editor. A field has multiple values associated to it.
+Field attributes describe the fields that will appear in the sample editor. A field has multiple values associated to it. The order of the fields defines the order of the fields in the sample editor and also when ceraing the submission files. The rearrange the order of the fields you can drag-and-drop them into the right place.
 | Field | Description | Notes |
 | :--- | :---: | ---: |
 | **General name** | Unique identifier of the field, this value is only used by the program and does not show up in any submission. | Unique values within a template, can only contain letter and underscore (_) character. There is a list of values, which can not be used. |
+| **Unique value** | If checked the value of the field is unqiue within samples registered under the specific template. | |
 | **Label** | Label that is shown in the sample editor | |
 | **Type** | Type of the field | Options presented in detail in the followings. | 
 | **ENA field name** | Name of the field in ENA submission (attribute) | This value is completed if importing from ENA checklist. Please follow the ENA documentation and checklist descriptions when manually completing|
@@ -68,7 +69,39 @@ Field types:
 | **File** | These can only be created by selecting the file fields. These create file upload fields. | N/A | N/A |
 
 
+#### Template type fields
+
+A template type field can contain a mixture of free form text and values from other fields. To isnert values of other fields into the template, write the *general name* of the field inside square brackets (\[\<general_name\>\]). Anything outside of the squere brackets is interpreted as text and is not modified. The values inside the square brackets are updated when the specific value is modified in the sample editor. You may also specify an option, by using the *\%* sign after the general name of the field (\[\<general_name\>%\<option\>\]), this will somewhat modify the value imported from the other field.
+
+| Option | Description | Restriction |
+| :--: | :---: | ---: |
+| **U** | Changes value into upper case | Can not be used for date fields. | 
+| **l** | Changes value into lower case | Can not be used for date fields. |
+| **C** | Capitalizes values. | Can not be used for date fields. | 
+| **Y** | Year | Can only be used with date fields. |
+| **m** | Month | Can only be used with date fields. |
+| **d** | Day | Can only be used with date fields. |
+
+
+Template files are saved in Pyhton pickle format, with a *.template* extension.
+
+
 ### Samples
+
+Samples can be registered and edited trough the sample editor page. In this editor each row represents a sample attribute and columns reprent samples and descriptors of the attributes.
+Columns: 
+- **Attribuite**: label of the attribute
+- **Edit all**: changing value in this column, modifies the whole row.
+- **Samples**: values for each of the samples.
+- **Description**: description of the attribute.
+
+Use the **Add** button to add more samples.
+Samples are saved in Python pickle format, with *.sample* extension.
 
 
 ## Using SeqMeta
+
+The first step is creating a sample template with the template editor found in the *Templates* tab. After creatin the sample template, you can start registering samples with this template, by using the sample editor found in the *Samples* tab.
+
+
+### Submitting
