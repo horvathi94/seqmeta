@@ -49,7 +49,6 @@ def handle_submission(raw: dict) -> None:
 
     files = submission.parse(raw, "submission_files")
     if files:
-        print(f"Files:\n{files}")
         for f in files[0].keys():
             template.set_file_field(f)
 

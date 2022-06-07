@@ -11,8 +11,8 @@ class View(Page):
 
 
     def __post_init__(self):
-        self.add_script("samplesview.js")
         self.add_style("view.css");
+        self.add_script("samples-view.js")
 
 
     @property

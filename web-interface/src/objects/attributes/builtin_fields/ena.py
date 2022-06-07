@@ -21,14 +21,14 @@ EXPERIMENT_ALIAS = {
     "label": "ENA experiment alias",
     "description": "Alias of ENA experiment.",
     "_ena_requirement": "mandatory",
-    "is_unique": True}
+    "_is_unique": True}
 
 RUN_ALIAS = {
     "general_name": "ena_run_alias",
     "label": "ENA run alias",
     "description": "Alias of ENA run.",
     "_ena_requirement": "mandatory",
-    "is_unique": True}
+    "_is_unique": True}
 
 
 PLATFORM = {
