@@ -3,15 +3,16 @@
 
 <form action="{{ url_for('sample_template_bp.submit') }}" method="POST" onkeydown="return event.key != 'Enter';">
 
-	<template-editor>
+	{#	<template-editor>#}
 
-		<custom-input id="test"></custom-input>
-
+		{#		<custom-input id="test"></custom-input>#}
+		{#
 		{% include("templates/editor/ena-checklist.html") %}
 		{% include("templates/editor/name.html") %}
 		{% include("templates/editor/taxonomy.html") %}
 		{% include("templates/editor/files.html") %}
-
+		#}
+		{#		
 		<div id="attr-editor">
 			<editor-row class="header">
 				<editor-cell class="header remove">Remove</editor-cell>
@@ -26,17 +27,29 @@
 				<editor-cell class="header description">Description</editor-cell>
 			</editor-row>
 		</div>
-	</template-editor>
+		#}
 
 
-	<input type="button" onclick="TEMPLATE_EDITOR.addAttribute();" value="Add">
+
+
+		{#	</template-editor>#}
+
+	{#	<attribute-editor></attribute-editor>#}
+	<table id="attribute-editor">
+		<tbody></tbody>
+	</table>
+
+	{#<input type="button" onclick="TEMPLATE_EDITOR.addAttribute();" value="Add">#}
+	<input type="button" onclick="ATTRIBUTE_EDITOR.appendRow();" value="Add">
 	<input type="button" onclick="TEMPLATE_EDITOR.clear();" value="Clear">
 
 	<input type="submit" value="Save">
 
 </form>
 
+{#
 <script>
 	const TEMPLATE_NAME = "{{ template.name }}";
 	const TEMPLATE_EDITOR = document.querySelector("template-editor");
 </script>
+#}
