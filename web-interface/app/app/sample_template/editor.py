@@ -13,7 +13,7 @@ class Editor(Page):
         self.add_style("template-editor.css")
         self.add_script("jquery.js")
         self.add_script("jquery-ui.js")
-#        self.add_script("fields.js")
+        self.add_script("attr-field.js")
         self.add_script("parsetemplate.js")
 #        self.add_script("templates-cell.js")
 #        self.add_script("templates-row.js")

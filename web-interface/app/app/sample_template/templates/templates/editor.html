@@ -3,53 +3,40 @@
 
 <form action="{{ url_for('sample_template_bp.submit') }}" method="POST" onkeydown="return event.key != 'Enter';">
 
-	{#	<template-editor>#}
+	<div id="template-editor">
 
-		{#		<custom-input id="test"></custom-input>#}
-		{#
-		{% include("templates/editor/ena-checklist.html") %}
 		{% include("templates/editor/name.html") %}
+		{% include("templates/editor/ena-checklist.html") %}
 		{% include("templates/editor/taxonomy.html") %}
 		{% include("templates/editor/files.html") %}
-		#}
-		{#		
-		<div id="attr-editor">
-			<editor-row class="header">
-				<editor-cell class="header remove">Remove</editor-cell>
-				<editor-cell class="header general_name">General name</editor-cell>
-				<editor-cell class="header unique">Unique</editor-cell>
-				<editor-cell class="header label">Label</editor-cell>
-				<editor-cell class="header type_">Type</editor-cell>
-				<editor-cell class="header ena">ENA</editor-cell>
-				<editor-cell class="header gisaid">GISAID</editor-cell>
-				<editor-cell class="header params">Parameters</editor-cell>
-				<editor-cell class="header default">Default</editor-cell>
-				<editor-cell class="header description">Description</editor-cell>
-			</editor-row>
-		</div>
-		#}
 
+		<table id="attribute-editor">
+			<thead>
+				<tr>
+					<th>DEL</th>
+					<th>General name</th>
+					<th>Is unique</th>
+					<th>Label</th>
+					<th>Type</th>
+					<th>GISAID</th>
+					<th>ENA</th>
+					<th>Parameters</th>
+					<th>Default</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
 
+	</div>
 
-
-		{#	</template-editor>#}
-
-	{#	<attribute-editor></attribute-editor>#}
-	<table id="attribute-editor">
-		<tbody></tbody>
-	</table>
-
-	{#<input type="button" onclick="TEMPLATE_EDITOR.addAttribute();" value="Add">#}
-	<input type="button" onclick="ATTRIBUTE_EDITOR.appendRow();" value="Add">
+	<input type="button" onclick="ATTRIBUTE_EDITOR.appendAttributeRow();" value="Add">
 	<input type="button" onclick="TEMPLATE_EDITOR.clear();" value="Clear">
 
 	<input type="submit" value="Save">
 
 </form>
 
-{#
 <script>
 	const TEMPLATE_NAME = "{{ template.name }}";
-	const TEMPLATE_EDITOR = document.querySelector("template-editor");
 </script>
-#}
