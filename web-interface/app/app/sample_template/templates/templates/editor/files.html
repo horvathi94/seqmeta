@@ -2,19 +2,19 @@
 
 	<label class="main-label">Select files to include in the sample template:</label>
 	<div>
-		<input type="checkbox" name="submission_files+0+gisaid_assembly" data-ftype="assembly" data-repo="gisaid" onchange="TEMPLATE_EDITOR.switchUploadFiles(this);"/>
+		<input type="checkbox" name="submission_files+0+gisaid_assembly" data-ftype="assembly" data-repo="gisaid" data-submission="gisaid_assembly" onchange="TEMPLATE_EDITOR.switchSubmissionFiles(this);"/>
 		<label for="submission_files+0+gisaid_assembly">Assembly files for submission to GISAID</label>
 	</div>
 	<div>
-		<input type="checkbox" name="submission_files+0+ena_reads" data-ftype="read" data-repo="ena" onchange="TEMPLATE_EDITOR.switchUploadFiles(this);"/>
+		<input type="checkbox" name="submission_files+0+ena_reads" data-ftype="read" data-repo="ena" data-submission="ena_read" onchange="TEMPLATE_EDITOR.switchSubmissionFiles(this);"/>
 		<label for="submission_files+0+ena_reads">Read files for submission to ENA</label>
 	</div>
 	<div>
-		<input type="checkbox" name="submission_files+0+ena_scaffolds" data-ftype="scaffolds" data-repo="ena" onchange="TEMPLATE_EDITOR.switchUploadFiles(this);"/>
+		<input type="checkbox" name="submission_files+0+ena_scaffolds" data-ftype="scaffolds" data-repo="ena" onchange="TEMPLATE_EDITOR.switchSubmissionFiles(this);"/>
 		<label for="submission_files+0+ena_scaffolds">Scaffold files for submission to ENA</label>
 	</div>
 	<div>
-		<input type="checkbox" name="submission_files+0+ena_contigs" data-ftype="contigs" data-repo="ena" onchange="TEMPLATE_EDITOR.switchUploadFiles(this);"/>
+		<input type="checkbox" name="submission_files+0+ena_contigs" data-ftype="contigs" data-repo="ena" onchange="TEMPLATE_EDITOR.switchSubmissionFiles(this);"/>
 		<label for="submission_files+0+ena_contigs">Contigs files for submission to ENA</label>
 	</div>
 
