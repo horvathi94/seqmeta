@@ -118,6 +118,8 @@ class Sample(PickleFile):
             "short_description": str(self.get_value("short_description")),
             "is_ena_complete": self.is_ena_complete(),
             "is_gisaid_complete": self.is_gisaid_complete(),
+            "uploaded_to_gisaid": self.uploaded_to_gisaid(),
+            "uploaded_to_ena": self.uploaded_to_ena(),
             "taxonomy": self.taxonomy,
             "attributes": [a.as_json() for a in self.attributes],
             "ena_checklist": self.ena_checklist,
@@ -142,7 +144,6 @@ class Sample(PickleFile):
 
 
     def clear_files(self, a: "SampleAttribute") -> None:
-        print(f"\nClearing files: {a.value}")
         for seqfile in a.value:
             seqfile.delete()
 
@@ -189,6 +190,16 @@ class Sample(PickleFile):
         for a in self.list_file_attributes():
             self.clear_files(a)
         self.file.unlink()
+
+
+    def uploaded_to_gisaid(self) -> bool:
+        if self.get_value("gisaid_accession"): return True
+        return False
+
+
+    def uploaded_to_ena(self) -> bool:
+        if self.get_value("ena_sample_accession"): return True
+        return False
 
 
     def list_gisaid_attributes(self) -> List["SampleAttribute"]:

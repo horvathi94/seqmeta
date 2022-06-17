@@ -11,6 +11,7 @@ class FileField(AttributeField):
 
     type_: FieldType = FieldType.FILE
     repos: List[str] = field(default_factory=lambda: [])
+    multiple_files: bool = False
     _seqfile_type: str = None
 
 
@@ -54,6 +55,7 @@ class FileField(AttributeField):
             "description": self.description,
             "options": self.valid_extensions(),
             "is_active": self.is_active,
+            "multiple_files": self.multiple_files,
         }
 
 
@@ -75,7 +77,8 @@ ALL_FIELDS = [
               _seqfile_type="assembly"),
     FileField("read_files", "Sequencing read files",
               description="Upload prepared sequencing files.",
-              _seqfile_type="read"),
+              _seqfile_type="read",
+              multiple_files=True),
 ]
 
 REPO_FIELDS = {

@@ -143,9 +143,30 @@ LIBRARY_PREPARATION_DATE = {
     "_ena_requirement": "recommended"}
 
 
+SAMPLE_ACCESSION = {
+    "general_name": "ena_sample_accession",
+    "label": "ENA sample accession",
+    "description": "Accession number given to the sample by ENA. "\
+        "Fills out automatically at sucessful submission.",}
+
+
+EXPERIMENT_ACCESSION = {
+    "general_name": "ena_experiment_accession",
+    "label": "ENA experiment accession",
+    "description": "Accession number given to the experiment by ENA. "\
+        "Fills out automatically at sucessful submission.",}
+
+
+RUN_ACCESSION = {
+    "general_name": "ena_run_accession",
+    "label": "ENA run accession",
+    "description": "Accession number given to the run by ENA. "\
+        "Fills out automatically at sucessful submission.",}
+
 
 ALL_FIELDS = [SAMPLE_TITLE, ENA_STUDY, EXPERIMENT_TITLE, EXPERIMENT_ALIAS,
               RUN_ALIAS, PLATFORM, INSTRUMENT, INSERT_SIZE,
               LIBRARY_SOURCE, LIBRARY_SELECTION, LIBRARY_STRATEGY,
               LIBRARY_LAYOUT,
-              LIBRARY_CONSTRUCTION_PROTOCOL, LIBRARY_PREPARATION_DATE]
+              LIBRARY_CONSTRUCTION_PROTOCOL, LIBRARY_PREPARATION_DATE,
+              SAMPLE_ACCESSION, EXPERIMENT_ACCESSION, RUN_ACCESSION]

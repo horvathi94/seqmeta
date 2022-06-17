@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, redirect, url_for
+from flask import Blueprint, request, jsonify, redirect, url_for, send_file
 from .view import View
 from .editor import Editor
 
@@ -49,8 +49,8 @@ def edit():
 #        return Response(data, mimetype="application/xml")
     elif action == "gisaid":
         sub = Factory("gisaid", template_name, submission.keys())
-        data = sub.generate()
-        return jsonify(data)
+        zipfile = sub.generate()
+        return send_file(zipfile, attachment_filename="uploadnewnamedate.zip")
     else:
         page = Editor(template_name=template_name)
     return page.render()

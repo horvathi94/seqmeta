@@ -12,11 +12,10 @@ class Editor(Page):
 
 
     def __post_init__(self):
-        self.add_script("fields.js")
+        self.add_script("sample-field.js");
         self.add_script("parsetemplate.js")
-        self.add_script("sample-fields.js")
         self.add_script("sample-editor.js")
-        self.styles.append("sampleeditor.css")
+        self.styles.append("sample-editor.css")
 
 
     @property

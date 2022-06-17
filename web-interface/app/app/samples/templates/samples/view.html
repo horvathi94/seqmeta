@@ -1,30 +1,34 @@
 <h1>Samples</h1>
 
-<p>Manage samples. To register new samples use the editor, by selecting the desired template and clicking the <em>Register samples</em> button.</p>
-<p>To modify existing samples, mark the checkbox next to the samples and click the <em>Edit selected</em>button.</p>
-<p>To delete any samples, mark the checkbox next to the samples and click the <em>Delete samples</em> button.</p>
-<p>To start a submission process, mark the checkbox next to the samples, which you wish to upload and click the button for the desired submission.</p>
+<div id="info">
+	<p>Manage samples. To register new samples use the editor, by selecting the desired template and clicking the <em>Register samples</em> button.</p>
+	<p>To modify existing samples, mark the checkbox next to the samples and click the <em>Edit selected</em>button.</p>
+	<p>To delete any samples, mark the checkbox next to the samples and click the <em>Delete samples</em> button.</p>
+	<p>To start a submission process, mark the checkbox next to the samples, which you wish to upload and click the button for the desired submission.</p>
+</div>
 
 <form action="{{ url_for('samples_bp.edit') }}" method="POST">
 
 
-	<label for="template_name">Template</label>
-	<select id="selected-template" name="template_name" onchange="updateView();" style="min-width: 12em;">
-		{% for template in templates %}
-		<option value="{{ template }}">{{ template }}</option>
-		{% endfor %}
-	</select>
-
-
-	<input type="submit" name="action" value="Register samples">
+	<div id="select-template">
+		<label for="template_name">Template</label>
+		<select id="selected-template" name="template_name" onchange="updateView();" style="min-width: 12em;">
+			{% for template in templates %}
+			<option value="{{ template }}">{{ template }}</option>
+			{% endfor %}
+		</select>
+		<input type="submit" name="action" value="Register samples">
+	</div>
 
 	<table id="samples-view" class="view">
 
 		<tr class="head">
 			<th>Sample name</th>
 			<th>Short description</th>
-			<th>GISAID complete</th>
-			<th>ENA complete</th>
+			<th>Ready for upload to GISAID</th>
+			<th>Ready for upload to ENA</th>
+			<th>Uploaded to GISAID</th>
+			<th>Uploaded to ENA</th>
 			<th>Select</th>
 		</tr>
 

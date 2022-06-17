@@ -4,9 +4,18 @@ from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from .repo_sub import RepoSubmission
 from .excel import ExcelFile
+from zipfile import ZipFile
 
 
 class GisaidSubmission(RepoSubmission):
+
+    zipname = "gisaid_submission.zip"
+    excelname = "gisaid"
+
+
+    def __init__(self, template_name: str, sample_names: str):
+        super().__init__(template_name, sample_names)
+        self.excel = ExcelFile(filename=self.excelname, title="Submission")
 
 
     @property
@@ -43,11 +52,10 @@ class GisaidSubmission(RepoSubmission):
 
     def write_excel(self) -> None:
         data = self.get_excel_data()
-        excel = ExcelFile(filename="gisaid", title="Submission")
         for i, row in enumerate(data):
             for j, cell in enumerate(row):
-                excel.write_cell(i+1, j+1, cell)
-        excel.write()
+                self.excel.write_cell(i+1, j+1, cell)
+        self.excel.write()
 
 
     def write_assemblies(self) -> None:
@@ -62,7 +70,16 @@ class GisaidSubmission(RepoSubmission):
         SeqIO.write(sequences, self.assemblies_file, "fasta")
 
 
-    def generate(self) -> any:
+    def write_zipfile(self) -> None:
+        with ZipFile(self.zipfile, "w") as z:
+            z.write(self.excel.file, "submission.xlsx")
+            z.write(self.assemblies_file, self.assemblies_filename)
+
+
+    def generate(self) -> pathlib.Path:
         self.write_excel()
         self.write_assemblies()
-        return self.get_excel_data()
+        self.write_zipfile()
+        return self.zipfile
+
+

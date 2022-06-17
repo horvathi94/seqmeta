@@ -5,6 +5,9 @@
 	<input type="hidden" id="template-name" name="template_name" value="{{ template_name }}">
 	<input type="hidden" id="sample-names" value="{{ samples }}">
 
+	<input type="button" class="addnew" onclick="SAMPLE_EDITOR.addSample();" value="Add">
+
+
 	<table id="sample-editor">
 		<thead>
 			<th class="attrname">Attribute</th>
@@ -17,7 +20,6 @@
 	</table>
 
 
-	<input type="button" class="addnew" onclick="SAMPLE_EDITOR.addSample();" value="Add">
 	<input type="submit" id="save-samples-button" value="Save">
 
 </form>

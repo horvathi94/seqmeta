@@ -23,4 +23,11 @@ FILENAME = {
     "gisaid_header": "fn",
     "default": "sequences"}
 
-ALL_FIELDS = [VIRUS_NAME, SUBMITTER, FILENAME]
+ACCESSION_NUMBER = {
+    "general_name": "gisaid_accession",
+    "label": "GISAID accession number",
+    "description": "Accession number given to the sample by GISAID. "\
+        "This field helps determine if the sample was submited to GISAID.",}
+
+
+ALL_FIELDS = [VIRUS_NAME, SUBMITTER, FILENAME, ACCESSION_NUMBER]
